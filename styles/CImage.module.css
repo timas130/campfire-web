@@ -1,0 +1,27 @@
+.avatarWrap {
+    position: relative;
+    height: 40px;
+}
+.avatar, .avatar img {
+    border-radius: 8px;
+}
+.avatarBadge {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 1rem;
+    height: 1rem;
+    font-size: 0.75rem;
+    color: var(--text);
+    background: black;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.avatarBadge.long {
+    font-size: 0.6rem;
+}
+.avatarBadge.online {
+    background: var(--green);
+}

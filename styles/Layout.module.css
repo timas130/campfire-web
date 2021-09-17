@@ -1,0 +1,31 @@
+.layout {
+    min-height: 100vh;
+    background-color: var(--background);
+    color: var(--text);
+}
+
+.main {
+    padding-top: 50px;
+}
+
+.layout {
+    --background: #F9FAFB;
+    --background-secondary: #E5E7EB;
+    --background-element: #F3F4F6;
+    --text: #1F2937;
+    --text-secondary: #4B5563;
+    --text-secondary-active: #6B7280;
+    --primary: #ff6c01;
+    --green: #34D399;
+    --red: #ef4444;
+    --monospace-font: ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, "Liberation Mono", "Courier New", monospace;
+}
+.layout.dark {
+    --background: #111827;
+    --background-secondary: #1F2937;
+    --background-element: #374151;
+    --text: #F3F4F6;
+    --text-secondary: #9CA3AF;
+    --text-secondary-active: #E5E7EB;
+}

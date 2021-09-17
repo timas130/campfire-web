@@ -1,0 +1,25 @@
+.karmaCounter {
+    font-weight: bold;
+}
+.karmaPositive {
+    color: var(--green);
+}
+.karmaNegative {
+    color: var(--red);
+}
+
+.karma {
+    display: flex;
+    align-items: center;
+}
+.karma.vertical {
+    flex-direction: column-reverse;
+}
+.karmaButton {
+    width: 2rem;
+    padding: 0.2rem;
+    cursor: pointer;
+}
+.karmaVoted .karmaButton {
+    cursor: default;
+}

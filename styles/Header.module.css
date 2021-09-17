@@ -1,0 +1,41 @@
+.header {
+    position: fixed;
+    height: 50px;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    background-color: var(--background-secondary);
+    width: 100%;
+    z-index: 1000;
+}
+
+.h1link {
+    text-decoration: none;
+}
+.h1 {
+    font-size: 1.5rem;
+    color: var(--text);
+    padding-right: 1rem;
+}
+
+.navLink {
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding-right: 0.5rem;
+}
+.navLink:hover, .navLink:focus {
+    color: var(--text);
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+.account {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}
+.accountAvatar {
+    margin-right: 0.5rem;
+}

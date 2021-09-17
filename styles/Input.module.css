@@ -1,0 +1,33 @@
+.input {
+    padding: 0.4rem;
+    background-color: var(--background-element);
+    color: var(--text);
+    border: none;
+    font-size: 1.2rem;
+    width: 100%;
+    border-radius: 0.25rem;
+    outline: none;
+}
+.input:focus {
+    outline: 2px solid var(--text-secondary);
+}
+
+.input[type=password] {
+    font-family: var(--monospace-font);
+}
+.input[type=checkbox] {
+    width: initial;
+    margin-right: 0.5rem;
+    outline: none;
+}
+
+.label {
+    font-size: 1rem;
+}
+.label.horizontal {
+    display: flex;
+}
+.label .input {
+    margin-top: 0.3rem;
+    margin-bottom: 0.5rem;
+}

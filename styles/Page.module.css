@@ -1,0 +1,71 @@
+/*#region TextPage*/
+.textPage {
+    display: flex;
+    align-items: flex-start;
+    margin: 0.5rem 0.75rem;
+}
+.textIcon {
+    flex: 0 0 32px;
+    padding: 5px;
+}
+.textBlock {
+    width: 100%;
+}
+.textBig {
+    font-size: 1.5rem;
+}
+/*#endregion*/
+/*#region LinkPage & QuotePage*/
+.linkPage {
+    display: flex;
+    align-items: center;
+    margin: 0.5rem 0.75rem;
+    padding: 0.5rem;
+    background-color: var(--background-element);
+    color: var(--text);
+    border-radius: 0.5rem;
+    text-decoration: none;
+}
+.linkIcon {
+    flex: 0 0 32px;
+    margin-right: 0.5rem;
+}
+.linkText {
+    flex-grow: 1;
+    min-width: 0;
+}
+.linkName, .linkLink {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.linkName {
+    font-weight: bold;
+}
+.linkLink {
+    color: var(--text-secondary);
+}
+.linkPage:hover .linkLink {
+    text-decoration: underline;
+}
+
+.quoteText {
+    border-left: 0.2rem solid var(--background-secondary);
+    padding-left: 0.5rem;
+}
+/*#endregion*/
+/*#region ImagePage*/
+.imagePage {
+    position: relative;
+    /*TODO*/
+    /*max-height: 512px;*/
+    margin: 0.5rem 0;
+    text-align: center;
+}
+.imagePage img {
+    max-height: 512px;
+}
+/*#endregion*/
+/*#region*/
+/*#endregion*/

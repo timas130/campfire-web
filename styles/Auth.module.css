@@ -1,0 +1,20 @@
+.card {
+    max-width: 28rem;
+    margin: 1rem auto;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--background-secondary);
+}
+
+.h1 {
+    font-size: 2rem;
+    margin: 0 0 1rem;
+}
+
+.buttons {
+    display: flex;
+    margin-top: 1rem;
+}
+.buttonRight {
+    margin-left: auto;
+}

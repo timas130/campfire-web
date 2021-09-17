@@ -1,0 +1,16 @@
+.button {
+    padding: 0.5rem 0.8rem;
+    background-color: var(--background-element);
+    color: var(--text);
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 1.1rem;
+}
+.button.noBackground {
+    background-color: transparent;
+}
+.button:hover, .button:focus {
+    background-color: var(--background);
+}
