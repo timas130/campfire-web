@@ -18,7 +18,6 @@
 # misc
 .DS_Store
 *.log
-*.pem
 
 # because i don't like commiting ide stuff
 /.idea
