@@ -2,11 +2,12 @@ import tls from "tls";
 import fs from "fs";
 import Cookies from "cookies";
 import cache from "memory-cache";
+import * as path from "path";
 
 const host = "46.254.16.245";
 const port = 4026;
 const portMedia = 4023;
-const cert = fs.readFileSync("./cert.pem");
+const cert = fs.readFileSync(path.join(process.cwd(), "cert.pem"));
 // it's 15 minutes in the app, but the token expires much earlier
 const tokenValidFor = 1000 * 60 * 5;
 const refreshTokenValidFor = 1000 * 60 * 60 * 24 * 30;
