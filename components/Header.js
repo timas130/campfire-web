@@ -27,7 +27,7 @@ function HeaderProfile() {
 }
 
 export default function Header() {
-  return <header className={classes.header}>
+  return <nav className={classes.header}>
     <Link href="/">
       <a className={classes.h1link}>
         <h1 className={classes.h1}>Campfire</h1>
@@ -41,5 +41,5 @@ export default function Header() {
     </Link>
     <div className={classes.spacer} />
     <HeaderProfile />
-  </header>;
+  </nav>;
 }

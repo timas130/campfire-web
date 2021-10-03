@@ -1,4 +1,6 @@
-// feel free to copy+paste this to r/shittyprogramming, i didn't write it
+// feel free to copy+paste this to r/programminghorror, i didn't write it
+import React from "react";
+
 class TextFormatter {
   static charProtector = "\\";
   static charProtectorWord = "@";
@@ -6,16 +8,15 @@ class TextFormatter {
   static charNoFormat = "[noFormat]";
   static charNoFormatEnd = "[/noFormat]";
 
-  constructor(text = "") {
-    this.text = this.encode(text);
+  static textChars = [".", ",", "\"", "'", "!", "?", " ", "-"];
+
+  constructor(text = "", key = undefined) {
+    this.text = text;
     this.result = null;
     this.i = 0;
     this.skipToSpace = false;
     this.skipToNextNoFormat = false;
-  }
-
-  encode(r) {
-    return r.replace(/[\x26<>'"]/g, (r) => ("&#" + r.charCodeAt(0) + ";"));
+    this.key = key;
   }
 
   parseHtml() {
@@ -24,7 +25,10 @@ class TextFormatter {
   }
 
   parseText() {
-    this.result = "";
+    this.result = React.createElement("span", {
+      style: {color: undefined},
+      key: this.key
+    }, []);
     while (this.i < this.text.length) {
       if (this.skipToSpace) {
         if (this.text.charAt(this.i) === " ") {
@@ -36,7 +40,7 @@ class TextFormatter {
             this.i = this.i - 1;
           }
         } else {
-          this.result += this.text.charAt(this.i++);
+          this.pushStr(this.text.charAt(this.i++));
           continue;
         }
       }
@@ -52,7 +56,7 @@ class TextFormatter {
           this.i += TextFormatter.charNoFormatEnd.length;
           this.skipToNextNoFormat = false;
         } else {
-          this.result += this.text.charAt(this.i++);
+          this.pushStr(this.text.charAt(this.i++));
         }
         continue;
       }
@@ -63,7 +67,7 @@ class TextFormatter {
         TextFormatter.chars.includes(this.text.charAt(this.i + 1))
       ) {
         this.i++;
-        this.result += this.text.charAt(this.i++);
+        this.pushStr(this.text.charAt(this.i++));
         continue;
       }
       if (
@@ -80,29 +84,59 @@ class TextFormatter {
 
       if (this.text.charAt(this.i) === TextFormatter.charProtectorWord) {
         this.skipToSpace = true;
-        this.result += this.text.charAt(this.i++);
+        this.pushStr(this.text.charAt(this.i++));
         continue;
       }
       if (this.text.charAt(this.i) === "\n") {
-        this.result += "<br />";
+        this.result.props.children.push(React.createElement("br", {key: this.i}));
         this.i++;
         continue;
       }
-      if (this.parseHtmlTag("*", "<b>", "</b>")) continue;
-      if (this.parseHtmlTag("^", "<i>", "</i>")) continue;
-      if (this.parseHtmlTag("~", "<s>", "</s>")) continue;
-      if (this.parseHtmlTag("_", "<u>", "</u>")) continue;
+      if (this.parseHtmlTag("*", "b")) continue;
+      if (this.parseHtmlTag("^", "i")) continue;
+      if (this.parseHtmlTag("~", "s")) continue;
+      if (this.parseHtmlTag("_", "u")) continue;
+      if (this.parseLink()) continue;
       if (this.parseColorHash()) continue;
-      // TODO continue translating TextFormatter.kt
-      this.result += this.text.charAt(this.i++);
+      if (this.parseColorName("red", "D32F2F")) continue
+      if (this.parseColorName("pink", "C2185B")) continue
+      if (this.parseColorName("purple", "7B1FA2")) continue
+      if (this.parseColorName("indigo", "303F9F")) continue
+      if (this.parseColorName("blue", "1976D2")) continue
+      if (this.parseColorName("cyan", "0097A7")) continue
+      if (this.parseColorName("teal", "00796B")) continue
+      if (this.parseColorName("green", "388E3C")) continue
+      if (this.parseColorName("lime", "689F38")) continue
+      if (this.parseColorName("yellow", "FBC02D")) continue
+      if (this.parseColorName("amber", "FFA000")) continue
+      if (this.parseColorName("orange", "F57C00")) continue
+      if (this.parseColorName("brown", "5D4037")) continue
+      if (this.parseColorName("grey", "616161")) continue
+      if (this.parseColorName("campfire", "FF6D00")) continue
+      this.pushStr(this.text.charAt(this.i++));
     }
   }
 
-  parseHtmlTag(c, open, close) {
+  pushStr(s) {
+    const lastIdx = this.result.props.children.length - 1;
+    if (typeof this.result.props.children[lastIdx] === "string") {
+      this.result.props.children[lastIdx] += s;
+    } else {
+      this.result.props.children.push(s);
+    }
+  }
+
+  parseHtmlTag(c, tag) {
     if (this.text.charAt(this.i) === c) {
       const next = this.findNext(c, 0);
       if (next !== -1) {
-        this.result += open + new TextFormatter(this.text.substring(this.i + 1, next)).parseHtml() + close;
+        const inner = new TextFormatter(this.text.substring(this.i + 1, next)).parseHtml();
+        const el = React.createElement(tag, {key: this.i}, []);
+        for (const child of inner.props.children) {
+          el.props.children.push(child);
+        }
+        this.result.props.children.push(el);
+
         this.i = next + 1;
         return true;
       }
@@ -146,6 +180,50 @@ class TextFormatter {
     return next;
   }
 
+  parseLink() {
+    try {
+      if (this.text.charAt(this.i) === "[") {
+        const nextClose = this.findNext("]", 0);
+        if (nextClose === -1) return false;
+
+        let nextSpace = this.findNext(" ", nextClose - this.i);
+        if (nextSpace === -1) nextSpace = this.text.length;
+
+        if (TextFormatter.textChars.includes(this.text.charAt(nextSpace - 1))) nextSpace--;
+        const name = this.text.substring(this.i + 1, nextClose);
+        const link = this.text.substring(nextClose + this.i, nextSpace);
+
+        if (this.isWebLink(link) || link.startsWith(TextFormatter.charProtectorWord)) {
+          const el = document.createElement("a");
+          el.href = this.castToWebLink(link);
+          el.textContent = name;
+          this.i = nextSpace
+          return true;
+        }
+      }
+    } catch (e) {
+      console.warn("parser error:", e);
+    }
+    return false;
+  }
+  isWebLink(s) {
+    let x = s.indexOf(".");
+    if (x === -1) return false;
+    while (x !== -1) {
+      if (x === s.length - 1) return false;
+      x = s.indexOf(".", x + 1);
+    }
+    return true;
+  }
+  castToWebLink(s) {
+    // noinspection HttpUrlsUsage
+    if (s.startsWith("https://") || s.startsWith("http://")) {
+      return s;
+    } else {
+      return "https://" + s;
+    }
+  }
+
   parseColorHash() {
     try {
       if (this.text.charAt(this.i) === "{") {
@@ -161,9 +239,9 @@ class TextFormatter {
           const color = c.join("");
           const next = this.findNext("}", 7);
           if (next !== -1) {
-            this.result += `<span style="color: #${color};">${
-              new TextFormatter(this.text.substring(this.i + 8, next)).parseHtml()
-            }</span>`;
+            const t = new TextFormatter(this.text.substring(this.i + 8, next), this.i).parseHtml();
+            t.props.style.color = "#" + color;
+            this.result.props.children.push(t);
             this.i = next + 1;
             return true;
           }
@@ -171,6 +249,7 @@ class TextFormatter {
       }
       return false;
     } catch (e) {
+      console.warn("parser error:", e);
       return false;
     }
   }
@@ -183,9 +262,33 @@ class TextFormatter {
     ) return char;
     return null;
   }
+
+  parseColorName(name, hash) {
+    try {
+      if (this.text.charAt(this.i) === "{") {
+        for (let i = 0; i < name.length; i++)
+          if (this.text.charAt(this.i + 1 + i).toLowerCase() !== name.charAt(i))
+            return false;
+
+          if (! this.text.charAt(this.i + name.length + 1) === " ") return false;
+
+          const next = this.findNext("}", name.length + 1);
+          if (next !== -1) {
+            const t = new TextFormatter(this.text.substring(this.i + name.length + 2, next), this.i).parseHtml();
+            t.props.style.color = "#" + hash;
+            this.result.props.children.push(t);
+          }
+          this.i = next + 1;
+          return true;
+      }
+    } catch (e) {
+      console.warn("parser error:", e);
+    }
+    return false;
+  }
 }
 
 export default function FormattedText(props) {
   const {text} = props;
-  return <span dangerouslySetInnerHTML={{__html: new TextFormatter(text).parseHtml()}} />;
+  return new TextFormatter(text).parseHtml();
 }

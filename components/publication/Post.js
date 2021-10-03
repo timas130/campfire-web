@@ -7,7 +7,7 @@ import classNames from "classnames";
 import {ChatAlt2Icon, ChevronDownIcon, ChevronUpIcon, DotsVerticalIcon} from "@heroicons/react/solid";
 import Karma from "../Karma";
 import {Page} from "./pages/Page";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 function CommentCounter(props) {
   return <Link href={props.href}>
@@ -20,8 +20,16 @@ function CommentCounter(props) {
 
 export default function Post(props) {
   const {post, alwaysExpanded} = props;
-  const [expanded, setExpanded] = useState(Boolean(alwaysExpanded));
+  const [expanded, setExpanded] = useState(false);
+  const [expandable, setExpandable] = useState(false);
   const contentRef = useRef();
+
+  useEffect(() => {
+    if (! alwaysExpanded) {
+      const rect = contentRef.current.getBoundingClientRect();
+      setExpandable(rect.height > 512);
+    }
+  }, [alwaysExpanded]);
 
   if (typeof post.jsonDB.J_PAGES !== "object") {
     post.jsonDB.J_PAGES = JSON.parse(post.jsonDB.J_PAGES);
@@ -62,11 +70,14 @@ export default function Post(props) {
       </div>
       <DotsVerticalIcon className={classes.headerMore} />
     </header>
-    <div className={classNames(classes.content, expanded && classes.expanded)} ref={contentRef}>
+    <div className={classNames(
+      classes.content,
+      (alwaysExpanded || expanded || !expandable) && classes.expanded
+    )} ref={contentRef}>
       {post.jsonDB.J_PAGES.map((page, idx) => <Page key={idx} page={page} />)}
     </div>
     <div className={classes.footer}>
-      {!alwaysExpanded && <div className={classes.expander} onClick={() => setExpanded(x => !x)}>
+      {expandable && <div className={classes.expander} onClick={() => setExpanded(x => !x)}>
         {expanded ?
           <ChevronUpIcon className={classes.expandIcon} /> :
           <ChevronDownIcon className={classes.expandIcon} />}
@@ -74,7 +85,8 @@ export default function Post(props) {
       </div>}
       <div className={classes.spacer} />
       <CommentCounter href="/post/1234#comments" count={post.subUnitsCount} />
-      <Karma pubid={post.id} karmaCount={post.karmaCount} myKarma={post.myKarma} />
+      <Karma pubid={post.id} karmaCount={post.karmaCount}
+             myKarma={post.myKarma} karmaCof={post.fandom.karmaCof} />
     </div>
   </article>;
 }

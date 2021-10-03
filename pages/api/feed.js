@@ -1,4 +1,4 @@
-import {sendErrorIfFromServer, sendRequestAlwaysAuthenticated} from "./custom";
+import {sendErrorIfFromRemote, sendRequestAlwaysAuthenticated} from "./custom";
 
 export async function fetchFeed(req, res, offset = 0) {
   return (await sendRequestAlwaysAuthenticated(
@@ -11,8 +11,8 @@ export async function fetchFeed(req, res, offset = 0) {
 
 export default async function feedHandler(req, res) {
   try {
-    res.send(fetchFeed(req, res, req.query.offset));
+    res.send(await fetchFeed(req, res, req.query.offset));
   } catch (e) {
-    sendErrorIfFromServer(res, e);
+    sendErrorIfFromRemote(res, e);
   }
 }

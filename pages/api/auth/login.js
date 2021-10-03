@@ -1,4 +1,4 @@
-import {requireArguments, sendErrorIfFromServer, sendRequestAuthenticated} from "../custom";
+import {requireArguments, sendErrorIfFromRemote, sendRequestAuthenticated} from "../custom";
 import md5 from "md5";
 import Cookies from "cookies";
 
@@ -25,6 +25,6 @@ export default async function authLogin(req, res) {
     );
     res.redirect("/");
   } catch (e) {
-    sendErrorIfFromServer(res, e);
+    sendErrorIfFromRemote(res, e);
   }
 }

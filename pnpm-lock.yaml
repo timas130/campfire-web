@@ -14,6 +14,7 @@ specifiers:
   normalize.css: ^8.0.1
   react: 17.0.2
   react-dom: 17.0.2
+  react-infinite-scroller: ^1.2.4
 
 dependencies:
   '@heroicons/react': 1.0.4_react@17.0.2
@@ -27,6 +28,7 @@ dependencies:
   normalize.css: 8.0.1
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
+  react-infinite-scroller: 1.2.4_react@17.0.2
 
 devDependencies:
   eslint: 7.32.0
@@ -2435,7 +2437,6 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
-    dev: true
 
   /public-encrypt/4.0.3:
     resolution: {integrity: sha512-zVpa8oKZSz5bTMTFClc1fQOnyyEzpl5ozpi1B5YcvBrdohMjH2rfsBtyXcuNuwjsDIXmBYlF2N5FlJYhR29t8Q==}
@@ -2521,9 +2522,17 @@ packages:
       scheduler: 0.20.2
     dev: false
 
+  /react-infinite-scroller/1.2.4_react@17.0.2:
+    resolution: {integrity: sha512-/oOa0QhZjXPqaD6sictN2edFMsd3kkMiE19Vcz5JDgHpzEJVqYcmq+V3mkwO88087kvKGe1URNksHEOt839Ubw==}
+    peerDependencies:
+      react: ^0.14.9 || ^15.3.0 || ^16.0.0
+    dependencies:
+      prop-types: 15.7.2
+      react: 17.0.2
+    dev: false
+
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
-    dev: true
 
   /react-is/17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}

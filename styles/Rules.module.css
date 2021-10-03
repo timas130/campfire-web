@@ -1,0 +1,19 @@
+.rulesHeader {
+    margin-bottom: 1.5rem;
+}
+
+.rule {
+    margin-bottom: 1rem;
+}
+.ruleContent {
+    font-size: 1.2rem;
+    white-space: pre-wrap;
+}
+
+.correct {
+    margin-top: 1rem;
+    color: var(--green);
+}
+.incorrect {
+    color: var(--red);
+}

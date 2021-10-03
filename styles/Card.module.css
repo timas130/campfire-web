@@ -1,0 +1,48 @@
+.cardTitle {
+    padding: 0.75rem;
+    font-weight: bold;
+    border-bottom: 1px solid var(--background-element);
+}
+.cardContent {
+    padding: 0.75rem;
+}
+
+.popularFandoms {
+    list-style-type: none;
+}
+.popularFandoms > a {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.25rem;
+    text-decoration: none;
+    color: var(--text);
+}
+.fandomAvatar {
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+}
+.fandomName {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.fandomSubs, a.moreFandoms {
+    white-space: nowrap;
+    color: var(--text-secondary);
+}
+.fandomSubs {
+    margin-left: 0.5rem;
+}
+.moreFandoms {
+    margin-top: 0.5rem;
+}
+.fandomSubs svg, .moreFandoms svg {
+    width: 1rem;
+    vertical-align: bottom;
+}
+.fandomSubs svg {
+    margin-right: 0.2rem;
+}
+.moreFandoms svg {
+    margin-left: 0.2rem;
+}

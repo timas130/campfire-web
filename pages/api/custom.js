@@ -57,7 +57,10 @@ export function sendRequest(name, request, media = false) {
           const encodedJson = result.toString("utf8", 4, 4 + respLen);
           const json = JSON.parse(encodedJson);
           if (json["J_STATUS"] === "J_STATUS_OK") resolve(json);
-          else reject(json["J_RESPONSE"]);
+          else {
+            console.warn(`[${name}] request error ${JSON.stringify(json["J_RESPONSE"])}`);
+            reject(json["J_RESPONSE"]);
+          }
         }
         socket.end();
       }
@@ -76,7 +79,7 @@ export function sendRequest(name, request, media = false) {
  * @param {IncomingMessage} req the client request (provided by next.js)
  * @param {ServerResponse} res the server response (provided by next.js)
  * @param {string} name see {@link sendRequest}
- * @param request see {@link sendRequest}
+ * @param {{[p: string]: *}} request see {@link sendRequest}
  * @returns {Promise<{J_STATUS: string, J_RESPONSE: {[p: string]: *}, [p: string]: *} | Buffer>} the server response
  */
 export async function sendRequestAlwaysAuthenticated(req, res, name, request) {
@@ -88,7 +91,18 @@ export async function sendRequestAlwaysAuthenticated(req, res, name, request) {
     if (accessToken) request["J_API_ACCESS_TOKEN"] = accessToken;
     else request["J_API_LOGIN_TOKEN"] = process.env.LOGIN_TOKEN;
 
-    const response = await sendRequest(name, request);
+    let response;
+    try {
+      response = await sendRequest(name, request);
+    } catch (e) {
+      if (e.code === "ERROR_UNAUTHORIZED") {
+        cache.del("accessToken");
+        request["J_API_LOGIN_TOKEN"] = process.env.LOGIN_TOKEN
+        response = await sendRequest(name, request);
+      } else {
+        throw e;
+      }
+    }
     if (typeof response["J_API_ACCESS_TOKEN"] === "string") cache.put(
       "accessToken", response["J_API_ACCESS_TOKEN"], tokenValidFor
     );
@@ -103,7 +117,7 @@ export async function sendRequestAlwaysAuthenticated(req, res, name, request) {
  * @param {IncomingMessage} req the client request (provided by next.js)
  * @param {ServerResponse} res the server response (provided by next.js)
  * @param {string} name see {@link sendRequest}
- * @param request see {@link sendRequest}
+ * @param {{[p: string]: *}} request see {@link sendRequest}
  * @returns {Promise<{J_STATUS: string, J_RESPONSE: {[p: string]: *}, [p: string]: *} | Buffer>} the server response
  */
 export async function sendRequestAuthenticated(req, res, name, request) {
@@ -118,7 +132,15 @@ export async function sendRequestAuthenticated(req, res, name, request) {
   else if (loginToken) request["J_API_LOGIN_TOKEN"] = Buffer.from(loginToken, "base64").toString();
 
   // get the response and set the tokens
-  const response = await sendRequest(name, request);
+  let response;
+  try {
+    response = await sendRequest(name, request);
+  } catch (e) {
+    if (e.code === "ERROR_UNAUTHORIZED") {
+      request["J_API_LOGIN_TOKEN"] = Buffer.from(loginToken, "base64").toString()
+      response = await sendRequest(name, request);
+    } else throw e;
+  }
   if (typeof response["J_API_ACCESS_TOKEN"] === "string") cookies.set(
     "token", Buffer.from(response["J_API_ACCESS_TOKEN"]).toString("base64"), {
       maxAge: tokenValidFor,
@@ -161,7 +183,7 @@ export function sendMissingArguments(res) {
 export function sendError(res, response, code = 500) {
   return res.status(code).send({error: true, response});
 }
-export function sendErrorIfFromServer(res, e) {
+export function sendErrorIfFromRemote(res, e) {
   if (typeof e.code === "string" && typeof e.messageError === "string")
     return sendError(res, e, e.code === "ERROR_UNAUTHORIZED" ? 401 : 500);
   else
@@ -173,6 +195,6 @@ export default async function customRequest(req, res) {
     const data = await sendRequestAuthenticated(req, res, req.body["J_REQUEST_NAME"], req.body);
     res.send(data);
   } catch (e) {
-    sendErrorIfFromServer(res, e)
+    sendErrorIfFromRemote(res, e)
   }
 }

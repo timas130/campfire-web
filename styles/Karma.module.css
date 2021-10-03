@@ -1,11 +1,22 @@
 .karmaCounter {
     font-weight: bold;
+    position: relative;
 }
 .karmaPositive {
     color: var(--green);
 }
 .karmaNegative {
     color: var(--red);
+}
+
+.cof {
+    position: absolute;
+    bottom: -0.8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: normal;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
 }
 
 .karma {

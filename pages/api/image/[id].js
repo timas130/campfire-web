@@ -1,4 +1,4 @@
-import {sendErrorIfFromServer, sendRequest} from "../custom";
+import {sendErrorIfFromRemote, sendRequest} from "../custom";
 import cache from "memory-cache";
 
 export default async function handler(req, res) {
@@ -25,6 +25,6 @@ export default async function handler(req, res) {
     res.setHeader("Content-Type", "image/jpeg");
     res.send(image);
   } catch (e) {
-    sendErrorIfFromServer(res, e);
+    sendErrorIfFromRemote(res, e);
   }
 }

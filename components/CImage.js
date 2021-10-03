@@ -13,12 +13,25 @@ export default function CImage(props) {
 }
 
 export function CAvatar(props) {
-  const {link, id, alt, className, account, ...rest} = props;
-  return <Link href={link || `/account/${account.J_NAME}`}>
-    <a className={classNames(classes.avatarWrap, className)}>
+  let {link, id, alt, className, account, fandom, small, el, ...rest} = props;
+  link =
+    account ? `/account/${account.J_NAME}` :
+    fandom ? `/fandom/${fandom.id}` :
+    link;
+  id =
+    account ? account.J_IMAGE_ID :
+    fandom ? fandom.imageId :
+    id;
+  alt =
+    account ? account.J_NAME :
+    fandom ? fandom.name :
+    alt;
+  const size = small ? 30 : 40;
+  const El = el || "a";
+  const inner =
+    <El className={classNames(classes.avatarWrap, className, small && classes.small)}>
       <CImage
-        id={id || account.J_IMAGE_ID} w={40} h={40}
-        alt={alt || account.J_NAME}
+        id={id} w={size} h={size} alt={alt}
         className={classes.avatar}
         {...rest}
       />
@@ -29,6 +42,10 @@ export function CAvatar(props) {
       )}>
         {(account.J_LVL / 100).toFixed(0)}
       </div>}
-    </a>
-  </Link>;
+    </El>;
+  if (el !== "a") {
+    return inner;
+  } else {
+    return <Link href={link}>{inner}</Link>;
+  }
 }

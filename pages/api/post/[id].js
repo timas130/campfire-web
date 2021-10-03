@@ -1,4 +1,4 @@
-import {sendErrorIfFromServer, sendRequestAlwaysAuthenticated} from "../custom";
+import {sendErrorIfFromRemote, sendRequestAlwaysAuthenticated} from "../custom";
 
 export async function fetchPost(req, res, id) {
   return (await sendRequestAlwaysAuthenticated(
@@ -10,6 +10,6 @@ export default async function postHandler(req, res) {
   try {
     res.send(await fetchPost(req, res, req.query.id));
   } catch (e) {
-    sendErrorIfFromServer(res, e);
+    sendErrorIfFromRemote(res, e);
   }
 }
