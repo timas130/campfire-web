@@ -18,6 +18,7 @@ export default function Comment({ comment }) {
       </time>
     </header>
     <div className={classes.content}>
+      {/* TODO: add actual quotes */}
       {jsonDB.quoteCreatorName && <span className={classes.quote}>{jsonDB.quoteCreatorName}, </span>}
       <FormattedText text={jsonDB.J_TEXT} />
     </div>

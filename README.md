@@ -4,10 +4,16 @@
 
 ## Как запустить у себя
 
-0. Устанавливаем Node.js и npm
-1. Клонируем проект
+Стандартная процедура для [Next.js](https://nextjs.org).
+
+0. Устанавливаем [Node.js](https://nodejs.org) и npm
+1. Клонируем проект:
+   ```shell
+   $ git clone https://github.com/timas130/campfire-web
+   ```
 2. Копируем `.env.example` в `.env.local` и изменяем там параметры на свои
-3. `$ npm run dev`
+3. `$ npm install`
+4. `$ npm run dev`
 
 ## Краткие штуки о разработке
 

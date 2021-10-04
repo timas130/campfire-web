@@ -5,8 +5,11 @@ import Link from "next/link";
 import Input from "../../components/Input";
 import InputLabel from "../../components/InputLabel";
 import Button from "../../components/Button";
+import {useRouter} from "next/router";
 
 export default function Login() {
+  const router = useRouter();
+  const error = router.query.error;
   return <Layout dark>
     <Head>
       <title>Войти | Campfire</title>
@@ -15,6 +18,13 @@ export default function Login() {
       <h1 className={classes.h1}>
         Вход
       </h1>
+      {/* FIXME: generate error pages statically */}
+      {error && <div className={classes.error}>
+        {
+          error === "unauthorized" ? "Неправильный логин или пароль" :
+          "Неизвестная ошибка"
+        }
+      </div>}
       <InputLabel>
         Email:
         <Input
@@ -35,4 +45,9 @@ export default function Login() {
       </div>
     </form>
   </Layout>;
+}
+
+export function getStaticProps(ctx) {
+  console.log(ctx.params);
+  return {props: {}};
 }
