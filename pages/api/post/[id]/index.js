@@ -1,4 +1,4 @@
-import {sendErrorIfFromRemote, sendRequestAlwaysAuthenticated} from "../custom";
+import {sendErrorIfFromRemote, sendRequestAlwaysAuthenticated} from "../../custom";
 
 export async function fetchPost(req, res, id) {
   return (await sendRequestAlwaysAuthenticated(

@@ -14,25 +14,29 @@ export function KarmaCounter(props) {
     {precise ?
       (value / 100).toFixed(2) :
       (value / 100).toFixed(0)}
-    {cof !== 100 && <small className={classes.cof}>
+    {cof && cof !== 100 && <small className={classes.cof}>
       x{cof / 100}
     </small>}
   </El>;
 }
 
 export default function Karma(props) {
-  const {karmaCount, karmaCof, myKarma, vertical} = props;
+  const {karmaCount, karmaCof, myKarma, vertical, small, precise} = props;
   const [myKarmaClient,] = useState(myKarma);
   return <div className={classNames(
     classes.karma,
     vertical && classes.vertical,
-    myKarmaClient !== 0 && classes.karmaVoted
+    myKarmaClient !== 0 && classes.karmaVoted,
+    small && classes.small
   )}>
     <ChevronDownIcon className={classNames(
       classes.karmaButton,
       myKarma < 0 && classes.karmaNegative
     )} />
-    <KarmaCounter value={karmaCount + myKarmaClient} cof={karmaCof} />
+    <KarmaCounter
+      value={karmaCount + myKarmaClient}
+      cof={karmaCof} precise={precise}
+    />
     <ChevronUpIcon className={classNames(
       classes.karmaButton,
       myKarma > 0 && classes.karmaPositive

@@ -1,0 +1,21 @@
+{
+  "name": "Campfire",
+  "short_name": "Campfire",
+  "icons": [
+    {
+      "src": "/logo192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#FFFFFF",
+  "background_color": "#111827",
+  "start_url": "/",
+  "display": "browser",
+  "orientation": "any"
+}

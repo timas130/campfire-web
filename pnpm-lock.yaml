@@ -5,6 +5,7 @@ specifiers:
   classnames: ^2.3.1
   cookie-cutter: ^0.2.0
   cookies: ^0.8.0
+  copy-to-clipboard: ^3.3.1
   eslint: 7.32.0
   eslint-config-next: 11.1.2
   md5: ^2.3.0
@@ -14,13 +15,15 @@ specifiers:
   normalize.css: ^8.0.1
   react: 17.0.2
   react-dom: 17.0.2
-  react-infinite-scroller: ^1.2.4
+  react-intersection-observer: ^8.32.1
+  swr: ^1.0.1
 
 dependencies:
   '@heroicons/react': 1.0.4_react@17.0.2
   classnames: 2.3.1
   cookie-cutter: 0.2.0
   cookies: 0.8.0
+  copy-to-clipboard: 3.3.1
   md5: 2.3.0
   memory-cache: 0.2.0
   moment: 2.29.1
@@ -28,7 +31,8 @@ dependencies:
   normalize.css: 8.0.1
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
-  react-infinite-scroller: 1.2.4_react@17.0.2
+  react-intersection-observer: 8.32.1_react@17.0.2
+  swr: 1.0.1_react@17.0.2
 
 devDependencies:
   eslint: 7.32.0
@@ -772,6 +776,12 @@ packages:
       keygrip: 1.1.0
     dev: false
 
+  /copy-to-clipboard/3.3.1:
+    resolution: {integrity: sha512-i13qo6kIHTTpCm8/Wup+0b1mVWETvu2kIMzKoK8FpkLkFxlt0znUAHcMzox+T8sPlqtZXq3CulEjQHsYiGFJUw==}
+    dependencies:
+      toggle-selection: 1.0.6
+    dev: false
+
   /core-js-pure/3.17.3:
     resolution: {integrity: sha512-YusrqwiOTTn8058JDa0cv9unbXdIiIgcgI9gXso0ey4WgkFLd3lYlV9rp9n7nDCsYxXsMDTjA4m1h3T348mdlQ==}
     requiresBuild: true
@@ -913,6 +923,11 @@ packages:
   /depd/2.0.0:
     resolution: {integrity: sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw==}
     engines: {node: '>= 0.8'}
+    dev: false
+
+  /dequal/2.0.2:
+    resolution: {integrity: sha512-q9K8BlJVxK7hQYqa6XISGmBZbtQQWVXSrRrWreHC94rMt1QL/Impruc+7p2CYSYuVIUr+YCt6hjrs1kkdJRTug==}
+    engines: {node: '>=6'}
     dev: false
 
   /des.js/1.0.1:
@@ -2437,6 +2452,7 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
+    dev: true
 
   /public-encrypt/4.0.3:
     resolution: {integrity: sha512-zVpa8oKZSz5bTMTFClc1fQOnyyEzpl5ozpi1B5YcvBrdohMjH2rfsBtyXcuNuwjsDIXmBYlF2N5FlJYhR29t8Q==}
@@ -2522,17 +2538,17 @@ packages:
       scheduler: 0.20.2
     dev: false
 
-  /react-infinite-scroller/1.2.4_react@17.0.2:
-    resolution: {integrity: sha512-/oOa0QhZjXPqaD6sictN2edFMsd3kkMiE19Vcz5JDgHpzEJVqYcmq+V3mkwO88087kvKGe1URNksHEOt839Ubw==}
+  /react-intersection-observer/8.32.1_react@17.0.2:
+    resolution: {integrity: sha512-FOmMkMw7MeJ8FkuADpU8TRcvGuTvPB+DRkaikS1QXcWArYLCWC3mjRorq2XeRGBuqmaueOBd27PUazTu9AgInw==}
     peerDependencies:
-      react: ^0.14.9 || ^15.3.0 || ^16.0.0
+      react: ^15.0.0 || ^16.0.0 || ^17.0.0|| ^18.0.0
     dependencies:
-      prop-types: 15.7.2
       react: 17.0.2
     dev: false
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
+    dev: true
 
   /react-is/17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
@@ -2963,6 +2979,15 @@ packages:
       has-flag: 4.0.0
     dev: false
 
+  /swr/1.0.1_react@17.0.2:
+    resolution: {integrity: sha512-EPQAxSjoD4IaM49rpRHK0q+/NzcwoT8c0/Ylu/u3/6mFj/CWnQVjNJ0MV2Iuw/U+EJSd2TX5czdAwKPYZIG0YA==}
+    peerDependencies:
+      react: ^16.11.0 || ^17.0.0
+    dependencies:
+      dequal: 2.0.2
+      react: 17.0.2
+    dev: false
+
   /table/6.7.1:
     resolution: {integrity: sha512-ZGum47Yi6KOOFDE8m223td53ath2enHcYLgOCjGr5ngu8bdIARQk6mN/wRMv4yMRcHnCSnHbCEha4sobQx5yWg==}
     engines: {node: '>=10.0.0'}
@@ -3000,6 +3025,10 @@ packages:
     engines: {node: '>=8.0'}
     dependencies:
       is-number: 7.0.0
+
+  /toggle-selection/1.0.6:
+    resolution: {integrity: sha1-bkWxJj8gF/oKzH2J14sVuL932jI=}
+    dev: false
 
   /toidentifier/1.0.0:
     resolution: {integrity: sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==}

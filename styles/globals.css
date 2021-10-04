@@ -14,5 +14,6 @@ a {
 
 .container {
   max-width: 1024px;
+  padding: 0 1rem;
   margin: 1rem auto;
 }

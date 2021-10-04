@@ -1,6 +1,25 @@
 import {sendErrorIfFromRemote, sendRequestAlwaysAuthenticated} from "./custom";
 import cache from "memory-cache";
 
+// s/o 2450954#2450976
+function shuffle(array) {
+  let currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
 export async function fetchFandoms(req, res, request = {}) {
   const cacheKey = "/api/fandoms::" + JSON.stringify(request);
   const cachedResp = cache.get(cacheKey);
@@ -27,7 +46,11 @@ export async function fetchFandoms(req, res, request = {}) {
 
 export default async function fandomsHandler(req, res) {
   try {
-    res.send(await fetchFandoms(req, res));
+    if (req.query.card) {
+      res.send(shuffle(await fetchFandoms(req, res)));
+    } else {
+      res.send(await fetchFandoms(req, res));
+    }
   } catch (e) {
     sendErrorIfFromRemote(res, e);
   }

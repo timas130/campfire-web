@@ -1,13 +1,14 @@
 import classes from "../styles/Feed.module.css";
 import classNames from "classnames";
-import {RefreshIcon} from "@heroicons/react/solid";
+import React from "react";
 
-export function FeedLoader() {
-  return <div className={classes.loader}>
-    <RefreshIcon />
-    Загрузка...
-  </div>;
-}
+export const FeedLoader = React.forwardRef(
+  function FeedLoader(props, ref) {
+    return <div className={classes.loader} ref={ref}>
+      Загрузка...
+    </div>;
+  }
+);
 
 function FeedLayout(props) {
   const {list, sidebar} = props;

@@ -8,9 +8,17 @@
     transition: background-color 0.2s ease;
     font-size: 1.1rem;
 }
+a.button {
+    text-decoration: none;
+}
 .button.noBackground {
     background-color: transparent;
 }
 .button:hover, .button:focus {
     background-color: var(--background);
+}
+
+.button.fullWidth {
+    display: block;
+    width: 100%;
 }

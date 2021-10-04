@@ -34,3 +34,11 @@
 .karmaVoted .karmaButton {
     cursor: default;
 }
+
+.karma.small .karmaButton {
+    width: 1.5rem;
+    padding: 0;
+}
+.karma.small .karmaButton:first-child {
+    margin-left: -5px;
+}

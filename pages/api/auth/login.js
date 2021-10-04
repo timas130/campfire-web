@@ -25,6 +25,8 @@ export default async function authLogin(req, res) {
     );
     res.redirect("/");
   } catch (e) {
-    sendErrorIfFromRemote(res, e);
+    if (e.code === "ERROR_UNAUTHORIZED") {
+      res.redirect("/auth/login?error=unauthorized");
+    } else sendErrorIfFromRemote(res, e);
   }
 }

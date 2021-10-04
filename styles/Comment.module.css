@@ -1,0 +1,33 @@
+.comment {
+    margin-bottom: 1.5rem;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+}
+.avatar {
+    margin-right: 0.5rem;
+}
+.author {
+    font-weight: bold;
+    color: var(--text);
+    text-decoration: none;
+}
+.author:hover {
+    text-decoration: underline;
+}
+.time {
+    color: var(--text-secondary);
+}
+
+.content {
+    padding: 0.5rem 0;
+}
+.quote {
+    color: var(--text-secondary);
+}
+
+.footer {
+    display: flex;
+}

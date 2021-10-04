@@ -1,5 +1,5 @@
 // feel free to copy+paste this to r/programminghorror, i didn't write it
-import React from "react";
+import React, {useMemo} from "react";
 
 class TextFormatter {
   static charProtector = "\\";
@@ -45,6 +45,12 @@ class TextFormatter {
         }
       }
 
+      if (this.text.charAt(this.i) === "\n") {
+        this.result.props.children.push(React.createElement("br", {key: this.i}));
+        this.i++;
+        continue;
+      }
+
       //#region [noFormat]
       if (this.skipToNextNoFormat) {
         if (
@@ -85,11 +91,6 @@ class TextFormatter {
       if (this.text.charAt(this.i) === TextFormatter.charProtectorWord) {
         this.skipToSpace = true;
         this.pushStr(this.text.charAt(this.i++));
-        continue;
-      }
-      if (this.text.charAt(this.i) === "\n") {
-        this.result.props.children.push(React.createElement("br", {key: this.i}));
-        this.i++;
         continue;
       }
       if (this.parseHtmlTag("*", "b")) continue;
@@ -290,5 +291,5 @@ class TextFormatter {
 
 export default function FormattedText(props) {
   const {text} = props;
-  return new TextFormatter(text).parseHtml();
+  return useMemo(() => new TextFormatter(text).parseHtml(), [text]);
 }

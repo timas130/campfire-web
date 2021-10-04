@@ -10,7 +10,7 @@
 .popularFandoms {
     list-style-type: none;
 }
-.popularFandoms > a {
+.popularFandom {
     display: flex;
     align-items: center;
     margin-bottom: 0.25rem;
@@ -18,7 +18,7 @@
     color: var(--text);
 }
 .fandomAvatar {
-    margin-right: 0.5rem;
+    margin-right: 10px;
     flex-shrink: 0;
 }
 .fandomName {
@@ -35,6 +35,7 @@
 }
 .moreFandoms {
     margin-top: 0.5rem;
+    text-decoration: none;
 }
 .fandomSubs svg, .moreFandoms svg {
     width: 1rem;
@@ -45,4 +46,12 @@
 }
 .moreFandoms svg {
     margin-left: 0.2rem;
+}
+
+.authenticate {
+    display: flex;
+    text-align: center;
+}
+.registerButton {
+    margin-right: 0.5rem;
 }

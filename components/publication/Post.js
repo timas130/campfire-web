@@ -8,6 +8,8 @@ import {ChatAlt2Icon, ChevronDownIcon, ChevronUpIcon, DotsVerticalIcon} from "@h
 import Karma from "../Karma";
 import {Page} from "./pages/Page";
 import {useEffect, useRef, useState} from "react";
+import ShareButton from "../ShareButton";
+import {useRouter} from "next/router";
 
 function CommentCounter(props) {
   return <Link href={props.href}>
@@ -20,6 +22,8 @@ function CommentCounter(props) {
 
 export default function Post(props) {
   const {post, alwaysExpanded} = props;
+  const router = useRouter();
+  const [expandedManually, setExpandedManually] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [expandable, setExpandable] = useState(false);
   const contentRef = useRef();
@@ -30,6 +34,23 @@ export default function Post(props) {
       setExpandable(rect.height > 512);
     }
   }, [alwaysExpanded]);
+  useEffect(() => {
+    if (expandedManually && !expanded) {
+      // when collapsing scroll into view with offset
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elRect = contentRef.current.getBoundingClientRect().bottom;
+      const elPosition = elRect - bodyRect - 100;
+      window.scrollTo({
+        top: elPosition
+      });
+      setExpandedManually(false);
+    }
+  }, [expandedManually, expanded]);
+
+  const toggleExpand = () => {
+    setExpandedManually(true);
+    setExpanded(ex => !ex);
+  };
 
   if (typeof post.jsonDB.J_PAGES !== "object") {
     post.jsonDB.J_PAGES = JSON.parse(post.jsonDB.J_PAGES);
@@ -77,14 +98,15 @@ export default function Post(props) {
       {post.jsonDB.J_PAGES.map((page, idx) => <Page key={idx} page={page} />)}
     </div>
     <div className={classes.footer}>
-      {expandable && <div className={classes.expander} onClick={() => setExpanded(x => !x)}>
+      {expandable && <div className={classes.expander} onClick={toggleExpand}>
         {expanded ?
           <ChevronUpIcon className={classes.expandIcon} /> :
           <ChevronDownIcon className={classes.expandIcon} />}
         {expanded ? "Свернуть" : "Развернуть"}
       </div>}
       <div className={classes.spacer} />
-      <CommentCounter href="/post/1234#comments" count={post.subUnitsCount} />
+      <ShareButton link={router.basePath + `/post/${post.id}`} />
+      <CommentCounter href={`/post/${post.id}#comments`} count={post.subUnitsCount} />
       <Karma pubid={post.id} karmaCount={post.karmaCount}
              myKarma={post.myKarma} karmaCof={post.fandom.karmaCof} />
     </div>
