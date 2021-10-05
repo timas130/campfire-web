@@ -30,6 +30,7 @@ jobs:
     - name: Upload the Build Artifact
       uses: actions/upload-artifact@v2.2.4
       with:
+        name: next-artifact
         path: .next/
   deploy:
     runs-on: ubuntu-latest
@@ -40,6 +41,7 @@ jobs:
     - name: Download the Build Artifact
       uses: actions/download-artifact@v2.0.10
       with:
+        name: next-artifact
         path: .next/
     - name: ssh deploy
       uses: easingthemes/ssh-deploy@v2.2.11
