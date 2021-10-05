@@ -49,8 +49,12 @@ export default function PostPage(props) {
     <FeedLayout
       list={<>
         <Post post={props.post.unit} alwaysExpanded />
-        {commentPages && commentPages.map(page => page.map(comment => <Comment key={comment.id} comment={comment} />))}
-        {<FeedLoader ref={ref} />}
+        {commentPages && commentPages.map(page => {
+          return page.map(comment => {
+            return <Comment key={comment.id} comment={comment} />;
+          });
+        })}
+        {(commentPages.length === 0 || commentPages[commentPages.length - 1].length !== 0) && <FeedLoader ref={ref} />}
       </>}
       sidebar={<>
         <AuthenticateCard />

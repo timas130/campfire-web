@@ -56,8 +56,14 @@ export function sendRequest(name, request, media = false) {
         } else {
           const encodedJson = result.toString("utf8", 4, 4 + respLen);
           const json = JSON.parse(encodedJson);
-          if (json["J_STATUS"] === "J_STATUS_OK") resolve(json);
-          else {
+          if (json["J_STATUS"] === "J_STATUS_OK") {
+            // hide the tokens, log the request for debug
+            request["J_API_ACCESS_TOKEN"] = undefined;
+            request["J_API_REFRESH_TOKEN"] = undefined;
+            request["J_API_LOGIN_TOKEN"] = undefined;
+            console.log(`[${name}] ${JSON.stringify(request)}`);
+            resolve(json);
+          } else {
             console.warn(`[${name}] request error ${JSON.stringify(json["J_RESPONSE"])}`);
             reject(json["J_RESPONSE"]);
           }

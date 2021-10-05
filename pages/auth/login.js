@@ -46,8 +46,3 @@ export default function Login() {
     </form>
   </Layout>;
 }
-
-export function getStaticProps(ctx) {
-  console.log(ctx.params);
-  return {props: {}};
-}

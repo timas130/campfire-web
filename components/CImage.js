@@ -43,7 +43,7 @@ export function CAvatar(props) {
         {(account.J_LVL / 100).toFixed(0)}
       </div>}
     </El>;
-  if (el !== "a") {
+  if (El !== "a") {
     return inner;
   } else {
     return <Link href={link}>{inner}</Link>;

@@ -49,3 +49,5 @@ jobs:
         REMOTE_USER: root
         SOURCE: .
         TARGET: /opt/campfire-web/
+    - name: ssh restart server
+      run: ssh -i /home/runner/.ssh/deploy_key root@${{ secrets.SSH_HOST }} "cd /opt/campfire-web/ && npm i && systemctl restart campfire-web.service"

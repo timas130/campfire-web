@@ -4,10 +4,11 @@ import moment from "moment";
 import Link from "next/link";
 import FormattedText from "../FormattedText";
 import Karma from "../Karma";
+import React from "react";
 
-export default function Comment({ comment }) {
+export default React.forwardRef(function Comment({ comment }, ref) {
   const jsonDB = typeof comment.jsonDB === "string" ? JSON.parse(comment.jsonDB) : comment.jsonDB;
-  return <article className={classes.comment}>
+  return <article className={classes.comment} ref={ref}>
     <header className={classes.header}>
       <CAvatar account={comment.creator} small className={classes.avatar} />
       <Link href={`/account/${comment.creator.J_NAME}`}>
@@ -30,4 +31,4 @@ export default function Comment({ comment }) {
       />
     </div>
   </article>;
-}
+});

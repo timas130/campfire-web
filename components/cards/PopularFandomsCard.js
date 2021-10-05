@@ -14,7 +14,7 @@ export default function PopularFandomsCard({ limit = 5 }) {
     <header className={cardClasses.cardTitle}>
       Популярные фэндомы
     </header>
-    <ul className={classNames(cardClasses.cardContent, cardClasses.popularFandoms)}>
+    <div className={classNames(cardClasses.cardContent, cardClasses.popularFandoms)}>
       {!fandoms ?
         Array(limit)
           .fill(null)
@@ -39,6 +39,6 @@ export default function PopularFandomsCard({ limit = 5 }) {
         Посмотреть другие фэндомы
         <ArrowRightIcon />
       </a></Link>
-    </ul>
+    </div>
   </section>;
 }
