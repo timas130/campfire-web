@@ -52,4 +52,4 @@ jobs:
         SOURCE: .
         TARGET: /opt/campfire-web/
     - name: ssh restart server
-      run: ssh -i /home/runner/.ssh/deploy_key root@${{ secrets.SSH_HOST }} "cd /opt/campfire-web/ && npm i && systemctl restart campfire-web.service"
+      run: ssh -i /home/runner/.ssh/deploy_key root@${{ secrets.SSH_HOST }} "cd /opt/campfire-web/ && npm i && chmod 774 -R . && chown mc:mc -R . && systemctl restart campfire-web.service"
