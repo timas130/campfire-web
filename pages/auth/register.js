@@ -1,4 +1,3 @@
-import Layout from "../../components/Layout";
 import classes from "../../styles/Auth.module.css";
 import Head from "next/head";
 import Link from "next/link";
@@ -10,7 +9,7 @@ const googleRules = "https://play.google.com/intl/ru_ALL/about/restricted-conten
 const privacyPolicy = "https://sayzen.ru/rus.html";
 
 export default function Register() {
-  return <Layout dark>
+  return <>
     <Head>
       <title>Зарегистрироваться | Campfire</title>
     </Head>
@@ -53,5 +52,5 @@ export default function Register() {
         <Button type="submit" className={classes.buttonRight}>Зарегистрироваться</Button>
       </div>
     </form>
-  </Layout>;
+  </>;
 }

@@ -1,4 +1,3 @@
-import Layout from "../components/Layout";
 import Head from "next/head";
 import FeedLayout, {FeedLoader} from "../components/FeedLayout";
 import Post from "../components/publication/Post";
@@ -26,7 +25,7 @@ export default function Home() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
 
-  return <Layout dark>
+  return <>
     <Head>
       <title>Лента | Campfire</title>
     </Head>
@@ -37,5 +36,5 @@ export default function Home() {
       <PopularFandomsCard />
       <AuthenticateCard />
     </>} />
-  </Layout>;
+  </>;
 }

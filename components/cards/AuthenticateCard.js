@@ -1,16 +1,13 @@
-import {useEffect, useState} from "react";
-import cookie from "cookie-cutter";
 import postClasses from "../../styles/Post.module.css";
 import classes from "../../styles/Card.module.css";
 import Button from "../Button";
 import Link from "next/link";
 import classNames from "classnames";
+import useSWRImmutable from "swr/immutable";
+import {fetcher} from "../../pages/_app";
 
 export default function AuthenticateCard() {
-  const [account, setAccount] = useState(null);
-  useEffect(() => {
-    if (cookie.get("account")) setAccount(JSON.parse(cookie.get("account")));
-  }, []);
+  const {data: account} = useSWRImmutable("/api/user", fetcher);
 
   if (account) {
     return null;

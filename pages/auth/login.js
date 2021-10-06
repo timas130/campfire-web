@@ -1,4 +1,3 @@
-import Layout from "../../components/Layout";
 import classes from "../../styles/Auth.module.css";
 import Head from "next/head";
 import Link from "next/link";
@@ -10,7 +9,7 @@ import {useRouter} from "next/router";
 export default function Login() {
   const router = useRouter();
   const error = router.query.error;
-  return <Layout dark>
+  return <>
     <Head>
       <title>Войти | Campfire</title>
     </Head>
@@ -44,5 +43,5 @@ export default function Login() {
         <Button type="submit" className={classes.buttonRight}>Войти</Button>
       </div>
     </form>
-  </Layout>;
+  </>;
 }

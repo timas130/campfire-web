@@ -12,7 +12,7 @@ a.button {
     text-decoration: none;
 }
 .button.noBackground {
-    background-color: transparent;
+    background-color: initial;
 }
 .button:hover, .button:focus {
     background-color: var(--background);

@@ -1,15 +1,12 @@
 import classes from "../styles/Header.module.css";
 import Link from "next/link";
-import {useEffect, useState} from "react";
-import cookie from "cookie-cutter";
 import {CAvatar} from "./CImage";
 import {KarmaCounter} from "./Karma";
+import useSWRImmutable from "swr/immutable";
+import {fetcher} from "../pages/_app";
 
 function HeaderProfile() {
-  const [account, setAccount] = useState(null);
-  useEffect(() => {
-    if (cookie.get("account")) setAccount(JSON.parse(cookie.get("account")));
-  }, []);
+  const {data: account} = useSWRImmutable("/api/user", fetcher);
   return account ? <div className={classes.account}>
     <CAvatar
       account={account}

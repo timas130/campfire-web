@@ -55,3 +55,67 @@
 .registerButton {
     margin-right: 0.5rem;
 }
+
+.fandomHeader {
+    display: flex;
+}
+.fandomText {
+    margin-left: 0.5rem;
+    flex: 1;
+    min-width: 0;
+}
+.fandomText > h2 {
+    font-size: 1rem;
+}
+.fandomIcon {
+    margin-left: 0.25rem;
+    width: 1rem;
+    vertical-align: bottom;
+}
+.fandomSubtitle {
+    color: var(--text-secondary);
+}
+.fandomText > h2, .fandomSubtitle {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.fandomSubtitle > svg {
+    width: 1rem;
+    vertical-align: bottom;
+    margin-right: 0.25rem;
+}
+.fandomButtons {
+    margin: 0.5rem 0;
+}
+.fandomDescription {
+    overflow-wrap: break-word;
+}
+.fandomLinks {
+    margin-top: 0.5rem;
+}
+.fandomLink {
+    display: block;
+    margin: 0.25rem 0;
+    text-decoration: none;
+}
+.fandomLinkTitle {
+    font-weight: bold;
+    color: var(--text);
+}
+.fandomLinkUrl {
+    color: var(--text-secondary);
+}
+.fandomLinkUrl > svg {
+    width: 1rem;
+    vertical-align: bottom;
+    margin-right: 0.1rem;
+}
+.fandomLinkTitle, .fandomLinkUrl {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.fandomLink:hover .fandomLinkUrl {
+    text-decoration: underline;
+}

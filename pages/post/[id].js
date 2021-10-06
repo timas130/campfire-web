@@ -1,4 +1,3 @@
-import Layout from "../../components/Layout";
 import FeedLayout, {FeedLoader} from "../../components/FeedLayout";
 import Post from "../../components/publication/Post";
 import {fetchPost} from "../api/post/[id]";
@@ -41,7 +40,7 @@ export default function PostPage(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
 
-  return <Layout dark>
+  return <>
     <Head>
       {/* TODO: add partial text content */}
       <title>Пост в {props.post.unit.fandom.name} от {props.post.unit.creator.J_NAME} | Campfire</title>
@@ -60,7 +59,7 @@ export default function PostPage(props) {
         <AuthenticateCard />
       </>}
     />
-  </Layout>;
+  </>;
 }
 
 export async function getServerSideProps(ctx) {

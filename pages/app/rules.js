@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Layout from "../../components/Layout";
 import classes from "../../styles/Rules.module.css";
 
 const rulesConsts = {
@@ -110,7 +109,7 @@ const rulesConsts = {
 };
 
 export default function Rules() {
-  return <Layout dark><main className="container">
+  return <main className="container">
     <Head>
       <title>Общие правила | Campfire</title>
     </Head>
@@ -131,5 +130,5 @@ export default function Rules() {
         }</ul>
       </div>
     </section>)}
-  </main></Layout>;
+  </main>;
 }

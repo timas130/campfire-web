@@ -1,0 +1,27 @@
+.tooltip {
+    display: inline-block;
+    position: relative;
+}
+.tooltipText {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+.tooltip:hover .tooltipText, .tooltip:focus .tooltipText {
+    bottom: -1rem; left: 50%;
+    transform: translateX(-50%);
+    padding: 0.5rem;
+    background: var(--background-element);
+    border-radius: 0.5rem;
+    z-index: 1000;
+    position: absolute;
+    width: auto; height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+}
