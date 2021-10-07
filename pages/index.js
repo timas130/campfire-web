@@ -7,6 +7,7 @@ import useSWRInfinite from "swr/infinite";
 import {fetcher} from "./_app";
 import {useInView} from "react-intersection-observer";
 import {useEffect} from "react";
+import DonateCard from "../components/cards/DonateCard";
 
 export default function Home() {
   const { data: feed, size, setSize } = useSWRInfinite((pageIndex, previousPageData) => {
@@ -35,6 +36,7 @@ export default function Home() {
     </>} sidebar={<>
       <PopularFandomsCard />
       <AuthenticateCard />
+      <DonateCard />
     </>} />
   </>;
 }

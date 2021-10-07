@@ -119,3 +119,16 @@
 .fandomLink:hover .fandomLinkUrl {
     text-decoration: underline;
 }
+
+.donatesSubtitle {
+    margin-top: 0.25rem;
+    text-align: right;
+    color: var(--text-secondary);
+}
+.donatesCollected {
+    color: var(--primary);
+}
+.donateButton {
+    text-align: center;
+    margin-top: 0.5rem;
+}

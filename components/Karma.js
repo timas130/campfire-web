@@ -2,6 +2,7 @@ import classes from "../styles/Karma.module.css";
 import classNames from "classnames";
 import React, {useState} from "react";
 import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/solid";
+import {fetcher} from "../pages/_app";
 
 export function KarmaCounter(props) {
   const {value, cof, precise, el} = props;
@@ -21,8 +22,14 @@ export function KarmaCounter(props) {
 }
 
 export default function Karma(props) {
-  const {karmaCount, karmaCof, myKarma, vertical, small, precise} = props;
-  const [myKarmaClient,] = useState(myKarma);
+  const {pubId, karmaCount, karmaCof, myKarma, vertical, small, precise} = props;
+  const [myKarmaClient, setMyKarmaClient] = useState(myKarma);
+
+  const setKarma = positive => {
+    fetcher(`/api/pub/${pubId}/karma?positive=${positive}`)
+      .then(r => setMyKarmaClient(r.myKarmaCount));
+  };
+
   return <div className={classNames(
     classes.karma,
     vertical && classes.vertical,
@@ -31,15 +38,15 @@ export default function Karma(props) {
   )}>
     <ChevronDownIcon className={classNames(
       classes.karmaButton,
-      myKarma < 0 && classes.karmaNegative
-    )} />
+      myKarmaClient < 0 && classes.karmaNegative
+    )} onClick={() => myKarmaClient === 0 && setKarma(false)} />
     <KarmaCounter
       value={karmaCount + myKarmaClient}
       cof={karmaCof} precise={precise}
     />
     <ChevronUpIcon className={classNames(
       classes.karmaButton,
-      myKarma > 0 && classes.karmaPositive
-    )} />
+      myKarmaClient > 0 && classes.karmaPositive
+    )} onClick={() => myKarmaClient === 0 && setKarma(true)} />
   </div>;
 }

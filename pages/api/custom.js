@@ -88,7 +88,7 @@ export function sendRequest(name, request, media = false) {
  * @param {{[p: string]: *}} request see {@link sendRequest}
  * @returns {Promise<{J_STATUS: string, J_RESPONSE: {[p: string]: *}, [p: string]: *} | Buffer>} the server response
  */
-export async function sendRequestAlwaysAuthenticated(req, res, name, request) {
+export async function sendRequestAlwaysAuthenticated(req, res, name, request = {}) {
   const loginToken = new Cookies(req, res).get("loginToken");
   if (loginToken) {
     return await sendRequestAuthenticated(req, res, name, request);

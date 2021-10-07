@@ -1,4 +1,4 @@
-import {sendErrorIfFromRemote, sendRequestAlwaysAuthenticated} from "../custom";
+import {sendErrorIfFromRemote, sendRequestAlwaysAuthenticated} from "../../custom";
 
 export async function fetchFandom(req, res, id) {
   const fandom = sendRequestAlwaysAuthenticated(

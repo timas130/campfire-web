@@ -25,9 +25,9 @@ export default React.forwardRef(function Comment({ comment }, ref) {
     </div>
     <div className={classes.footer}>
       <Karma
+        pub={comment} pubId={comment.id}
         karmaCount={comment.karmaCount}
-        myKarma={comment.myKarma}
-        small
+        myKarma={comment.myKarma} small
       />
     </div>
   </article>;

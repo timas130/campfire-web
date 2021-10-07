@@ -1,0 +1,12 @@
+.progress {
+    position: relative;
+    width: 100%;
+    height: 1rem;
+    background: var(--background-element);
+    border-radius: 1rem;
+}
+.progressComplete {
+    background: var(--primary);
+    height: 1rem;
+    border-radius: 1rem;
+}
