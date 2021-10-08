@@ -3,12 +3,14 @@ import ImagePage from "./ImagePage";
 import LinkPage from "./LinkPage";
 import QuotePage from "./QuotePage";
 import React from "react";
+import SpoilerPage from "./SpoilerPage";
 
 const pageTypes = {
   1: TextPage,
   2: ImagePage,
   4: LinkPage,
-  5: QuotePage
+  5: QuotePage,
+  6: SpoilerPage
 };
 const pageTypesNames = {
   1: "PAGE_TYPE_TEXT",
@@ -36,7 +38,7 @@ export function Page(props) {
         "[/noFormat]"
     }} />;
   } else {
-    return React.createElement(pageTypes[page.J_PAGE_TYPE], {page});
+    return React.createElement(pageTypes[page.J_PAGE_TYPE], props);
   }
 }
 

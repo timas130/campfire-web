@@ -31,3 +31,27 @@
 .footer {
     display: flex;
 }
+
+
+/* --- editor --- */
+
+.editor {
+    margin-bottom: 1rem;
+}
+.editor .input {
+    resize: vertical;
+    background: var(--background-secondary);
+}
+
+.editorFooter {
+    display: flex;
+    justify-content: flex-end;
+}
+.attachmentButton {
+    width: 3rem;
+    cursor: pointer;
+    padding: 0 1rem;
+}
+.postButton {
+    margin-left: 0.5rem;
+}

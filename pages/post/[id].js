@@ -9,6 +9,8 @@ import useSWRInfinite from "swr/infinite";
 import {fetcher} from "../_app";
 import {useInView} from "react-intersection-observer";
 import {useEffect} from "react";
+import CommentPoster from "../../components/CommentPoster";
+import FandomCard from "../../components/cards/FandomCard";
 
 export default function PostPage(props) {
   const commentsApiLink = "/api/post/" + props.post.unit.id + "/comments";
@@ -48,6 +50,7 @@ export default function PostPage(props) {
     <FeedLayout
       list={<>
         <Post post={props.post.unit} alwaysExpanded />
+        <CommentPoster />
         <div id="comments">
           {commentPages && commentPages.map(page => {
             return page.map(comment => {
@@ -61,6 +64,7 @@ export default function PostPage(props) {
         </div>
       </>}
       sidebar={<>
+        <FandomCard fetchId={props.post.unit.fandom.id} noLinks />
         <AuthenticateCard />
       </>}
     />

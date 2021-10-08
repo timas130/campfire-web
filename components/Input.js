@@ -1,9 +1,11 @@
 import classes from "../styles/Input.module.css";
+import classNames from "classnames";
 
 function Input(props) {
-  return <input
-    className={classes.input}
+  const El = props.el || "input";
+  return <El
     {...props}
+    className={classNames(classes.input, props.className)}
   />;
 }
 

@@ -3,6 +3,8 @@ import classNames from "classnames";
 import React, {useState} from "react";
 import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/solid";
 import {fetcher} from "../pages/_app";
+import useSWRImmutable from "swr/immutable";
+import {useRouter} from "next/router";
 
 export function KarmaCounter(props) {
   const {value, cof, precise, el} = props;
@@ -23,11 +25,18 @@ export function KarmaCounter(props) {
 
 export default function Karma(props) {
   const {pubId, karmaCount, karmaCof, myKarma, vertical, small, precise} = props;
+  const {data: user} = useSWRImmutable("/api/user", fetcher);
+  const router = useRouter();
   const [myKarmaClient, setMyKarmaClient] = useState(myKarma);
 
   const setKarma = positive => {
-    fetcher(`/api/pub/${pubId}/karma?positive=${positive}`)
-      .then(r => setMyKarmaClient(r.myKarmaCount));
+    if (! user) {
+      // noinspection JSIgnoredPromiseFromCall
+      router.push("/auth/login");
+    } else {
+      fetcher(`/api/pub/${pubId}/karma?positive=${positive}`)
+        .then(r => setMyKarmaClient(r.myKarmaCount));
+    }
   };
 
   return <div className={classNames(
@@ -41,7 +50,7 @@ export default function Karma(props) {
       myKarmaClient < 0 && classes.karmaNegative
     )} onClick={() => myKarmaClient === 0 && setKarma(false)} />
     <KarmaCounter
-      value={karmaCount + myKarmaClient}
+      value={karmaCount + (myKarmaClient || 0)}
       cof={karmaCof} precise={precise}
     />
     <ChevronUpIcon className={classNames(

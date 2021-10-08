@@ -67,5 +67,14 @@
     max-height: 512px;
 }
 /*#endregion*/
-/*#region*/
+/*#region SpoilerPage*/
+.spoilerHeader {
+    margin: 1rem 1rem;
+    cursor: pointer;
+}
+.spoilerIcon {
+    width: 1.2rem;
+    margin-right: 0.5rem;
+    vertical-align: bottom;
+}
 /*#endregion*/

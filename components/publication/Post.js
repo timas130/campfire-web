@@ -6,10 +6,10 @@ import "moment/locale/ru";
 import classNames from "classnames";
 import {ChatAlt2Icon, ChevronDownIcon, ChevronUpIcon, DotsVerticalIcon} from "@heroicons/react/solid";
 import Karma from "../Karma";
-import {Page} from "./pages/Page";
 import {useEffect, useRef, useState} from "react";
 import ShareButton from "../ShareButton";
 import {useRouter} from "next/router";
+import Pages from "./pages/Pages";
 
 function CommentCounter(props) {
   return <Link href={props.href}>
@@ -95,7 +95,8 @@ export default function Post(props) {
       classes.content,
       (alwaysExpanded || expanded || !expandable) && classes.expanded
     )} ref={contentRef}>
-      {post.jsonDB.J_PAGES.map((page, idx) => <Page key={idx} page={page} />)}
+      <Pages pages={post.jsonDB.J_PAGES} />
+      {/*{post.jsonDB.J_PAGES.map((page, idx) => <Page key={idx} page={page} />)}*/}
     </div>
     <div className={classes.footer}>
       {expandable && <div className={classes.expander} onClick={toggleExpand}>
