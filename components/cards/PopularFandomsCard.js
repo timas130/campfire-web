@@ -4,9 +4,9 @@ import classNames from "classnames";
 import Link from "next/link";
 import {CAvatar} from "../CImage";
 import {ArrowRightIcon, UsersIcon} from "@heroicons/react/solid";
-import {fetcher} from "../../pages/_app";
 import useSWR from "swr/immutable";
 import {BoxPlaceholder, TextPlaceholder} from "../Placeholder";
+import {fetcher} from "../../lib/client-api";
 
 export default function PopularFandomsCard({ limit = 5 }) {
   let { data: fandoms } = useSWR("/api/fandoms?card=true", fetcher);

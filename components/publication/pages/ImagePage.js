@@ -8,6 +8,8 @@ export default function ImagePage({ page }) {
       w={page["J_W"]}
       h={page["J_H"]}
       loading="lazy"
+      // you're welcome blind people
+      alt="Изображение"
     />
   </div>;
 }

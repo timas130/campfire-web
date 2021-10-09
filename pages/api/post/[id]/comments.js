@@ -1,4 +1,5 @@
-import {sendErrorIfFromRemote, sendRequestAlwaysAuthenticated} from "../../custom";
+import {sendRequestAlwaysAuthenticated} from "../../../../lib/server";
+import {sendErrorIfFromRemote} from "../../../../lib/api";
 
 export async function fetchComments(req, res, postId, offset = 0, request = {}) {
   return (await sendRequestAlwaysAuthenticated(

@@ -6,11 +6,12 @@ import Comment from "../../components/publication/Comment";
 import {fetchComments} from "../api/post/[id]/comments";
 import Head from "next/head";
 import useSWRInfinite from "swr/infinite";
-import {fetcher} from "../_app";
 import {useInView} from "react-intersection-observer";
 import {useEffect} from "react";
 import CommentPoster from "../../components/CommentPoster";
 import FandomCard from "../../components/cards/FandomCard";
+import MetaTags from "../../components/MetaTags";
+import {fetcher} from "../../lib/client-api";
 
 export default function PostPage(props) {
   const commentsApiLink = "/api/post/" + props.post.unit.id + "/comments";
@@ -23,11 +24,9 @@ export default function PostPage(props) {
       fallbackData: [props.comments],
       revalidateOnFocus: false,
       revalidateIfStale: false,
-      // when loading more pages, swr makes two requests: for
-      // the first page, and for the next page. apparently this
-      // is intentional, but would be nice if it could be disabled.
-      //
-      // see https://github.com/vercel/swr/issues/1401, maybe open a pr?
+      // see https://github.com/vercel/swr/pull/1538
+      // TODO: bump swr version when revalidateFirstPage gets released
+      revalidateFirstPage: false,
     }
   );
   const { ref, inView } = useInView({
@@ -42,10 +41,15 @@ export default function PostPage(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
 
+  const title = `Пост в ${props.post.unit.fandom.name} от ${props.post.unit.creator.J_NAME} | Campfire`;
   return <>
     <Head>
       {/* TODO: add partial text content */}
-      <title>Пост в {props.post.unit.fandom.name} от {props.post.unit.creator.J_NAME} | Campfire</title>
+      <title>{title}</title>
+      <MetaTags
+        title={title}
+        url={`https://camp.33rd.dev/post/${props.post.unit.id}`}
+      />
     </Head>
     <FeedLayout
       list={<>

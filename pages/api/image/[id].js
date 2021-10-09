@@ -1,5 +1,6 @@
-import {sendErrorIfFromRemote, sendRequest} from "../custom";
 import cache from "memory-cache";
+import {sendRequest} from "../../../lib/server";
+import {sendErrorIfFromRemote} from "../../../lib/api";
 
 export default async function handler(req, res) {
   let {id} = req.query;

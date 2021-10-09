@@ -1,4 +1,5 @@
-import {sendErrorIfFromRemote, sendRequestAlwaysAuthenticated} from "./custom";
+import {sendRequestAlwaysAuthenticated} from "../../lib/server";
+import {sendErrorIfFromRemote} from "../../lib/api";
 
 export async function fetchFeed(req, res, offset = 0) {
   return (await sendRequestAlwaysAuthenticated(

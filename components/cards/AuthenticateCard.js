@@ -4,7 +4,7 @@ import Button from "../Button";
 import Link from "next/link";
 import classNames from "classnames";
 import useSWRImmutable from "swr/immutable";
-import {fetcher} from "../../pages/_app";
+import {fetcher} from "../../lib/client-api";
 
 export default function AuthenticateCard() {
   const {data: account} = useSWRImmutable("/api/user", fetcher);

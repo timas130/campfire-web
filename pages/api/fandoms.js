@@ -1,5 +1,6 @@
-import {sendErrorIfFromRemote, sendRequestAlwaysAuthenticated} from "./custom";
 import cache from "memory-cache";
+import {sendRequestAlwaysAuthenticated} from "../../lib/server";
+import {sendErrorIfFromRemote} from "../../lib/api";
 
 // s/o 2450954#2450976
 function shuffle(array) {

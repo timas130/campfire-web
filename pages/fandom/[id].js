@@ -4,14 +4,18 @@ import FandomCard from "../../components/cards/FandomCard";
 import Head from "next/head";
 import Post from "../../components/publication/Post";
 import useSWRInfinite from "swr/infinite";
-import {fetcher} from "../_app";
 import {useInView} from "react-intersection-observer";
 import {useEffect} from "react";
+import {fetcher} from "../../lib/client-api";
 
 export default function Fandom({ fandom, profile, info }) {
   const {data: postPages, size, setSize} = useSWRInfinite((pageIndex) => {
     return `/api/fandom/${fandom.id}/posts?offset=${pageIndex * 20}`;
-  }, fetcher);
+  }, fetcher, {
+    revalidateOnFocus: false,
+    revalidateIfStale: false,
+    revalidateFirstPage: false,
+  });
   const [ref, inView] = useInView();
 
   useEffect(() => {

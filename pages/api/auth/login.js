@@ -1,5 +1,6 @@
-import {requireArguments, sendRequestAuthenticated} from "../custom";
 import md5 from "md5";
+import {sendRequestAuthenticated} from "../../../lib/server";
+import {requireArguments} from "../../../lib/api";
 
 export default async function authLogin(req, res) {
   requireArguments(req, res, ["email", "password"]);

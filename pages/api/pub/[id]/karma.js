@@ -1,4 +1,5 @@
-import {sendErrorIfFromRemote, sendRequestAuthenticated} from "../../custom";
+import {sendRequestAuthenticated} from "../../../../lib/server";
+import {sendErrorIfFromRemote} from "../../../../lib/api";
 
 export async function setKarma(req, res, pubId, positive) {
   return (await sendRequestAuthenticated(

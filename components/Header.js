@@ -3,7 +3,7 @@ import Link from "next/link";
 import {CAvatar} from "./CImage";
 import {KarmaCounter} from "./Karma";
 import useSWRImmutable from "swr/immutable";
-import {fetcher} from "../pages/_app";
+import {fetcher} from "../lib/client-api";
 
 function HeaderProfile() {
   const {data: account} = useSWRImmutable("/api/user", fetcher);

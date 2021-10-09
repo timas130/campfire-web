@@ -1,11 +1,11 @@
 import useSWR from "swr/immutable";
-import {fetcher} from "../../pages/_app";
 import postClasses from "../../styles/Post.module.css";
 import classes from "../../styles/Card.module.css";
 import classNames from "classnames";
 import Link from "next/link";
 import Button from "../Button";
 import Progress from "../Progress";
+import {fetcher} from "../../lib/client-api";
 
 export default function DonateCard() {
   const { data: supportInfo, error } = useSWR("/api/project/donates", fetcher);

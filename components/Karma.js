@@ -2,9 +2,9 @@ import classes from "../styles/Karma.module.css";
 import classNames from "classnames";
 import React, {useState} from "react";
 import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/solid";
-import {fetcher} from "../pages/_app";
 import useSWRImmutable from "swr/immutable";
 import {useRouter} from "next/router";
+import {fetcher} from "../lib/client-api";
 
 export function KarmaCounter(props) {
   const {value, cof, precise, el} = props;

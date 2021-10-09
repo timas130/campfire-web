@@ -6,7 +6,7 @@ import {ExternalLinkIcon, LockClosedIcon, UsersIcon} from "@heroicons/react/soli
 import Button from "../Button";
 import Tooltip from "../Tooltip";
 import useSWR from "swr/immutable";
-import {fetcher} from "../../pages/_app";
+import {fetcher} from "../../lib/client-api";
 
 // const SUB_TYPE_IMPORTANT = -1;
 // const SUB_TYPE_SUBBED = 0;
