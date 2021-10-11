@@ -1,15 +1,16 @@
-import classes from "../../styles/Post.module.css";
-import {CAvatar} from "../CImage";
+import classes from "../../../styles/Post.module.css";
+import {CAvatar} from "../../CImage";
 import Link from "next/link";
 import moment from "moment";
 import "moment/locale/ru";
 import classNames from "classnames";
 import {ChatAlt2Icon, ChevronDownIcon, ChevronUpIcon, DotsVerticalIcon} from "@heroicons/react/solid";
-import Karma from "../Karma";
+import Karma from "../../Karma";
 import {useEffect, useRef, useState} from "react";
-import ShareButton from "../ShareButton";
+import ShareButton from "../../ShareButton";
 import {useRouter} from "next/router";
 import Pages from "./pages/Pages";
+import Comment from "../Comment";
 
 function CommentCounter(props) {
   return <Link href={props.href}>
@@ -21,7 +22,7 @@ function CommentCounter(props) {
 }
 
 export default function Post(props) {
-  const {post, alwaysExpanded} = props;
+  const {post, alwaysExpanded, showBestComment} = props;
   const router = useRouter();
   const [expandedManually, setExpandedManually] = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -111,5 +112,6 @@ export default function Post(props) {
       <Karma pubId={post.id} karmaCount={post.karmaCount}
              myKarma={post.myKarma} karmaCof={post.fandom.karmaCof} />
     </div>
+    {showBestComment && post.bestComment && <Comment bestComment comment={post.bestComment} />}
   </article>;
 }

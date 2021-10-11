@@ -1,5 +1,5 @@
 import FeedLayout, {FeedLoader} from "../../components/FeedLayout";
-import Post from "../../components/publication/Post";
+import Post from "../../components/publication/post/Post";
 import {fetchPost} from "../api/post/[id]";
 import AuthenticateCard from "../../components/cards/AuthenticateCard";
 import Comment from "../../components/publication/Comment";
@@ -12,6 +12,7 @@ import CommentPoster from "../../components/CommentPoster";
 import FandomCard from "../../components/cards/FandomCard";
 import MetaTags from "../../components/MetaTags";
 import {fetcher} from "../../lib/client-api";
+import Tags from "../../components/publication/post/Tags";
 
 export default function PostPage(props) {
   const commentsApiLink = "/api/post/" + props.post.unit.id + "/comments";
@@ -24,8 +25,6 @@ export default function PostPage(props) {
       fallbackData: [props.comments],
       revalidateOnFocus: false,
       revalidateIfStale: false,
-      // see https://github.com/vercel/swr/pull/1538
-      // TODO: bump swr version when revalidateFirstPage gets released
       revalidateFirstPage: false,
     }
   );
@@ -54,13 +53,12 @@ export default function PostPage(props) {
     <FeedLayout
       list={<>
         <Post post={props.post.unit} alwaysExpanded />
-        <CommentPoster />
+        <Tags tags={props.post.tags} />
+        <CommentPoster pubId={props.post.unit.id} />
         <div id="comments">
-          {commentPages && commentPages.map(page => {
-            return page.map(comment => {
-              return <Comment key={comment.id} comment={comment} />;
-            });
-          })}
+          {commentPages && commentPages.map(page => page.map(comment => (
+            <Comment key={comment.id} comment={comment} />
+          )))}
           {(
             commentPages.length === 0 ||
             commentPages[commentPages.length - 1].length !== 0

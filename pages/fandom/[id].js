@@ -2,7 +2,7 @@ import {fetchFandom} from "../api/fandom/[id]";
 import FeedLayout, {FeedLoader} from "../../components/FeedLayout";
 import FandomCard from "../../components/cards/FandomCard";
 import Head from "next/head";
-import Post from "../../components/publication/Post";
+import Post from "../../components/publication/post/Post";
 import useSWRInfinite from "swr/infinite";
 import {useInView} from "react-intersection-observer";
 import {useEffect} from "react";

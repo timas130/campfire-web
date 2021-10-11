@@ -1,8 +1,8 @@
 import {icons} from "./icons";
 import classNames from "classnames";
-import classes from "../../../styles/Page.module.css";
+import classes from "../../../../styles/Page.module.css";
 import React from "react";
-import FormattedText from "../../FormattedText";
+import FormattedText from "../../../FormattedText";
 
 export default function TextPage({ page }) {
   const big = Boolean(page["J_SIZE"]);

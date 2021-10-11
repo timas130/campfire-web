@@ -1,10 +1,23 @@
 import {
-  ArrowLeftIcon, ChevronDownIcon,
+  ArrowLeftIcon,
+  ChevronDownIcon,
   ChevronLeftIcon,
-  ChevronRightIcon, ChevronUpIcon, ClipboardCopyIcon, ClipboardIcon, ClockIcon,
-  DownloadIcon, FolderIcon, LibraryIcon, LockClosedIcon,
-  MenuIcon, MicrophoneIcon, PlusIcon,
-  ShareIcon, UserCircleIcon, UserIcon, XIcon
+  ChevronRightIcon,
+  ChevronUpIcon,
+  ClipboardCopyIcon,
+  ClipboardIcon,
+  ClockIcon,
+  DownloadIcon,
+  FolderIcon,
+  LibraryIcon,
+  LockClosedIcon,
+  MenuIcon,
+  MicrophoneIcon,
+  PlusIcon,
+  ShareIcon,
+  UserCircleIcon,
+  UserIcon,
+  XIcon
 } from "@heroicons/react/solid";
 
 export const icons = {

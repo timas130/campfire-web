@@ -5,10 +5,11 @@ import Link from "next/link";
 import FormattedText from "../FormattedText";
 import Karma from "../Karma";
 import React from "react";
+import classNames from "classnames";
 
-export default React.forwardRef(function Comment({ comment }, ref) {
+export default React.forwardRef(function Comment({ comment, bestComment = false }, ref) {
   const jsonDB = typeof comment.jsonDB === "string" ? JSON.parse(comment.jsonDB) : comment.jsonDB;
-  return <article className={classes.comment} ref={ref}>
+  return <article className={classNames(classes.comment, bestComment && classes.best)} ref={ref}>
     <header className={classes.header}>
       <CAvatar account={comment.creator} small className={classes.avatar} />
       <Link href={`/account/${comment.creator.J_NAME}`}>

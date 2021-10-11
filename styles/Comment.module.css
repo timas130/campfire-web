@@ -1,6 +1,11 @@
 .comment {
     margin-bottom: 1.5rem;
 }
+.comment.best {
+    border-top: 1px solid var(--background-element);
+    border-top-style: dotted;
+    padding: 0.75rem;
+}
 
 .header {
     display: flex;

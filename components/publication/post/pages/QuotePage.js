@@ -1,4 +1,4 @@
-import classes from "../../../styles/Page.module.css";
+import classes from "../../../../styles/Page.module.css";
 import classNames from "classnames";
 
 export default function QuotePage({ page }) {

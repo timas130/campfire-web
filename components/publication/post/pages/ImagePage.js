@@ -1,5 +1,5 @@
-import CImage from "../../CImage";
-import classes from "../../../styles/Page.module.css";
+import CImage from "../../../CImage";
+import classes from "../../../../styles/Page.module.css";
 
 export default function ImagePage({ page }) {
   return <div className={classes.imagePage}>

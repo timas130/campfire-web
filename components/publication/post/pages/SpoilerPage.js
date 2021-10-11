@@ -1,4 +1,4 @@
-import classes from "../../../styles/Page.module.css";
+import classes from "../../../../styles/Page.module.css";
 import {useState} from "react";
 import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/solid";
 

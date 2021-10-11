@@ -1,6 +1,6 @@
 import Head from "next/head";
 import FeedLayout, {FeedLoader} from "../components/FeedLayout";
-import Post from "../components/publication/Post";
+import Post from "../components/publication/post/Post";
 import PopularFandomsCard from "../components/cards/PopularFandomsCard";
 import AuthenticateCard from "../components/cards/AuthenticateCard";
 import useSWRInfinite from "swr/infinite";
@@ -35,7 +35,7 @@ export default function Home() {
       <title>Лента | Campfire</title>
     </Head>
     <FeedLayout list={<>
-      {feed && feed.map(feedPage => feedPage.units.map(post => <Post key={post.id} post={post} />))}
+      {feed && feed.map(feedPage => feedPage.units.map(post => <Post key={post.id} post={post} showBestComment />))}
       {<FeedLoader ref={ref} />}
     </>} sidebar={<>
       <PopularFandomsCard />

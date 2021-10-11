@@ -1,4 +1,4 @@
-import classes from "../../../styles/Page.module.css";
+import classes from "../../../../styles/Page.module.css";
 import {ExternalLinkIcon} from "@heroicons/react/outline";
 
 export default function LinkPage({ page }) {
