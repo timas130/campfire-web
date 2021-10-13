@@ -60,8 +60,8 @@ export default function PostPage(props) {
       list={<>
         <Post post={props.post.unit} alwaysExpanded />
         <Tags tags={props.post.tags} />
-        <CommentPoster pubId={props.post.unit.id} />
         <div id="comments">
+          <CommentPoster pubId={props.post.unit.id} />
           {commentPages && commentPages.map(page => page.map(comment => (
             <Comment key={comment.id} comment={comment} />
           )))}

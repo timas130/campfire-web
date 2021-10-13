@@ -14,7 +14,7 @@ import Comment from "../Comment";
 
 function CommentCounter(props) {
   return <Link href={props.href}>
-    <a className={classes.commentCounter}>
+    <a className={classes.commentCounter} target="_blank">
       <ChatAlt2Icon className={classes.commentIcon} />
       {props.count}
     </a>
