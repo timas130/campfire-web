@@ -1,9 +1,8 @@
 import md5 from "md5";
 import {sendRequestAuthenticated} from "../../../lib/server";
 import {requireArguments} from "../../../lib/api";
-import {withSentry} from "@sentry/nextjs";
 
-async function authLogin(req, res) {
+export default async function authLogin(req, res) {
   requireArguments(req, res, ["email", "password"]);
   const loginToken = `Email - ${req.body.email} - ${md5(req.body.password)}`;
   try {
@@ -20,5 +19,3 @@ async function authLogin(req, res) {
     else res.redirect("/auth/login?error=unknown");
   }
 }
-
-export default withSentry(authLogin);

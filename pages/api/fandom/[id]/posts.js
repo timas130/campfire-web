@@ -1,6 +1,5 @@
 import {sendRequestAuthenticated} from "../../../../lib/server";
 import {sendErrorIfFromRemote} from "../../../../lib/api";
-import {withSentry} from "@sentry/nextjs";
 
 export async function fetchFandomPosts(req, res, fandomId, offset = 0,
                                        types = [9], request = {}) {
@@ -30,12 +29,10 @@ export async function fetchFandomPosts(req, res, fandomId, offset = 0,
   )).J_RESPONSE.units;
 }
 
-async function fandomPostsHandler(req, res) {
+export default async function fandomPostsHandler(req, res) {
   try {
     res.send(await fetchFandomPosts(req, res, req.query.id, req.query.offset));
   } catch (e) {
     sendErrorIfFromRemote(res, e);
   }
 }
-
-export default withSentry(fandomPostsHandler);

@@ -1,6 +1,5 @@
 import {sendRequestAlwaysAuthenticated} from "../../../../lib/server";
 import {sendErrorIfFromRemote} from "../../../../lib/api";
-import {withSentry} from "@sentry/nextjs";
 
 export async function fetchFandom(req, res, id) {
   const fandom = sendRequestAlwaysAuthenticated(
@@ -29,12 +28,10 @@ export async function fetchFandom(req, res, id) {
   };
 }
 
-async function fandomHandler(req, res) {
+export default async function fandomHandler(req, res) {
   try {
     res.send(await fetchFandom(req, res, req.query.id));
   } catch (e) {
     sendErrorIfFromRemote(res, e);
   }
 }
-
-export default withSentry(fandomHandler);

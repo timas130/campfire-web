@@ -1,9 +1,8 @@
 import cache from "memory-cache";
 import {sendRequest} from "../../../lib/server";
 import {sendErrorIfFromRemote} from "../../../lib/api";
-import {withSentry} from "@sentry/nextjs";
 
-async function imageHandler(req, res) {
+export default async function handler(req, res) {
   let {id} = req.query;
   res.setHeader("Content-Type", "image/jpeg");
   res.setHeader("Cache-Control", "public, max-age=604800, immutable");
@@ -31,5 +30,3 @@ async function imageHandler(req, res) {
     sendErrorIfFromRemote(res, e);
   }
 }
-
-export default withSentry(imageHandler);
