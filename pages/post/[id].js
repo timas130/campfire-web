@@ -7,12 +7,13 @@ import {fetchComments} from "../api/post/[id]/comments";
 import Head from "next/head";
 import useSWRInfinite from "swr/infinite";
 import {useInView} from "react-intersection-observer";
-import {useEffect} from "react";
+import {useEffect, useMemo} from "react";
 import CommentPoster from "../../components/CommentPoster";
 import FandomCard from "../../components/cards/FandomCard";
 import MetaTags from "../../components/MetaTags";
 import {fetcher} from "../../lib/client-api";
 import Tags from "../../components/publication/post/Tags";
+import {generateCoverForPages} from "../../lib/text-cover";
 
 export default function PostPage(props) {
   const commentsApiLink = "/api/post/" + props.post.unit.id + "/comments";
@@ -40,7 +41,12 @@ export default function PostPage(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
 
-  const title = `Пост в ${props.post.unit.fandom.name} от ${props.post.unit.creator.J_NAME} | Campfire`;
+  const shortDesc = useMemo(
+    () => generateCoverForPages(props.post.unit.jsonDB.J_PAGES),
+    [props.post.unit]
+  );
+  const title = (shortDesc ? shortDesc + " | " : "")
+    + `Пост в ${props.post.unit.fandom.name} от ${props.post.unit.creator.J_NAME} | Campfire`;
   return <>
     <Head>
       {/* TODO: add partial text content */}

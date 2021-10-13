@@ -7,6 +7,13 @@
     padding: 0.75rem;
 }
 
+@media screen and (max-width: 1005px) {
+    .comment {
+        padding: 0.75rem;
+        margin-bottom: 0;
+    }
+}
+
 .header {
     display: flex;
     align-items: center;
@@ -43,6 +50,13 @@
 .editor {
     margin-bottom: 1rem;
 }
+@media screen and (max-width: 1005px) {
+    .editor {
+        padding: 0.75rem;
+        margin-bottom: 0;
+    }
+}
+
 .editor .input {
     resize: vertical;
     background: var(--background-secondary);

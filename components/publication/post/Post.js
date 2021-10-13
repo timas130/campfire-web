@@ -6,7 +6,7 @@ import "moment/locale/ru";
 import classNames from "classnames";
 import {ChatAlt2Icon, ChevronDownIcon, ChevronUpIcon, DotsVerticalIcon} from "@heroicons/react/solid";
 import Karma from "../../Karma";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import ShareButton from "../../ShareButton";
 import {useRouter} from "next/router";
 import Pages from "./pages/Pages";
@@ -22,7 +22,7 @@ function CommentCounter(props) {
 }
 
 export default function Post(props) {
-  const {post, alwaysExpanded, showBestComment} = props;
+  const {post: postL, alwaysExpanded, showBestComment} = props;
   const router = useRouter();
   const [expandedManually, setExpandedManually] = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -53,9 +53,15 @@ export default function Post(props) {
     setExpanded(ex => !ex);
   };
 
-  if (typeof post.jsonDB.J_PAGES !== "object") {
-    post.jsonDB.J_PAGES = JSON.parse(post.jsonDB.J_PAGES);
-  }
+  const post = useMemo(() => {
+    if (typeof postL.jsonDB !== "object") {
+      postL.jsonDB = JSON.parse(post.jsonDB);
+    }
+    if (typeof postL.jsonDB.J_PAGES !== "object") {
+      postL.jsonDB.J_PAGES = JSON.parse(post.jsonDB.J_PAGES);
+    }
+    return postL;
+  }, [postL]);
   return <article className={classes.post}>
     <header className={classes.header}>
       <CAvatar

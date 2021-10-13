@@ -1,7 +1,7 @@
 // feel free to copy+paste this to r/programminghorror, i didn't write it
 import React, {useMemo} from "react";
 
-class TextFormatter {
+export class TextFormatter {
   static charProtector = "\\";
   static charProtectorWord = "@";
   static chars = ["\\", "@", "*", "^", "~", "_", "{", "}"];

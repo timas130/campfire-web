@@ -14,8 +14,11 @@ a.button {
 .button.noBackground {
     background-color: initial;
 }
-.button:hover, .button:focus {
+.button:hover:not(:disabled), .button:focus:not(:disabled) {
     background-color: var(--background);
+}
+.button:disabled {
+    cursor: default;
 }
 
 .button.fullWidth {

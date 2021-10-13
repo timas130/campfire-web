@@ -49,7 +49,7 @@ export default function Register() {
       </InputLabel>
       <div className={classes.buttons}>
         <Link href="/auth/login" passHref><Button noBackground>Вход</Button></Link>
-        <Button type="submit" className={classes.buttonRight}>Зарегистрироваться</Button>
+        <Button type="submit" className={classes.buttonRight} disabled>Зарегистрироваться</Button>
       </div>
     </form>
   </>;

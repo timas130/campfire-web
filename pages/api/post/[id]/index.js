@@ -2,9 +2,13 @@ import {sendRequestAlwaysAuthenticated} from "../../../../lib/server";
 import {sendErrorIfFromRemote} from "../../../../lib/api";
 
 export async function fetchPost(req, res, id) {
-  return (await sendRequestAlwaysAuthenticated(
+  const resp = (await sendRequestAlwaysAuthenticated(
     req, res, "RPostGet", {unitId: id},
   )).J_RESPONSE;
+  if (typeof resp.unit.jsonDB === "string") {
+    resp.unit.jsonDB = JSON.parse(resp.jsonDB);
+  }
+  return resp;
 }
 
 export default async function postHandler(req, res) {

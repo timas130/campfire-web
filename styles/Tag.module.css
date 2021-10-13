@@ -1,6 +1,12 @@
 .tags {
     margin-bottom: 0.5rem;
 }
+@media screen and (max-width: 1005px) {
+    .tags {
+        padding: 0.5rem;
+        margin-bottom: 0;
+    }
+}
 
 .tag {
     border-radius: 1rem;
