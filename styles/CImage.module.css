@@ -8,9 +8,6 @@
 .avatar, .avatar img {
     border-radius: 8px;
 }
-.avatarWrap.small > .avatar, .avatarWrap.small img {
-    border-radius: 4px;
-}
 .avatarBadge {
     position: absolute;
     right: 0;

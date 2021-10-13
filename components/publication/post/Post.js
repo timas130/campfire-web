@@ -55,10 +55,10 @@ export default function Post(props) {
 
   const post = useMemo(() => {
     if (typeof postL.jsonDB !== "object") {
-      postL.jsonDB = JSON.parse(post.jsonDB);
+      postL.jsonDB = JSON.parse(postL.jsonDB);
     }
     if (typeof postL.jsonDB.J_PAGES !== "object") {
-      postL.jsonDB.J_PAGES = JSON.parse(post.jsonDB.J_PAGES);
+      postL.jsonDB.J_PAGES = JSON.parse(postL.jsonDB.J_PAGES);
     }
     return postL;
   }, [postL]);
