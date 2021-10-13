@@ -1,5 +1,6 @@
 import {sendRequestAuthenticated} from "../../../../lib/server";
 import {requireArguments, sendErrorIfFromRemote} from "../../../../lib/api";
+import {withSentry} from "@sentry/nextjs";
 
 export async function postComment(req, res, pubId, content, reply = 0) {
   return (await sendRequestAuthenticated(
@@ -10,7 +11,7 @@ export async function postComment(req, res, pubId, content, reply = 0) {
   )).J_RESPONSE.comment;
 }
 
-export default async function commentHandler(req, res) {
+async function commentHandler(req, res) {
   requireArguments(req, res, ["content"]);
   try {
     const result = await postComment(req, res, req.query.id, req.body.content, req.body.reply);
@@ -20,3 +21,5 @@ export default async function commentHandler(req, res) {
     sendErrorIfFromRemote(res, e);
   }
 }
+
+export default withSentry(commentHandler);

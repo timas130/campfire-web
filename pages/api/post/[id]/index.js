@@ -1,5 +1,6 @@
 import {sendRequestAlwaysAuthenticated} from "../../../../lib/server";
 import {sendErrorIfFromRemote} from "../../../../lib/api";
+import {withSentry} from "@sentry/nextjs";
 
 export async function fetchPost(req, res, id) {
   const resp = (await sendRequestAlwaysAuthenticated(
@@ -11,10 +12,12 @@ export async function fetchPost(req, res, id) {
   return resp;
 }
 
-export default async function postHandler(req, res) {
+async function postHandler(req, res) {
   try {
     res.send(await fetchPost(req, res, req.query.id));
   } catch (e) {
     sendErrorIfFromRemote(res, e);
   }
 }
+
+export default withSentry(postHandler);

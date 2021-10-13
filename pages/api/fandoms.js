@@ -1,6 +1,7 @@
 import cache from "memory-cache";
 import {sendRequestAlwaysAuthenticated} from "../../lib/server";
 import {sendErrorIfFromRemote} from "../../lib/api";
+import {withSentry} from "@sentry/nextjs";
 
 // s/o 2450954#2450976
 function shuffle(array) {
@@ -45,7 +46,7 @@ export async function fetchFandoms(req, res, request = {}) {
   }
 }
 
-export default async function fandomsHandler(req, res) {
+async function fandomsHandler(req, res) {
   try {
     if (req.query.card) {
       res.send(shuffle(await fetchFandoms(req, res)));
@@ -56,3 +57,5 @@ export default async function fandomsHandler(req, res) {
     sendErrorIfFromRemote(res, e);
   }
 }
+
+export default withSentry(fandomsHandler);
