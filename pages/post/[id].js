@@ -42,7 +42,11 @@ export default function PostPage(props) {
   }, [inView]);
 
   const shortDesc = useMemo(
-    () => generateCoverForPages(props.post.unit.jsonDB.J_PAGES),
+    () => generateCoverForPages(
+      typeof props.post.unit.jsonDB.J_PAGES === "string" ?
+      JSON.parse(props.post.unit.jsonDB.J_PAGES) :
+      props.post.unit.jsonDB.J_PAGES
+    ),
     [props.post.unit]
   );
   const title = (shortDesc ? shortDesc + " | " : "")

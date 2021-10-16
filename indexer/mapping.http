@@ -1,0 +1,85 @@
+PUT /posts-v1
+Content-Type: application/json
+
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "russian_stop": {
+          "type":       "stop",
+          "stopwords":  "_russian_"
+        },
+        "russian_stemmer": {
+          "type":       "stemmer",
+          "language":   "russian"
+        },
+        "english_stop": {
+          "type":       "stop",
+          "stopwords":  "_english_"
+        },
+        "english_stemmer": {
+          "type":       "stemmer",
+          "language":   "english"
+        },
+        "english_possessive_stemmer": {
+          "type":       "stemmer",
+          "language":   "possessive_english"
+        }
+      },
+      "analyzer": {
+        "rebuilt_russian": {
+          "tokenizer":  "standard",
+          "filter": [
+            "lowercase",
+            "russian_stop",
+            "russian_stemmer"
+          ]
+        },
+        "rebuilt_english": {
+          "tokenizer":  "standard",
+          "filter": [
+            "english_possessive_stemmer",
+            "lowercase",
+            "english_stop",
+            "english_stemmer"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "id": { "type": "long" },
+      "creator-id": { "type": "long" },
+      "fandom-id": { "type": "long" },
+      "fandom-name": { "type": "text", "analyzer": "rebuilt_english" },
+      "rubric-id": { "type": "long" },
+      "rubric-name": { "type": "text", "analyzer": "rebuild_russian" },
+      "activity-id": { "type": "long" },
+      "activity-name": { "type": "text", "analyzer": "rebuild_russian" },
+      "created": { "type": "date" },
+      "language": { "type": "integer" },
+      "closed": { "type": "boolean" },
+      "comment-count": { "type": "integer" },
+      "content": {
+        "type": "text",
+        "fields": {
+          "content_russian": {
+            "type": "text",
+            "analyzer": "rebuilt_russian"
+          },
+          "content_english": {
+            "type": "text",
+            "analyzer": "rebuilt_english"
+          }
+        }
+      },
+      "tags": { "type": "array" },
+      "suggest": {"type": "completion" },
+      "raw_data": {
+        "type": "text",
+        "index": false
+      }
+    }
+  }
+}

@@ -5,7 +5,7 @@ import React from "react";
 export const FeedLoader = React.forwardRef(
   function FeedLoader(props, ref) {
     return <div className={classes.loader} ref={ref}>
-      Загрузка...
+      {props.text || "Загрузка..."}
     </div>;
   }
 );
