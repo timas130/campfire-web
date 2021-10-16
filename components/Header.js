@@ -30,11 +30,8 @@ export default function Header() {
         <h1 className={classes.h1}>Campfire</h1>
       </a>
     </Link>
-    <Link href="/fandoms">
-      <a className={classes.navLink}>Фэндомы</a>
-    </Link>
-    <Link href="/level">
-      <a className={classes.navLink}>Уровень</a>
+    <Link href="/post/search">
+      <a className={classes.navLink}>Поиск</a>
     </Link>
     <div className={classes.spacer} />
     <HeaderProfile />
