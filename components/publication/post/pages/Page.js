@@ -4,10 +4,12 @@ import LinkPage from "./LinkPage";
 import QuotePage from "./QuotePage";
 import React from "react";
 import SpoilerPage from "./SpoilerPage";
+import ImagesPage from "./ImagesPage";
 
 const pageTypes = {
   1: TextPage,
   2: ImagePage,
+  3: ImagesPage,
   4: LinkPage,
   5: QuotePage,
   6: SpoilerPage

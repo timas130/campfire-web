@@ -1,6 +1,6 @@
 const {parentPort, workerData} = require("worker_threads");
 const {sendRequest} = require("../lib/server");
-const {post} = require("axios");
+const {Client} = require("@elastic/elasticsearch");
 require("dotenv").config({
   path: ".env.local"
 });
@@ -50,6 +50,12 @@ function createContent(pages) {
 }
 
 async function work() {
+  const esClient = new Client({
+    node: process.env.ELASTIC_URL,
+    auth: {
+      apiKey: process.env.ELASTIC_KEY,
+    },
+  });
   for (let i = workerData.startId + workerData.thread * 20; i < workerData.endId; i += workerData.threads * 20) {
     try {
       let resp;
@@ -71,11 +77,15 @@ async function work() {
           languageId: 0,
           onlyWithFandom: false,
           count: 20,
-          appKey: "",
-          appSubKey: "",
+          appKey: null,
+          appSubKey: null,
           tags: [],
           J_API_LOGIN_TOKEN: process.env.LOGIN_TOKEN
         })).J_RESPONSE.units;} catch (e) {console.log("retry", e);}
+      }
+      if (resp.length === 0) {
+        console.log(`[${workerData.thread}] that's it!`);
+        return;
       }
       const docs = [];
       for (const unit of resp) {
@@ -101,6 +111,7 @@ async function work() {
         docs.push(doc);
       }
       if (docs.length === 0) {
+        // noinspection JSUnusedAssignment
         parentPort.postMessage({
           units: resp.length,
           errors: false,
@@ -110,18 +121,15 @@ async function work() {
         });
         continue;
       }
-      const result = (await post(
-        workerData.elasticRoot + "/posts-v1/_bulk",
-        docs.map(doc => '{"index":{"_id": "' + doc.id + '"}}\n' + JSON.stringify(doc) + "\n").join(""),
-        {
-          headers: {
-            "content-type": "application/x-ndjson",
-            "accept": "application/json"
-          }
-        }
-      )).data;
+      const {body: result} = await esClient.bulk({
+        body: docs.flatMap(doc => [
+          {index: {_index: "posts_v1", _id: doc.id}},
+          doc
+        ])
+      });
+      // noinspection JSUnusedAssignment
       parentPort.postMessage({
-        units: result.items.length,
+        units: resp.length,
         errors: result.errors,
         id: docs[0].id,
         fandom: docs[0]["fandom-name"],

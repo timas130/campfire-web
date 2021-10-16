@@ -2,14 +2,59 @@ import Image from "next/image";
 import Link from "next/link";
 import classes from "../styles/CImage.module.css";
 import classNames from "classnames";
+import {createPortal} from "react-dom";
+import React, {useState} from "react";
+
+class ModalPortal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.el = document.createElement("div");
+  }
+
+  componentDidMount() {
+    const modalRoot = document.getElementById("modal-root");
+    modalRoot.appendChild(this.el);
+  }
+
+  componentWillUnmount() {
+    const modalRoot = document.getElementById("modal-root");
+    modalRoot.removeChild(this.el);
+  }
+
+  render() {
+    return createPortal(
+      this.props.children,
+      this.el,
+    );
+  }
+}
+function ModalInner({className, ...props}) {
+  return <div className={classNames("modal", className)} {...props} />;
+}
 
 export default function CImage(props) {
-  const {id, w, h, alt, ...rest} = props;
-  return <Image
-    src={`/api/image/${id}`} alt={alt}
-    width={w} height={h} unoptimized
-    {...rest}
-  />;
+  const {id, w, h, alt, modal, ...rest} = props;
+  const [modalOpen, setModalOpen] = useState(false);
+
+  if (modal) {
+    return <>
+      <Image
+        src={`/api/image/${id}`} alt={alt} unoptimized
+        width={w} height={h} onClick={() => setModalOpen(x => !x)}
+        {...rest}
+      />
+      {modalOpen && <ModalPortal><ModalInner onClick={() => setModalOpen(false)}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={`/api/image/${id}`} alt={alt} />
+      </ModalInner></ModalPortal>}
+    </>;
+  } else {
+    return <Image
+      src={`/api/image/${id}`} alt={alt}
+      width={w} height={h}
+      {...rest}
+    />;
+  }
 }
 
 export function CAvatar(props) {

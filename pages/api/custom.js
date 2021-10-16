@@ -6,6 +6,6 @@ export default async function customRequest(req, res) {
     const data = await sendRequestAuthenticated(req, res, req.body["J_REQUEST_NAME"], req.body);
     res.send(data);
   } catch (e) {
-    sendErrorIfFromRemote(res, e)
+    sendErrorIfFromRemote(res, e);
   }
 }
