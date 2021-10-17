@@ -103,7 +103,6 @@ export default function Post(props) {
       (alwaysExpanded || expanded || !expandable) && classes.expanded
     )} ref={contentRef}>
       <Pages pages={post.jsonDB.J_PAGES} />
-      {/*{post.jsonDB.J_PAGES.map((page, idx) => <Page key={idx} page={page} />)}*/}
     </div>
     <div className={classes.footer}>
       {expandable && <div className={classes.expander} onClick={toggleExpand}>

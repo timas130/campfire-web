@@ -20,7 +20,7 @@ export default function PopularFandomsCard({ limit = 5 }) {
           .fill(null)
           .map((x, idx) => <div key={idx} className={cardClasses.popularFandom}>
             <BoxPlaceholder w={30} h={30} className={cardClasses.fandomAvatar} />
-            <TextPlaceholder className={cardClasses.fandomSubs} />
+            <TextPlaceholder className={cardClasses.fandomName} />
           </div>) :
         fandoms
           .filter(fandom => fandom.id !== 5672)
