@@ -12,7 +12,7 @@ export default React.forwardRef(function Comment({ comment, bestComment = false,
   return <article className={classNames(classes.comment, bestComment && classes.best, full && classes.full)} ref={ref}>
     <header className={classes.header}>
       <CAvatar account={comment.creator} small className={classes.avatar} />
-      <Link href={`/account/${comment.creator.J_NAME}`}>
+      <Link href={`/account/${encodeURIComponent(comment.creator.J_NAME)}`}>
         <a className={classes.author}>{comment.creator.J_NAME}</a>
       </Link>&nbsp;
       <time dateTime={moment(comment.dateCreate).toISOString()} className={classes.time}>

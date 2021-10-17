@@ -87,7 +87,7 @@ export default function Post(props) {
           </Link>}
         </div>
         <div className={classes.headerSecondary}>
-          <Link href={`/account/${post.creator.J_NAME}`}>
+          <Link href={`/account/${encodeURIComponent(post.creator.J_NAME)}`}>
             <a className={classes.headerAuthor}>{post.creator.J_NAME}</a>
           </Link>
           &nbsp;•&nbsp;
