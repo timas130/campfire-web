@@ -7,9 +7,9 @@ import Karma from "../Karma";
 import React from "react";
 import classNames from "classnames";
 
-export default React.forwardRef(function Comment({ comment, bestComment = false }, ref) {
+export default React.forwardRef(function Comment({ comment, bestComment = false, full = false }, ref) {
   const jsonDB = typeof comment.jsonDB === "string" ? JSON.parse(comment.jsonDB) : comment.jsonDB;
-  return <article className={classNames(classes.comment, bestComment && classes.best)} ref={ref}>
+  return <article className={classNames(classes.comment, bestComment && classes.best, full && classes.full)} ref={ref}>
     <header className={classes.header}>
       <CAvatar account={comment.creator} small className={classes.avatar} />
       <Link href={`/account/${comment.creator.J_NAME}`}>
@@ -18,6 +18,9 @@ export default React.forwardRef(function Comment({ comment, bestComment = false 
       <time dateTime={moment(comment.dateCreate).toISOString()} className={classes.time}>
         {moment(comment.dateCreate).locale("ru").fromNow()}
       </time>
+      {full && <>&nbsp;<Link href={`/post/${comment.parentUnitId}`}>
+        <a className={classes.openPost}>Открыть пост</a>
+      </Link></>}
     </header>
     <div className={classes.content}>
       {/* TODO: add actual quotes */}

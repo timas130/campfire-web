@@ -16,8 +16,12 @@
     --text-secondary: #4B5563;
     --text-secondary-active: #6B7280;
     --primary: #ff6c01;
+    --orange-muted: #D97706;
     --green: #34D399;
+    --green-muted: #059669;
+    --blue: #3B82F6;
     --red: #ef4444;
+    --yellow: #FBBF24;
     --monospace-font: ui-monospace, SFMono-Regular, Menlo, Monaco,
         Consolas, "Liberation Mono", "Courier New", monospace;
 }

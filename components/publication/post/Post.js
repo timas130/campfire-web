@@ -22,7 +22,7 @@ function CommentCounter(props) {
 }
 
 export default function Post(props) {
-  const {post: postL, alwaysExpanded, showBestComment} = props;
+  const {post: postL, alwaysExpanded, showBestComment, pinned} = props;
   const router = useRouter();
   const [expandedManually, setExpandedManually] = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -63,7 +63,7 @@ export default function Post(props) {
     return postL;
   }, [postL]);
   return <article className={classes.post}>
-    <header className={classes.header}>
+    <header className={classNames(classes.header, pinned && classes.pinned)}>
       <CAvatar
         id={post.fandom.imageId}
         alt={post.fandom.name}

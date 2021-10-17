@@ -3,11 +3,10 @@ import classes from "../../styles/Card.module.css";
 import Button from "../Button";
 import Link from "next/link";
 import classNames from "classnames";
-import useSWRImmutable from "swr/immutable";
-import {fetcher} from "../../lib/client-api";
+import {useUser} from "../../lib/client-api";
 
 export default function AuthenticateCard() {
-  const {data: account} = useSWRImmutable("/api/user", fetcher);
+  const account = useUser();
 
   if (account) {
     return null;

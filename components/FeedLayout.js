@@ -11,10 +11,16 @@ export const FeedLoader = React.forwardRef(
 );
 
 function FeedLayout(props) {
-  const {list, sidebar} = props;
+  const {staticSidebar, list, sidebar} = props;
   return <div className={classNames(classes.feed, "container")}>
-    <main className={classes.feedList}>{list}</main>
-    <aside className={classes.feedSidebar}>{sidebar}</aside>
+    <main className={classes.feedList}>
+      <div className={classes.feedStatic}>{staticSidebar}</div>
+      {list}
+    </main>
+    <aside className={classes.feedSidebar}>
+      {staticSidebar}
+      {sidebar}
+    </aside>
   </div>;
 }
 

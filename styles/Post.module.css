@@ -9,6 +9,10 @@
     display: flex;
     align-items: center;
 }
+.header.pinned {
+    background: var(--background-element);
+    border-radius: 0.5rem;
+}
 
 .headerText {
     margin-left: 0.5rem;

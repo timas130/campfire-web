@@ -4,6 +4,7 @@ import classes from "../styles/CImage.module.css";
 import classNames from "classnames";
 import {createPortal} from "react-dom";
 import React, {useState} from "react";
+import {isOnline} from "../lib/client-api";
 
 class ModalPortal extends React.Component {
   constructor(props) {
@@ -60,7 +61,7 @@ export default function CImage(props) {
 export function CAvatar(props) {
   let {link, id, alt, className, account, fandom, small, el, ...rest} = props;
   link =
-    account ? `/account/${account.J_NAME}` :
+    account ? `/account/${encodeURIComponent(account.J_NAME)}` :
     fandom ? `/fandom/${fandom.id}` :
     link;
   id =
@@ -83,7 +84,7 @@ export function CAvatar(props) {
       {account && <div className={classNames(
         classes.avatarBadge,
         account.J_LVL >= 1000 && classes.long,
-        account.J_LAST_ONLINE_DATE > Date.now() - 1000 * 60 * 15 && classes.online
+        isOnline(account) && classes.online
       )}>
         {(account.J_LVL / 100).toFixed(0)}
       </div>}

@@ -1,0 +1,76 @@
+.profile {
+    padding: 1rem;
+}
+
+.profileRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+.profileRow:last-child {
+    margin-bottom: 0;
+}
+
+.accountShort {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+.text {
+    margin-left: 0.5rem;
+}
+.nickname {
+    font-weight: bold;
+    display: inline-block;
+}
+.onlineDate {
+    color: var(--text-secondary);
+}
+.online {
+    color: var(--green);
+}
+
+.sponsorChip {
+    padding: 0.3rem 0.5rem;
+    background: var(--green-muted);
+    border-radius: 1rem;
+    white-space: nowrap;
+}
+
+.profileKV {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.profileValue {
+    font-weight: bold;
+}
+.profileKeyIcon {
+    width: 1rem;
+    margin-right: 0.2rem;
+    vertical-align: bottom;
+}
+
+.rank {
+    font-weight: bold;
+}
+.rank.user {
+    color: var(--green);
+}
+.rank.mod {
+    color: var(--blue);
+}
+.rank.admin {
+    color: var(--red);
+}
+.rank.proto {
+    color: var(--orange-muted);
+}
+
+.warns {
+    color: var(--yellow);
+}
+.bans {
+    color: var(--red);
+}

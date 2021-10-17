@@ -2,11 +2,10 @@ import classes from "../styles/Header.module.css";
 import Link from "next/link";
 import {CAvatar} from "./CImage";
 import {KarmaCounter} from "./Karma";
-import useSWRImmutable from "swr/immutable";
-import {fetcher} from "../lib/client-api";
+import {useUser} from "../lib/client-api";
 
 function HeaderProfile() {
-  const {data: account} = useSWRImmutable("/api/user", fetcher);
+  const account = useUser();
   return account ? <div className={classes.account}>
     <CAvatar
       account={account}

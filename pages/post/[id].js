@@ -5,41 +5,19 @@ import AuthenticateCard from "../../components/cards/AuthenticateCard";
 import Comment from "../../components/publication/Comment";
 import {fetchComments} from "../api/post/[id]/comments";
 import Head from "next/head";
-import useSWRInfinite from "swr/infinite";
-import {useInView} from "react-intersection-observer";
-import {useEffect, useMemo} from "react";
+import {useMemo} from "react";
 import CommentPoster from "../../components/CommentPoster";
 import FandomCard from "../../components/cards/FandomCard";
 import MetaTags from "../../components/MetaTags";
-import {fetcher} from "../../lib/client-api";
+import {useInfScroll} from "../../lib/client-api";
 import Tags from "../../components/publication/post/Tags";
 import {generateCoverForPages} from "../../lib/text-cover";
 
 export default function PostPage(props) {
-  const commentsApiLink = "/api/post/" + props.post.unit.id + "/comments";
-  const { data: commentPages, size, setSize } = useSWRInfinite(
-    (pageIndex, previousPageData) => {
-      if (! previousPageData) return commentsApiLink;
-      else if (previousPageData.length === 0) return null;
-      else return commentsApiLink + "?offset=" + previousPageData[previousPageData.length - 1].dateCreate;
-    }, fetcher, {
-      fallbackData: [props.comments],
-      revalidateOnFocus: false,
-      revalidateIfStale: false,
-      revalidateFirstPage: false,
-    }
+  const {data: commentPages, ref, showLoader} = useInfScroll(
+    `/api/post/${props.post.unit.id}/comments`,
+    true, null, [props.comments]
   );
-  const { ref, inView } = useInView({
-    initialInView: false
-  });
-
-  useEffect(() => {
-    if (inView) {
-      // noinspection JSIgnoredPromiseFromCall
-      setSize(size + 1);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inView]);
 
   const shortDesc = useMemo(
     () => generateCoverForPages(
@@ -69,10 +47,7 @@ export default function PostPage(props) {
           {commentPages && commentPages.map(page => page.map(comment => (
             <Comment key={comment.id} comment={comment} />
           )))}
-          {(
-            commentPages.length === 0 ||
-            commentPages[commentPages.length - 1].length !== 0
-          ) && <FeedLoader ref={ref} />}
+          {showLoader && <FeedLoader ref={ref} />}
         </div>
       </>}
       sidebar={<>

@@ -2,9 +2,8 @@ import classes from "../styles/Karma.module.css";
 import classNames from "classnames";
 import React, {useState} from "react";
 import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/solid";
-import useSWRImmutable from "swr/immutable";
 import {useRouter} from "next/router";
-import {fetcher} from "../lib/client-api";
+import {fetcher, useUser} from "../lib/client-api";
 
 export function KarmaCounter(props) {
   const {value, cof, precise, el} = props;
@@ -25,12 +24,12 @@ export function KarmaCounter(props) {
 
 export default function Karma(props) {
   const {pubId, karmaCount, karmaCof, myKarma, vertical, small, precise} = props;
-  const {data: user} = useSWRImmutable("/api/user", fetcher);
+  const account = useUser();
   const router = useRouter();
   const [myKarmaClient, setMyKarmaClient] = useState(myKarma);
 
   const setKarma = positive => {
-    if (! user) {
+    if (! account) {
       // noinspection JSIgnoredPromiseFromCall
       router.push("/auth/login");
     } else {
