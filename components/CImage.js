@@ -51,7 +51,7 @@ export default function CImage(props) {
   } else {
     return <Image
       src={`/api/image/${id}`} alt={alt}
-      width={w} height={h}
+      width={w} height={h} unoptimized
       {...rest}
     />;
   }
