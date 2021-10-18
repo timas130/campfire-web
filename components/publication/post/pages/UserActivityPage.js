@@ -43,7 +43,7 @@ export default function UserActivityPage({page}) {
           <span className={postClasses.headerAuthor}>
             Следующий:&nbsp;
           </span>
-          <Link href={`/activity/${page.id}`}>
+          <Link href={`/account/${encodeURIComponent(page.currentAccount.J_NAME)}`}>
             <a className={classes.activityNext}>{page.currentAccount.J_NAME}</a>
           </Link>
         </div>
