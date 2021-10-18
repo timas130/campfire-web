@@ -94,3 +94,25 @@
     vertical-align: top;
 }
 /*#endregion*/
+/*#region UserActivityPage*/
+.activity {
+    background-color: var(--background-element);
+    border-radius: 0.5rem;
+    margin: 1rem 0.75rem 0.5rem;
+    padding: 0.5rem;
+}
+.activityHeader {
+    display: flex;
+    align-items: center;
+}
+.activityDescription {
+    margin: 0.5rem 0;
+}
+.activityNext {
+    color: var(--text);
+    text-decoration: none;
+}
+.activityNext:hover {
+    text-decoration: underline;
+}
+/*#endregion*/

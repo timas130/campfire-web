@@ -42,7 +42,7 @@
     font-weight: normal;
     text-decoration: none;
 }
-.headerAuthor:hover, .headerRubric:hover {
+.headerAuthor:hover, .headerRubric:hover, .headerFandom:hover {
     text-decoration: underline;
 }
 /* dots */

@@ -15,7 +15,7 @@ export function KarmaCounter(props) {
   )}>
     {precise ?
       (value / 100).toFixed(2) :
-      (value / 100).toFixed(0)}
+      Math.floor(value / 100)}
     {cof && cof !== 100 && <small className={classes.cof}>
       x{cof / 100}
     </small>}

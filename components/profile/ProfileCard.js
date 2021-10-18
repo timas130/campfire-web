@@ -93,7 +93,7 @@ export default function ProfileCard({account, profile}) {
       <ProfileShort account={account} />
       <SponsorChip account={account} />
     </div>
-    {profile.banDate ? <div className={classNames(classes.profileRow, classes.bans)}>
+    {profile.banDate > Date.now() ? <div className={classNames(classes.profileRow, classes.bans)}>
       Аккаунт заблокирован до {moment(profile.banDate).locale("ru").calendar()}
     </div> : null}
     <div className={classes.profileRow}>

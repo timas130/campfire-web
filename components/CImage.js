@@ -86,7 +86,7 @@ export function CAvatar(props) {
         account.J_LVL >= 1000 && classes.long,
         isOnline(account) && classes.online
       )}>
-        {(account.J_LVL / 100).toFixed(0)}
+        {Math.floor(account.J_LVL / 100)}
       </div>}
     </El>;
   if (El !== "a") {

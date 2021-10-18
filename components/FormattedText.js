@@ -8,7 +8,7 @@ export class TextFormatter {
   static charNoFormat = "[noFormat]";
   static charNoFormatEnd = "[/noFormat]";
 
-  static textChars = [".", ",", "\"", "'", "!", "?", " ", "-"];
+  static textChars = [".", ",", "\"", "'", "!", "?", " ", "-", "\n"];
 
   constructor(text = "", key = undefined) {
     this.text = text;

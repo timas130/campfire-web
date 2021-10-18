@@ -11,6 +11,7 @@ import ShareButton from "../../ShareButton";
 import {useRouter} from "next/router";
 import Pages from "./pages/Pages";
 import Comment from "../Comment";
+import UserActivityPage from "./pages/UserActivityPage";
 
 function CommentCounter(props) {
   return <Link href={props.href}>
@@ -74,17 +75,16 @@ export default function Post(props) {
           <Link href={`/fandom/${post.fandom.id}`}>
             <a className={classes.headerFandom}>{post.fandom.name}</a>
           </Link>
-          &nbsp;
-          {post.rubricId !== 0 && <Link href={`/rubric/${post.rubricId}`}>
+          {post.rubricId !== 0 && <>&nbsp;<Link href={`/rubric/${post.rubricId}`}>
             <a className={classNames(classes.headerRubric)}>
               в {post.rubricName}
             </a>
-          </Link>}
-          {post.userActivity && <Link href={`/activity/${post.userActivity.id}`}>
+          </Link></>}
+          {post.userActivity && <>&nbsp;<Link href={`/activity/${post.userActivity.id}`}>
             <a className={classNames(classes.headerRubric)}>
               в {post.userActivity.name}
             </a>
-          </Link>}
+          </Link></>}
         </div>
         <div className={classes.headerSecondary}>
           <Link href={`/account/${encodeURIComponent(post.creator.J_NAME)}`}>
@@ -103,6 +103,7 @@ export default function Post(props) {
       (alwaysExpanded || expanded || !expandable) && classes.expanded
     )} ref={contentRef}>
       <Pages pages={post.jsonDB.J_PAGES} />
+      {post.userActivity && <UserActivityPage page={post.userActivity} />}
     </div>
     <div className={classes.footer}>
       {expandable && <div className={classes.expander} onClick={toggleExpand}>
