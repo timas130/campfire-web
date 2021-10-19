@@ -10,6 +10,7 @@ specifiers:
   dotenv: ^10.0.0
   eslint: 7.32.0
   eslint-config-next: 11.1.2
+  linkify-it: ^3.0.3
   md5: ^2.3.0
   memory-cache: ^0.2.0
   moment: ^2.29.1
@@ -29,6 +30,7 @@ dependencies:
   cookies: 0.8.0
   copy-to-clipboard: 3.3.1
   dotenv: 10.0.0
+  linkify-it: 3.0.3
   md5: 2.3.0
   memory-cache: 0.2.0
   moment: 2.29.1
@@ -1905,6 +1907,12 @@ packages:
       type-check: 0.4.0
     dev: true
 
+  /linkify-it/3.0.3:
+    resolution: {integrity: sha512-ynTsyrFSdE5oZ/O9GEf00kPngmOfVwazR5GKDq6EYfhlpFug3J2zybX56a2PRRpc9P+FuSoGNAwjlbDs9jJBPQ==}
+    dependencies:
+      uc.micro: 1.0.6
+    dev: false
+
   /load-json-file/4.0.0:
     resolution: {integrity: sha1-L19Fq5HjMhYjT9U62rZo607AmTs=}
     engines: {node: '>=4'}
@@ -3156,6 +3164,10 @@ packages:
   /type-fest/0.7.1:
     resolution: {integrity: sha512-Ne2YiiGN8bmrmJJEuTWTLJR32nh/JdL1+PSicowtNb0WFpn59GK8/lfD61bVtzguz7b3PBt74nxpv/Pw5po5Rg==}
     engines: {node: '>=8'}
+    dev: false
+
+  /uc.micro/1.0.6:
+    resolution: {integrity: sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==}
     dev: false
 
   /unbox-primitive/1.0.1:

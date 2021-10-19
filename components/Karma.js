@@ -23,38 +23,39 @@ export function KarmaCounter(props) {
 }
 
 export default function Karma(props) {
-  const {pubId, karmaCount, karmaCof, myKarma, vertical, small, precise} = props;
+  const {pub, vertical, small, precise} = props;
   const account = useUser();
   const router = useRouter();
-  const [myKarmaClient, setMyKarmaClient] = useState(myKarma);
+  const [myKarmaClient, setMyKarmaClient] = useState(pub.myKarma);
 
   const setKarma = positive => {
     if (! account) {
       // noinspection JSIgnoredPromiseFromCall
       router.push("/auth/login");
     } else {
-      fetcher(`/api/pub/${pubId}/karma?positive=${positive}`)
+      fetcher(`/api/pub/${pub.id}/karma?positive=${positive}`)
         .then(r => setMyKarmaClient(r.myKarmaCount));
     }
   };
 
+  const disabled = myKarmaClient !== 0 || (account && pub.creator.J_ID === account.J_ID);
   return <div className={classNames(
     classes.karma,
     vertical && classes.vertical,
-    myKarmaClient !== 0 && classes.karmaVoted,
+    disabled && classes.karmaVoted,
     small && classes.small
   )}>
     <ChevronDownIcon className={classNames(
       classes.karmaButton,
       myKarmaClient < 0 && classes.karmaNegative
-    )} onClick={() => myKarmaClient === 0 && setKarma(false)} />
+    )} onClick={() => !disabled && setKarma(false)} />
     <KarmaCounter
-      value={karmaCount + (myKarmaClient || 0)}
-      cof={karmaCof} precise={precise}
+      value={pub.karmaCount + (myKarmaClient || 0)}
+      cof={pub.fandom.karmaCof} precise={precise}
     />
     <ChevronUpIcon className={classNames(
       classes.karmaButton,
       myKarmaClient > 0 && classes.karmaPositive
-    )} onClick={() => myKarmaClient === 0 && setKarma(true)} />
+    )} onClick={() => !disabled && setKarma(true)} />
   </div>;
 }

@@ -115,8 +115,7 @@ export default function Post(props) {
       <div className={classes.spacer} />
       <ShareButton link={router.basePath + `/post/${post.id}`} />
       <CommentCounter href={`/post/${post.id}#comments`} count={post.subUnitsCount} />
-      <Karma pubId={post.id} karmaCount={post.karmaCount}
-             myKarma={post.myKarma} karmaCof={post.fandom.karmaCof} />
+      <Karma pub={post} />
     </div>
     {showBestComment && post.bestComment && <Comment bestComment comment={post.bestComment} />}
   </article>;

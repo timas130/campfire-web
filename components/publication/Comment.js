@@ -28,11 +28,7 @@ export default React.forwardRef(function Comment({ comment, bestComment = false,
       <FormattedText text={jsonDB.J_TEXT} />
     </div>
     <div className={classes.footer}>
-      <Karma
-        pub={comment} pubId={comment.id}
-        karmaCount={comment.karmaCount}
-        myKarma={comment.myKarma} small
-      />
+      <Karma pub={comment} small />
     </div>
   </article>;
 });

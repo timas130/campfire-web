@@ -59,6 +59,7 @@ export function Level({lvl}) {
   for (const ranksKey in ranks) {
     if (lvl < ranks[ranksKey].lvl) {
       rank = ranks[ranksKey - 1].rank || "user";
+      break;
     }
   }
 

@@ -1,5 +1,7 @@
 // feel free to copy+paste this to r/programminghorror, i didn't write it
 import React, {useMemo} from "react";
+import linkify from "linkify-it";
+import Link from "next/link";
 
 export class TextFormatter {
   static charProtector = "\\";
@@ -192,13 +194,15 @@ export class TextFormatter {
 
         if (TextFormatter.textChars.includes(this.text.charAt(nextSpace - 1))) nextSpace--;
         const name = this.text.substring(this.i + 1, nextClose);
-        const link = this.text.substring(nextClose + this.i, nextSpace);
+        const link = this.text.substring(nextClose + 1, nextSpace);
 
         if (this.isWebLink(link) || link.startsWith(TextFormatter.charProtectorWord)) {
-          const el = document.createElement("a");
-          el.href = this.castToWebLink(link);
-          el.textContent = name;
-          this.i = nextSpace
+          const el = React.createElement("a", {
+            href: this.castToWebLink(link),
+            key: this.i
+          }, name);
+          this.i = nextSpace;
+          this.result.props.children.push(el);
           return true;
         }
       }
@@ -289,7 +293,67 @@ export class TextFormatter {
   }
 }
 
+const handleMatcher = {
+  validate(text, pos, self) {
+    const tail = text.slice(pos);
+    if (!self.re.handle) {
+      self.re.handle = new RegExp("^([a-zA-Z0-9#_-]+)(?=$|" + self.re.src_ZPCc + ")");
+    }
+    if (self.re.handle.test(tail)) {
+      if (tail[0] === "@" || tail[0] === "#") { // http://##
+        return false;
+      }
+      if (pos >= 2 && (tail[pos - 2] === "@" || tail[pos - 2] === "#")) { // ##handle
+        return false;
+      }
+      return tail.match(self.re.handle)[0].length;
+    }
+    return 0;
+  },
+  normalize(match) {
+    match.url = "/r/" + encodeURIComponent(match.url.replace(/^[@#]/, ''));
+  },
+};
+
+const linkifyInst = linkify()
+  .add("@", handleMatcher)
+  .add("#", handleMatcher);
+
+// stolen and simplified from yarn.pm/react-linkify and
+export function linkifyReact(children, key = 0) {
+  if (typeof children === "string") {
+    if (children === "") return children;
+    const matches = linkifyInst.match(children);
+    if (! matches) return children;
+
+    const result = [];
+    let lastIndex = 0;
+    matches.forEach((match, i) => {
+      if (match.index > lastIndex) {
+        result.push(children.substring(lastIndex, match.index));
+      }
+
+      result.push(<Link href={match.url} key={i}><a>{match.text}</a></Link>);
+      lastIndex = match.lastIndex;
+    });
+
+    if (children.length > lastIndex) {
+      result.push(children.substring(lastIndex));
+    }
+
+    return (result.length === 1) ? result[0] : result;
+  } else if (React.isValidElement(children) && children.type !== "a") {
+    return React.cloneElement(children, {key}, linkifyReact(children.props.children));
+  } else if (Array.isArray(children)) {
+    return children.map((child, i) => linkifyReact(child, i));
+  }
+
+  return children;
+}
+
 export default function FormattedText(props) {
   const {text} = props;
-  return useMemo(() => new TextFormatter(text).parseHtml(), [text]);
+  return useMemo(() => <React.Fragment>
+    {linkifyReact(new TextFormatter(text).parseHtml())}
+  </React.Fragment>, [text]);
 }

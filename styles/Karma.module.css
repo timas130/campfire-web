@@ -2,10 +2,10 @@
     font-weight: bold;
     position: relative;
 }
-.karmaPositive {
+.karmaPositive, .karmaVoted .karmaButton.karmaPositive {
     color: var(--green);
 }
-.karmaNegative {
+.karmaNegative, .karmaVoted .karmaButton.karmaNegative {
     color: var(--red);
 }
 
@@ -33,6 +33,7 @@
 }
 .karmaVoted .karmaButton {
     cursor: default;
+    color: var(--text-secondary);
 }
 
 .karma.small .karmaButton {

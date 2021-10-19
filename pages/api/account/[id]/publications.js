@@ -30,7 +30,7 @@ export async function fetchProfilePubs(req, res, accountId, offset = 0, request 
 
 export default async function profilePubsHandler(req, res) {
   try {
-    res.send(await fetchProfilePubs(req, res, req.query.id, req.query.offset));z
+    res.send(await fetchProfilePubs(req, res, req.query.id, req.query.offset));
   } catch (e) {
     sendErrorIfFromRemote(res, e);
   }

@@ -38,8 +38,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(ctx) {
-  const handle = ctx.params.link;
-  let link;
+  let handle = ctx.params.link, link;
   for (const linkType in links) {
     if (handle.startsWith(linkType + "_") || handle.startsWith(linkType + "-")) {
       const id = handle.substring(linkType.length + 1);
@@ -60,7 +59,10 @@ export async function getStaticProps(ctx) {
   }
 
   if (! link) {
-    link = links.profile_id.link + handle;
+    if (handle.toLowerCase().startsWith("user#")) {
+      handle = handle.substring(5);
+    }
+    link = links.profile_id.link + encodeURIComponent(handle);
   }
 
   return {
