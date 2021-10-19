@@ -1,9 +1,9 @@
-import {sendRequestAuthenticated} from "../../../../lib/server";
+import {sendRequestAlwaysAuthenticated} from "../../../../lib/server";
 import {sendErrorIfFromRemote} from "../../../../lib/api";
 
 export async function fetchFandomPosts(req, res, fandomId, offset = 0,
                                        types = [9], request = {}) {
-  return (await sendRequestAuthenticated(
+  return (await sendRequestAlwaysAuthenticated(
     req, res, "RPublicationsGetAll", {
       accountId: 0,
       parentUnitId: 0,

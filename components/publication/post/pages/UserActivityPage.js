@@ -6,6 +6,8 @@ import moment from "moment";
 import "moment/locale/ru";
 import {useState} from "react";
 import {useInterval} from "../../../../lib/client-api";
+import Button from "../../../Button";
+import classNames from "classnames";
 
 export function Countdown({timestamp}) {
   const [,setDate] = useState(null);
@@ -16,9 +18,9 @@ export function Countdown({timestamp}) {
   return moment(timestamp).locale("ru").calendar();
 }
 
-export default function UserActivityPage({page}) {
-  return <section className={classes.activity}>
-    <header className={classes.activityHeader}>
+export default function UserActivityPage({page, full = false}) {
+  return <section className={classNames(classes.activity, full && classes.activityFull)}>
+    <header className={classes.activitySection}>
       <CAvatar link={`/activity/${page.id}`} id={page.fandom.imageId} />
       <div className={postClasses.headerText}>
         <div className={postClasses.headerTitle}>
@@ -36,22 +38,34 @@ export default function UserActivityPage({page}) {
     <div className={classes.activityDescription}>
       {page.description}
     </div>
-    <div className={classes.activityHeader}>
-      <CAvatar account={page.currentAccount} />
+    <div className={classes.activitySection}>
+      {page.currentAccount.J_ID !== 0 && <CAvatar account={page.currentAccount} />}
       <div className={postClasses.headerText}>
         <div className={postClasses.headerTitle}>
           <span className={postClasses.headerAuthor}>
             Следующий:&nbsp;
           </span>
-          <Link href={`/account/${encodeURIComponent(page.currentAccount.J_NAME)}`}>
+          {page.currentAccount.J_ID !== 0 ? <Link href={`/account/${encodeURIComponent(page.currentAccount.J_NAME)}`}>
             <a className={classes.activityNext}>{page.currentAccount.J_NAME}</a>
-          </Link>
+          </Link> : <span className={classes.activityNext}>никто</span>}
         </div>
-        <div className={classes.activityDue}>
+        {page.currentAccount.J_ID !== 0 ? <div className={classes.activityDue}>
           <span className={postClasses.headerAuthor}>истекает&nbsp;</span>
           <Countdown timestamp={page.tag_2 + 3600000 * 24} />
-        </div>
+        </div> : <div className={classes.activityDue}>
+          Продолжите эстафету!
+        </div>}
       </div>
+    </div>
+    <div className={classes.activitySection}>
+      <Link href={`/activity/${page.id}`} passHref>
+        <Button el="a" noBackground>
+          Все посты
+        </Button>
+      </Link>
+      <Button noBackground>
+        Принять участие
+      </Button>
     </div>
   </section>;
 }

@@ -26,10 +26,10 @@ export default function Tags({tags}) {
   });
 
   return <div className={classes.tags}>
-    {tags.filter(tag => !tag.parentUnitId).map(parentTag => <>
+    {tags.filter(tag => !tag.parentUnitId).map(parentTag => <span key={parentTag.id}>
       <Tag tag={parentTag} />
       {tags.filter(tag => tag.parentUnitId === parentTag.id)
         .map(tag => <Tag key={tag.id} tag={tag} />)}
-    </>)}
+    </span>)}
   </div>;
 }

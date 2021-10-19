@@ -101,9 +101,17 @@
     margin: 1rem 0.75rem 0.5rem;
     padding: 0.5rem;
 }
-.activityHeader {
+.activity.activityFull {
+    background-color: var(--background-secondary);
+    margin: 0 0 1rem;
+}
+.activitySection {
     display: flex;
     align-items: center;
+}
+.activitySection:last-child {
+    margin-top: 0.5rem;
+    justify-content: center;
 }
 .activityDescription {
     margin: 0.5rem 0;

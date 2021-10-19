@@ -1,8 +1,8 @@
-import {sendRequestAuthenticated} from "../../../../lib/server";
+import {sendRequestAlwaysAuthenticated} from "../../../../lib/server";
 import {sendErrorIfFromRemote} from "../../../../lib/api";
 
 export async function fetchProfilePubs(req, res, accountId, offset = 0, request = {}) {
-  return (await sendRequestAuthenticated(
+  return (await sendRequestAlwaysAuthenticated(
     req, res, "RPublicationsGetAll", {
       accountId,
       parentUnitId: 0,
