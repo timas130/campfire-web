@@ -6,18 +6,20 @@ import {useUser} from "../lib/client-api";
 
 function HeaderProfile() {
   const account = useUser();
-  return account ? <div className={classes.account}>
-    <CAvatar
-      account={account}
-      className={classes.accountAvatar}
-    />
-    <div>
-      {account.J_NAME}<br />
-      <span style={{fontWeight: "normal"}}>
-        <KarmaCounter value={account.karma30} el="span" /> за 30 дней
-      </span>
-    </div>
-  </div> : <Link href="/auth/login">
+  return account ? <Link href={`/account/${encodeURIComponent(account.J_NAME)}`}>
+    <a className={classes.account}>
+      <CAvatar
+        account={account} online
+        className={classes.accountAvatar}
+      />
+      <div>
+        {account.J_NAME}<br />
+        <span style={{fontWeight: "normal"}}>
+          <KarmaCounter value={account.karma30} el="span" /> за 30 дней
+        </span>
+      </div>
+    </a>
+  </Link> : <Link href="/auth/login">
     <a className={classes.navLink}>Войти</a>
   </Link>;
 }

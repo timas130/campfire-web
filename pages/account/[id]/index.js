@@ -5,6 +5,8 @@ import Head from "next/head";
 import Post from "../../../components/publication/post/Post";
 import {useInfScroll} from "../../../lib/client-api";
 import Comment from "../../../components/publication/Comment";
+import postClasses from "../../../styles/Post.module.css";
+import FormattedText from "../../../components/FormattedText";
 
 export default function Profile({account, profile}) {
   const {data: pubPages, ref, showLoader} = useInfScroll(
@@ -18,6 +20,12 @@ export default function Profile({account, profile}) {
     <FeedLayout
       list={<>
         <ProfileCard account={account} profile={profile} />
+        <div className={postClasses.post}>
+          {/* lol why not */}
+          <div className={postClasses.header}>
+            <FormattedText text={profile.description} />
+          </div>
+        </div>
 
         {profile.pinnedPost && <Post post={profile.pinnedPost} pinned />}
         {pubPages && pubPages.map(page => page.map(pub => (

@@ -59,7 +59,7 @@ export default function CImage(props) {
 }
 
 export function CAvatar(props) {
-  let {link, id, alt, className, account, fandom, small, el, ...rest} = props;
+  let {link, id, alt, className, account, fandom, small, el, online, ...rest} = props;
   link =
     account ? `/account/${encodeURIComponent(account.J_NAME)}` :
     fandom ? `/fandom/${fandom.id}` :
@@ -84,7 +84,7 @@ export function CAvatar(props) {
       {account && <div className={classNames(
         classes.avatarBadge,
         account.J_LVL >= 1000 && classes.long,
-        isOnline(account) && classes.online
+        (online || isOnline(account)) && classes.online
       )}>
         {Math.floor(account.J_LVL / 100)}
       </div>}

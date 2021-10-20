@@ -35,6 +35,8 @@
     display: flex;
     align-items: center;
     font-weight: bold;
+    color: var(--text);
+    text-decoration: none;
 }
 .accountAvatar {
     margin-right: 0.5rem;

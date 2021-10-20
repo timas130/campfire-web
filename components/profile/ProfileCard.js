@@ -130,6 +130,10 @@ export default function ProfileCard({account, profile}) {
         icon={EmojiHappyIcon} keyS="Обращение"
         value={account.sex ? "Она" : "Он"}
       />
+      <ProfileKV
+        icon={CalendarIcon} keyS="Возраст аккаунта"
+        value={moment(profile.dateCreate).locale("ru").fromNow(true)}
+      />
     </div>
   </div>;
 }

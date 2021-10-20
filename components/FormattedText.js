@@ -351,8 +351,7 @@ export function linkifyReact(children, key = 0) {
   return children;
 }
 
-export default function FormattedText(props) {
-  const {text} = props;
+export default function FormattedText({text}) {
   return useMemo(() => <React.Fragment>
     {linkifyReact(new TextFormatter(text).parseHtml())}
   </React.Fragment>, [text]);
