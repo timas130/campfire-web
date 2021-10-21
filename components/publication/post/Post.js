@@ -4,14 +4,15 @@ import Link from "next/link";
 import moment from "moment";
 import "moment/locale/ru";
 import classNames from "classnames";
-import {ChatAlt2Icon, ChevronDownIcon, ChevronUpIcon, DotsVerticalIcon} from "@heroicons/react/solid";
+import {ChatAlt2Icon, DotsVerticalIcon} from "@heroicons/react/solid";
 import Karma from "../../Karma";
-import {useEffect, useMemo, useRef, useState} from "react";
+import {useMemo, useRef, useState} from "react";
 import ShareButton from "../../ShareButton";
 import {useRouter} from "next/router";
 import Pages from "./pages/Pages";
 import Comment from "../Comment";
 import UserActivityPage from "./pages/UserActivityPage";
+import ExpandButton from "../../ExpandButton";
 
 function CommentCounter(props) {
   return <Link href={props.href}>
@@ -25,34 +26,8 @@ function CommentCounter(props) {
 export default function Post(props) {
   const {post: postL, alwaysExpanded, showBestComment, pinned} = props;
   const router = useRouter();
-  const [expandedManually, setExpandedManually] = useState(false);
-  const [expanded, setExpanded] = useState(false);
-  const [expandable, setExpandable] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const contentRef = useRef();
-
-  useEffect(() => {
-    if (! alwaysExpanded) {
-      const rect = contentRef.current.getBoundingClientRect();
-      setExpandable(rect.height > 512);
-    }
-  }, [alwaysExpanded]);
-  useEffect(() => {
-    if (expandedManually && !expanded) {
-      // when collapsing scroll into view with offset
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elRect = contentRef.current.getBoundingClientRect().bottom;
-      const elPosition = elRect - bodyRect - 100;
-      window.scrollTo({
-        top: elPosition
-      });
-      setExpandedManually(false);
-    }
-  }, [expandedManually, expanded]);
-
-  const toggleExpand = () => {
-    setExpandedManually(true);
-    setExpanded(ex => !ex);
-  };
 
   const post = useMemo(() => {
     if (typeof postL.jsonDB !== "object") {
@@ -100,18 +75,16 @@ export default function Post(props) {
     </header>
     <div className={classNames(
       classes.content,
-      (alwaysExpanded || expanded || !expandable) && classes.expanded
+      (alwaysExpanded || expanded) && classes.expanded
     )} ref={contentRef}>
       <Pages pages={post.jsonDB.J_PAGES} />
       {post.userActivity && <UserActivityPage page={post.userActivity} />}
     </div>
     <div className={classes.footer}>
-      {expandable && <div className={classes.expander} onClick={toggleExpand}>
-        {expanded ?
-          <ChevronUpIcon className={classes.expandIcon} /> :
-          <ChevronDownIcon className={classes.expandIcon} />}
-        {expanded ? "Свернуть" : "Развернуть"}
-      </div>}
+      {!alwaysExpanded && <ExpandButton
+        contentRef={contentRef} setExpanded={setExpanded}
+        expanded={expanded}
+      />}
       <div className={classes.spacer} />
       <ShareButton link={router.basePath + `/post/${post.id}`} />
       <CommentCounter href={`/post/${post.id}#comments`} count={post.subUnitsCount} />
