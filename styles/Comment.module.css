@@ -52,6 +52,7 @@
 
 .content {
     padding: 0.5rem 0;
+    word-wrap: anywhere;
 }
 .quote {
     color: var(--text-secondary);
