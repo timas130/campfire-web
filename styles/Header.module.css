@@ -17,6 +17,12 @@
     color: var(--text);
     padding-right: 1rem;
 }
+.releaseCycle {
+    font-weight: normal;
+    font-size: 1rem;
+    font-style: italic;
+    font-family: var(--monospace-font);
+}
 
 .navLink {
     color: var(--text-secondary);

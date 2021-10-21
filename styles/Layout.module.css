@@ -22,7 +22,7 @@
     --blue: #3B82F6;
     --red: #ef4444;
     --yellow: #FBBF24;
-    --monospace-font: ui-monospace, SFMono-Regular, Menlo, Monaco,
+    --monospace-font: "JetBrains Mono", SFMono-Regular, Menlo, Monaco,
         Consolas, "Liberation Mono", "Courier New", monospace;
 }
 .layout.dark {

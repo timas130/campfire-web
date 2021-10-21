@@ -12,6 +12,7 @@ export const links = {
   "conf": {link: "/chat/co/", args: true},
   "fandom": {link: "/fandom/", args: true},
   "profile_id": {link: "/account/", args: true},
+  "profile": {link: "/account/", args: true},
   "moderation": {link: "/mod/", args: true},
   "sticker": {link: "/stickers/sticker/", args: true},
   "stickers": {link: "/stickers/", args: true},

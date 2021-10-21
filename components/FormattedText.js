@@ -318,6 +318,7 @@ const handleMatcher = {
 const linkifyInst = linkify()
   .add("@", handleMatcher)
   .add("#", handleMatcher);
+const sayzenLink = /^https?:\/\/sayzen\.ru\/r\/r\.php\?a=(.+)$/;
 
 // stolen and simplified from yarn.pm/react-linkify and
 export function linkifyReact(children, key = 0) {
@@ -333,7 +334,17 @@ export function linkifyReact(children, key = 0) {
         result.push(children.substring(lastIndex, match.index));
       }
 
-      result.push(<Link href={match.url} key={i}><a>{match.text}</a></Link>);
+      // replace http://sayzen.ru/r/r.php?a= links with /r/
+      let url = match.url;
+      const sayzenMatch = url.match(sayzenLink);
+      if (sayzenMatch) url = "/r/" + encodeURIComponent(sayzenMatch[1]);
+
+      let text = match.text;
+      const textSayzenMatch = text.match(sayzenLink);
+      if (textSayzenMatch) text = "https://camp.33rd.dev/r/" + encodeURIComponent(textSayzenMatch[1]);
+
+      // add the result
+      result.push(<Link href={url} key={i}><a>{text}</a></Link>);
       lastIndex = match.lastIndex;
     });
 

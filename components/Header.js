@@ -28,7 +28,7 @@ export default function Header() {
   return <nav className={classes.header}>
     <Link href="/">
       <a className={classes.h1link}>
-        <h1 className={classes.h1}>Campfire</h1>
+        <h1 className={classes.h1}>Campfire<sup className={classes.releaseCycle}>dev</sup></h1>
       </a>
     </Link>
     <Link href="/post/search">
