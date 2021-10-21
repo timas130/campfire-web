@@ -12,7 +12,7 @@ function HeaderProfile() {
         account={account} online
         className={classes.accountAvatar}
       />
-      <div>
+      <div className={classes.accountText}>
         {account.J_NAME}<br />
         <span style={{fontWeight: "normal"}}>
           <KarmaCounter value={account.karma30} el="span" /> за 30 дней
