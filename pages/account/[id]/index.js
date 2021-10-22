@@ -27,11 +27,11 @@ export default function Profile({account, profile}) {
           </div>
         </div>
 
-        {profile.pinnedPost && <Post post={profile.pinnedPost} pinned />}
+        {profile.pinnedPost && <Post post={profile.pinnedPost} pinned showBestComment />}
         {pubPages && pubPages.map(page => page.map(pub => (
           pub.unitType === 1 ?
             <Comment full key={pub.id} comment={pub} /> :
-            <Post key={pub.id} post={pub} />
+            <Post key={pub.id} post={pub} showBestComment />
         )))}
         {showLoader && <FeedLoader ref={ref} />}
       </>}

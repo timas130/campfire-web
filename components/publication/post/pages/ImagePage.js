@@ -5,9 +5,8 @@ export default function ImagePage({ page }) {
   return <div className={classes.imagePage}>
     <CImage
       id={page["J_IMAGE_ID"]}
-      w={page["J_W"]}
-      h={page["J_H"]}
-      loading="lazy"
+      w={page["J_W"]} h={page["J_H"]}
+      loading="lazy" modal
       // you're welcome blind people
       alt="Изображение"
     />

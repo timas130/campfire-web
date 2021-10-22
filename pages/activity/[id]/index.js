@@ -17,7 +17,7 @@ export default function Activity({activity, posts}) {
   return <FeedLayout
     list={<>
       <UserActivityPage page={activity} full />
-      {postPages.map(page => page.map(post => <Post key={post.id} post={post} />))}
+      {postPages.map(page => page.map(post => <Post key={post.id} post={post} showBestComment />))}
       {showLoader && <FeedLoader ref={ref} />}
     </>}
   />;

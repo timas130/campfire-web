@@ -6,15 +6,24 @@ import {useRouter} from "next/router";
 import {fetcher, useUser} from "../lib/client-api";
 
 export function KarmaCounter(props) {
-  const {value, cof, precise, el} = props;
+  const {value, cof, precise, el, isCof} = props;
   const El = el || "div";
   return <El className={classNames(
     classes.karmaCounter,
-    value > 0 ? classes.karmaPositive :
-      value < 0 ? classes.karmaNegative : null
+    isCof ?
+      value > 100 ?
+        classes.karmaPositive :
+        value < 100 ?
+          classes.karmaNegative :
+          null :
+      value > 0 ?
+        classes.karmaPositive :
+        value < 0 ?
+          classes.karmaNegative :
+          null,
   )}>
-    {precise ?
-      (value / 100).toFixed(2) :
+    {(precise || isCof) ?
+      (isCof ? "x" : "") + (value / 100).toFixed(2) :
       Math.floor(value / 100)}
     {cof && cof !== 100 && <small className={classes.cof}>
       x{cof / 100}

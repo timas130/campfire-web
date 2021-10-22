@@ -7,6 +7,7 @@ import Button from "../Button";
 import Tooltip from "../Tooltip";
 import useSWR from "swr/immutable";
 import {fetcher} from "../../lib/client-api";
+import {KarmaCounter} from "../Karma";
 
 // const SUB_TYPE_IMPORTANT = -1;
 // const SUB_TYPE_SUBBED = 0;
@@ -36,6 +37,9 @@ export default function FandomCard({ fandom, profile, info, fetchId = null, noLi
       {fandomL.closed && <Tooltip text="Этот фэндом закрыт"><LockClosedIcon
         className={classes.fandomIcon}
       /></Tooltip>}
+      <div className={classes.rubricCof}>
+        <KarmaCounter value={fandomL.karmaCof} isCof />
+      </div>
     </header>
     <div className={classes.fandomButtons}>
       {profileL.subscriptionType !== SUB_TYPE_NONE ?

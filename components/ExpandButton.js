@@ -27,7 +27,6 @@ export default function ExpandButton({expanded, setExpanded, contentRef, maxHeig
     } else {
       const currentBodyTop = Math.abs(document.body.getBoundingClientRect().top);
       const currentButtonTop = buttonRef.current.getBoundingClientRect().top;
-      console.log(`${currentBodyTop} + (${buttonTop} - ${currentButtonTop}) = ${currentBodyTop + (buttonTop - currentButtonTop)}`);
       window.scrollTo({
         top: currentBodyTop + (currentButtonTop - buttonTop)
       });

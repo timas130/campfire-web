@@ -58,6 +58,7 @@
 
 .fandomHeader {
     display: flex;
+    align-items: center;
 }
 .fandomText {
     margin-left: 0.5rem;
@@ -131,4 +132,12 @@
 .donateButton {
     text-align: center;
     margin-top: 0.5rem;
+}
+
+.rubricCof {
+    margin-left: auto;
+}
+.rubricShare {
+    margin-right: 0;
+    margin-left: 0.5rem;
 }

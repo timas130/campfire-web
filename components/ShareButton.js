@@ -4,7 +4,7 @@ import copy from "copy-to-clipboard";
 import {useEffect, useState} from "react";
 import classNames from "classnames";
 
-export default function ShareButton({ link }) {
+export default function ShareButton({ link, className = "" }) {
   const [copied, setCopied] = useState(false);
   useEffect(() => {
     if (copied) {
@@ -15,7 +15,7 @@ export default function ShareButton({ link }) {
       return () => timeout && clearTimeout(timeout);
     }
   }, [copied]);
-  return <div className={classes.buttonWrap}>
+  return <div className={classNames(classes.buttonWrap, className)}>
     <div className={classNames(
       classes.copied,
       copied && classes.active

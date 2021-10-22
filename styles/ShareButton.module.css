@@ -5,6 +5,7 @@
 .button {
     width: 1rem;
     cursor: pointer;
+    vertical-align: bottom;
 }
 .copied {
     display: none;
