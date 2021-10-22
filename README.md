@@ -4,6 +4,19 @@
 
 ## Как запустить у себя
 
+### Docker
+
+Я периодически собираю [контейнерную версию](https://github.com/timas130/campfire-web/pkgs/container/campfire-web)
+для быстрого локального запуска.
+
+```shell
+docker run --rm -p 3001:3000 -e LOGIN_TOKEN="<см. .env.example>" ghcr.io/timas130/campfire-web:latest
+```
+
+Все переменные в `.env.example` можно указать через `-e`.
+
+### Самостоятельно
+
 Стандартная процедура для [Next.js](https://nextjs.org).
 
 0. Устанавливаем [Node.js](https://nodejs.org) и npm
