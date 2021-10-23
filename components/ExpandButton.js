@@ -12,12 +12,12 @@ export default function ExpandButton({expanded, setExpanded, contentRef, maxHeig
   const buttonRef = useRef();
 
   useEffect(() => {
-    if (expandable) return;
+    if (expandable || !expanded) return;
     const contentRect = contentRef.current.getBoundingClientRect();
     const expandableNew = contentRect.height > maxHeight;
     setExpandable(expandableNew);
     setExpanded(!expandableNew);
-  }, [contentRef, expandable, maxHeight, setExpanded]);
+  }, [contentRef, expandable, expanded, maxHeight, setExpanded]);
   useEffect(() => {
     if (!bodyTop || !buttonTop) return;
     if (expanded) {

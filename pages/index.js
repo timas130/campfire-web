@@ -5,6 +5,7 @@ import PopularFandomsCard from "../components/cards/PopularFandomsCard";
 import AuthenticateCard from "../components/cards/AuthenticateCard";
 import DonateCard from "../components/cards/DonateCard";
 import {useInfScroll} from "../lib/client-api";
+import DailyQuestCard from "../components/cards/DailyQuestCard";
 
 export default function Home() {
   const {data: feed, ref, showLoader} = useInfScroll("/api/feed", true);
@@ -19,6 +20,7 @@ export default function Home() {
     </>} sidebar={<>
       <PopularFandomsCard />
       <AuthenticateCard />
+      <DailyQuestCard />
       <DonateCard />
     </>} />
   </>;

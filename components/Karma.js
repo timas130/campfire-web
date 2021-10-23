@@ -4,6 +4,7 @@ import React, {useState} from "react";
 import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/solid";
 import {useRouter} from "next/router";
 import {fetcher, useUser} from "../lib/client-api";
+import {useSWRConfig} from "swr";
 
 export function KarmaCounter(props) {
   const {value, cof, precise, el, isCof} = props;
@@ -35,6 +36,7 @@ export default function Karma(props) {
   const {pub, vertical, small, precise} = props;
   const account = useUser();
   const router = useRouter();
+  const {mutate} = useSWRConfig();
   const [myKarmaClient, setMyKarmaClient] = useState(pub.myKarma);
 
   const setKarma = positive => {
@@ -43,7 +45,10 @@ export default function Karma(props) {
       router.push("/auth/login");
     } else {
       fetcher(`/api/pub/${pub.id}/karma?positive=${positive}`)
-        .then(r => setMyKarmaClient(r.myKarmaCount));
+        .then(r => {
+          setMyKarmaClient(r.myKarmaCount);
+          return mutate("/api/user/quest");
+        });
     }
   };
 
