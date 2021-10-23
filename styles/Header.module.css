@@ -86,7 +86,7 @@
 }
 
 .questTitle {
-    margin: 0.5rem 0;
+    margin-bottom: 0.5rem;
 }
 
 @media screen and (max-width: 512px) {
