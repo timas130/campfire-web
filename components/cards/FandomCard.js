@@ -1,13 +1,13 @@
 import postClasses from "../../styles/Post.module.css";
 import classes from "../../styles/Card.module.css";
 import classNames from "classnames";
-import {CAvatar} from "../CImage";
 import {ExternalLinkIcon, LockClosedIcon, UsersIcon} from "@heroicons/react/solid";
 import Button from "../Button";
 import Tooltip from "../Tooltip";
 import useSWR from "swr/immutable";
 import {fetcher} from "../../lib/client-api";
 import {KarmaCounter} from "../Karma";
+import FandomHeader from "../FandomHeader";
 
 // const SUB_TYPE_IMPORTANT = -1;
 // const SUB_TYPE_SUBBED = 0;
@@ -23,24 +23,22 @@ export default function FandomCard({ fandom, profile, info, fetchId = null, noLi
   const loaded = Boolean(fandomL && profileL && infoL);
 
   return loaded ? <section className={classNames(postClasses.post, classes.cardContent)}>
-    <header className={classes.fandomHeader}>
-      <CAvatar fandom={fandomL} />
-      <div className={classes.fandomText}>
-        <h2>
-          {fandomL.name}
-        </h2>
-        <div className={classes.fandomSubtitle}>
-          <UsersIcon />
-          {fandomL.subscribesCount}
+    <FandomHeader
+      fandom={fandomL} author={<>
+        <UsersIcon />
+        {fandomL.subscribesCount}
+      </>} noPadding
+      addRight={<>
+        {fandomL.closed && <Tooltip text="Этот фэндом закрыт">
+          <LockClosedIcon
+            className={classes.fandomIcon}
+          />
+        </Tooltip>}
+        <div className={classes.rubricCof}>
+          <KarmaCounter value={fandomL.karmaCof} isCof />
         </div>
-      </div>
-      {fandomL.closed && <Tooltip text="Этот фэндом закрыт"><LockClosedIcon
-        className={classes.fandomIcon}
-      /></Tooltip>}
-      <div className={classes.rubricCof}>
-        <KarmaCounter value={fandomL.karmaCof} isCof />
-      </div>
-    </header>
+      </>}
+    />
     <div className={classes.fandomButtons}>
       {profileL.subscriptionType !== SUB_TYPE_NONE ?
         <Button fullWidth>Отписаться</Button> :

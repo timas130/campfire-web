@@ -8,6 +8,7 @@ import {useState} from "react";
 import {useInterval} from "../../../../lib/client-api";
 import Button from "../../../Button";
 import classNames from "classnames";
+import FandomHeader from "../../../FandomHeader";
 
 export function Countdown({timestamp}) {
   const [,setDate] = useState(null);
@@ -20,21 +21,11 @@ export function Countdown({timestamp}) {
 
 export default function UserActivityPage({page, full = false}) {
   return <section className={classNames(classes.activity, full && classes.activityFull)}>
-    <header className={classes.activitySection}>
-      <CAvatar link={`/activity/${page.id}`} id={page.fandom.imageId} />
-      <div className={postClasses.headerText}>
-        <div className={postClasses.headerTitle}>
-          <Link href={`/activity/${page.id}`}>
-            <a className={postClasses.headerFandom}>{page.name}</a>
-          </Link>
-        </div>
-        <div className={classes.headerSecondary}>
-          <Link href={`/fandom/${page.fandom.id}`}>
-            <a className={postClasses.headerAuthor}>{page.fandom.name}</a>
-          </Link>
-        </div>
-      </div>
-    </header>
+    <FandomHeader
+      link={`/activity/${page.id}`} imageId={page.fandom.imageId}
+      name={page.name} authorLink={`/fandom/${page.fandom.id}`}
+      author={page.fandom.name} className={classes.activitySection}
+    />
     <div className={classes.activityDescription}>
       {page.description}
     </div>

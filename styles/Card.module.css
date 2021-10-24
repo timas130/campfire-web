@@ -56,35 +56,11 @@
     margin-right: 0.5rem;
 }
 
-.fandomHeader {
-    display: flex;
-    align-items: center;
-}
-.fandomText {
-    margin-left: 0.5rem;
-    flex: 1;
-    min-width: 0;
-}
-.fandomText > h2 {
-    font-size: 1rem;
-}
+
 .fandomIcon {
     margin-left: 0.25rem;
     width: 1rem;
     vertical-align: bottom;
-}
-.fandomSubtitle {
-    color: var(--text-secondary);
-}
-.fandomText > h2, .fandomSubtitle {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-.fandomSubtitle > svg {
-    width: 1rem;
-    vertical-align: bottom;
-    margin-right: 0.25rem;
 }
 .fandomButtons {
     margin: 0.5rem 0;

@@ -105,6 +105,7 @@
 .activity.activityFull {
     background-color: var(--background-secondary);
     margin: 0 0 1rem;
+    padding: 0.75rem;
 }
 .activitySection {
     display: flex;

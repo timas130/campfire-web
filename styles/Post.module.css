@@ -13,6 +13,9 @@
     background: var(--background-element);
     border-radius: 0.5rem;
 }
+.header.noPadding {
+    padding: 0;
+}
 
 .headerText {
     margin-left: 0.5rem;
@@ -37,12 +40,17 @@
     text-decoration: none;
     color: var(--text-secondary);
 }
+.headerAuthor > svg {
+    width: 1rem;
+    vertical-align: bottom;
+    margin-right: 0.25rem;
+}
 .headerRubric {
     color: var(--text-secondary);
     font-weight: normal;
     text-decoration: none;
 }
-.headerAuthor:hover, .headerRubric:hover, .headerFandom:hover {
+a.headerAuthor:hover, .headerRubric:hover, .headerFandom:hover {
     text-decoration: underline;
 }
 /* dots */
