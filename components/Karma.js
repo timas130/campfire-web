@@ -64,7 +64,7 @@ export default function Karma(props) {
       myKarmaClient < 0 && classes.karmaNegative
     )} onClick={() => !disabled && setKarma(false)} />
     <KarmaCounter
-      value={pub.karmaCount + (myKarmaClient || 0)}
+      value={pub.karmaCount + (pub.myKarma ? 0 : myKarmaClient || 0)}
       cof={pub.fandom.karmaCof} precise={precise}
     />
     <ChevronUpIcon className={classNames(
