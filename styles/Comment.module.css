@@ -54,8 +54,12 @@
     padding: 0.5rem 0;
     word-wrap: anywhere;
 }
+
 .quote {
-    color: var(--text-secondary);
+    border-left: 0.25rem solid var(--background-element);
+    padding: 0.5rem 0 0.5rem 0.5rem;
+    margin-bottom: 0.5rem;
+    word-wrap: anywhere;
 }
 
 .footer {
