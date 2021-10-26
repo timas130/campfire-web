@@ -13,12 +13,13 @@ function HeaderProfile({setMenuExpanded, full = false}) {
   const router = useRouter();
   return account ? <div
     className={classNames(classes.account, full && classes.accountFull)}
-    onClick={() => {
+    onClick={ev => {
       if (full) {
         // noinspection JSIgnoredPromiseFromCall
         router.push(`/account/${encodeURIComponent(account.J_NAME)}`);
       } else {
         setMenuExpanded(x => !x);
+        ev.stopPropagation();
       }
     }}
     tabIndex={full ? 0 : null}
@@ -59,7 +60,8 @@ function HeaderMenu({expanded, setExpanded}) {
 export default function Header() {
   const [menuExpanded, setMenuExpanded] = useState(false);
   return <>
-    <nav className={classes.header}>
+    <nav className={classNames(classes.header, menuExpanded && classes.expanded)}
+         onClick={() => setMenuExpanded(false)}>
       <Link href="/">
         <a className={classes.h1link}>
           <h1 className={classes.h1}>Campfire<sup className={classes.releaseCycle}>dev</sup></h1>

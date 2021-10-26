@@ -66,14 +66,17 @@ export function DailyQuest() {
   if (error) return null;
   if (!quest || !user) {
     return <div>
-      <BoxPlaceholder w="100%" h="1rem" className={classes.questTitle}/>
-      <BoxPlaceholder w="100%" h="1rem"/>
+      <BoxPlaceholder w="100%" h="1rem" className={classes.questTitle} />
+      <BoxPlaceholder w="100%" h="1rem" />
     </div>;
   } else {
     const {target, text} = getQuest(quest.questIndex, user.J_LVL);
+    const progress = quest.questFinished ? target : quest.questProgress;
     return <div>
-      <div className={classes.questTitle}>{text} ({quest.questProgress}/{target})</div>
-      <Progress value={quest.questProgress} max={target}/>
+      <div className={classes.questTitle}>
+        {text} <span className={classes.questProgress}>({progress}/{target})</span>
+      </div>
+      <Progress value={progress} max={target} />
     </div>;
   }
 }

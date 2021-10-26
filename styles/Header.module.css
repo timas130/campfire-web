@@ -8,6 +8,17 @@
     width: 100%;
     z-index: 1000;
 }
+.header.expanded::before {
+    content: '';
+    display: block;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 50px;
+    background: rgba(0,0,0,.5);
+    z-index: 900;
+}
 
 .h1link {
     text-decoration: none;
@@ -62,17 +73,6 @@
     border-bottom: 2px solid var(--background-element);
     border-left: 2px solid var(--background-element);
 }
-.menu::after {
-    /* it works tho :P */
-    content: none;
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100vh;
-    right: 0;
-    bottom: -100vh;
-    background: rgba(0,0,0,.5);
-}
 .menu.expanded {
     display: block;
 }
@@ -87,6 +87,9 @@
 
 .questTitle {
     margin-bottom: 0.5rem;
+}
+.questProgress {
+    color: var(--text-secondary);
 }
 
 @media screen and (max-width: 512px) {
@@ -103,9 +106,6 @@
         width: 100%;
         border: none;
         border-radius: 0;
-    }
-    .menu::after {
-        content: '';
     }
 }
 @media screen and (min-width: 1024px) {
