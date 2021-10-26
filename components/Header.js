@@ -7,6 +7,8 @@ import {useState} from "react";
 import classNames from "classnames";
 import {useRouter} from "next/router";
 import {DailyQuest} from "./DailyQuest";
+import {useTheme} from "../lib/theme";
+import {MoonIcon, SunIcon} from "@heroicons/react/solid";
 
 function HeaderProfile({setMenuExpanded, full = false}) {
   const account = useUser();
@@ -57,6 +59,13 @@ function HeaderMenu({expanded, setExpanded}) {
   </div>;
 }
 
+function ThemeButton() {
+  const {theme, setTheme} = useTheme();
+  return theme === "light" ?
+    <MoonIcon tabIndex={0} onClick={() => setTheme("dark")} className={classes.themeButton} /> :
+    <SunIcon tabIndex={0} onClick={() => setTheme("light")} className={classes.themeButton} />;
+}
+
 export default function Header() {
   const [menuExpanded, setMenuExpanded] = useState(false);
   return <>
@@ -71,6 +80,7 @@ export default function Header() {
         <a className={classes.navLink}>Поиск</a>
       </Link>
       <div className={classes.spacer} />
+      <ThemeButton />
       <HeaderProfile setMenuExpanded={setMenuExpanded} />
     </nav>
     <HeaderMenu expanded={menuExpanded} setExpanded={setMenuExpanded} />

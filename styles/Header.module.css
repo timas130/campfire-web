@@ -60,6 +60,12 @@
     margin-right: 0.5rem;
 }
 
+.themeButton {
+    width: 1.2rem;
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
 .menu {
     display: none;
     position: fixed;
