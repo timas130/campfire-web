@@ -62,6 +62,15 @@
     word-wrap: anywhere;
 }
 
+.image {
+    margin: 0.5rem 0;
+    border-radius: 0.5rem;
+}
+.image img {
+    max-height: 256px;
+    border-radius: 0.5rem;
+}
+
 .footer {
     display: flex;
 }

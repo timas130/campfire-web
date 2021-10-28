@@ -1,5 +1,5 @@
 import classes from "../../styles/Comment.module.css";
-import {CAvatar} from "../CImage";
+import CImage, {CAvatar} from "../CImage";
 import moment from "moment";
 import Link from "next/link";
 import FormattedText from "../FormattedText";
@@ -7,6 +7,8 @@ import Karma from "../Karma";
 import React from "react";
 import classNames from "classnames";
 import {limitText} from "../../lib/text-cover";
+
+// todo: multiple images in one comment
 
 function CommentQuote({jsonDB}) {
   let text = jsonDB.quoteText;
@@ -20,8 +22,12 @@ function CommentQuote({jsonDB}) {
   return <div className={classes.quote}>
     <FormattedText text={
       (jsonDB.quoteCreatorName ? `{90A4AE ${jsonDB.quoteCreatorName}:}` : "") +
-      limitText(text, 64, 128)
+      limitText(text, 64, 150)
     } />
+    {jsonDB.quoteImages.length !== 0 && <div className={classes.image}><CImage
+      id={jsonDB.quoteImages[0]} w={100} h={100}
+      loading="lazy" modal objectFit="cover" alt="Изображение"
+    /></div>}
   </div>;
 }
 
@@ -44,6 +50,12 @@ export default React.forwardRef(function Comment({ comment, bestComment = false,
     <div className={classes.content}>
       {jsonDB.quoteId !== 0 && <CommentQuote jsonDB={jsonDB} />}
       <FormattedText text={jsonDB.J_TEXT} />
+      {jsonDB.imageId !== 0 && <div className={classes.image}><CImage
+        id={jsonDB.imageId}
+        w={jsonDB.imageW} h={jsonDB.imageH}
+        loading="lazy" modal
+        alt="Изображение"
+      /></div>}
     </div>
     <div className={classes.footer}>
       <Karma pub={comment} small />

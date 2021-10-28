@@ -2,6 +2,34 @@
 import React, {useMemo} from "react";
 import linkify from "linkify-it";
 import Link from "next/link";
+import linkifyRe from "linkify-it/lib/re";
+
+const handleMatcher = {
+  validate(text, pos, self) {
+    const tail = text.slice(pos);
+    if (!self.re.handle) {
+      self.re.handle = new RegExp("^([a-zA-Z0-9#_-]+)(?=$|" + self.re.src_ZPCc + ")");
+    }
+    if (self.re.handle.test(tail)) {
+      if (tail[0] === "@" || tail[0] === "#") { // http://##
+        return false;
+      }
+      if (pos >= 2 && (tail[pos - 2] === "@" || tail[pos - 2] === "#")) { // ##handle
+        return false;
+      }
+      return tail.match(self.re.handle)[0].length;
+    }
+    return 0;
+  },
+  normalize(match) {
+    match.url = "/r/" + encodeURIComponent(match.url.replace(/^[@#]/, ''));
+  },
+};
+
+const linkifyInst = linkify()
+  .add("@", handleMatcher)
+  .add("#", handleMatcher);
+export const sayzenLink = /^https?:\/\/sayzen\.ru\/r\/r\.php\?a=(.+)$/;
 
 export class TextFormatter {
   static charProtector = "\\";
@@ -10,10 +38,12 @@ export class TextFormatter {
   static charNoFormat = "[noFormat]";
   static charNoFormatEnd = "[/noFormat]";
 
-  static textChars = [".", ",", "\"", "'", "!", "?", " ", "-", "\n"];
+  static textChars = new RegExp(linkifyRe().src_ZPCc);
 
   constructor(text = "", key = undefined) {
     this.text = text;
+    this.linkMatches = linkifyInst.match(text);
+    if (!this.linkMatches) this.linkMatches = [];
     this.result = null;
     this.i = 0;
     this.skipToSpace = false;
@@ -98,7 +128,7 @@ export class TextFormatter {
       if (this.parseHtmlTag("*", "b")) continue;
       if (this.parseHtmlTag("^", "i")) continue;
       if (this.parseHtmlTag("~", "s")) continue;
-      if (this.parseHtmlTag("_", "u")) continue;
+      if (!this.isInLink() && this.parseHtmlTag("_", "u")) continue;
       if (this.parseLink()) continue;
       if (this.parseColorHash()) continue;
       if (this.parseColorName("red", "D32F2F")) continue
@@ -118,6 +148,15 @@ export class TextFormatter {
       if (this.parseColorName("campfire", "FF6D00")) continue
       this.pushStr(this.text.charAt(this.i++));
     }
+  }
+
+  isInLink() {
+    for (const match of this.linkMatches) {
+      if (this.i >= match.index && this.i < match.lastIndex) {
+        return true;
+      }
+    }
+    return false;
   }
 
   pushStr(s) {
@@ -192,7 +231,7 @@ export class TextFormatter {
         let nextSpace = this.findNext(" ", nextClose - this.i);
         if (nextSpace === -1) nextSpace = this.text.length;
 
-        if (TextFormatter.textChars.includes(this.text.charAt(nextSpace - 1))) nextSpace--;
+        if (TextFormatter.textChars.test(this.text.charAt(nextSpace - 1))) nextSpace--;
         const name = this.text.substring(this.i + 1, nextClose);
         const link = this.text.substring(nextClose + 1, nextSpace);
 
@@ -292,33 +331,6 @@ export class TextFormatter {
     return false;
   }
 }
-
-const handleMatcher = {
-  validate(text, pos, self) {
-    const tail = text.slice(pos);
-    if (!self.re.handle) {
-      self.re.handle = new RegExp("^([a-zA-Z0-9#_-]+)(?=$|" + self.re.src_ZPCc + ")");
-    }
-    if (self.re.handle.test(tail)) {
-      if (tail[0] === "@" || tail[0] === "#") { // http://##
-        return false;
-      }
-      if (pos >= 2 && (tail[pos - 2] === "@" || tail[pos - 2] === "#")) { // ##handle
-        return false;
-      }
-      return tail.match(self.re.handle)[0].length;
-    }
-    return 0;
-  },
-  normalize(match) {
-    match.url = "/r/" + encodeURIComponent(match.url.replace(/^[@#]/, ''));
-  },
-};
-
-const linkifyInst = linkify()
-  .add("@", handleMatcher)
-  .add("#", handleMatcher);
-const sayzenLink = /^https?:\/\/sayzen\.ru\/r\/r\.php\?a=(.+)$/;
 
 // stolen and simplified from yarn.pm/react-linkify and
 export function linkifyReact(children, key = 0) {

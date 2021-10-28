@@ -59,8 +59,6 @@
 /*#region ImagePage*/
 .imagePage {
     position: relative;
-    /*TODO*/
-    /*max-height: 512px;*/
     margin: 0.5rem 0;
     text-align: center;
 }

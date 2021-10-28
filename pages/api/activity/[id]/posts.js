@@ -12,7 +12,7 @@ export async function fetchActivityPosts(req, res, id, offset = 0) {
 
 export default async function activityPostsHandler(req, res) {
   try {
-    res.send(await fetchActivityPosts(req, res, req.query.id));
+    res.send(await fetchActivityPosts(req, res, req.query.id, req.query.offset));
   } catch (e) {
     sendErrorIfFromRemote(res, e);
   }
