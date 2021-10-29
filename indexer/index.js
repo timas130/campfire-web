@@ -1,5 +1,6 @@
 const ProgressBar = require("progress");
 const {Worker} = require("worker_threads");
+const fs = require("fs");
 
 const args = process.argv;
 
@@ -9,8 +10,8 @@ if (args.length < 3) {
 }
 
 const startId = parseInt(args[2]) || 0;
-const endId = parseInt(args[3]) || 100000;
-const threads = parseInt(args[4]) || 1;
+const endId = parseInt(args[3]) || 500000;
+const threads = parseInt(args[4]) || 2;
 
 const bar = new ProgressBar(":id (off :offset) :bar", {total: endId});
 
@@ -21,10 +22,10 @@ for (let thread = 0; thread < threads; thread++) {
   });
   workers.push(worker);
   worker.on("message", msg => {
+    fs.appendFileSync("./result.log", JSON.stringify(msg.unitsList));
     bar.tick(msg.units, {
       id: msg.id,
-      fandom: msg.fandom,
-      offset: msg.offset
+      offset: msg.offset,
     });
   });
 }

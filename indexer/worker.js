@@ -72,7 +72,7 @@ async function work() {
           includeModerationsBlocks: false,
           includeModerationsOther: false,
           includeMultilingual: true,
-          unitTypes: [9],
+          unitTypes: [9, 1],
           order: 1,
           languageId: 0,
           onlyWithFandom: false,
@@ -87,52 +87,11 @@ async function work() {
         console.log(`[${workerData.thread}] that's it!`);
         return;
       }
-      const docs = [];
-      for (const unit of resp) {
-        if (unit.fandom.id === 2776) continue;
-        const doc = {};
-        doc["id"] = unit.id;
-        doc["creator-id"] = unit.creator.J_ID;
-        doc["fandom-id"] = unit.fandom.id;
-        doc["fandom-name"] = unit.fandom.name;
-        doc["rubric-id"] = unit.rubricId;
-        doc["rubric-name"] = unit.rubricName;
-        doc["activity-id"] = (unit.userActivity || {id: 0}).id;
-        doc["activity-name"] = (unit.userActivity || {name: ""}).name;
-        doc["created"] = unit.dateCreate;
-        doc["language"] = unit.languageId;
-        doc["closed"] = unit.closed;
-        doc["comment-count"] = unit.subUnitsCount;
-        const jsonDB = typeof unit.jsonDB === "string" ? JSON.parse(unit.jsonDB) : unit.jsonDB;
-        const pages = typeof jsonDB.J_PAGES === "string" ? JSON.parse(jsonDB.J_PAGES) : jsonDB.J_PAGES;
-        doc["content"] = createContent(pages);
-        doc["tags"] = []; // TODO: tags in indexer (somehow)
-        doc["raw_data"] = JSON.stringify(unit);
-        docs.push(doc);
-      }
-      if (docs.length === 0) {
-        // noinspection JSUnusedAssignment
-        parentPort.postMessage({
-          units: resp.length,
-          errors: false,
-          id: 0,
-          fandom: "<skip>",
-          offset: i
-        });
-        continue;
-      }
-      const {body: result} = await esClient.bulk({
-        body: docs.flatMap(doc => [
-          {index: {_index: "posts_v1", _id: doc.id}},
-          doc
-        ])
-      });
       // noinspection JSUnusedAssignment
       parentPort.postMessage({
+        unitsList: resp,
         units: resp.length,
-        errors: result.errors,
-        id: docs[0].id,
-        fandom: docs[0]["fandom-name"],
+        id: resp[0].id,
         offset: i
       });
     } catch (e) {
