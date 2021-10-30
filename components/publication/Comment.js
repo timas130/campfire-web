@@ -18,12 +18,21 @@ function CommentQuote({jsonDB}) {
       text = text.substring(otherName.length);
     }
   }
+  if (typeof jsonDB.quoteImages === "string") {
+    jsonDB.quoteImages = JSON.parse(jsonDB.quoteImages);
+  }
 
   return <div className={classes.quote}>
     <FormattedText text={
       (jsonDB.quoteCreatorName ? `{90A4AE ${jsonDB.quoteCreatorName}:}` : "") +
       limitText(text, 64, 150)
     } />
+    {jsonDB.quoteStickerImageId !== 0 && <div className={classes.image}>
+      <CImage
+        id={jsonDB.quoteStickerImageId} w={100} h={100}
+        loading="lazy" alt="Стикер"
+      />
+    </div>}
     {jsonDB.quoteImages.length !== 0 && <div className={classes.image}><CImage
       id={jsonDB.quoteImages[0]} w={100} h={100}
       loading="lazy" modal objectFit="cover" alt="Изображение"
@@ -50,6 +59,10 @@ export default React.forwardRef(function Comment({ comment, bestComment = false,
     <div className={classes.content}>
       {jsonDB.quoteId !== 0 && <CommentQuote jsonDB={jsonDB} />}
       <FormattedText text={jsonDB.J_TEXT} />
+      {jsonDB.stickerImageId !== 0 && <div className={classes.image}><CImage
+        id={jsonDB.stickerImageId} w={128} h={128}
+        loading="lazy" alt="Стикер"
+      /></div>}
       {jsonDB.imageId !== 0 && <div className={classes.image}><CImage
         id={jsonDB.imageId}
         w={jsonDB.imageW} h={jsonDB.imageH}

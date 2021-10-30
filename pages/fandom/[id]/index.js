@@ -1,9 +1,9 @@
-import {fetchFandom} from "../api/fandom/[id]";
-import FeedLayout, {FeedLoader} from "../../components/FeedLayout";
-import FandomCard from "../../components/cards/FandomCard";
+import {fetchFandom} from "../../api/fandom/[id]";
+import FeedLayout, {FeedLoader} from "../../../components/FeedLayout";
+import FandomCard from "../../../components/cards/FandomCard";
 import Head from "next/head";
-import Post from "../../components/publication/post/Post";
-import {useInfScroll} from "../../lib/client-api";
+import Post from "../../../components/publication/post/Post";
+import {useInfScroll} from "../../../lib/client-api";
 
 export default function Fandom({ fandom, profile, info }) {
   const {data: postPages, ref, showLoader} = useInfScroll(
