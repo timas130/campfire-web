@@ -8,12 +8,18 @@
     transition: background-color 0.2s ease;
     font-size: 1.1rem;
 }
+
 a.button {
     text-decoration: none;
 }
+
 .button.noBackground {
     background-color: initial;
 }
+.button.secondary {
+    background-color: var(--background-secondary);
+}
+
 .button:hover:not(:disabled), .button:focus:not(:disabled) {
     background-color: var(--background);
 }

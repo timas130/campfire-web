@@ -1,4 +1,4 @@
-export default function MetaTags({title, url, description = "", image = ""}) {
+export default function MetaTags({title, url, description = "", image = "/social-poster.png"}) {
   return <>
     <meta name="title" content={title} />
     <meta name="description" content={description} />

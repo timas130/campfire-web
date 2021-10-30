@@ -36,3 +36,14 @@ a {
   max-width: 100%;
   max-height: 100%;
 }
+
+#nprogress .bar {
+  background-color: #ff6c01 !important;
+}
+#nprogress .peg {
+  box-shadow: 0 0 10px #ff6c01, 0 0 5px #ff6c01 !important;
+}
+#nprogress .spinner-icon {
+  border-top-color: #ff6c01 !important;
+  border-left-color: #ff6c01 !important;
+}

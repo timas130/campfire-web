@@ -332,7 +332,7 @@ export class TextFormatter {
   }
 }
 
-// stolen and simplified from yarn.pm/react-linkify and
+// stolen and simplified from yarn.pm/react-linkify
 export function linkifyReact(children, key = 0) {
   if (typeof children === "string") {
     if (children === "") return children;
@@ -353,7 +353,7 @@ export function linkifyReact(children, key = 0) {
 
       let text = match.text;
       const textSayzenMatch = text.match(sayzenLink);
-      if (textSayzenMatch) text = "https://camp.33rd.dev/r/" + encodeURIComponent(textSayzenMatch[1]);
+      if (textSayzenMatch) text = "@" + encodeURIComponent(textSayzenMatch[1]);
 
       // add the result
       result.push(<Link href={url} key={i}><a>{text}</a></Link>);

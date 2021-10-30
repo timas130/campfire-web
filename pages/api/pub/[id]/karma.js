@@ -14,7 +14,10 @@ export async function setKarma(req, res, pubId, positive) {
 
 export default async function karmaHandler(req, res) {
   try {
-    res.send(await setKarma(req, res, req.query.id, req.query.positive === "true"));
+    res.send(await setKarma(
+      req, res, req.query.id,
+      req.query.positive.toLowerCase() === "true"
+    ));
   } catch (e) {
     sendErrorIfFromRemote(res, e);
   }

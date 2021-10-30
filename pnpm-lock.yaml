@@ -16,6 +16,7 @@ specifiers:
   moment: ^2.29.1
   next: 11.1.2
   normalize.css: ^8.0.1
+  nprogress: ^0.2.0
   progress: ^2.0.3
   react: 17.0.2
   react-dom: 17.0.2
@@ -36,6 +37,7 @@ dependencies:
   moment: 2.29.1
   next: 11.1.2_react-dom@17.0.2+react@17.0.2
   normalize.css: 8.0.1
+  nprogress: 0.2.0
   progress: 2.0.3
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
@@ -2214,6 +2216,10 @@ packages:
 
   /normalize.css/8.0.1:
     resolution: {integrity: sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==}
+    dev: false
+
+  /nprogress/0.2.0:
+    resolution: {integrity: sha1-y480xTIT2JVyP8urkH6UIq28r7E=}
     dev: false
 
   /object-assign/4.1.1:

@@ -2,6 +2,8 @@
 
 [Демо](https://camp.33rd.dev) | [Баги сюда](https://github.com/timas130/campfire-web/issues)
 
+[![Wakatime](https://wakatime.com/badge/github/timas130/campfire-web.svg)](https://wakatime.com/badge/github/timas130/campfire-web)
+
 ## Как запустить у себя
 
 ### Docker

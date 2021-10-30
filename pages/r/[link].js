@@ -41,14 +41,13 @@ export async function getStaticPaths() {
 export async function getStaticProps(ctx) {
   let handle = ctx.params.link, link;
   for (const linkType in links) {
-    if (handle.startsWith(linkType + "_") || handle.startsWith(linkType + "-")) {
+    const linkSpec = links[linkType];
+    if (!linkSpec.args && handle === linkType) {
+      link = linkSpec.link;
+      break;
+    }
+    if (linkSpec.args && handle.startsWith(linkType + "_") || handle.startsWith(linkType + "-")) {
       const id = handle.substring(linkType.length + 1);
-      const linkSpec = links[linkType];
-
-      if (! linkSpec.args) {
-        link = linkSpec.link;
-        break;
-      }
 
       if (linkSpec.link.includes("{id}")) {
         link = linkSpec.link.replace("{id}", id);
@@ -69,7 +68,6 @@ export async function getStaticProps(ctx) {
   return {
     redirect: {
       destination: link,
-      permanent: true,
     },
   };
 }

@@ -105,14 +105,22 @@
     margin: 0 0 1rem;
     padding: 0.75rem;
 }
+
 .activitySection {
     display: flex;
     align-items: center;
 }
-.activitySection:last-child {
-    margin-top: 0.5rem;
+
+.activityButtons {
+    display: flex;
+    align-items: center;
     justify-content: center;
+    margin-top: 1rem;
 }
+.activityButtons > :last-child {
+    margin-left: 0.5rem;
+}
+
 .activityDescription {
     margin: 0.5rem 0;
 }
