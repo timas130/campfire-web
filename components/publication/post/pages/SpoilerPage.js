@@ -1,6 +1,7 @@
 import classes from "../../../../styles/Page.module.css";
 import {useState} from "react";
 import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/solid";
+import classNames from "classnames";
 
 export default function SpoilerPage({ page, children }) {
   const [expanded, setExpanded] = useState(false);
@@ -11,6 +12,8 @@ export default function SpoilerPage({ page, children }) {
         <ChevronDownIcon className={classes.spoilerIcon} />}
       {page.name} ({page.length} стр.)
     </header>
-    {expanded && children}
+    <div className={classNames(classes.spoilerContent, expanded && classes.expanded)}>
+      {children}
+    </div>
   </section>;
 }

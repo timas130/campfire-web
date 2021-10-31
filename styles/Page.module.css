@@ -76,6 +76,14 @@
     margin-right: 0.5rem;
     vertical-align: bottom;
 }
+.spoilerContent {
+    position: absolute;
+    top: -99999px;
+    left: -99999px;
+}
+.spoilerContent.expanded {
+    position: static;
+}
 /*#endregion*/
 /*#region ImagesPage*/
 .imagesPage {

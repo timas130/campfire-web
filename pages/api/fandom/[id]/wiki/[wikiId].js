@@ -1,5 +1,5 @@
+import {fetchWiki} from "./index";
 import {sendErrorIfFromRemote} from "../../../../../lib/api";
-import {fetchWiki} from "../../[id]/wiki";
 
 export default async function wikiListHandler(req, res) {
   try {
