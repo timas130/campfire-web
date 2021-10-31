@@ -379,6 +379,7 @@ export function linkifyReact(children, key = 0) {
 
 // converts a react element into plain text
 export function dryReact(el) {
+  if (! el.props.children) return "";
   let result = "";
 
   for (const child of el.props.children) {
