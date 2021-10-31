@@ -4,11 +4,14 @@ import Link from "next/link";
 import Input from "../../components/Input";
 import InputLabel from "../../components/InputLabel";
 import Button from "../../components/Button";
+import {useState} from "react";
 
 const googleRules = "https://play.google.com/intl/ru_ALL/about/restricted-content/inappropriate-content/";
 const privacyPolicy = "https://sayzen.ru/rus.html";
 
 export default function Register() {
+  const [buttonClicked, setButtonClicked] = useState(0);
+
   return <>
     <Head>
       <title>Зарегистрироваться | Campfire</title>
@@ -42,14 +45,33 @@ export default function Register() {
         <Input type="checkbox" name="rules-agree" required />
         <div>
           Я согласен с <Link href="/app/rules"><a>правилами приложения</a></Link>,&nbsp;
-          <a href={privacyPolicy}>политикой конфиденциальности</a>,&nbsp;
+          <a href={privacyPolicy} target="_blank" rel="noreferrer">политикой конфиденциальности</a>,&nbsp;
           <a href={googleRules}>правилами Google</a>, а также с продажей своей
           бессмертной души <Link href="/account/Zeon"><a>@Zeon&apos;у</a></Link>.
         </div>
       </InputLabel>
       <div className={classes.buttons}>
         <Link href="/auth/login" passHref><Button noBackground>Вход</Button></Link>
-        <Button type="submit" className={classes.buttonRight} disabled>Зарегистрироваться</Button>
+        {buttonClicked < 7 && <Button type="button" className={classes.buttonRight}
+                                        onClick={() => setButtonClicked(x => x+1)}>
+          {
+            buttonClicked === 0 ?
+            "Зарегистрироваться" :
+            buttonClicked === 1 ?
+            "Регистрация не работает" :
+            buttonClicked === 2 ?
+            "Можно больше не нажимать" :
+            buttonClicked === 3 ?
+            "Сейчас я пропаду!" :
+            buttonClicked === 4 ?
+            "Сейчас придёт Zeon..." :
+            buttonClicked === 5 ?
+            "и починит кнопку, ..." :
+            buttonClicked === 6 ?
+            "чтобы она пропала." :
+            "ой"
+          }
+        </Button>}
       </div>
     </form>
   </>;

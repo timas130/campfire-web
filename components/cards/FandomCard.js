@@ -8,10 +8,11 @@ import useSWR from "swr/immutable";
 import {fetcher} from "../../lib/client-api";
 import {KarmaCounter} from "../Karma";
 import FandomHeader from "../FandomHeader";
+import {useEffect, useState} from "react";
 
-// const SUB_TYPE_IMPORTANT = -1;
-// const SUB_TYPE_SUBBED = 0;
-const SUB_TYPE_NONE = 1;
+export const SUB_TYPE_IMPORTANT = -1;
+export const SUB_TYPE_SUBBED = 0;
+export const SUB_TYPE_NONE = 1;
 
 export default function FandomCard({ fandom, profile, info, fetchId = null, noLinks = false }) {
   const {data: fandomData} =
@@ -21,6 +22,25 @@ export default function FandomCard({ fandom, profile, info, fetchId = null, noLi
   let {fandom: fandomL, profile: profileL, info: infoL} = fandomData || {};
 
   const loaded = Boolean(fandomL && profileL && infoL);
+
+  const [subscriptionStatus, setSubscriptionStatus] = useState(SUB_TYPE_NONE);
+  useEffect(() => {
+    if (loaded) {
+      setSubscriptionStatus(profileL.subscriptionType);
+    }
+  }, [loaded]); // eslint-disable-line
+
+  const changeSubscriptionStatus = () => {
+    if (subscriptionStatus === SUB_TYPE_NONE) { // if not subscribed
+      fetcher(`/api/fandom/${fandom.id}/sub?type=${SUB_TYPE_SUBBED}`)
+        .then(() => setSubscriptionStatus(SUB_TYPE_SUBBED))
+        .catch(e => alert("Ошибка: " + e));
+    } else {
+      fetcher(`/api/fandom/${fandom.id}/sub?type=${SUB_TYPE_NONE}`)
+        .then(() => setSubscriptionStatus(SUB_TYPE_NONE))
+        .catch(e => alert("Ошибка: " + e));
+    }
+  };
 
   return loaded ? <section className={classNames(postClasses.post, classes.cardContent)}>
     <FandomHeader
@@ -40,9 +60,9 @@ export default function FandomCard({ fandom, profile, info, fetchId = null, noLi
       </>}
     />
     <div className={classes.fandomButtons}>
-      {profileL.subscriptionType !== SUB_TYPE_NONE ?
-        <Button fullWidth>Отписаться</Button> :
-        <Button fullWidth>Подписаться</Button>}
+      <Button fullWidth onClick={changeSubscriptionStatus}>
+        {subscriptionStatus !== SUB_TYPE_NONE ? "Отписаться" : "Подписаться"}
+      </Button>
     </div>
     <div className={classes.fandomDescription}>
       {infoL.description}

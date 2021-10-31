@@ -55,6 +55,9 @@ export class TextFormatter {
     if (this.result === null) this.parseText();
     return this.result;
   }
+  parseDry() {
+    return dryReact(this.parseHtml());
+  }
 
   parseText() {
     this.result = React.createElement("span", {
@@ -372,6 +375,21 @@ export function linkifyReact(children, key = 0) {
   }
 
   return children;
+}
+
+// converts a react element into plain text
+export function dryReact(el) {
+  let result = "";
+
+  for (const child of el.props.children) {
+    if (typeof child === "string") {
+      result += child;
+    } else {
+      result += dryReact(child);
+    }
+  }
+
+  return result;
 }
 
 export default function FormattedText({text}) {

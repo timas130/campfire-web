@@ -1,0 +1,11 @@
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
+                       xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+    <ShortName>Поиск Campfire</ShortName>
+    <Description>Campfire</Description>
+    <InputEncoding>UTF-8</InputEncoding>
+    <Image width="256" height="256" type="image/x-icon">https://camp.33rd.dev/favicon.ico</Image>
+    <Url type="text/html" template="https://camp.33rd.dev/post/search">
+        <Param name="q" value="{searchTerms}" />
+    </Url>
+    <moz:SearchForm>https://camp.33rd.dev/post/search</moz:SearchForm>
+</OpenSearchDescription>
