@@ -11,7 +11,7 @@ export async function postComment(req, res, pubId, content, reply = 0) {
 }
 
 export default async function commentHandler(req, res) {
-  requireArguments(req, res, ["content"]);
+  if (requireArguments(req, res, ["content"])) return;
   try {
     const result = await postComment(req, res, req.query.id, req.body.content, req.body.reply);
     if (req.query.redir) res.redirect(`/post/${req.query.id}`);

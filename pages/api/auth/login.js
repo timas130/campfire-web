@@ -3,7 +3,7 @@ import {sendRequestAuthenticated} from "../../../lib/server";
 import {requireArguments} from "../../../lib/api";
 
 export default async function authLogin(req, res) {
-  requireArguments(req, res, ["email", "password"]);
+  if (requireArguments(req, res, ["email", "password"])) return;
   const loginToken = `Email - ${req.body.email} - ${md5(req.body.password)}`;
   try {
     await sendRequestAuthenticated(

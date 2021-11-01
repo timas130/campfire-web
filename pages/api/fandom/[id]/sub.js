@@ -17,7 +17,7 @@ export default async function changeFandomSubscriptionStatusHandler(req, res) {
   try {
     res.send(await changeFandomSubscriptionStatus(
       req, res, req.query.id, req.query.type,
-      req.query.important.toLowerCase() === "true"
+      req.query.important ? req.query.important.toLowerCase() === "true" : null
     ));
   } catch (e) {
     sendErrorIfFromRemote(res, e);

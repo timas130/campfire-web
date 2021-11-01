@@ -117,3 +117,18 @@
     margin-right: 0;
     margin-left: 0.5rem;
 }
+
+.feedTypeSelector {
+    padding: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+.feedTypeSelectorItem {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    margin-right: 0.5rem;
+}
+.feedTypeSelectorItem.selected {
+    background: var(--background-element);
+}
