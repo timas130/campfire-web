@@ -38,6 +38,7 @@ export default function Login() {
           placeholder="••••••••" required
         />
       </InputLabel>
+      <input type="hidden" name="redir" value="false" />
       <div className={classes.buttons}>
         <Link href="/auth/register" passHref><Button noBackground>Регистрация</Button></Link>
         <Button type="submit" className={classes.buttonRight}>Войти</Button>

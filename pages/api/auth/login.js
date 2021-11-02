@@ -1,6 +1,7 @@
 import md5 from "md5";
 import {sendRequestAuthenticated} from "../../../lib/server";
 import {requireArguments} from "../../../lib/api";
+import {logout} from "./logout";
 
 export default async function authLogin(req, res) {
   if (requireArguments(req, res, ["email", "password"])) return;
@@ -25,6 +26,7 @@ export default async function authLogin(req, res) {
       res.send(resp.J_RESPONSE);
     }
   } catch (e) {
+    logout(req);
     if (e.code === "ERROR_UNAUTHORIZED") res.redirect("/auth/login?error=unauthorized");
     else res.redirect("/auth/login?error=unknown");
   }
