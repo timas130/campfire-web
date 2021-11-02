@@ -26,7 +26,7 @@ export default async function authLogin(req, res) {
       res.send(resp.J_RESPONSE);
     }
   } catch (e) {
-    logout(req);
+    logout(req, res);
     if (e.code === "ERROR_UNAUTHORIZED") res.redirect("/auth/login?error=unauthorized");
     else res.redirect("/auth/login?error=unknown");
   }

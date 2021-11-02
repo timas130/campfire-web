@@ -1,6 +1,6 @@
 import Cookies from "cookies";
 
-export function logout(req) {
+export function logout(req, res) {
   const cookies = new Cookies(req, res);
   cookies.set("token", null);
   cookies.set("refreshToken", null);
@@ -8,6 +8,6 @@ export function logout(req) {
 }
 
 export default function logoutHandler(req, res) {
-  logout(req);
+  logout(req, res);
   res.redirect("/");
 }
