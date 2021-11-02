@@ -1,8 +1,41 @@
+.editToolbar {
+    display: flex;
+    margin-top: 0.5rem;
+    padding: 0.2rem;
+    background-color: var(--background-element);
+    width: 100%;
+    border-radius: 0.25rem;
+}
+.editToolbar > svg {
+    padding: 0.3rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    margin-right: 0.1rem;
+}
+.editToolbar > svg:last-child {
+    margin-right: 0;
+}
+.editToolbar > svg:hover {
+    background-color: var(--background-secondary);
+}
+
+.editToolbar > svg.active {
+    color: var(--primary);
+}
+
+.editToolbar > .toolbarSep {
+    margin-right: 0.5rem;
+}
+.editToolbar > .toolbarLeft {
+    margin-left: auto;
+}
+
 /*#region TextPage*/
 .textPage {
     display: flex;
     align-items: flex-start;
-    margin: 0.5rem 0.75rem;
+    padding: 0.5rem 0.75rem;
 }
 .textIcon {
     flex: 0 0 32px;
@@ -14,6 +47,22 @@
 }
 .textBig {
     font-size: 1.5rem;
+}
+
+.textPage.editable:hover {
+    background-color: var(--background-element);
+    cursor: pointer;
+}
+
+.textPage.editing {
+    flex-direction: column;
+}
+.textPage.editing > textarea {
+    font-size: 1rem;
+    min-height: 10rem;
+}
+.textPage.editing > textarea.textBig {
+    font-size: 1.25rem;
 }
 /*#endregion*/
 /*#region LinkPage & QuotePage*/

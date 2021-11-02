@@ -89,7 +89,6 @@
 }
 
 .editor .input {
-    resize: vertical;
     background: var(--background-secondary);
 }
 

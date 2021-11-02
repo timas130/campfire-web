@@ -25,22 +25,22 @@ function spoilersNest(pages, start, len) {
   return [result, i - start];
 }
 
-function nestToElements(nested) {
+function nestToElements(nested, PageEl = Page) {
   let length = 0;
   return [nested.map((page, idx) => {
     if (page.J_PAGE_TYPE === 6) { // spoiler
-      const els = nestToElements(page);
+      const els = nestToElements(page, PageEl);
       length += els[1] + 1;
-      return <Page page={page} key={idx}>
+      return <PageEl page={page} idx={idx} key={idx}>
         {els[0]}
-      </Page>;
+      </PageEl>;
     } else {
       length++;
-      return <Page page={page} key={idx} />;
+      return <PageEl page={page} idx={idx} key={idx} />;
     }
   }), length];
 }
 
-export default function Pages({ pages }) {
-  return nestToElements(spoilersNest(pages, 0)[0])[0];
+export default function Pages({ pages, pageEl = Page }) {
+  return nestToElements(spoilersNest(pages, 0)[0], pageEl)[0];
 }

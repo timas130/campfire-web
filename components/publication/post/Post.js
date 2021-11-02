@@ -3,7 +3,7 @@ import Link from "next/link";
 import moment from "moment";
 import "moment/locale/ru";
 import classNames from "classnames";
-import {ChatAlt2Icon, DotsVerticalIcon} from "@heroicons/react/solid";
+import {ChatAlt2Icon, DotsVerticalIcon, PencilIcon} from "@heroicons/react/solid";
 import Karma from "../../Karma";
 import {useMemo, useRef, useState} from "react";
 import ShareButton from "../../ShareButton";
@@ -24,7 +24,7 @@ function CommentCounter(props) {
 }
 
 export default function Post(props) {
-  const {post: postL, alwaysExpanded, showBestComment, pinned} = props;
+  const {post: postL, alwaysExpanded, showBestComment, pinned, draft} = props;
   const router = useRouter();
   const [expanded, setExpanded] = useState(true);
   const contentRef = useRef();
@@ -71,8 +71,15 @@ export default function Post(props) {
         expanded={expanded}
       />}
       <div className={classes.spacer} />
-      <ShareButton link={router.basePath + `/post/${post.id}`} />
-      <CommentCounter href={`/post/${post.id}#comments`} count={post.subUnitsCount} />
+      {!draft ? <>
+        <ShareButton link={router.basePath + `/post/${post.id}`} />
+        <CommentCounter href={`/post/${post.id}#comments`} count={post.subUnitsCount} />
+      </> : <Link href={`/drafts/${post.id}`}>
+        <a className={classes.editButton}>
+          <PencilIcon className={classes.editIcon} />
+          Редактировать
+        </a>
+      </Link>}
       <Karma pub={post} />
     </div>
     {showBestComment && post.bestComment && <Comment bestComment comment={post.bestComment} />}

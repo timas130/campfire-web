@@ -1,10 +1,14 @@
-import TextPage from "./TextPage";
+import TextPage, {TextPageEdit} from "./TextPage";
 import ImagePage from "./ImagePage";
 import LinkPage from "./LinkPage";
 import QuotePage from "./QuotePage";
-import React from "react";
+import React, {useState} from "react";
 import SpoilerPage from "./SpoilerPage";
 import ImagesPage from "./ImagesPage";
+import classes from "../../../../styles/Page.module.css";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import classNames from "classnames";
+import {faCheck, faTrash, faWindowClose} from "@fortawesome/free-solid-svg-icons";
 
 const pageTypes = {
   1: TextPage,
@@ -13,6 +17,9 @@ const pageTypes = {
   4: LinkPage,
   5: QuotePage,
   6: SpoilerPage
+};
+const pageEditTypes = {
+  1: TextPageEdit
 };
 const pageTypesNames = {
   1: "PAGE_TYPE_TEXT",
@@ -31,7 +38,9 @@ const pageTypesNames = {
 };
 
 export function Page(props) {
-  const {page} = props;
+  let {page, editable, commit} = props;
+  const [isEditing, setIsEditing] = useState(false);
+
   if (! pageTypes[page.J_PAGE_TYPE]) {
     return <TextPage page={{
       J_TEXT:
@@ -40,42 +49,47 @@ export function Page(props) {
         "[/noFormat]"
     }} />;
   } else {
-    return React.createElement(pageTypes[page.J_PAGE_TYPE], props);
+    if ((isEditing || page.__new) && editable && pageEditTypes[page.J_PAGE_TYPE]) {
+      return React.createElement(pageEditTypes[page.J_PAGE_TYPE], {
+        page: page.__new ? null : page,
+        commit(newPage) {
+          console.time("commit");
+          console.timeLog("commit", "start [new, old]", newPage, page);
+          commit(newPage)
+            .catch(e => {
+              console.error(e);
+              alert("ушиб очка: " + e);
+            })
+            .finally(() => {
+              console.timeEnd("commit");
+              if (newPage && newPage.__remove) return; // already unmounted
+              setIsEditing(false);
+            });
+        },
+      });
+    } else {
+      return React.createElement(pageTypes[page.J_PAGE_TYPE], {
+        onEdit: (pageEditTypes[page.J_PAGE_TYPE] && editable) ? () => setIsEditing(true) : null,
+        ...props,
+      });
+    }
   }
 }
 
-export function TestPages() {
+export function ToolbarButton({icon, active, sep, left, onClick}) {
+  return <FontAwesomeIcon
+    icon={icon} tabIndex={0} onClick={onClick}
+    className={classNames(
+      active ? classes.active : "",
+      sep && classes.toolbarSep,
+      left && classes.toolbarLeft,
+    )}
+  />;
+}
+export function ToolbarLeft({commit, page}) {
   return <>
-    <TextPage page={{
-      J_TEXT: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad consequatur culpa dolorem eaque earum esse eum hic in itaque magnam nisi porro provident qui reprehenderit, sapiente, soluta voluptas voluptate voluptatem?",
-      J_SIZE: 0,
-      align: 0,
-      icon: 1
-    }} />
-    <TextPage page={{
-      J_TEXT: "Lorem ipsum dolor sit amet",
-      J_SIZE: 1,
-      align: 1,
-      icon: 1
-    }} />
-    <TextPage page={{
-      J_TEXT: "Lorem ipsum dolor sit amet",
-      J_SIZE: 1,
-      align: 2,
-      icon: 7
-    }} />
-    <LinkPage page={{
-      name: "Interesting link",
-      link: "https://www.google.com/search?q=hey&newwindow=1&source=hp&ei=eyVTYdD6Dsica-WtosAH&iflsig=ALs-wAMAAAAAYVMzi7o7YnHIQQOyhJNq9mwHgzw7gsMo&oq=hey&gs_lcp=Cgdnd3Mtd2l6EAMyCAgAEIAEELEDMgUIABCABDIICC4QgAQQsQMyEQguEIAEELEDEIMBEMcBENEDMgsILhCABBDHARCvATIFCAAQgAQyCAgAEIAEELEDMg4ILhCABBCxAxDHARDRAzIFCAAQgAQyDgguEIAEELEDEMcBEKMCUMUEWJgGYPwGaABwAHgAgAGnAYgBlwKSAQMwLjKYAQCgAQE&sclient=gws-wiz&ved=0ahUKEwiQpK-176HzAhVIzhoKHeWWCHgQ4dUDCAY&uact=5"
-    }} />
-    <QuotePage page={{
-      author: "Lev Tolstoy",
-      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad consequatur culpa dolorem eaque earum esse eum hic in itaque magnam nisi porro provident qui reprehenderit, sapiente, soluta voluptas voluptate voluptatem?"
-    }} />
-    <ImagePage page={{
-      J_IMAGE_ID: 1,
-      J_W: 100,
-      J_H: 100
-    }} />
+    <ToolbarButton icon={faTrash} left onClick={() => commit({__delete: true})} />
+    <ToolbarButton icon={faWindowClose} onClick={() => commit(null)} />
+    <ToolbarButton icon={faCheck} onClick={() => commit(page)} />
   </>;
 }

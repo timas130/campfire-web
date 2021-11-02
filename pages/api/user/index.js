@@ -19,7 +19,8 @@ export default async function userInfoHandler(req, res) {
     sendError(res, {
       "code": "ERROR_UNAUTHORIZED",
       "messageError": "",
-      "params": []
+      "params": [],
+      "cweb": true,
     }, 401);
     return;
   }

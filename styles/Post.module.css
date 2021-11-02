@@ -68,14 +68,14 @@ a.headerAuthor:hover, .headerRubric:hover, .headerFandom:hover {
 .spacer {
     flex-grow: 1;
 }
-.commentCounter, .expander {
+.commentCounter, .expander, .editButton {
     text-decoration: none;
     color: var(--text);
     display: flex;
     margin-right: 1rem;
     cursor: pointer;
 }
-.commentIcon, .expandIcon {
+.commentIcon, .expandIcon, .editIcon {
     width: 1.2rem;
     margin-right: 0.25rem;
 }
