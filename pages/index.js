@@ -34,7 +34,7 @@ export default function Home() {
         type === "subscribed" ? "Подпишитесь на фэндом, чтобы тут появились посты" : "Конец"
       } />}
       {/* TODO: subscribe button in PopularFandomsCard */}
-      {!showLoader && type === "subscribed" && <PopularFandomsCard limit={10} />}
+      {!showLoader && type === "subscribed" && <PopularFandomsCard limit={15} shuffle={false} />}
     </>} sidebar={<>
       <PopularFandomsCard />
       <AuthenticateCard />

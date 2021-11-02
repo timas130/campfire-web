@@ -1,6 +1,6 @@
 import cache from "memory-cache";
-import {sendRequestAlwaysAuthenticated} from "../../lib/server";
-import {sendErrorIfFromRemote} from "../../lib/api";
+import {sendRequestAlwaysAuthenticated} from "../../../lib/server";
+import {sendErrorIfFromRemote} from "../../../lib/api";
 
 // s/o 2450954#2450976
 function shuffle(array) {
@@ -50,7 +50,7 @@ export default async function fandomsHandler(req, res) {
     if (req.query.card) {
       res.send(shuffle(await fetchFandoms(req, res)));
     } else {
-      res.send(await fetchFandoms(req, res));
+      res.send(await fetchFandoms(req, res, {offset: req.query.offset}));
     }
   } catch (e) {
     sendErrorIfFromRemote(res, e);
