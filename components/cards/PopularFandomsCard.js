@@ -8,8 +8,8 @@ import useSWR from "swr/immutable";
 import {BoxPlaceholder, TextPlaceholder} from "../Placeholder";
 import {fetcher} from "../../lib/client-api";
 
-export default function PopularFandomsCard({ limit = 5 }) {
-  let { data: fandoms } = useSWR("/api/fandoms?card=true", fetcher);
+export default function PopularFandomsCard({ limit = 5, shuffle = false }) {
+  let { data: fandoms } = useSWR(`/api/fandom?card=${shuffle}`, fetcher);
   return <section className={postClasses.post}>
     <header className={cardClasses.cardTitle}>
       Популярные фэндомы
