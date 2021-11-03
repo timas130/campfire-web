@@ -22,6 +22,13 @@
 .tag.main {
     background: var(--background-element);
 }
+.tag.selectable {
+    cursor: pointer;
+}
+.tag.selected {
+    background: var(--orange-muted);
+    color: var(--background);
+}
 
 .tagText {
     display: inline-block;

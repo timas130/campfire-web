@@ -31,6 +31,10 @@
     margin-left: auto;
 }
 
+.editable:hover {
+    cursor: pointer;
+}
+
 /*#region TextPage*/
 .textPage {
     display: flex;
@@ -51,7 +55,6 @@
 
 .textPage.editable:hover {
     background-color: var(--background-element);
-    cursor: pointer;
 }
 
 .textPage.editing {
@@ -104,6 +107,11 @@
     border-left: 0.2rem solid var(--background-secondary);
     padding-left: 0.5rem;
 }
+
+.linkPage.editable:hover {
+    background-color: var(--background);
+    cursor: pointer;
+}
 /*#endregion*/
 /*#region ImagePage*/
 .imagePage {
@@ -117,7 +125,8 @@
 /*#endregion*/
 /*#region SpoilerPage*/
 .spoilerHeader {
-    margin: 1rem 1rem;
+    margin: 0.5rem 0;
+    padding: 0.5rem 1rem;
     cursor: pointer;
 }
 .spoilerIcon {
@@ -132,6 +141,10 @@
 }
 .spoilerContent.expanded {
     position: static;
+}
+
+.spoilerHeader.editable:hover {
+    background-color: var(--background-element);
 }
 /*#endregion*/
 /*#region ImagesPage*/

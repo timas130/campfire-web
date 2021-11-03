@@ -55,6 +55,7 @@ function HeaderMenu({expanded, setExpanded}) {
               onClick={() => setExpanded(false)}>
     <HeaderProfile full />
     <DailyQuest />
+    <MenuButton text="Черновики" href="/drafts" />
     <MenuButton text="Выйти" href="/api/auth/logout" />
   </div>;
 }

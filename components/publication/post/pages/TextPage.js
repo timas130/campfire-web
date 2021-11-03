@@ -5,7 +5,7 @@ import React, {useState} from "react";
 import FormattedText from "../../../FormattedText";
 import Input from "../../../Input";
 import {faAlignCenter, faAlignLeft, faAlignRight, faHeading, faIcons} from "@fortawesome/free-solid-svg-icons";
-import {ToolbarButton, ToolbarLeft} from "./Page";
+import {EditToolbar, ToolbarActions, ToolbarButton} from "./Page";
 
 export default function TextPage({ page, onEdit = null }) {
   const big = Boolean(page["J_SIZE"]);
@@ -43,22 +43,22 @@ export function TextPageEdit({ page: initialPage, commit }) {
 
   return <section className={classNames(
     classes.textPage, classes.editing
-  )}>
-    <Input
-      el="textarea"
-      value={page.J_TEXT}
-      className={classNames(
-        Boolean(page.J_SIZE) && classes.textBig,
-      )}
-      style={{textAlign}}
-      onChange={ev => setPage(page => ({
-        ...page,
-        J_TEXT: ev.target.value,
-      }))}
-    />
-    <div className={classes.editToolbar}>
+    )}>
+      <Input
+        el="textarea"
+        value={page.J_TEXT}
+        className={classNames(
+          Boolean(page.J_SIZE) && classes.textBig,
+        )}
+        style={{textAlign}}
+        onChange={ev => setPage(page => ({
+          ...page,
+          J_TEXT: ev.target.value,
+        }))}
+      />
+    <EditToolbar>
       <ToolbarButton
-        icon={faHeading}
+        icon={faHeading} active={page.J_SIZE === 1}
         onClick={() => setPage(page => ({
           ...page,
           J_SIZE: page.J_SIZE === 1 ? 0 : 1,
@@ -90,7 +90,7 @@ export function TextPageEdit({ page: initialPage, commit }) {
         }))}
       />
 
-      <ToolbarLeft commit={commit} page={page} />
-    </div>
+      <ToolbarActions commit={commit} page={page} />
+    </EditToolbar>
   </section>;
 }

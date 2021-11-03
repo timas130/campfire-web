@@ -7,6 +7,7 @@ export default async function authLogin(req, res) {
   if (requireArguments(req, res, ["email", "password"])) return;
   const loginToken = `Email - ${req.body.email} - ${md5(req.body.password)}`;
   try {
+    logout(req, res);
     const resp = await sendRequestAuthenticated(
       req, res,
       "RAccountsLoginSimple", {

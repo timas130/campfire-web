@@ -23,6 +23,7 @@
 
 .label {
     font-size: 1rem;
+    width: 100%;
 }
 .label.horizontal {
     display: flex;

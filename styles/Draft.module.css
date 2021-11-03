@@ -40,3 +40,40 @@
     width: 24px;
     height: 24px;
 }
+
+.newPageSelectorWrapper {
+    display: flex;
+    justify-content: center;
+}
+.newPageSelector {
+    margin-bottom: 1rem;
+    padding: 0.5rem 0;
+    background-color: var(--background-element);
+    border-radius: 0.5rem;
+    position: relative;
+}
+.selectorItem {
+    padding: 0.5rem 1rem;
+    min-width: 200px;
+    cursor: pointer;
+}
+.selectorItem:hover, .selectorItem:focus {
+    background-color: var(--background);
+}
+
+.newPageSelector::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 5px;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--background-element);
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.tagHeader {
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+}

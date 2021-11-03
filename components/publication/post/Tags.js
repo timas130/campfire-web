@@ -3,17 +3,32 @@ import classes from "../../../styles/Tag.module.css";
 import CImage from "../../CImage";
 import Link from "next/link";
 
-export function Tag({tag}) {
-  return <Link href={`/fandom/${tag.fandom.id}/tags/${tag.id}`}>
-    <a className={classNames(classes.tag, tag.parentUnitId === 0 && classes.main)}>
-      {tag.jsonDB.J_IMAGE_ID !== 0 && <CImage
-        id={tag.jsonDB.J_IMAGE_ID} alt={tag.jsonDB.J_NAME}
-        className={classes.tagImage}
-        w={30} h={30}
-      />}
-      <span className={classes.tagText}>{tag.jsonDB.J_NAME}</span>
-    </a>
-  </Link>;
+export function Tag({tag, selectable, selected, select}) {
+  const El = selectable ? "span" : "a";
+  const tagEl = <El
+    className={classNames(
+      classes.tag,
+      tag.parentUnitId === 0 && classes.main,
+      selectable && classes.selectable,
+      selected && classes.selected,
+    )}
+    onClick={selectable ? select : undefined}
+  >
+    {tag.jsonDB.J_IMAGE_ID !== 0 && <CImage
+      id={tag.jsonDB.J_IMAGE_ID} alt={tag.jsonDB.J_NAME}
+      className={classes.tagImage}
+      w={30} h={30}
+    />}
+    <span className={classes.tagText}>{tag.jsonDB.J_NAME}</span>
+  </El>;
+
+  if (selectable) {
+    return tagEl;
+  } else {
+    return <Link href={`/fandom/${tag.fandom.id}/tags/${tag.id}`}>
+      {tagEl}
+    </Link>;
+  }
 }
 
 export default function Tags({tags}) {

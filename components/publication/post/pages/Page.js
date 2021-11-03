@@ -1,14 +1,15 @@
 import TextPage, {TextPageEdit} from "./TextPage";
 import ImagePage from "./ImagePage";
-import LinkPage from "./LinkPage";
-import QuotePage from "./QuotePage";
+import LinkPage, {LinkPageEdit} from "./LinkPage";
+import QuotePage, {QuotePageEdit} from "./QuotePage";
 import React, {useState} from "react";
-import SpoilerPage from "./SpoilerPage";
+import SpoilerPage, {SpoilerPageEdit} from "./SpoilerPage";
 import ImagesPage from "./ImagesPage";
 import classes from "../../../../styles/Page.module.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import {faCheck, faTrash, faWindowClose} from "@fortawesome/free-solid-svg-icons";
+import NProgress from "nprogress";
 
 const pageTypes = {
   1: TextPage,
@@ -18,8 +19,11 @@ const pageTypes = {
   5: QuotePage,
   6: SpoilerPage
 };
-const pageEditTypes = {
-  1: TextPageEdit
+export const pageEditTypes = {
+  1: TextPageEdit,
+  4: LinkPageEdit,
+  5: QuotePageEdit,
+  6: SpoilerPageEdit,
 };
 const pageTypesNames = {
   1: "PAGE_TYPE_TEXT",
@@ -38,7 +42,7 @@ const pageTypesNames = {
 };
 
 export function Page(props) {
-  let {page, editable, commit} = props;
+  let {page, editable, commit, isEditing: isGlobalEditing, setIsEditing: setGlobalIsEditing} = props;
   const [isEditing, setIsEditing] = useState(false);
 
   if (! pageTypes[page.J_PAGE_TYPE]) {
@@ -53,29 +57,47 @@ export function Page(props) {
       return React.createElement(pageEditTypes[page.J_PAGE_TYPE], {
         page: page.__new ? null : page,
         commit(newPage) {
+          NProgress.start();
+          console.group("commit");
           console.time("commit");
           console.timeLog("commit", "start [new, old]", newPage, page);
           commit(newPage)
             .catch(e => {
               console.error(e);
-              alert("ушиб очка: " + e);
+              if (typeof e === "object" && e.code && e.messageError) {
+                alert(`Ошибка: [${e.code}] ${e.messageError}`);
+              } else {
+                alert("Ошибка: " + JSON.stringify(e));
+              }
             })
             .finally(() => {
               console.timeEnd("commit");
-              if (newPage && newPage.__remove) return; // already unmounted
+              console.groupEnd();
+              setGlobalIsEditing(false);
               setIsEditing(false);
+            })
+            .finally(() => {
+              NProgress.done();
             });
         },
       });
     } else {
       return React.createElement(pageTypes[page.J_PAGE_TYPE], {
-        onEdit: (pageEditTypes[page.J_PAGE_TYPE] && editable) ? () => setIsEditing(true) : null,
+        onEdit: (pageEditTypes[page.J_PAGE_TYPE] && editable && !isGlobalEditing) ? () => {
+          setIsEditing(true);
+          setGlobalIsEditing(true);
+        } : null,
         ...props,
       });
     }
   }
 }
 
+export function EditToolbar({children}) {
+  return <div className={classes.editToolbar}>
+    {children}
+  </div>;
+}
 export function ToolbarButton({icon, active, sep, left, onClick}) {
   return <FontAwesomeIcon
     icon={icon} tabIndex={0} onClick={onClick}
@@ -86,7 +108,7 @@ export function ToolbarButton({icon, active, sep, left, onClick}) {
     )}
   />;
 }
-export function ToolbarLeft({commit, page}) {
+export function ToolbarActions({commit, page}) {
   return <>
     <ToolbarButton icon={faTrash} left onClick={() => commit({__delete: true})} />
     <ToolbarButton icon={faWindowClose} onClick={() => commit(null)} />

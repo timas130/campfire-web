@@ -1,7 +1,7 @@
 import Head from "next/head";
 import classes from "../../styles/Rules.module.css";
 
-const rulesConsts = {
+export const rulesConsts = {
   info: "Пожалуйста, прочтите все правила приложения, это не займет много времени, но поможет лучше понимать как устроено наше сообщество.",
   rules: [
     {

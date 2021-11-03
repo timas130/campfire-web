@@ -4,11 +4,12 @@ import classNames from "classnames";
 import {ExternalLinkIcon, LockClosedIcon, UsersIcon} from "@heroicons/react/solid";
 import Button from "../Button";
 import Tooltip from "../Tooltip";
-import useSWR from "swr/immutable";
-import {fetcher} from "../../lib/client-api";
+import useSWRImmutable from "swr/immutable";
+import {fetcher, useUser} from "../../lib/client-api";
 import {KarmaCounter} from "../Karma";
 import FandomHeader from "../FandomHeader";
 import {useEffect, useState} from "react";
+import {useRouter} from "next/router";
 
 export const SUB_TYPE_IMPORTANT = -1;
 export const SUB_TYPE_SUBBED = 0;
@@ -16,7 +17,7 @@ export const SUB_TYPE_NONE = 1;
 
 export default function FandomCard({ fandom, profile, info, fetchId = null, noLinks = false }) {
   const {data: fandomData} =
-    useSWR(fetchId && `/api/fandom/${fetchId}`, fetcher, {
+    useSWRImmutable(fetchId && `/api/fandom/${fetchId}`, fetcher, {
       fallbackData: fandom && {fandom, profile, info}
     });
   let {fandom: fandomL, profile: profileL, info: infoL} = fandomData || {};
@@ -30,7 +31,14 @@ export default function FandomCard({ fandom, profile, info, fetchId = null, noLi
     }
   }, [loaded]); // eslint-disable-line
 
+  const user = useUser();
+  const router = useRouter();
   const changeSubscriptionStatus = () => {
+    if (!user) {
+      router.push("/auth/login");
+      return;
+    }
+
     if (subscriptionStatus === SUB_TYPE_NONE) { // if not subscribed
       fetcher(`/api/fandom/${fandom.id}/sub?type=${SUB_TYPE_SUBBED}`)
         .then(() => setSubscriptionStatus(SUB_TYPE_SUBBED))
