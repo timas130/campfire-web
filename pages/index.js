@@ -25,6 +25,7 @@ export default function Home() {
           "Campfire — это уютное место с сообществами и " +
           "фэндомами на самые разные темы. Заходите на огонёк!"
         }
+        url="https://camp.33rd.dev"
       />
     </Head>
     <FeedLayout list={<>

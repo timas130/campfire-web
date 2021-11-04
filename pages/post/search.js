@@ -1,5 +1,4 @@
 import {useRouter} from "next/router";
-import useSWRImmutable from "swr/immutable";
 import Head from "next/head";
 import MetaTags from "../../components/MetaTags";
 import FeedLayout, {FeedLoader} from "../../components/FeedLayout";
@@ -28,7 +27,7 @@ export default function Search() {
   return <>
     <Head>
       <title>{title}</title>
-      <MetaTags title={title} />
+      <MetaTags title={title} url="https://camp.33rd.dev/post/search" />
     </Head>
     <FeedLayout list={<>
       <form method="GET" action="/post/search" onSubmit={onSubmit} className={classes.bar}>
