@@ -37,8 +37,8 @@ export async function fetchFandoms(req, res, request = {}) {
         params2: [],
         params3: [],
         params4: [],
-        ...request
-      }
+        ...request,
+      },
     )).J_RESPONSE.fandoms;
     cache.put(cacheKey, resp, 120000);
     return resp;
