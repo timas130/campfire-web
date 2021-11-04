@@ -48,6 +48,13 @@
     margin-left: 0.2rem;
 }
 
+.fandomSubs.left {
+    margin-left: 0;
+}
+.fandomSubs.left svg {
+    margin-right: 0.2rem;
+}
+
 .authenticate {
     display: flex;
     text-align: center;

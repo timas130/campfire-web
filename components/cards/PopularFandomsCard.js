@@ -35,7 +35,7 @@ export default function PopularFandomsCard({ limit = 5, shuffle = false }) {
               </span>
             </a>
           </Link>)}
-      <Link href="/fandoms"><a className={cardClasses.moreFandoms}>
+      <Link href="/fandom"><a className={cardClasses.moreFandoms}>
         Посмотреть другие фэндомы
         <ArrowRightIcon />
       </a></Link>
