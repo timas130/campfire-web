@@ -16,6 +16,12 @@
 .header.noPadding {
     padding: 0;
 }
+.header.dense {
+    padding: 0.5rem;
+}
+.header.clickable {
+    cursor: pointer;
+}
 
 .headerText {
     margin-left: 0.5rem;

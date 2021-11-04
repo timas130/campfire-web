@@ -129,6 +129,10 @@
     padding: 0.5rem 1rem;
     cursor: pointer;
 }
+.spoilerHeader.internal {
+    padding: 0.5rem 0;
+}
+
 .spoilerIcon {
     width: 1.2rem;
     margin-right: 0.5rem;

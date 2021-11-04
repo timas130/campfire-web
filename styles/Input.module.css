@@ -16,7 +16,9 @@
     font-family: var(--monospace-font);
 }
 .input[type=checkbox] {
-    width: initial;
+    width: 1rem;
+    height: 1rem;
+    vertical-align: middle;
     margin-right: 0.5rem;
     outline: none;
 }
@@ -28,6 +30,10 @@
 .label.horizontal {
     display: flex;
 }
+.label.block {
+    display: block;
+}
+
 .label .input {
     margin-top: 0.3rem;
     margin-bottom: 0.5rem;

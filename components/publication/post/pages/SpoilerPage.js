@@ -12,12 +12,13 @@ export default function SpoilerPage({ page, children, onEdit = null }) {
   return <section>
     <header tabIndex={0} className={classNames(
       classes.spoilerHeader,
-      onEdit && classes.editable
+      page.__internal && classes.internal,
+      onEdit && classes.editable,
     )} onClick={onEdit ?? (() => setExpanded(x => !x))}>
       {expanded ?
         <ChevronUpIcon className={classes.spoilerIcon} /> :
         <ChevronDownIcon className={classes.spoilerIcon} />}
-      {page.name} ({page.length || page.count} стр.)
+      {page.name} {!page.__internal && `(${page.length || page.count} стр.)`}
     </header>
     <div className={classNames(classes.spoilerContent, expanded && classes.expanded)}>
       {children}

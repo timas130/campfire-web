@@ -61,14 +61,17 @@ export default function CImage(props) {
 export function CAvatar(props) {
   let {link, id, alt, className, account, fandom, small, el, online, ...rest} = props;
   link =
+    link ? link :
     account ? `/account/${encodeURIComponent(account.J_NAME)}` :
     fandom ? `/fandom/${fandom.id}` :
     link;
   id =
+    id ? id :
     account ? account.J_IMAGE_ID :
     fandom ? fandom.imageId :
     id;
   alt =
+    alt ? alt :
     account ? account.J_NAME :
     fandom ? fandom.name :
     alt;

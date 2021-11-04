@@ -47,7 +47,7 @@ export async function getStaticProps(ctx) {
       break;
     }
     if (linkSpec.args && handle.startsWith(linkType + "_") || handle.startsWith(linkType + "-")) {
-      const id = handle.match(/([0-9]+)([_-][0-9]+)*$/)[1];
+      const id = handle.substring(linkType.length + 1).match(/^([^_-]+)([_-][^_-]+)*$/)[1];
 
       if (linkSpec.link.includes("{id}")) {
         link = linkSpec.link.replace("{id}", id);

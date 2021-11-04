@@ -35,8 +35,24 @@ function NewPageSelector({where, createPage}) {
   </div>;
 }
 
+const doCreatePage = (at, type = 1, isEditing, setPost, setIsEditing, setShowPageSel) => {
+  if (isEditing) return;
+  setPost(post => ({
+    ...post,
+    jsonDB: {
+      ...post.jsonDB,
+      J_PAGES: [
+        ...post.jsonDB.J_PAGES.slice(0, at),
+        {J_PAGE_TYPE: type, __new: true},
+        ...post.jsonDB.J_PAGES.slice(at),
+      ],
+    },
+  }));
+  setIsEditing(true);
+  setShowPageSel(false);
+};
+
 function EditablePage({page, idx: pageIdx, children, additional: {setPost, post, isEditing, setIsEditing}}) {
-  const [showPageSelTop, setShowPageSelTop] = useState(false);
   const [showPageSel, setShowPageSel] = useState(false);
 
   const commit = async newPage => {
@@ -131,30 +147,10 @@ function EditablePage({page, idx: pageIdx, children, additional: {setPost, post,
   };
 
   const createPage = (at, type = 1) => {
-    if (isEditing) return;
-    setPost(post => ({
-      ...post,
-      jsonDB: {
-        ...post.jsonDB,
-        J_PAGES: [
-          ...post.jsonDB.J_PAGES.slice(0, at),
-          {J_PAGE_TYPE: type, __new: true},
-          ...post.jsonDB.J_PAGES.slice(at),
-        ],
-      },
-    }));
-    setIsEditing(true);
-    setShowPageSel(false);
-    setShowPageSelTop(false);
+    doCreatePage(at, type, isEditing, setPost, setIsEditing, setShowPageSel);
   };
 
   return <>
-    {pageIdx === 0 && <div className={classes.newPageLine}>
-      <div className={classes.newPageHover} tabIndex={0} onClick={() => !isEditing && setShowPageSelTop(x => !x)}>
-        <div className={classes.newPageCircle}><PlusSmIcon /></div>
-      </div>
-    </div>}
-    {showPageSelTop && !isEditing && <NewPageSelector where={0} createPage={createPage} />}
     {/* children will also use EditablePage */}
     <Page
       page={page} editable commit={commit}
@@ -173,6 +169,11 @@ function EditablePage({page, idx: pageIdx, children, additional: {setPost, post,
 
 function MutPost({post, setPost}) {
   const [isEditing, setIsEditing] = useState(false);
+  const [showPageSelTop, setShowPageSelTop] = useState(false);
+
+  const createPage = (at, type) => {
+    doCreatePage(at, type, isEditing, setPost, setIsEditing, setShowPageSelTop);
+  };
 
   return <div className={postClasses.post}>
     <FandomHeader
@@ -180,6 +181,12 @@ function MutPost({post, setPost}) {
       authorLink={`/account/${encodeURIComponent(post.creator.J_NAME)}`}
     />
     <div className={classNames(postClasses.content, postClasses.expanded, classes.draftContent)}>
+      <div className={classes.newPageLine}>
+        <div className={classes.newPageHover} tabIndex={0} onClick={() => !isEditing && setShowPageSelTop(x => !x)}>
+          <div className={classes.newPageCircle}><PlusSmIcon /></div>
+        </div>
+      </div>
+      {showPageSelTop && !isEditing && <NewPageSelector where={0} createPage={createPage} />}
       <Pages
         pages={post.jsonDB.J_PAGES}
         additional={{setPost, post, isEditing, setIsEditing}}

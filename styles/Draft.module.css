@@ -73,7 +73,15 @@
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
 
+.publish {
+    padding-bottom: 5rem;
+}
+
 .tagHeader {
     margin-top: 1.25rem;
     margin-bottom: 0.5rem;
+}
+
+.activityDue {
+    color: var(--text);
 }

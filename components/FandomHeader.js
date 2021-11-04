@@ -3,29 +3,36 @@ import classNames from "classnames";
 import {CAvatar} from "./CImage";
 import Link from "next/link";
 
+// this is
+
 export default function FandomHeader(props) {
   const {
     fandom, className, pinned, imageId, name,
     link, addTitle, author, authorLink,
-    addSecondary, addRight, noPadding
+    addSecondary, addRight, noPadding,
+    onClick, dense,
   } = props;
   return <header className={className || classNames(
     classes.header,
     pinned && classes.pinned,
     noPadding && classes.noPadding,
-  )}>
-    <CAvatar fandom={fandom} id={imageId} alt={name} link={link} />
+    dense && classes.dense,
+    onClick && classes.clickable,
+  )} onClick={onClick}>
+    {Boolean(fandom || imageId) && <CAvatar fandom={fandom} id={imageId} alt={name} link={link} />}
     <div className={classes.headerText}>
       <div className={classes.headerTitle}>
-        <Link href={link || `/fandom/${fandom.id}`}>
-          <a className={classes.headerFandom}>{name || fandom.name}</a>
-        </Link>
+        {onClick ?
+          <span className={classes.headerFandom}>{name || fandom.name}</span> :
+          <Link href={link || `/fandom/${fandom.id}`}>
+            <a className={classes.headerFandom}>{name || fandom.name}</a>
+          </Link>}
         {addTitle}
       </div>
       <div className={classes.headerSecondary}>
         {authorLink ? <Link href={authorLink}>
           <a className={classes.headerAuthor}>{author}</a>
-        </Link> : <div className={classes.headerAuthor}>{author}</div>}
+        </Link> : <span className={classes.headerAuthor}>{author}</span>}
         {addSecondary && <>&nbsp;•&nbsp;{addSecondary}</>}
       </div>
     </div>
