@@ -5,7 +5,31 @@
         <lastmod>2021-11-04T19:21:23.639Z</lastmod>
     </sitemap>
     <sitemap>
-        <loc>https://camp.33rd.dev/sitemaps/posts.xml.gz</loc>
+        <loc>https://camp.33rd.dev/sitemaps/posts1.xml.gz</loc>
+        <lastmod>2021-11-04T19:21:23.639Z</lastmod>
+    </sitemap>
+    <sitemap>
+        <loc>https://camp.33rd.dev/sitemaps/posts2.xml.gz</loc>
+        <lastmod>2021-11-04T19:21:23.639Z</lastmod>
+    </sitemap>
+    <sitemap>
+        <loc>https://camp.33rd.dev/sitemaps/posts3.xml.gz</loc>
+        <lastmod>2021-11-04T19:21:23.639Z</lastmod>
+    </sitemap>
+    <sitemap>
+        <loc>https://camp.33rd.dev/sitemaps/posts4.xml.gz</loc>
+        <lastmod>2021-11-04T19:21:23.639Z</lastmod>
+    </sitemap>
+    <sitemap>
+        <loc>https://camp.33rd.dev/sitemaps/posts5.xml.gz</loc>
+        <lastmod>2021-11-04T19:21:23.639Z</lastmod>
+    </sitemap>
+    <sitemap>
+        <loc>https://camp.33rd.dev/sitemaps/posts6.xml.gz</loc>
+        <lastmod>2021-11-04T19:21:23.639Z</lastmod>
+    </sitemap>
+    <sitemap>
+        <loc>https://camp.33rd.dev/sitemaps/posts7.xml.gz</loc>
         <lastmod>2021-11-04T19:21:23.639Z</lastmod>
     </sitemap>
 </sitemapindex>
