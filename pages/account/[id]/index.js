@@ -7,15 +7,18 @@ import {useInfScroll} from "../../../lib/client-api";
 import Comment from "../../../components/publication/Comment";
 import postClasses from "../../../styles/Post.module.css";
 import FormattedText from "../../../components/FormattedText";
+import MetaTags from "../../../components/MetaTags";
 
 export default function Profile({account, profile}) {
   const {data: pubPages, ref, showLoader} = useInfScroll(
     `/api/account/${account.J_ID}/publications`
   );
 
+  const title = `Профиль ${account.J_NAME} | Campfire`;
   return <>
     <Head>
-      <title>Профиль {account.J_NAME} | Campfire</title>
+      <title>{title}</title>
+      <MetaTags title={title} />
     </Head>
     <FeedLayout
       list={<>

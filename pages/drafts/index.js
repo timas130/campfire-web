@@ -18,6 +18,7 @@ export default function Drafts() {
     }
   }, [router, user]);
   if (!user && !router) return <FeedLoader />;
+  if (!user) return null;
 
   return <>
     <Head>

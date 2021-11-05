@@ -69,12 +69,19 @@
     width: 1rem;
     vertical-align: bottom;
 }
+
 .fandomButtons {
     margin: 0.5rem 0;
+    text-align: center;
 }
+.fandomButtons > * {
+    margin-bottom: 0.25rem;
+}
+
 .fandomDescription {
     overflow-wrap: break-word;
 }
+
 .fandomLinks {
     margin-top: 0.5rem;
 }
@@ -83,6 +90,7 @@
     margin: 0.25rem 0;
     text-decoration: none;
 }
+
 .fandomLinkTitle {
     font-weight: bold;
     color: var(--text);

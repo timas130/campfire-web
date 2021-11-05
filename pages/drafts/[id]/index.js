@@ -1,6 +1,6 @@
 import {useRouter} from "next/router";
 import FeedLayout, {FeedLoader} from "../../../components/FeedLayout";
-import {fetcher, useLocalMutSWR} from "../../../lib/client-api";
+import {fetcher, useLocalMutSWR, useUser} from "../../../lib/client-api";
 import postClasses from "../../../styles/Post.module.css";
 import FandomHeader from "../../../components/FandomHeader";
 import classNames from "classnames";
@@ -8,11 +8,12 @@ import classes from "../../../styles/Draft.module.css";
 import Pages from "../../../components/publication/post/pages/Pages";
 import {Page, pageEditTypes} from "../../../components/publication/post/pages/Page";
 import {PlusSmIcon} from "@heroicons/react/solid";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {pageTypesNames} from "../../../lib/text-cover";
 import NoticeCard, {RulesCard, TextFormattingCard} from "../../../components/cards/NoticeCard";
 import Link from "next/link";
 import Button from "../../../components/Button";
+import useSWRImmutable from "swr/immutable";
 
 // it's better than legacy campweb, but still pretty shitty
 
@@ -38,13 +39,13 @@ function NewPageSelector({where, createPage}) {
 const doCreatePage = (at, type = 1, isEditing, setPost, setIsEditing, setShowPageSel) => {
   if (isEditing) return;
   setPost(post => ({
-    ...post,
+    ...(post || {}),
     jsonDB: {
-      ...post.jsonDB,
+      ...(post?.jsonDB || {}),
       J_PAGES: [
-        ...post.jsonDB.J_PAGES.slice(0, at),
+        ...(post?.jsonDB?.J_PAGES || []).slice(0, at),
         {J_PAGE_TYPE: type, __new: true},
-        ...post.jsonDB.J_PAGES.slice(at),
+        ...(post?.jsonDB?.J_PAGES || []).slice(at),
       ],
     },
   }));
@@ -52,7 +53,7 @@ const doCreatePage = (at, type = 1, isEditing, setPost, setIsEditing, setShowPag
   setShowPageSel(false);
 };
 
-function EditablePage({page, idx: pageIdx, children, additional: {setPost, post, isEditing, setIsEditing}}) {
+function EditablePage({page, idx: pageIdx, children, additional: {setPost, post, isEditing, setIsEditing, onGetId, fandomId}}) {
   const [showPageSel, setShowPageSel] = useState(false);
 
   const commit = async newPage => {
@@ -82,18 +83,24 @@ function EditablePage({page, idx: pageIdx, children, additional: {setPost, post,
 
     if (page.__new) {
       // append the page to the end
-      newPage = (await fetcher(`/api/drafts/${post.id}/page?action=put`, {
+      const resp = (await fetcher(`/api/drafts/${(post || {}).id || 0}/page?action=put`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          fandomId: post.fandom.id,
+          fandomId: post?.fandom?.id || fandomId,
           languageId: 2,
           pages: [newPage],
         }),
-      })).pages[0];
+      }));
+      newPage = resp.pages[0];
       console.timeLog("commit", "put page, server page:", newPage);
+
+      if (!post?.id) {
+        onGetId(resp.unitId);
+        return;
+      }
 
       // move the page if necessary
       if (pageIdx !== post.jsonDB.J_PAGES.length - 1) {
@@ -167,7 +174,7 @@ function EditablePage({page, idx: pageIdx, children, additional: {setPost, post,
   </>;
 }
 
-function MutPost({post, setPost}) {
+function MutPost({post, setPost, fandomId, onGetId}) {
   const [isEditing, setIsEditing] = useState(false);
   const [showPageSelTop, setShowPageSelTop] = useState(false);
 
@@ -175,11 +182,17 @@ function MutPost({post, setPost}) {
     doCreatePage(at, type, isEditing, setPost, setIsEditing, setShowPageSelTop);
   };
 
+  const user = useUser();
+  const {data: fandom} = useSWRImmutable(fandomId && `/api/fandom/${fandomId}`, fetcher);
+
   return <div className={postClasses.post}>
-    <FandomHeader
+    {post?.id ? <FandomHeader
       fandom={post.fandom} author={post.creator.J_NAME}
       authorLink={`/account/${encodeURIComponent(post.creator.J_NAME)}`}
-    />
+    /> : (fandom && <FandomHeader
+      fandom={fandom.fandom} author={user.J_NAME}
+      authorLink={`/account/${encodeURIComponent(user.J_NAME)}`}
+    />)}
     <div className={classNames(postClasses.content, postClasses.expanded, classes.draftContent)}>
       <div className={classes.newPageLine}>
         <div className={classes.newPageHover} tabIndex={0} onClick={() => !isEditing && setShowPageSelTop(x => !x)}>
@@ -188,8 +201,8 @@ function MutPost({post, setPost}) {
       </div>
       {showPageSelTop && !isEditing && <NewPageSelector where={0} createPage={createPage} />}
       <Pages
-        pages={post.jsonDB.J_PAGES}
-        additional={{setPost, post, isEditing, setIsEditing}}
+        pages={post?.jsonDB?.J_PAGES || []}
+        additional={{setPost, post, isEditing, setIsEditing, onGetId, fandomId}}
         pageEl={EditablePage}
       />
     </div>
@@ -197,18 +210,35 @@ function MutPost({post, setPost}) {
 }
 
 export default function Draft() {
-  const draftId = useRouter().query.id;
+  const router = useRouter();
+  const user = useUser();
+  const draftId = parseInt(router.query.id);
+  const fandomId = parseInt(router.query.fandom) || 0;
+
   const {data: draft, setData: setDraft} = useLocalMutSWR(
-    draftId && `/api/drafts/${draftId}`
+    user && draftId && draftId !== 0 && `/api/drafts/${draftId}`
   );
+
+  useEffect(() => {
+    if (!user && router) {
+      router.push(`/auth/login`);
+    }
+  }, [router, user]);
+  if (!user && !router) return <FeedLoader />;
+  if (!user) return null;
 
   return <FeedLayout
     list={<>
-      {draft ?
-        <MutPost post={draft} setPost={setDraft} /> :
+      {(draftId && draftId !== 0 && draft) || (draftId === 0) ?
+        <MutPost
+          post={draft} setPost={setDraft}
+          fandomId={fandomId} onGetId={id => {
+            router.replace(`/drafts/${id}`);
+          }}
+        /> :
         <FeedLoader />}
       <Link href={`/drafts/${draftId}/publish`} passHref>
-        <Button el="a" secondary  >Опубликовать</Button>
+        <Button el="a" secondary>Опубликовать</Button>
       </Link>
     </>}
     sidebar={<>

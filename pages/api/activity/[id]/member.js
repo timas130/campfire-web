@@ -1,5 +1,5 @@
 import {sendRequestAuthenticated} from "../../../../lib/server";
-import {sendErrorIfFromRemote} from "../../../../lib/api";
+import {castToBoolean, sendErrorIfFromRemote} from "../../../../lib/api";
 
 export async function changeActivityMemberStatus(req, res, id, member) {
   return (await sendRequestAuthenticated(
@@ -12,7 +12,7 @@ export default async function activityMemberStatusHandler(req, res) {
   try {
     res.send(await changeActivityMemberStatus(
       req, res, req.query.id,
-      req.query.member.toLowerCase() === "true"
+      castToBoolean(req.query.member),
     ));
   } catch (e) {
     sendErrorIfFromRemote(res, e);

@@ -10,6 +10,7 @@ import {KarmaCounter} from "../Karma";
 import FandomHeader from "../FandomHeader";
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
+import Link from "next/link";
 
 export const SUB_TYPE_IMPORTANT = -1;
 export const SUB_TYPE_SUBBED = 0;
@@ -18,7 +19,7 @@ export const SUB_TYPE_NONE = 1;
 export default function FandomCard({ fandom, profile, info, fetchId = null, noLinks = false }) {
   const {data: fandomData} =
     useSWRImmutable(fetchId && `/api/fandom/${fetchId}`, fetcher, {
-      fallbackData: fandom && {fandom, profile, info}
+      fallbackData: fandom && {fandom, profile, info},
     });
   let {fandom: fandomL, profile: profileL, info: infoL} = fandomData || {};
 
@@ -71,6 +72,11 @@ export default function FandomCard({ fandom, profile, info, fetchId = null, noLi
       <Button fullWidth onClick={changeSubscriptionStatus}>
         {subscriptionStatus !== SUB_TYPE_NONE ? "Отписаться" : "Подписаться"}
       </Button>
+      <Link href={`/drafts/0?fandom=${fandomL.id}`} passHref>
+        <Button el="a" fullWidth>
+          Создать пост
+        </Button>
+      </Link>
     </div>
     <div className={classes.fandomDescription}>
       {infoL.description}

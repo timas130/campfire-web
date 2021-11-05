@@ -1,5 +1,5 @@
 import {sendRequestAuthenticated} from "../../../../lib/server";
-import {sendErrorIfFromRemote} from "../../../../lib/api";
+import {castToBoolean, sendErrorIfFromRemote} from "../../../../lib/api";
 import {SUB_TYPE_NONE} from "../../../../components/cards/FandomCard";
 
 export async function changeFandomSubscriptionStatus(req, res, fandomId, type, important = null) {
@@ -17,7 +17,7 @@ export default async function changeFandomSubscriptionStatusHandler(req, res) {
   try {
     res.send(await changeFandomSubscriptionStatus(
       req, res, req.query.id, req.query.type,
-      req.query.important ? req.query.important.toLowerCase() === "true" : null
+      castToBoolean(req.query.important),
     ));
   } catch (e) {
     sendErrorIfFromRemote(res, e);
