@@ -8,7 +8,7 @@ export async function fetchComments(req, res, postId, offset = 0, request = {}) 
       offsetDate: offset,
       old: false,
       startFromBottom: false,
-      ...request
+      ...request,
     }
   )).J_RESPONSE.units;
 }

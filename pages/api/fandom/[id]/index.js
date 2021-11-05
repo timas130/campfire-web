@@ -24,7 +24,7 @@ export async function fetchFandom(req, res, id) {
   return {
     fandom: (await fandom).J_RESPONSE.fandom,
     profile: (await profile).J_RESPONSE,
-    info: (await info).J_RESPONSE
+    info: (await info).J_RESPONSE,
   };
 }
 

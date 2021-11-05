@@ -4,8 +4,8 @@ export async function searchPosts(query) {
   const client = new Client({
     node: process.env.ELASTIC_URL,
     auth: {
-      apiKey: process.env.ELASTIC_KEY
-    }
+      apiKey: process.env.ELASTIC_KEY,
+    },
   });
   return (await client.search({
     index: "posts-*",

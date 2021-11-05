@@ -6,7 +6,7 @@ export async function fetchFeed(req, res, type = "subscribed", offset = 0) {
     return (await sendRequestAlwaysAuthenticated(
       req, res, "RPostFeedGetAllSubscribe", {
         offsetDate: offset,
-        categoryId: 0
+        categoryId: 0,
       }
     )).J_RESPONSE;
   } else {

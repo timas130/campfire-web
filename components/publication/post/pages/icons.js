@@ -17,7 +17,7 @@ import {
   ShareIcon,
   UserCircleIcon,
   UserIcon,
-  XIcon
+  XIcon,
 } from "@heroicons/react/solid";
 
 export const icons = {

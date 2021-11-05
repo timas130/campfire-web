@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       "RResourcesGet",
       {
         "$$dataload$$": true,
-        "resourceId": id
+        "resourceId": id,
       },
       true
     );

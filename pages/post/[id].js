@@ -62,7 +62,7 @@ export async function getServerSideProps(ctx) {
   return {
     props: {
       post: await fetchPost(ctx.req, ctx.res, ctx.query.id),
-      comments: await fetchComments(ctx.req, ctx.res, ctx.query.id)
-    }
+      comments: await fetchComments(ctx.req, ctx.res, ctx.query.id),
+    },
   };
 }

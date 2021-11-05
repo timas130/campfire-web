@@ -9,6 +9,6 @@ export default function Redirect() {
 
 export async function getServerSideProps(ctx) {
   return await getStaticProps({
-    params: {link: ctx.query.a}
+    params: {link: ctx.query.a},
   });
 }

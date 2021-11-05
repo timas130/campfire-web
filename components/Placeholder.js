@@ -13,6 +13,6 @@ export function BoxPlaceholder(props) {
   return <El className={classNames(classes.box, className)} style={{
     width: w,
     height: h,
-    ...style
+    ...style,
   }} {...rest} />;
 }

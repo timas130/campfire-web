@@ -22,13 +22,13 @@ export default function ExpandButton({expanded, setExpanded, contentRef, maxHeig
     if (!bodyTop || !buttonTop) return;
     if (expanded) {
       window.scrollTo({
-        top: bodyTop
+        top: bodyTop,
       });
     } else {
       const currentBodyTop = Math.abs(document.body.getBoundingClientRect().top);
       const currentButtonTop = buttonRef.current.getBoundingClientRect().top;
       window.scrollTo({
-        top: currentBodyTop + (currentButtonTop - buttonTop)
+        top: currentBodyTop + (currentButtonTop - buttonTop),
       });
     }
     setBodyTop(null);

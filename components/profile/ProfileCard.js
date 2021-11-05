@@ -13,7 +13,7 @@ import {
   LightningBoltIcon,
   StarIcon,
   UserCircleIcon,
-  UsersIcon
+  UsersIcon,
 } from "@heroicons/react/solid";
 import {KarmaCounter} from "../Karma";
 

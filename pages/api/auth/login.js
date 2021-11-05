@@ -12,7 +12,7 @@ export default async function authLogin(req, res) {
       req, res,
       "RAccountsLoginSimple", {
         "J_API_LOGIN_TOKEN": loginToken,
-        "tokenNotification": ""
+        "tokenNotification": "",
       }
     );
     if (!resp.J_RESPONSE.account) {
