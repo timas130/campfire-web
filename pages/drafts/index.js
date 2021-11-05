@@ -3,6 +3,7 @@ import Head from "next/head";
 import FeedLayout, {FeedLoader} from "../../components/FeedLayout";
 import Post from "../../components/publication/post/Post";
 import {useRouter} from "next/router";
+import {useEffect} from "react";
 
 export default function Drafts() {
   const router = useRouter();
@@ -11,11 +12,12 @@ export default function Drafts() {
     user && `/api/drafts`, false, 5,
   );
 
+  useEffect(() => {
+    if (!user && router) {
+      router.push(`/auth/login`);
+    }
+  }, [router, user]);
   if (!user && !router) return <FeedLoader />;
-  if (!user) {
-    router.push(`/auth/login`);
-    return null;
-  }
 
   return <>
     <Head>
