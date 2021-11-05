@@ -1,7 +1,7 @@
 import {sendRequestAuthenticated} from "../../../../lib/server";
-import {sendErrorIfFromRemote} from "../../../../lib/api";
+import {decodeDataOutput, sendErrorIfFromRemote} from "../../../../lib/api";
 
-export async function pageAction(req, res, draftId, action, args) {
+export async function pageAction(req, res, draftId, action, args, dataOutput = []) {
   switch (action) {
     case "put":
       return (await sendRequestAuthenticated(
@@ -10,7 +10,7 @@ export async function pageAction(req, res, draftId, action, args) {
           appKey: "",
           appSubKey: "",
           ...args, // fandomId, languageId, pages
-        },
+        }, dataOutput,
       )).J_RESPONSE;
     case "remove":
       return (await sendRequestAuthenticated(
@@ -31,7 +31,7 @@ export async function pageAction(req, res, draftId, action, args) {
         req, res, "RPostChangePage", {
           unitId: draftId,
           ...args, // page, pageIndex
-        },
+        }, dataOutput,
       )).J_RESPONSE.page;
     default:
       throw {code: "INVALID_ACTION", messageError: "", params: [], cweb: true};
@@ -40,8 +40,9 @@ export async function pageAction(req, res, draftId, action, args) {
 
 export default async function pageHandler(req, res) {
   try {
-    res.send(await pageAction(req, res, req.query.id, req.query.action, req.body))
+    res.send(await pageAction(req, res, req.query.id, req.query.action, req.body, decodeDataOutput(req)));
   } catch (e) {
+    console.error(e);
     sendErrorIfFromRemote(res, e);
   }
 }

@@ -17,7 +17,7 @@ const pageTypes = {
   3: ImagesPage,
   4: LinkPage,
   5: QuotePage,
-  6: SpoilerPage
+  6: SpoilerPage,
 };
 export const pageEditTypes = {
   1: TextPageEdit,
@@ -50,7 +50,7 @@ export function Page(props) {
       J_TEXT:
         "Oops, unimplemented! Page type: [noFormat]" +
           (pageTypesNames[page.J_PAGE_TYPE] || "unknown") +
-        "[/noFormat]"
+        "[/noFormat]",
     }} />;
   } else {
     if ((isEditing || page.__new) && editable && pageEditTypes[page.J_PAGE_TYPE]) {
