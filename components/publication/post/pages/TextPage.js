@@ -43,19 +43,19 @@ export function TextPageEdit({ page: initialPage, commit }) {
 
   return <section className={classNames(
     classes.textPage, classes.editing
-    )}>
-      <Input
-        el="textarea"
-        value={page.J_TEXT}
-        className={classNames(
-          Boolean(page.J_SIZE) && classes.textBig,
-        )}
-        style={{textAlign}}
-        onChange={ev => setPage(page => ({
-          ...page,
-          J_TEXT: ev.target.value,
-        }))}
-      />
+  )}>
+    <Input
+      el="textarea"
+      value={page.J_TEXT}
+      className={classNames(
+        Boolean(page.J_SIZE) && classes.textBig,
+      )}
+      style={{textAlign}}
+      onChange={ev => setPage(page => ({
+        ...page,
+        J_TEXT: ev.target.value,
+      }))}
+    />
     <EditToolbar>
       <ToolbarButton
         icon={faHeading} active={page.J_SIZE === 1}
