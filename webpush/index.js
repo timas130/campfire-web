@@ -14,6 +14,11 @@ const registrations = {};
 
 function register() {
   const uuid = genUUID();
+  const sendToken = sign({
+    "sub": uuid,
+  }, process.env.JWT_SECRET, {
+    "audience": "pushrelay-send",
+  });
   return {
     uuid,
     listenToken: sign({
@@ -21,12 +26,8 @@ function register() {
     }, process.env.JWT_SECRET, {
       "audience": "pushrelay-listen",
     }),
-    sendToken: sign({
-      "sub": uuid,
-    }, process.env.JWT_SECRET, {
-      "audience": "pushrelay-send",
-    }),
-    registrationToken: `custrom|${selfUrl}|${reg.sendToken}`,
+    sendToken,
+    registrationToken: `custrom|${selfUrl}|${sendToken}`,
     websocket: null,
   };
 }
