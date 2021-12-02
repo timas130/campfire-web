@@ -10,7 +10,7 @@ PushRelay™ это простой сервис, который позволяе
 
 ## Референс
 
-Базовый URL: `https://push.camp.33rd.dev`.
+Базовый URL: `https://push.33rd.dev`.
 
 ### /register
 

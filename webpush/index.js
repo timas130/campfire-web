@@ -8,6 +8,8 @@ require("dotenv").config({
 });
 const rawBody = require("raw-body");
 
+const selfUrl = "https://push.33rd.dev/push";
+
 const registrations = {};
 
 function register() {
@@ -24,6 +26,8 @@ function register() {
     }, process.env.JWT_SECRET, {
       "audience": "pushrelay-send",
     }),
+    registrationToken: `custrom|${selfUrl}|${reg.sendToken}`,
+    websocket: null,
   };
 }
 
