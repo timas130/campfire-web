@@ -124,7 +124,8 @@ fastify.post("/push", async (req, res) => {
 });
 
 fastify.get("/stream", {websocket: true}, (conn, req) => {
-  const uuid = verify(req.headers.authorization, process.env.JWT_SECRET, {
+  const authToken = req.headers.authorization || req.headers["sec-websocket-protocol"];
+  const uuid = verify(authToken, process.env.JWT_SECRET, {
     "audience": "pushrelay-listen",
   }).sub;
 
