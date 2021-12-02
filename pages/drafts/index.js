@@ -1,24 +1,12 @@
-import {useInfScroll, useUser} from "../../lib/client-api";
+import {useInfScroll} from "../../lib/client-api";
 import Head from "next/head";
 import FeedLayout, {FeedLoader} from "../../components/FeedLayout";
 import Post from "../../components/publication/post/Post";
-import {useRouter} from "next/router";
-import {useEffect} from "react";
 
 export default function Drafts() {
-  const router = useRouter();
-  const user = useUser();
   const {data: draftPages, ref, showLoader} = useInfScroll(
-    user && `/api/drafts`, false, 5,
+    `/api/drafts`, false, 5,
   );
-
-  useEffect(() => {
-    if (!user && router) {
-      router.push(`/auth/login`);
-    }
-  }, [router, user]);
-  if (!user && !router) return <FeedLoader />;
-  if (!user) return null;
 
   return <>
     <Head>
