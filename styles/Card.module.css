@@ -29,13 +29,13 @@
 .fandomSubs, a.moreFandoms {
     white-space: nowrap;
     color: var(--text-secondary);
+    text-decoration: none;
 }
 .fandomSubs {
     margin-left: 0.5rem;
 }
 .moreFandoms {
     margin-top: 0.5rem;
-    text-decoration: none;
 }
 .fandomSubs svg, .moreFandoms svg {
     width: 1rem;

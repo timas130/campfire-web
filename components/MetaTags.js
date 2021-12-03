@@ -2,6 +2,7 @@ export default function MetaTags({title, url, description = "", image = "https:/
   return <>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
+    <link rel="canonical" href={url} />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content={url} />

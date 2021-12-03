@@ -18,7 +18,7 @@ export default function Profile({account, profile}) {
   return <>
     <Head>
       <title>{title}</title>
-      <MetaTags title={title} />
+      <MetaTags title={title} url={`https://camp.33rd.dev/account/${encodeURIComponent(account.J_NAME)}`} />
     </Head>
     <FeedLayout
       list={<>

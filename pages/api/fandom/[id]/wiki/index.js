@@ -1,7 +1,7 @@
 import {sendRequestAlwaysAuthenticated} from "../../../../../lib/server";
 import {sendErrorIfFromRemote} from "../../../../../lib/api";
 
-export async function fetchWiki(req, res, fandomId, offset = 0, parent = 0) {
+export async function fetchWikiList(req, res, fandomId, offset = 0, parent = 0) {
   return (await sendRequestAlwaysAuthenticated(
     req, res, "RWikiListGet", {
       fandomId, offset,
@@ -12,7 +12,7 @@ export async function fetchWiki(req, res, fandomId, offset = 0, parent = 0) {
 
 export default async function wikiRootHandler(req, res) {
   try {
-    res.send(await fetchWiki(req, res, req.query.id, req.query.offset));
+    res.send(await fetchWikiList(req, res, req.query.id, req.query.offset));
   } catch (e) {
     sendErrorIfFromRemote(res, e);
   }
