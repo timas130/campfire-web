@@ -27,7 +27,7 @@ function register() {
       "audience": "pushrelay-listen",
     }),
     sendToken,
-    registrationToken: `custrom|${selfUrl}|${sendToken}`,
+    registrationToken: `custom|${selfUrl}|${sendToken}`,
     websocket: null,
   };
 }
@@ -61,7 +61,7 @@ fastify.route({
       campfire: { type: "boolean" },
     },
   },
-  async handler(req, res) {
+  async handler(req) {
     const reg = register();
 
     if (req.query.campfire !== false) {
@@ -69,9 +69,8 @@ fastify.route({
         token: reg.registrationToken,
         J_API_LOGIN_TOKEN: req.body.loginToken,
       }));
-      if (response.J_STATUS !== "J_OK") {
-        res.status(500);
-        return {error: "error adding notifications token to campfire"};
+      if (response.J_STATUS !== "J_STATUS_OK") {
+        throw "error adding notifications token to campfire";
       }
     }
 
