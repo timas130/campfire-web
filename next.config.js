@@ -7,10 +7,10 @@ module.exports = {
         headers: [
           {
             key: "Content-Type",
-            value: "application/opensearchdescription+xml"
+            value: "application/opensearchdescription+xml",
           },
         ],
       },
     ];
-  }
+  },
 };
