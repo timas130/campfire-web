@@ -27,9 +27,8 @@ export default async function authLogin(req, res) {
       };
     }
 
-    const redir = req.body.redir.toString().toLowerCase();
-    if (redir !== "false") {
-      res.redirect(redir === "true" ? "/" : req.body.redir);
+    if (req.body.redir.toString().toLowerCase() !== "false") {
+      res.redirect("/");
     } else {
       res.send(resp.J_RESPONSE);
     }

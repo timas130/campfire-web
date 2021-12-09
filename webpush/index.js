@@ -6,6 +6,7 @@ const {sign, verify} = require("jsonwebtoken");
 require("dotenv").config({
   path: ".env.local",
 });
+const rawBody = require("raw-body");
 
 const selfUrl = "https://push.33rd.dev/push";
 
@@ -39,6 +40,15 @@ async function unregister(reg) {
     });
 }
 
+fastify.addContentTypeParser("application/octet-stream", (req, payload, done) => {
+  rawBody(payload, {
+    length: req.headers["content-length"],
+    limit: "2mb",
+  }, (err, body) => {
+    done(err, body);
+  });
+});
+
 fastify.get("/", async () => {
   return "PushRelay™ server";
 });
@@ -55,10 +65,10 @@ fastify.route({
     const reg = register();
 
     if (req.query.campfire !== false) {
-      const response = await sendRequest("RAccountsAddNotificationsToken", {
+      const response = (await sendRequest("RAccountsAddNotificationsToken", {
         token: reg.registrationToken,
         J_API_LOGIN_TOKEN: req.body.loginToken,
-      });
+      }));
       if (response.J_STATUS !== "J_STATUS_OK") {
         throw "error adding notifications token to campfire";
       }
@@ -102,7 +112,7 @@ fastify.post("/push", async (req, res) => {
     }
 
     if (registration.websocket) {
-      registration.websocket.socket.send(JSON.stringify(req.body.data));
+      registration.websocket.write(JSON.stringify(req.body.data));
     }
 
     results.push({message_id: "cweb"});
@@ -119,10 +129,7 @@ fastify.get("/stream", {websocket: true}, (conn, req) => {
   }).sub;
 
   const reg = registrations[uuid];
-  if (!reg) {
-    conn.socket.close(1008, "registration is not valid");
-    return;
-  }
+  if (!reg) conn.socket.destroy("registration is not valid");
 
   conn.socket.on("close", () => {
     fastify.log.info("deleted registration (closed)", reg.uuid);
