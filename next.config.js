@@ -13,7 +13,6 @@ module.exports = {
       },
     ];
   },
-  swcMinify: true,
   env: {
     meiliUrl: "https://camp.33rd.dev/_/meili/",
     // YES! It is safe to publish the public MeiliSearch key.
