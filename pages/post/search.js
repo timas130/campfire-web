@@ -16,6 +16,7 @@ import Input from "../../components/Input";
 import "instantsearch.css/themes/reset.css";
 import classes from "../../styles/Search.module.css";
 import {useState} from "react";
+import {useRouter} from "next/router";
 
 const searchClient = instantMeiliSearch(process.env.meiliUrl, process.env.meiliKey);
 
@@ -47,6 +48,8 @@ const CustomPagination = connectPagination(({ currentRefinement, refine, nbPages
 });
 
 export default function Search() {
+  const query = useRouter().query.q;
+
   const title = `Поиск | Campfire`;
   return <>
     <Head>
@@ -61,7 +64,7 @@ export default function Search() {
       ><ScrollTo>
         <CustomSearchBox
           submit={<Button>Поиск</Button>}
-          reset={null}
+          reset={null} defaultRefinement={query}
           searchAsYouType={false}
         />
         <CustomStats />
