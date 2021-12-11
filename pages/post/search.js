@@ -1,44 +1,78 @@
-import {useRouter} from "next/router";
 import Head from "next/head";
 import MetaTags from "../../components/MetaTags";
-import FeedLayout, {FeedLoader} from "../../components/FeedLayout";
+import FeedLayout from "../../components/FeedLayout";
+import {instantMeiliSearch} from "@meilisearch/instant-meilisearch";
+import {
+  connectPagination,
+  connectSearchBox,
+  connectStats,
+  Hits,
+  InstantSearch,
+  ScrollTo,
+} from "react-instantsearch-dom";
 import Post from "../../components/publication/post/Post";
-import useSWR from "swr";
-import {fetcher} from "../../lib/client-api";
-import Input from "../../components/Input";
-import classes from "../../styles/Search.module.css";
 import Button from "../../components/Button";
+import Input from "../../components/Input";
+import "instantsearch.css/themes/reset.css";
+import classes from "../../styles/Search.module.css";
+import {useState} from "react";
+
+const searchClient = instantMeiliSearch(process.env.meiliUrl, process.env.meiliKey);
+
+const CustomSearchBox = connectSearchBox(({ refine }) => {
+  const [value, setValue] = useState("");
+  return <form className={classes.bar} onSubmit={ev => {
+    ev.preventDefault();
+    refine(value);
+  }}>
+    <Input
+      type="search" value={value}
+      onChange={ev => setValue(ev.target.value)}
+      placeholder="Поиск..." className={classes.input}
+    />
+    <Button type="submit">Поиск</Button>
+  </form>;
+});
+const CustomStats = connectStats(({ nbHits, processingTimeMS }) => {
+  return <div className={classes.stats}>Найдено {nbHits} за {processingTimeMS} мс</div>;
+});
+const CustomPagination = connectPagination(({ currentRefinement, refine, nbPages }) => {
+  return <div className={classes.pagination}>
+    <Button onClick={() => refine(1)}>«</Button>
+    <Button onClick={() => currentRefinement > 1 && refine(currentRefinement - 1)}>←</Button>
+    <span className={classes.paginationText}>{currentRefinement} из {nbPages}</span>
+    <Button onClick={() => currentRefinement < nbPages && refine(currentRefinement + 1)}>→</Button>
+    <Button onClick={() => refine(nbPages)}>»</Button>
+  </div>;
+});
 
 export default function Search() {
-  const router = useRouter();
-  const q = router.query.q;
-  const { data: results, error } = useSWR(
-    q ? ("/api/post/search?q=" + encodeURIComponent(q)) : null,
-    fetcher
-  );
-
-  const onSubmit = ev => {
-    ev.preventDefault();
-    const data = new FormData(ev.target);
-    router.replace("/post/search?q=" + encodeURIComponent(data.get("q")));
-  };
-
-  const title = `Поиск "${q}" | Campfire`;
+  const title = `Поиск | Campfire`;
   return <>
     <Head>
       <title>{title}</title>
       <MetaTags title={title} url="https://camp.33rd.dev/post/search" />
     </Head>
     <FeedLayout list={<>
-      <form method="GET" action="/post/search" onSubmit={onSubmit} className={classes.bar}>
-        <Input placeholder="Поиск..." name="q" className={classes.input} />
-        <Button type="submit">Найти</Button>
-      </form>
-      {results ?
-        results.map(post => <Post key={post.id} post={post} />) :
-        q ?
-          error ? <FeedLoader text="Ошибка" /> : <FeedLoader /> :
-          <FeedLoader text="Введите ваш запрос" />}
+      <InstantSearch
+        indexName="post"
+        searchClient={searchClient}
+        createURL={searchState => `?q=${encodeURIComponent(searchState.query)}`}
+      ><ScrollTo>
+        <CustomSearchBox
+          submit={<Button>Поиск</Button>}
+          reset={null}
+          searchAsYouType={false}
+        />
+        <CustomStats />
+        <CustomPagination />
+          <Hits hitComponent={hit =>
+            hit.hit ?
+              <Post key={hit.hit.id} post={JSON.parse(hit.hit.raw_data)} /> :
+              null
+          } />
+        <CustomPagination />
+      </ScrollTo></InstantSearch>
     </>} />
   </>;
 }

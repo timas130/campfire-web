@@ -1,13 +1,22 @@
 .bar {
     display: flex;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
 .input {
     margin-right: 0.5rem;
 }
 
+.pagination {
+    display: flex;
+    align-items: center;
+    margin: 0.75rem 0;
+}
+.pagination > * {
+    margin-right: 0.25rem;
+}
+
 @media screen and (max-width: 1005px) {
-    .bar {
+    .bar, .stats, .pagination {
         padding: 0 0.75rem;
     }
 }
