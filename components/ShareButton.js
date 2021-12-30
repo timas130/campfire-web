@@ -28,6 +28,7 @@ export default function ShareButton({ link, className = "" }) {
         copy("https://camp.33rd.dev" + link);
         setCopied(true);
       }}
+      tabIndex={0}
     />
   </div>;
 }

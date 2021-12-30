@@ -133,6 +133,7 @@ fastify.get("/stream", {websocket: true}, (conn, req) => {
 
   conn.socket.on("close", () => {
     fastify.log.info("deleted registration (closed)", reg.uuid);
+    clearInterval(reg.keepAliveInterval);
     unregister(reg)
       .catch(e => fastify.log.warn(e))
       .finally(() => delete registrations[reg.uuid]);
@@ -141,6 +142,9 @@ fastify.get("/stream", {websocket: true}, (conn, req) => {
   clearTimeout(reg.timeout);
   reg.timeout = null;
   reg.websocket = conn;
+  reg.keepAliveInterval = setInterval(() => {
+    conn.write(JSON.stringify({_: "keep-alive"}));
+  }, 10000);
 });
 
 fastify.listen(3001, err => {

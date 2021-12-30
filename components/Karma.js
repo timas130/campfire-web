@@ -59,17 +59,25 @@ export default function Karma(props) {
     disabled && classes.karmaVoted,
     small && classes.small
   )}>
-    <ChevronDownIcon className={classNames(
-      classes.karmaButton,
-      myKarmaClient < 0 && classes.karmaNegative
-    )} onClick={() => !disabled && setKarma(false)} />
+    <ChevronDownIcon
+      className={classNames(
+        classes.karmaButton,
+        myKarmaClient < 0 && classes.karmaNegative
+      )}
+      onClick={() => !disabled && setKarma(false)}
+      tabIndex={0}
+    />
     <KarmaCounter
       value={pub.karmaCount + (pub.myKarma ? 0 : myKarmaClient || 0)}
       cof={pub.fandom.karmaCof} precise={precise}
     />
-    <ChevronUpIcon className={classNames(
-      classes.karmaButton,
-      myKarmaClient > 0 && classes.karmaPositive
-    )} onClick={() => !disabled && setKarma(true)} />
+    <ChevronUpIcon
+      className={classNames(
+        classes.karmaButton,
+        myKarmaClient > 0 && classes.karmaPositive
+      )}
+      onClick={() => !disabled && setKarma(true)}
+      tabIndex={0}
+    />
   </div>;
 }

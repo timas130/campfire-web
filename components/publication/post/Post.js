@@ -13,6 +13,8 @@ import Comment from "../Comment";
 import UserActivityPage from "./pages/UserActivityPage";
 import ExpandButton from "../../ExpandButton";
 import FandomHeader from "../../FandomHeader";
+import Dropdown from "../../Dropdown";
+import copy from "copy-to-clipboard";
 
 function CommentCounter(props) {
   return <Link href={props.href}>
@@ -56,7 +58,14 @@ export default function Post(props) {
       addSecondary={<time dateTime={moment(post.dateCreate).toISOString()}>
         {moment(post.dateCreate).locale("ru").fromNow()}
       </time>}
-      addRight={<DotsVerticalIcon className={classes.headerMore} />}
+      addRight={<Dropdown items={[
+        {
+          id: "share", label: "Копировать ссылку",
+          onClick: () => copy(`https://camp.33rd.dev/post/${post.id}`),
+        },
+      ]}>
+        <DotsVerticalIcon className={classes.headerMore} />
+      </Dropdown>}
     />
     <div className={classNames(
       classes.content,
@@ -80,7 +89,7 @@ export default function Post(props) {
           Редактировать
         </a>
       </Link>}
-      <Karma pub={post} />
+      {!draft && <Karma pub={post} />}
     </div>
     {showBestComment && post.bestComment && <Comment bestComment comment={post.bestComment} />}
   </article>;

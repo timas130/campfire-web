@@ -1,0 +1,48 @@
+.wrapper {
+    position: relative;
+    display: inline-block;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: absolute;
+    left: -99999px;
+    top: -99999px;
+    z-index: -999;
+    min-width: 200px;
+
+    padding: 5px 0;
+    border-radius: 0.5rem;
+    text-align: left;
+    background: var(--background-element);
+}
+.dropdown.open {
+    display: block;
+    position: absolute;
+    left: -170px;
+    top: 120%;
+    height: auto;
+    z-index: 999;
+}
+.dropdown.open.top {
+    top: initial;
+    bottom: 100%;
+}
+
+.item {
+    padding: 0.5rem 0.75rem;
+    font-size: 16px;
+    line-height: 20px;
+    cursor: pointer;
+    color: var(--text);
+}
+.item:hover, .item:focus {
+    background: var(--background);
+}
+
+.separator {
+    margin: 5px 0;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.2);
+}

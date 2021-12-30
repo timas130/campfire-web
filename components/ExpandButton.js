@@ -41,7 +41,7 @@ export default function ExpandButton({expanded, setExpanded, contentRef, maxHeig
     setExpanded(x => !x);
   }, [setExpanded]);
 
-  return expandable ? <div className={classes.expander} onClick={toggleExpand} ref={buttonRef}>
+  return expandable ? <div className={classes.expander} onClick={toggleExpand} ref={buttonRef} tabIndex={0}>
     {expanded ?
       <ChevronUpIcon className={classes.expandIcon} /> :
       <ChevronDownIcon className={classes.expandIcon} />}

@@ -1,5 +1,6 @@
 const ProgressBar = require("progress");
 const {Worker} = require("worker_threads");
+const fs = require("fs");
 
 const args = process.argv;
 
@@ -14,17 +15,20 @@ const threads = parseInt(args[4]) || 1;
 
 const bar = new ProgressBar(":id (off :offset) :bar", {total: endId});
 
+const resultFile = fs.createWriteStream("./result.2021.log");
+
 const workers = [];
 for (let thread = 0; thread < threads; thread++) {
   const worker = new Worker(__dirname + "/worker.js", {
-    workerData: {thread, threads, startId, endId}
+    workerData: {thread, threads, startId, endId},
   });
   workers.push(worker);
   worker.on("message", msg => {
     bar.tick(msg.units, {
       id: msg.id,
-      fandom: msg.fandom,
-      offset: msg.offset
+      offset: msg.offset,
     });
+    resultFile.write(JSON.stringify(msg.resp));
+    resultFile.write("\n");
   });
 }
