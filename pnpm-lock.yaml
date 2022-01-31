@@ -6,7 +6,7 @@ specifiers:
   '@fortawesome/free-solid-svg-icons': ^5.15.4
   '@fortawesome/react-fontawesome': ^0.1.16
   '@heroicons/react': ^1.0.5
-  '@meilisearch/instant-meilisearch': ^0.5.10
+  '@meilisearch/instant-meilisearch': ^0.6.0
   JSON2: ^0.1.0
   axios: ^0.24.0
   classnames: ^2.3.1
@@ -20,6 +20,7 @@ specifiers:
   fastify-websocket: ^4.0.0
   glob: ^7.2.0
   instantsearch.css: ^7.4.5
+  ioredis: ^4.28.3
   jsonwebtoken: ^8.5.1
   linkify-it: ^3.0.3
   md5: ^2.3.0
@@ -42,7 +43,7 @@ dependencies:
   '@fortawesome/free-solid-svg-icons': 5.15.4
   '@fortawesome/react-fontawesome': 0.1.16_f515edce028694561ceb456e3dba224c
   '@heroicons/react': 1.0.5_react@17.0.2
-  '@meilisearch/instant-meilisearch': 0.5.10
+  '@meilisearch/instant-meilisearch': 0.6.0
   JSON2: 0.1.0
   axios: 0.24.0
   classnames: 2.3.1
@@ -53,6 +54,7 @@ dependencies:
   fastify: 3.23.0
   fastify-websocket: 4.0.0
   instantsearch.css: 7.4.5
+  ioredis: 4.28.3
   jsonwebtoken: 8.5.1
   linkify-it: 3.0.3
   md5: 2.3.0
@@ -246,10 +248,10 @@ packages:
     resolution: {integrity: sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==}
     dev: true
 
-  /@meilisearch/instant-meilisearch/0.5.10:
-    resolution: {integrity: sha512-8AUxx+o9l+Jv/l54URhKeHWl4zOIySbuWwcIOXJId9+vGiig+uDekUYXmEc5BLe6O3hr6cF/Gg8Rrli8PLYHVw==}
+  /@meilisearch/instant-meilisearch/0.6.0:
+    resolution: {integrity: sha512-6bTgxEwTlyt4+oC3blXpGen2/UyEQWBQU84CkcpdokXdBBwMvvwwXo2Tm9TABm3VD+gbgkjgi5r3ACvpS/81jg==}
     dependencies:
-      meilisearch: 0.23.0
+      meilisearch: 0.24.0
     dev: false
 
   /@napi-rs/triples/1.0.3:
@@ -860,6 +862,11 @@ packages:
     resolution: {integrity: sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==}
     dev: false
 
+  /cluster-key-slot/1.1.0:
+    resolution: {integrity: sha512-2Nii8p3RwAPiFwsnZvukotvow2rIHM+yQ6ZcBXGHdniadkYGZYiGmkHJIbZPIV9nfv7m/U1IPMVVcAhoWFeklw==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
   /color-convert/1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
     dependencies:
@@ -1068,6 +1075,11 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       object-keys: 1.1.1
+
+  /denque/1.5.1:
+    resolution: {integrity: sha512-XwE+iZ4D6ZUB7mfYRMb5wByE8L74HCn30FBN7sWnXksWc1LO1bPDl67pBR9o/kC4z/xSNAwkMYcGgqDV3BE3Hw==}
+    engines: {node: '>=0.10'}
+    dev: false
 
   /depd/1.1.2:
     resolution: {integrity: sha1-m81S4UwJd2PnSbJ0xDRu0uVgtak=}
@@ -1925,6 +1937,25 @@ packages:
       has: 1.0.3
       side-channel: 1.0.4
 
+  /ioredis/4.28.3:
+    resolution: {integrity: sha512-9JOWVgBnuSxpIgfpjc1OeY1OLmA4t2KOWWURTDRXky+eWO0LZhI33pQNT9gYxANUXfh5p/zYephYni6GPRsksQ==}
+    engines: {node: '>=6'}
+    dependencies:
+      cluster-key-slot: 1.1.0
+      debug: 4.3.2
+      denque: 1.5.1
+      lodash.defaults: 4.2.0
+      lodash.flatten: 4.4.0
+      lodash.isarguments: 3.1.0
+      p-map: 2.1.0
+      redis-commands: 1.7.0
+      redis-errors: 1.2.0
+      redis-parser: 3.0.0
+      standard-as-callback: 2.1.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /ipaddr.js/1.9.1:
     resolution: {integrity: sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==}
     engines: {node: '>= 0.10'}
@@ -2210,8 +2241,20 @@ packages:
     resolution: {integrity: sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=}
     dev: true
 
+  /lodash.defaults/4.2.0:
+    resolution: {integrity: sha1-0JF4cW/+pN3p5ft7N/bwgCJ0WAw=}
+    dev: false
+
+  /lodash.flatten/4.4.0:
+    resolution: {integrity: sha1-8xwiIlqWMtK7+OSt2+8kCqdlph8=}
+    dev: false
+
   /lodash.includes/4.3.0:
     resolution: {integrity: sha1-YLuYqHy5I8aMoeUTJUgzFISfVT8=}
+    dev: false
+
+  /lodash.isarguments/3.1.0:
+    resolution: {integrity: sha1-L1c9hcaiQon/AGY7SRwdM4/zRYo=}
     dev: false
 
   /lodash.isboolean/3.0.3:
@@ -2285,8 +2328,8 @@ packages:
       is-buffer: 1.1.6
     dev: false
 
-  /meilisearch/0.23.0:
-    resolution: {integrity: sha512-bLNonPJK2pJz2akjwolcc/Eqnz/GKJ7y1I4Flg4zjL+v0yPFyIGFFdfe0dw93JWFJWj/RbLS2Q6dDTobZQ9Ehg==}
+  /meilisearch/0.24.0:
+    resolution: {integrity: sha512-qME1dsHZePBQi8qFdhbilcFzaL+oZJgUuls+FZ23hHpdhJI+iMFSmjjcfsxq5hdg2qczbCXv7yAo3Sh8xgfkgA==}
     dependencies:
       cross-fetch: 3.1.4
     dev: false
@@ -2620,6 +2663,11 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       p-limit: 2.3.0
+    dev: false
+
+  /p-map/2.1.0:
+    resolution: {integrity: sha512-y3b8Kpd8OAN444hxfBbFfj1FY/RjtTd8tzYwhUqNYXx0fXx2iX4maP4Qr6qhIKbQXI02wTLAda4fYUbDagTUFw==}
+    engines: {node: '>=6'}
     dev: false
 
   /p-try/1.0.0:
@@ -2969,6 +3017,22 @@ packages:
       picomatch: 2.3.0
     dev: false
 
+  /redis-commands/1.7.0:
+    resolution: {integrity: sha512-nJWqw3bTFy21hX/CPKHth6sfhZbdiHP6bTawSgQBlKOVRG7EZkfHbbHwQJnrE4vsQf0CMNE+3gJ4Fmm16vdVlQ==}
+    dev: false
+
+  /redis-errors/1.2.0:
+    resolution: {integrity: sha1-62LSrbFeTq9GEMBK/hUpOEJQq60=}
+    engines: {node: '>=4'}
+    dev: false
+
+  /redis-parser/3.0.0:
+    resolution: {integrity: sha1-tm2CjNyv5rS4pCin3vTGvKwxyLQ=}
+    engines: {node: '>=4'}
+    dependencies:
+      redis-errors: 1.2.0
+    dev: false
+
   /regenerator-runtime/0.13.9:
     resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}
 
@@ -3179,6 +3243,10 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       type-fest: 0.7.1
+    dev: false
+
+  /standard-as-callback/2.1.0:
+    resolution: {integrity: sha512-qoRRSyROncaz1z0mvYqIE4lCd9p2R90i6GxW3uZv5ucSu8tU7B5HXUP1gG8pVZsYNVaXjk8ClXHPttLyxAL48A==}
     dev: false
 
   /statuses/1.5.0:

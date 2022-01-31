@@ -6,3 +6,7 @@ node_modules
 README.md
 Dockerfile
 .dockerignore
+.git
+indexer
+docs
+

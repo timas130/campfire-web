@@ -1,16 +1,20 @@
 const {sendRequest} = require("../lib/server");
 const fastify = require("fastify")({ logger: true });
-fastify.register(require("fastify-websocket"));
+fastify.register(require("fastify-websocket"), {
+  errorHandler: (err, conn) => {
+    conn.end("unknown error");
+  },
+});
 const genUUID = require("uuid").v4;
 const {sign, verify} = require("jsonwebtoken");
 require("dotenv").config({
   path: ".env.local",
 });
 const rawBody = require("raw-body");
+const Redis = require("ioredis");
+const redis = new Redis(process.env.REDIS_URL);
 
 const selfUrl = "https://push.33rd.dev/push";
-
-const registrations = {};
 
 function register() {
   const uuid = genUUID();
@@ -30,14 +34,6 @@ function register() {
     registrationToken: `custom|${selfUrl}|${sendToken}`,
     websocket: null,
   };
-}
-
-async function unregister(reg) {
-  if (reg.loginToken)
-    await sendRequest("RAccountsNotificationsRemoveToken", {
-      tokenNotification: reg.registrationToken,
-      J_API_LOGIN_TOKEN: reg.loginToken,
-    });
 }
 
 fastify.addContentTypeParser("application/octet-stream", (req, payload, done) => {
@@ -74,27 +70,15 @@ fastify.route({
       }
     }
 
-    registrations[reg.uuid] = {
-      timeout: setTimeout(() => {
-        unregister(registrations[reg.uuid]);
-        delete registrations[reg.uuid];
-        fastify.log.info("deleted registration (timeout)", reg.uuid);
-      }, 60000),
-      websocket: null,
-      loginToken: (req.body || {}).loginToken || null,
-      ...reg,
-    };
+    redis.set(reg.uuid, (req.body || {}).loginToken || "<none>", "ex", 60);
 
-    return {
-      listenToken: reg.listenToken,
-      sendToken: reg.sendToken,
-    };
+    return {listenToken: reg.listenToken, sendToken: reg.sendToken};
   },
 });
 
 fastify.post("/push", async (req, res) => {
   const results = [];
-  (req.body.registration_ids || [req.body.to]).forEach(token => {
+  for (const token of (req.body.registration_ids || [req.body.to])) {
     let uuid;
     try {
       uuid = verify(token, process.env.JWT_SECRET, {
@@ -102,49 +86,58 @@ fastify.post("/push", async (req, res) => {
       }).sub;
     } catch (e) {
       results.push({message_id: "cweb", error: "NotRegistered"});
-      return;
+      continue;
     }
 
-    const registration = registrations[uuid];
-    if (!registration) {
+    const reg = await redis.get(uuid);
+    if (reg === null) {
       results.push({message_id: "cweb", error: "NotRegistered"});
-      return;
+      continue;
     }
 
-    if (registration.websocket) {
-      registration.websocket.write(JSON.stringify(req.body.data));
-    }
+    await redis.publish(uuid, JSON.stringify(req.body.data));
 
     results.push({message_id: "cweb"});
-  });
+  }
 
   res.status(200);
   return {results};
 });
 
-fastify.get("/stream", {websocket: true}, (conn, req) => {
+fastify.get("/stream", {websocket: true}, async (conn, req) => {
   const authToken = req.headers.authorization || req.headers["sec-websocket-protocol"];
   const uuid = verify(authToken, process.env.JWT_SECRET, {
     "audience": "pushrelay-listen",
   }).sub;
 
-  const reg = registrations[uuid];
-  if (!reg) conn.socket.destroy("registration is not valid");
+  const reg = await redis.get(uuid);
+  if (reg === null) {
+    conn.end("registration is not valid");
+    return;
+  }
 
-  conn.socket.on("close", () => {
-    fastify.log.info("deleted registration (closed)", reg.uuid);
-    clearInterval(reg.keepAliveInterval);
-    unregister(reg)
-      .catch(e => fastify.log.warn(e))
-      .finally(() => delete registrations[reg.uuid]);
-  });
+  await redis.set(uuid, reg); // do not expire
 
-  clearTimeout(reg.timeout);
-  reg.timeout = null;
-  reg.websocket = conn;
-  reg.keepAliveInterval = setInterval(() => {
+  const keepAliveInterval = setInterval(() => {
     conn.write(JSON.stringify({_: "keep-alive"}));
   }, 10000);
+
+  const redisSub = new Redis(process.env.REDIS_URL);
+  conn.socket.on("close", () => {
+    clearInterval(keepAliveInterval);
+    redis.expire(uuid, 30);
+    redisSub.disconnect();
+  });
+  redisSub.subscribe(uuid, (err) => {
+    if (err) {
+      fastify.log.warn(err);
+      conn.end("could not start listening, please try again");
+      redisSub.disconnect();
+    }
+  });
+  redisSub.on("message", (channel, message) => {
+    conn.write(message);
+  });
 });
 
 fastify.listen(3001, err => {

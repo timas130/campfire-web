@@ -17,6 +17,6 @@ module.exports = {
     meiliUrl: "https://camp.33rd.dev/_/meili/",
     // YES! It is safe to publish the public MeiliSearch key.
     // It can only be used for searching and viewing documents.
-    meiliKey: "7d88dd2e3ba29c616fa717ae558813f6cbf5f1614ca6611ec1efdfdbcdcc5264",
+    meiliKey: "dOJM5oza115d8a93351d5527d7a307ba4c4de10264eb5d0df2d1ba531b2c5e3f421b13b0",
   },
 };
