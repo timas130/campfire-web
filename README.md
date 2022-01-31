@@ -3,6 +3,7 @@
 [Демо](https://camp.33rd.dev) | [Баги сюда](https://github.com/timas130/campfire-web/issues)
 
 [![Wakatime](https://wakatime.com/badge/github/timas130/campfire-web.svg)](https://wakatime.com/badge/github/timas130/campfire-web)
+[![Node.js CI](https://github.com/timas130/campfire-web/actions/workflows/node.js.yml/badge.svg)](https://github.com/timas130/campfire-web/actions/workflows/node.js.yml)
 
 ## Как запустить у себя
 
