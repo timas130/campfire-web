@@ -32,24 +32,4 @@ jobs:
       with:
         name: next-artifact
         path: .next/
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    
-    steps:
-    - uses: actions/checkout@v2
-    - name: Download the Build Artifact
-      uses: actions/download-artifact@v2.0.10
-      with:
-        name: next-artifact
-        path: .next/
-    - name: ssh deploy
-      uses: easingthemes/ssh-deploy@v2.2.11
-      with:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        REMOTE_HOST: ${{ secrets.SSH_HOST }}
-        REMOTE_USER: root
-        SOURCE: .
-        TARGET: /opt/campfire-web/
-    - name: ssh restart server
-      run: ssh -i /home/runner/.ssh/deploy_key root@${{ secrets.SSH_HOST }} "cd /opt/campfire-web/ && npm i && chmod 774 -R . && chown mc:mc -R . && systemctl restart campfire-web.service"
+
