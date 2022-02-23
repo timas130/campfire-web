@@ -2,11 +2,21 @@ import {sendRequestAlwaysAuthenticated} from "../../../../../lib/server";
 import {sendErrorIfFromRemote} from "../../../../../lib/api";
 
 export async function fetchTag(req, res, tagId) {
-  const tag = (await sendRequestAlwaysAuthenticated(
-    req, res, "RTagsGet", {
-      tagId: parseInt(tagId),
-    },
-  )).J_RESPONSE.tag;
+  let tag;
+  try {
+    tag = (await sendRequestAlwaysAuthenticated(
+      req, res, "RTagsGet", {
+        tagId: parseInt(tagId),
+      },
+    )).J_RESPONSE.tag;
+  } catch (e) { // FIXME(ext): fix this in ZeonXX/CampfireServer
+    throw {
+      code: "ERROR_GONE",
+      messageError: "Tag not found",
+      params: [],
+      cweb: true,
+    };
+  }
   if (typeof tag.jsonDB === "string") {
     tag.jsonDB = JSON.parse(tag.jsonDB);
   }

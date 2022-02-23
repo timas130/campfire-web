@@ -2,20 +2,33 @@ import {sendRequestAlwaysAuthenticated} from "../../../../../lib/server";
 import {sendErrorIfFromRemote} from "../../../../../lib/api";
 
 export async function fetchWikiItem(req, res, wikiId) {
-  const pages = sendRequestAlwaysAuthenticated(
-    req, res, "RWikiGetPages", {
-      itemId: wikiId,
-      languageId: 2,
-    },
-  );
-  const item = sendRequestAlwaysAuthenticated(
-    req, res, "RWikiGet", {
-      itemId: wikiId,
-    },
-  );
+  const result = await Promise.all([
+    sendRequestAlwaysAuthenticated(
+      req, res, "RWikiGetPages", {
+        itemId: wikiId,
+        languageId: 2,
+      },
+    ),
+    (async () => {
+      try {
+        return await sendRequestAlwaysAuthenticated(
+          req, res, "RWikiGet", {
+            itemId: wikiId,
+          },
+        );
+      } catch (e) { // FIXME(ext): fix this in ZeonXX/CampfireServer
+        throw {
+          code: "ERROR_GONE",
+          messageError: "Article not found",
+          params: [],
+          cweb: true,
+        };
+      }
+    })(),
+  ]);
   return {
-    pages: (await pages).J_RESPONSE.wikiPages,
-    item: (await item).J_RESPONSE.item,
+    pages: result[0].J_RESPONSE.wikiPages,
+    item: result[1].J_RESPONSE.item,
   };
 }
 

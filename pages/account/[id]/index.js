@@ -8,6 +8,7 @@ import Comment from "../../../components/publication/Comment";
 import postClasses from "../../../styles/Post.module.css";
 import FormattedText from "../../../components/FormattedText";
 import MetaTags from "../../../components/MetaTags";
+import {handleSSRError} from "../../../lib/api";
 
 export default function Profile({account, profile}) {
   const {data: pubPages, ref, showLoader} = useInfScroll(
@@ -43,7 +44,11 @@ export default function Profile({account, profile}) {
 }
 
 export async function getServerSideProps(ctx) {
-  return {
-    props: await fetchProfile(ctx.req, ctx.res, ctx.query.id),
-  };
+  try {
+    return {
+      props: await fetchProfile(ctx.req, ctx.res, ctx.query.id),
+    };
+  } catch (e) {
+    return handleSSRError(e, ctx.res);
+  }
 }

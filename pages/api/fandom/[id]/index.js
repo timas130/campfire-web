@@ -13,23 +13,36 @@ export async function fetchFandomBasic(req, res, id) {
 }
 
 export async function fetchFandom(req, res, id) {
-  const fandom = fetchFandomBasic(req, res, id);
-  const profile = sendRequestAlwaysAuthenticated(
-    req, res, "RFandomsGetProfile", {
-      fandomId: id,
-      languageId: 2,
-    },
-  );
-  const info = sendRequestAlwaysAuthenticated(
-    req, res, "RFandomsGetInfo", {
-      fandomId: id,
-      languageId: 2,
-    },
-  );
+  const result = await Promise.all([
+    fetchFandomBasic(req, res, id),
+    sendRequestAlwaysAuthenticated(
+      req, res, "RFandomsGetProfile", {
+        fandomId: id,
+        languageId: 2,
+      },
+    ),
+    (async () => {
+      try {
+        return await sendRequestAlwaysAuthenticated(
+          req, res, "RFandomsGetInfo", {
+            fandomId: id,
+            languageId: 2,
+          },
+        );
+      } catch (e) { // FIXME(ext): fix this in ZeonXX/CampfireServer
+        throw {
+          code: "ERROR_GONE",
+          messageError: "Article not found",
+          params: [],
+          cweb: true,
+        };
+      }
+    })(),
+  ]);
   return {
-    fandom: await fandom,
-    profile: (await profile).J_RESPONSE,
-    info: (await info).J_RESPONSE,
+    fandom: result[0],
+    profile: result[1].J_RESPONSE,
+    info: result[2].J_RESPONSE,
   };
 }
 

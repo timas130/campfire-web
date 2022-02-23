@@ -1,4 +1,6 @@
-module.exports = {
+const { withSentryConfig } = require('@sentry/nextjs');
+
+module.exports = withSentryConfig({
   reactStrictMode: true,
   async headers() {
     return [
@@ -20,4 +22,6 @@ module.exports = {
     meiliKey: "dOJM5oza115d8a93351d5527d7a307ba4c4de10264eb5d0df2d1ba531b2c5e3f421b13b0",
   },
   swcMinify: true,
-};
+}, {
+  silent: true,
+});

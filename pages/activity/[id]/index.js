@@ -5,6 +5,7 @@ import FeedLayout, {FeedLoader} from "../../../components/FeedLayout";
 import UserActivityPage from "../../../components/publication/post/pages/UserActivityPage";
 import {fetchActivity} from "../../api/activity/[id]";
 import Post from "../../../components/publication/post/Post";
+import {handleSSRError} from "../../../lib/api";
 
 export default function Activity({activity, posts}) {
   const id = useRouter().query.id;
@@ -24,10 +25,14 @@ export default function Activity({activity, posts}) {
 }
 
 export async function getServerSideProps(ctx) {
-  return {
-    props: {
-      activity: await fetchActivity(ctx.req, ctx.res, ctx.query.id),
-      posts: await fetchActivityPosts(ctx.req, ctx.res, ctx.query.id),
-    },
-  };
+  try {
+    return {
+      props: {
+        activity: await fetchActivity(ctx.req, ctx.res, ctx.query.id),
+        posts: await fetchActivityPosts(ctx.req, ctx.res, ctx.query.id),
+      },
+    };
+  } catch (e) {
+    return handleSSRError(e, ctx.res);
+  }
 }

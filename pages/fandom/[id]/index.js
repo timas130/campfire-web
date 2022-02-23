@@ -5,6 +5,7 @@ import Head from "next/head";
 import Post from "../../../components/publication/post/Post";
 import {useInfScroll} from "../../../lib/client-api";
 import MetaTags from "../../../components/MetaTags";
+import {handleSSRError} from "../../../lib/api";
 
 export default function Fandom({ fandom, profile, info }) {
   const {data: postPages, ref, showLoader} = useInfScroll(
@@ -33,9 +34,13 @@ export default function Fandom({ fandom, profile, info }) {
 }
 
 export async function getServerSideProps(ctx) {
-  return {
-    props: {
-      ...(await fetchFandom(ctx.req, ctx.res, ctx.query.id)),
-    },
-  };
+  try {
+    return {
+      props: {
+        ...(await fetchFandom(ctx.req, ctx.res, ctx.query.id)),
+      },
+    };
+  } catch (e) {
+    return handleSSRError(e, ctx.res);
+  }
 }

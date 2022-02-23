@@ -21,15 +21,17 @@ export async function fetchProfile(req, res, acc) {
     accountName: typeof acc === "string" ? acc : null,
     accountId: typeof acc === "number" ? acc : null,
   };
-  const account = sendRequestAlwaysAuthenticated(
-    req, res, "RAccountsGet", argsObject,
-  );
-  const profile = sendRequestAlwaysAuthenticated(
-    req, res, "RAccountsGetProfile", argsObject,
-  );
+  const result = await Promise.all([
+    sendRequestAlwaysAuthenticated(
+      req, res, "RAccountsGet", argsObject,
+    ),
+    sendRequestAlwaysAuthenticated(
+      req, res, "RAccountsGetProfile", argsObject,
+    ),
+  ]);
   return {
-    account: (await account).J_RESPONSE.account,
-    profile: (await profile).J_RESPONSE,
+    account: result[0].J_RESPONSE.account,
+    profile: result[1].J_RESPONSE,
   };
 }
 

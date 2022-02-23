@@ -5,6 +5,7 @@ import FeedLayout, {FeedLoader} from "../../components/FeedLayout";
 import {useInfScroll} from "../../lib/client-api";
 import Post from "../../components/publication/post/Post";
 import RubricCard from "../../components/cards/RubricCard";
+import {handleSSRError} from "../../lib/api";
 
 export default function Rubric({rubric, posts}) {
   const {data: postPages, ref, showLoader} = useInfScroll(
@@ -30,9 +31,13 @@ export default function Rubric({rubric, posts}) {
 }
 
 export async function getServerSideProps(ctx) {
-  return {
-    props: {
-      ...(await fetchRubric(ctx.req, ctx.res, ctx.query.id)),
-    },
-  };
+  try {
+    return {
+      props: {
+        ...(await fetchRubric(ctx.req, ctx.res, ctx.query.id)),
+      },
+    };
+  } catch (e) {
+    return handleSSRError(e, ctx.res);
+  }
 }

@@ -2,22 +2,21 @@ import {sendRequestAlwaysAuthenticated} from "../../../lib/server";
 import {sendErrorIfFromRemote} from "../../../lib/api";
 
 export async function fetchRubric(req, res, id, offset = 0) {
-  const posts = sendRequestAlwaysAuthenticated(
-    req, res, "RPostGetAllByRubric", {
-      rubricId: id, offset,
-    },
-  );
-  let rubric = null;
-  if (offset === 0) {
-    rubric = sendRequestAlwaysAuthenticated(
+  const result = await Promise.all([
+    sendRequestAlwaysAuthenticated(
+      req, res, "RPostGetAllByRubric", {
+        rubricId: id, offset,
+      },
+    ),
+    offset === 0 ? sendRequestAlwaysAuthenticated(
       req, res, "RRubricGet", {
         rubricId: id,
       },
-    );
-  }
+    ) : async () => {},
+  ]);
   return {
-    rubric: rubric && (await rubric).J_RESPONSE.rubric,
-    posts: (await posts).J_RESPONSE.units,
+    rubric: result[1] && result[1].J_RESPONSE.rubric,
+    posts: result[0].J_RESPONSE.units,
   };
 }
 

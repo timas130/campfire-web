@@ -9,23 +9,28 @@ import cardClasses from "../../../../styles/Card.module.css";
 import {ArrowLeftIcon} from "@heroicons/react/solid";
 import classNames from "classnames";
 import {fetchWikiItem} from "../../../api/fandom/wiki/[wikiId]";
+import {handleSSRError} from "../../../../lib/api";
+
+export async function getServerSideProps(ctx) {
+  try {
+    return {
+      props: {
+        fandomId: ctx.params.id,
+        itemId: ctx.params.itemId,
+        list: await fetchWikiList(ctx.req, ctx.res, ctx.params.id, 0, ctx.params.itemId),
+        fandom: await fetchFandomBasic(ctx.req, ctx.res, ctx.params.id),
+        item: parseInt(ctx.params.itemId) !== 0 ?
+          (await fetchWikiItem(ctx.req, ctx.res, ctx.params.itemId)).item :
+          null,
+      },
+    };
+  } catch (e) {
+    return handleSSRError(e, ctx.res);
+  }
+}
 
 export default function WikiSection({fandomId, list, itemId, fandom, item}) {
   return WikiSectionPage(fandomId, itemId, [list], fandom, item);
-}
-
-export async function getServerSideProps(ctx) {
-  return {
-    props: {
-      fandomId: ctx.params.id,
-      itemId: ctx.params.itemId,
-      list: await fetchWikiList(ctx.req, ctx.res, ctx.params.id, 0, ctx.params.itemId),
-      fandom: await fetchFandomBasic(ctx.req, ctx.res, ctx.params.id),
-      item: parseInt(ctx.params.itemId) !== 0 ?
-        (await fetchWikiItem(ctx.req, ctx.res, ctx.params.itemId)).item :
-        null,
-    },
-  };
 }
 
 export function WikiSectionPage(fandomId, itemId, fallback = [], fandom = null, item = null) {

@@ -1,4 +1,5 @@
 import {fetchTag} from "../../api/fandom/tags/[tagId]";
+import {handleSSRError} from "../../../lib/api";
 
 export default function Redirect() {
   // unreachable
@@ -6,10 +7,14 @@ export default function Redirect() {
 }
 
 export async function getServerSideProps(ctx) {
-  const tag = await fetchTag(ctx.req, ctx.res, ctx.query.id);
-  return {
-    redirect: {
-      destination: `/fandom/${tag.fandom.id}/tags/${tag.id}`,
-    },
-  };
+  try {
+    const tag = await fetchTag(ctx.req, ctx.res, ctx.query.id);
+    return {
+      redirect: {
+        destination: `/fandom/${tag.fandom.id}/tags/${tag.id}`,
+      },
+    };
+  } catch (e) {
+    return handleSSRError(e, ctx.res);
+  }
 }

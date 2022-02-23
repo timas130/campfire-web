@@ -1,6 +1,6 @@
 import {useRouter} from "next/router";
 import FeedLayout, {FeedLoader} from "../../../components/FeedLayout";
-import {fetcher, useLocalMutSWR, useUser} from "../../../lib/client-api";
+import {fetcher, useLocalMutSWR, useSWRUser, useUser} from "../../../lib/client-api";
 import postClasses from "../../../styles/Post.module.css";
 import FandomHeader from "../../../components/FandomHeader";
 import classNames from "classnames";
@@ -211,7 +211,7 @@ function MutPost({post, setPost, fandomId, onGetId}) {
 
 export default function Draft() {
   const router = useRouter();
-  const user = useUser();
+  const {data: user, isValidating: isValidatingUser} = useSWRUser();
   const draftId = parseInt(router.query.id);
   const fandomId = parseInt(router.query.fandom) || 0;
 
@@ -220,12 +220,11 @@ export default function Draft() {
   );
 
   useEffect(() => {
-    if (!user && router) {
+    if (!user && router && !isValidatingUser) {
       router.push(`/auth/login`);
     }
-  }, [router, user]);
-  if (!user && !router) return <FeedLoader />;
-  if (!user) return null;
+  }, [isValidatingUser, router, user]);
+  if (!user || !router) return <FeedLoader />;
 
   return <FeedLayout
     list={<>
