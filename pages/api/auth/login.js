@@ -1,11 +1,13 @@
-import md5 from "md5";
+import * as crypto from "crypto";
 import {sendRequestAuthenticated} from "../../../lib/server";
 import {requireArguments, sendErrorIfFromRemote} from "../../../lib/api";
 import {logout} from "./logout";
 
 export default async function authLogin(req, res) {
   if (requireArguments(req, res, ["email", "password"])) return;
-  const loginToken = `Email - ${req.body.email} - ${md5(req.body.password)}`;
+  const hash = crypto.createHash("sha512");
+  hash.update(req.body.password);
+  const loginToken = `Email - ${req.body.email} - ${hash.digest("hex")}`;
   try {
     logout(req, res);
     const resp = await sendRequestAuthenticated(

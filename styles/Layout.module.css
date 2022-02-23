@@ -9,9 +9,9 @@
 }
 
 .layout {
-    --background: #F9FAFB;
-    --background-secondary: #E5E7EB;
-    --background-element: #F3F4F6;
+    --background: #D1D5DB;
+    --background-secondary: #F3F4F6;
+    --background-element: #FAFAF9;
     --text: #1F2937;
     --text-secondary: #4B5563;
     --text-secondary-active: #6B7280;
@@ -26,9 +26,9 @@
         Consolas, "Liberation Mono", "Courier New", monospace;
 }
 .layout.dark {
-    --background: #111827;
-    --background-secondary: #1F2937;
-    --background-element: #374151;
+    --background: #18181B;
+    --background-secondary: #27272A;
+    --background-element: #3F3F46;
     --text: #F3F4F6;
     --text-secondary: #9CA3AF;
     --text-secondary-active: #E5E7EB;

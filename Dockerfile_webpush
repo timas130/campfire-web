@@ -1,8 +1,12 @@
 FROM node
 
+LABEL org.opencontainers.image.source=https://github.com/timas130/campfire-push
+
 COPY . /app
 WORKDIR /app
 RUN npm install
+
+HEALTHCHECK --interval=35s --timeout=4s CMD curl -f http://localhost:3001/ || exit 1
 
 EXPOSE 3001
 CMD node webpush

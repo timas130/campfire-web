@@ -7,5 +7,7 @@ WORKDIR /app
 RUN npm install
 RUN npm run build
 
+HEALTHCHECK --interval=35s --timeout=4s CMD curl -f http://localhost:3000/api/account/1 || exit 1
+
 EXPOSE 3000
 CMD npm run start

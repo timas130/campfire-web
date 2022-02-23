@@ -40,7 +40,7 @@ export default function Login() {
       </InputLabel>
       <input type="hidden" name="redir" value="true" />
       <div className={classes.buttons}>
-        <Link href="/auth/register" passHref><Button noBackground>Регистрация</Button></Link>
+        <Link href="/auth/register" passHref><Button type="button" noBackground>Регистрация</Button></Link>
         <Button type="submit" className={classes.buttonRight}>Войти</Button>
       </div>
     </form>

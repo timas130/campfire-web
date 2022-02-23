@@ -51,27 +51,23 @@ export default function Register() {
         </div>
       </InputLabel>
       <div className={classes.buttons}>
-        <Link href="/auth/login" passHref><Button noBackground>Вход</Button></Link>
-        {buttonClicked < 7 && <Button type="button" className={classes.buttonRight}
-                                        onClick={() => setButtonClicked(x => x+1)}>
-          {
-            buttonClicked === 0 ?
-            "Зарегистрироваться" :
-            buttonClicked === 1 ?
-            "Регистрация не работает" :
-            buttonClicked === 2 ?
-            "Можно больше не нажимать" :
-            buttonClicked === 3 ?
-            "Сейчас я пропаду!" :
-            buttonClicked === 4 ?
-            "Сейчас придёт Zeon..." :
-            buttonClicked === 5 ?
-            "и починит кнопку, ..." :
-            buttonClicked === 6 ?
-            "чтобы она пропала." :
-            "ой"
-          }
-        </Button>}
+        <Link href="/auth/login" passHref><Button type="button" noBackground>Вход</Button></Link>
+        {buttonClicked < 7 && <Button
+          type="submit" className={classes.buttonRight}
+          onClick={ev => {
+            ev.preventDefault();
+            setButtonClicked(x => x+1);
+          }}
+        >{
+          buttonClicked === 0 ? "Зарегистрироваться" :
+          buttonClicked === 1 ? "Регистрация не работает" :
+          buttonClicked === 2 ? "Можно больше не нажимать" :
+          buttonClicked === 3 ? "Сейчас я пропаду!" :
+          buttonClicked === 4 ? "Сейчас придёт Zeon..." :
+          buttonClicked === 5 ? "и починит регистрацию, ..." :
+          buttonClicked === 6 ? "чтобы кнопка заработала." :
+          "ой"
+        }</Button>}
       </div>
     </form>
   </>;

@@ -70,7 +70,7 @@ fastify.route({
       }
     }
 
-    redis.set(reg.uuid, (req.body || {}).loginToken || "<none>", "ex", 60);
+    redis.set("push:" + reg.uuid, (req.body || {}).loginToken || "<none>", "ex", 60);
 
     return {listenToken: reg.listenToken, sendToken: reg.sendToken};
   },
@@ -89,13 +89,13 @@ fastify.post("/push", async (req, res) => {
       continue;
     }
 
-    const reg = await redis.get(uuid);
+    const reg = await redis.get("push:" + uuid);
     if (reg === null) {
       results.push({message_id: "cweb", error: "NotRegistered"});
       continue;
     }
 
-    await redis.publish(uuid, JSON.stringify(req.body.data));
+    await redis.publish("push:" + uuid, JSON.stringify(req.body.data));
 
     results.push({message_id: "cweb"});
   }
@@ -110,13 +110,13 @@ fastify.get("/stream", {websocket: true}, async (conn, req) => {
     "audience": "pushrelay-listen",
   }).sub;
 
-  const reg = await redis.get(uuid);
+  const reg = await redis.get("push:" + uuid);
   if (reg === null) {
     conn.end("registration is not valid");
     return;
   }
 
-  await redis.set(uuid, reg); // do not expire
+  await redis.set("push:" + uuid, reg); // do not expire
 
   const keepAliveInterval = setInterval(() => {
     conn.write(JSON.stringify({_: "keep-alive"}));
@@ -125,10 +125,10 @@ fastify.get("/stream", {websocket: true}, async (conn, req) => {
   const redisSub = new Redis(process.env.REDIS_URL);
   conn.socket.on("close", () => {
     clearInterval(keepAliveInterval);
-    redis.expire(uuid, 30);
+    redis.expire("push:" + uuid, 30);
     redisSub.disconnect();
   });
-  redisSub.subscribe(uuid, (err) => {
+  redisSub.subscribe("push:" + uuid, (err) => {
     if (err) {
       fastify.log.warn(err);
       conn.end("could not start listening, please try again");

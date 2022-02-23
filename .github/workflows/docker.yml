@@ -1,0 +1,38 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_TOKEN }}
+      - name: Build and push Campfire Web
+        uses: docker/build-push-action@v2.9.0
+        with:
+          file: Dockerfile
+          push: true
+          images: |
+            ghcr.io/timas130/campfire-web
+          tags: |
+            latest
+            type=ref,event=branch
+      - name: Build and push Campfire Push
+        uses: docker/build-push-action@v2.9.0
+        with:
+          file: Dockerfile_webpush
+          push: true
+          images: |
+            ghcr.io/timas130/campfire-push
+          tags: |
+            latest
+            type=ref,event=branch
