@@ -21,16 +21,12 @@ jobs:
         with:
           file: Dockerfile
           push: true
-          images: |
-            ghcr.io/timas130/campfire-web
           tags: |
-            latest
+            ghcr.io/timas130/campfire-web:latest
       - name: Build and push Campfire Push
         uses: docker/build-push-action@v2.9.0
         with:
           file: Dockerfile_webpush
           push: true
-          images: |
-            ghcr.io/timas130/campfire-push
           tags: |
-            latest
+            ghcr.io/timas130/campfire-push:latest
