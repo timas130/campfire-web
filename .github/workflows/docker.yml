@@ -35,4 +35,3 @@ jobs:
             ghcr.io/timas130/campfire-push
           tags: |
             latest
-            type=ref,event=branch
