@@ -4,6 +4,8 @@ LABEL org.opencontainers.image.source=https://github.com/timas130/campfire-web
 
 COPY . /app
 WORKDIR /app
+ARG SENTRY_TOKEN
+ENV SENTRY_TOKEN=$SENTRY_TOKEN
 RUN npm install
 RUN npm run build
 

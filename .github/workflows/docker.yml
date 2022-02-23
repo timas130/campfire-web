@@ -18,6 +18,8 @@ jobs:
           password: ${{ secrets.GHCR_TOKEN }}
       - name: Build and push Campfire Web
         uses: docker/build-push-action@v2.9.0
+        env:
+          SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
         with:
           file: Dockerfile
           push: true
