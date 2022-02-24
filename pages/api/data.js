@@ -1,4 +1,4 @@
-import {captureException, withSentry} from "@sentry/nextjs";
+import {withSentry} from "@sentry/nextjs";
 import * as url from "url";
 
 const sentryHost = "data.33rd.dev";
@@ -30,7 +30,6 @@ async function handler(req, res) {
     return res.json(await response.json());
   } catch (e) {
     console.error(e);
-    captureException(e);
     return res.status(400).json({ status: "invalid request" });
   }
 }

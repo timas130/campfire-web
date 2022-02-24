@@ -24,7 +24,7 @@ MyError.getInitialProps = async (context) => {
   errorInitialProps.hasGetInitialPropsRun = true;
 
   // Returning early because we don't want to log 404 errors to Sentry.
-  if (res?.statusCode === 404) {
+  if (res?.statusCode === 404 || res?.statusCode === 410) {
     return errorInitialProps;
   }
   
@@ -54,9 +54,9 @@ MyError.getInitialProps = async (context) => {
   // If this point is reached, getInitialProps was called without any
   // information about what the error might be. This is unexpected and may
   // indicate a bug introduced in Next.js, so record it in Sentry
-  Sentry.captureException(
-    new Error(`_error.js getInitialProps missing data at path: ${asPath}`),
-  );
+  const error = new Error(`_error.js getInitialProps missing data at path: ${asPath}`);
+  console.warn(error);
+  Sentry.captureException(error);
   await Sentry.flush(2000);
 
   return errorInitialProps;

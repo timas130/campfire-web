@@ -12,7 +12,7 @@ import MetaTags from "../../components/MetaTags";
 import {useInfScroll} from "../../lib/client-api";
 import Tags from "../../components/publication/post/Tags";
 import {generateCoverForPages} from "../../lib/text-cover";
-import {handleSSRError} from "../../lib/api";
+import {handleSSRError, mustInt} from "../../lib/api";
 
 export default function PostPage(props) {
   const {data: commentPages, ref, showLoader} = useInfScroll(
@@ -63,8 +63,8 @@ export async function getServerSideProps(ctx) {
   try {
     return {
       props: {
-        post: await fetchPost(ctx.req, ctx.res, ctx.query.id),
-        comments: await fetchComments(ctx.req, ctx.res, ctx.query.id),
+        post: await fetchPost(ctx.req, ctx.res, mustInt(ctx.query.id)),
+        comments: await fetchComments(ctx.req, ctx.res, mustInt(ctx.query.id)),
       },
     };
   } catch (e) {

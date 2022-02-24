@@ -5,7 +5,7 @@ import FeedLayout, {FeedLoader} from "../../../components/FeedLayout";
 import UserActivityPage from "../../../components/publication/post/pages/UserActivityPage";
 import {fetchActivity} from "../../api/activity/[id]";
 import Post from "../../../components/publication/post/Post";
-import {handleSSRError} from "../../../lib/api";
+import {handleSSRError, mustInt} from "../../../lib/api";
 
 export default function Activity({activity, posts}) {
   const id = useRouter().query.id;
@@ -28,8 +28,8 @@ export async function getServerSideProps(ctx) {
   try {
     return {
       props: {
-        activity: await fetchActivity(ctx.req, ctx.res, ctx.query.id),
-        posts: await fetchActivityPosts(ctx.req, ctx.res, ctx.query.id),
+        activity: await fetchActivity(ctx.req, ctx.res, mustInt(ctx.query.id)),
+        posts: await fetchActivityPosts(ctx.req, ctx.res, mustInt(ctx.query.id)),
       },
     };
   } catch (e) {

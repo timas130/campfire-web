@@ -9,18 +9,18 @@ import cardClasses from "../../../../styles/Card.module.css";
 import {ArrowLeftIcon} from "@heroicons/react/solid";
 import classNames from "classnames";
 import {fetchWikiItem} from "../../../api/fandom/wiki/[wikiId]";
-import {handleSSRError} from "../../../../lib/api";
+import {handleSSRError, mustInt} from "../../../../lib/api";
 
 export async function getServerSideProps(ctx) {
   try {
     return {
       props: {
-        fandomId: ctx.params.id,
-        itemId: ctx.params.itemId,
-        list: await fetchWikiList(ctx.req, ctx.res, ctx.params.id, 0, ctx.params.itemId),
-        fandom: await fetchFandomBasic(ctx.req, ctx.res, ctx.params.id),
-        item: parseInt(ctx.params.itemId) !== 0 ?
-          (await fetchWikiItem(ctx.req, ctx.res, ctx.params.itemId)).item :
+        fandomId: mustInt(ctx.params.id),
+        itemId: mustInt(ctx.params.itemId),
+        list: await fetchWikiList(ctx.req, ctx.res, mustInt(ctx.params.id), 0, mustInt(ctx.params.itemId)),
+        fandom: await fetchFandomBasic(ctx.req, ctx.res, mustInt(ctx.params.id)),
+        item: mustInt(ctx.params.itemId) !== 0 ?
+          (await fetchWikiItem(ctx.req, ctx.res, mustInt(ctx.params.itemId))).item :
           null,
       },
     };

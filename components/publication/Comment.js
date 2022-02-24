@@ -33,7 +33,7 @@ function CommentQuote({jsonDB}) {
         loading="lazy" alt="Стикер"
       />
     </div>}
-    {jsonDB.quoteImages.length !== 0 && <div className={classes.image}><CImage
+    {(jsonDB.quoteImages || []).length !== 0 && <div className={classes.image}><CImage
       id={jsonDB.quoteImages[0]} w={100} h={100}
       loading="lazy" modal objectFit="cover" alt="Изображение"
     /></div>}

@@ -6,7 +6,7 @@ import Post from "../../../../components/publication/post/Post";
 import TagCard from "../../../../components/cards/TagCard";
 import Head from "next/head";
 import MetaTags from "../../../../components/MetaTags";
-import {handleSSRError} from "../../../../lib/api";
+import {handleSSRError, mustInt} from "../../../../lib/api";
 
 export default function Tag({tag, posts}) {
   const {data: postPages, ref, showLoader} = useInfScroll(
@@ -37,8 +37,8 @@ export async function getServerSideProps(ctx) {
   try {
     return {
       props: {
-        tag: await fetchTag(ctx.req, ctx.res, ctx.query.tagId),
-        posts: await fetchTagPosts(ctx.req, ctx.res, ctx.query.tagId),
+        tag: await fetchTag(ctx.req, ctx.res, mustInt(ctx.query.tagId)),
+        posts: await fetchTagPosts(ctx.req, ctx.res, mustInt(ctx.query.tagId)),
       },
     };
   } catch (e) {

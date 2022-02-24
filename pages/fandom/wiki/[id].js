@@ -9,7 +9,7 @@ import classNames from "classnames";
 import {getWikiName} from "../../../components/WikiListItem";
 import Head from "next/head";
 import MetaTags from "../../../components/MetaTags";
-import {handleSSRError} from "../../../lib/api";
+import {handleSSRError, mustInt} from "../../../lib/api";
 
 export default function WikiArticle({item, pages}) {
   // TODO: fandom name, maybe async to improve load times?
@@ -42,7 +42,7 @@ export async function getServerSideProps(ctx) {
   try {
     return {
       props: {
-        ...(await fetchWikiItem(ctx.req, ctx.res, ctx.params.id)),
+        ...(await fetchWikiItem(ctx.req, ctx.res, mustInt(ctx.params.id))),
       },
     };
   } catch (e) {

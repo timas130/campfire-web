@@ -29,7 +29,7 @@ const handleMatcher = {
 const linkifyInst = linkify()
   .add("@", handleMatcher)
   .add("#", handleMatcher);
-export const sayzenLink = /^https?:\/\/sayzen\.ru\/r\/r\.php\?a=(.+)$/;
+export const sayzenLink = /^https?:\/\/(?:sayzen\.ru|campfiresayzen\.net)\/r\/r\.php\?a=(.+)$/;
 
 export class TextFormatter {
   static charProtector = "\\";
