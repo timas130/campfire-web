@@ -33,14 +33,18 @@ export default function Fandom({ fandom, profile, info }) {
   </>;
 }
 
-export async function getServerSideProps(ctx) {
+export async function getStaticProps(ctx) {
   try {
     return {
       props: {
-        ...(await fetchFandom(ctx.req, ctx.res, mustInt(ctx.query.id))),
+        ...(await fetchFandom(null, null, mustInt(ctx.params.id))),
       },
     };
   } catch (e) {
-    return handleSSRError(e, ctx.res);
+    return handleSSRError(e, {}, true);
   }
+}
+
+export async function getStaticPaths() {
+  return { paths: [], fallback: "blocking" };
 }

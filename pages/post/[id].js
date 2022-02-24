@@ -12,6 +12,7 @@ import {useInfScroll} from "../../lib/client-api";
 import Tags from "../../components/publication/post/Tags";
 import {generateCoverForPages} from "../../lib/text-cover";
 import {handleSSRError, mustInt} from "../../lib/api";
+import {fetchPost} from "../api/post/[id]";
 
 export default function PostPage(props) {
   const {data: commentPages, ref, showLoader} = useInfScroll(
@@ -62,7 +63,7 @@ export async function getStaticProps(ctx) {
   try {
     return {
       props: {
-        post: await fe1tchPost(null, null, mustInt(ctx.params.id)),
+        post: await fetchPost(null, null, mustInt(ctx.params.id)),
         comments: await fetchComments(null, null, mustInt(ctx.params.id)),
       },
       revalidate: 60,
