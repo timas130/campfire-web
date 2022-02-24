@@ -93,8 +93,8 @@ export function Page(props) {
   }
 }
 
-export function EditToolbar({children}) {
-  return <div className={classes.editToolbar}>
+export function EditToolbar({children, profile}) {
+  return <div className={classNames(classes.editToolbar, profile && classes.profile)}>
     {children}
   </div>;
 }

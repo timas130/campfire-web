@@ -2,7 +2,7 @@ import postClasses from "../../styles/Post.module.css";
 import classes from "../../styles/Profile.module.css";
 import classNames from "classnames";
 import {CAvatar} from "../CImage";
-import {isOnline} from "../../lib/client-api";
+import {isOnline, useUser} from "../../lib/client-api";
 import moment from "moment";
 import "moment/locale/ru";
 import {
@@ -11,11 +11,17 @@ import {
   EmojiHappyIcon,
   ExclamationIcon,
   LightningBoltIcon,
+  PencilIcon,
   StarIcon,
   UserCircleIcon,
   UsersIcon,
 } from "@heroicons/react/solid";
 import {KarmaCounter} from "../Karma";
+import {useEffect, useRef, useState} from "react";
+import Input from "../Input";
+import {EditToolbar, ToolbarButton} from "../publication/post/pages/Page";
+import {faCheck, faTimes} from "@fortawesome/free-solid-svg-icons";
+import {useSWRConfig} from "swr";
 
 export function ProfileShort({account}) {
   return <div className={classes.accountShort}>
@@ -36,16 +42,49 @@ export function SponsorChip({account}) {
     Спонсор {account.sponsor / 100} ₽
   </div> : null;
 }
-export function ProfileKV({icon, keyS, value}) {
+export function ProfileKV({icon, keyS, value, upd = null, edit = null, editSelect = null}) {
   const Icon = icon;
+  const [isEditing, setIsEditing] = useState(false);
+  const [override, setOverride] = useState(null);
+  const formRef = useRef();
+
+  const editCb = ev => {
+    ev.preventDefault();
+    let value = new FormData(formRef.current).get("value");
+    if (!editSelect) value = parseInt(value);
+    setOverride(value);
+    setIsEditing(false);
+    edit(value);
+  };
+
+  useEffect(() => {
+    setOverride(value);
+  }, [value, upd]);
+
   return <div className={classes.profileKV}>
     <div className={classes.profileKey}>
       <Icon className={classes.profileKeyIcon} />
       {keyS}
     </div>
-    <div className={classes.profileValue}>
-      {value}
-    </div>
+    {!isEditing ? <div className={classes.profileValue}>
+      {override || value}
+      {edit && <PencilIcon
+        className={classes.profileEditIcon}
+        onClick={() => setIsEditing(true)}
+        tabIndex={0}
+      />}
+    </div> : <form className={classes.profileValue} onSubmit={editCb} ref={formRef}>
+      {!editSelect ?
+        <Input className={classes.profileEditInput} name="value" autoFocus type="number" /> :
+        <Input className={classes.profileEditInput} name="value" autoFocus el="select">
+          {/* yes this is bad, who cares? */}
+          {editSelect.map(item => <option value={item} key={item}>{item}</option>)}
+        </Input>}
+      <EditToolbar profile>
+        <ToolbarButton icon={faCheck} onClick={editCb} />
+        <ToolbarButton icon={faTimes} onClick={() => setIsEditing(false)} />
+      </EditToolbar>
+    </form>}
   </div>;
 }
 export function Level({lvl}) {
@@ -89,6 +128,10 @@ export function Punishments({bans, warns}) {
 }
 
 export default function ProfileCard({account, profile}) {
+  const {mutate} = useSWRConfig();
+  const user = useUser() || {};
+  const [upd, setUpd] = useState(null);
+
   return <div className={classNames(postClasses.post, classes.profile)}>
     <div className={classes.profileRow}>
       <ProfileShort account={account} />
@@ -125,10 +168,41 @@ export default function ProfileCard({account, profile}) {
       <ProfileKV
         icon={ClockIcon} keyS="Возраст"
         value={profile.age || "Не указано"}
+        upd={upd}
+        edit={user.J_ID === account.J_ID ? value => {
+          fetch("/api/user/edit", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({prop: "age", value: parseInt(value)}),
+          })
+            .catch(() => setUpd(Date.now()))
+            .then(resp => {
+              if (!resp.ok) setUpd(Date.now());
+              else mutate(`/api/account/${account.J_ID}`, {account, profile: {
+                ...profile,
+                age: value,
+              }});
+            });
+        } : null}
       />
       <ProfileKV
         icon={EmojiHappyIcon} keyS="Обращение"
         value={account.sex ? "Она" : "Он"}
+        upd={upd}
+        editSelect={["Он", "Она"]}
+        edit={user.J_ID === account.J_ID ? value => {
+          const sex = value === "Она" ? 1 : 0;
+          fetch("/api/user/edit", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({prop: "sex", value: sex}),
+          })
+            .catch(() => setUpd(Date.now())) // todo: actually show the error
+            .then(resp => {
+              if (!resp.ok) setUpd(Date.now());
+              else mutate(`/api/account/${account.J_ID}`, {account, profile: {...profile, sex}});
+            });
+        } : null}
       />
       <ProfileKV
         icon={CalendarIcon} keyS="Возраст аккаунта"

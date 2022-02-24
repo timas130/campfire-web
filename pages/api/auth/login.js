@@ -30,7 +30,7 @@ export default async function authLogin(req, res) {
     }
 
     if (req.body.redir.toString().toLowerCase() !== "false") {
-      res.redirect("/");
+      res.redirect(302, "/");
     } else {
       res.send(resp.J_RESPONSE);
     }
@@ -41,7 +41,7 @@ export default async function authLogin(req, res) {
       return;
     }
 
-    if (e.code === "ERROR_UNAUTHORIZED") res.redirect("/auth/login?error=unauthorized");
-    else res.redirect("/auth/login?error=unknown");
+    if (e.code === "ERROR_UNAUTHORIZED") res.redirect(302, "/auth/login?error=unauthorized");
+    else res.redirect(302, "/auth/login?error=unknown");
   }
 }

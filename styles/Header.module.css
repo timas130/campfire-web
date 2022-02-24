@@ -22,8 +22,6 @@
 
 .h1link {
     text-decoration: none;
-}
-.h1 {
     font-size: 1.5rem;
     color: var(--text);
     padding-right: 1rem;

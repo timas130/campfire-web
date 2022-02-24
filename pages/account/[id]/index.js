@@ -9,8 +9,16 @@ import postClasses from "../../../styles/Post.module.css";
 import FormattedText from "../../../components/FormattedText";
 import MetaTags from "../../../components/MetaTags";
 import {handleSSRError} from "../../../lib/api";
+import useSWR from "swr";
 
-export default function Profile({account, profile}) {
+export default function Profile({account: initialAccount, profile: initialProfile}) {
+  const {data: {account, profile}} = useSWR(
+    `/api/account/${initialAccount.J_ID}`,
+    {
+      fallbackData: {account: initialAccount, profile: initialProfile},
+      revalidateOnFocus: false,
+    },
+  );
   const {data: pubPages, ref, showLoader} = useInfScroll(
     `/api/account/${account.J_ID}/publications`
   );

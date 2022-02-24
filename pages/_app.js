@@ -6,6 +6,8 @@ import {useState} from "react";
 import Router from "next/router";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import {SWRConfig} from "swr";
+import {fetcher} from "../lib/client-api";
 
 Router.events.on("routeChangeStart", (url) => {
   console.log("loading", url);
@@ -17,9 +19,11 @@ Router.events.on("routeChangeError", () => NProgress.done());
 function MyApp({ Component, pageProps }) {
   const [theme, setTheme] = useState("dark");
   return <ThemeContext.Provider value={{theme, setTheme}}>
-    <Layout dark={theme === "dark"}>
-      <Component {...pageProps} />
-    </Layout>
+    <SWRConfig value={{fetcher}}>
+      <Layout dark={theme === "dark"}>
+        <Component {...pageProps} />
+      </Layout>
+    </SWRConfig>
   </ThemeContext.Provider>;
 }
 

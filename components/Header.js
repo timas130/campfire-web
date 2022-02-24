@@ -73,9 +73,7 @@ export default function Header() {
     <nav className={classNames(classes.header, menuExpanded && classes.expanded)}
          onClick={() => setMenuExpanded(false)}>
       <Link href="/">
-        <a className={classes.h1link}>
-          <h1 className={classes.h1}>Campfire<sup className={classes.releaseCycle}>dev</sup></h1>
-        </a>
+        <a className={classes.h1link}>Campfire</a>
       </Link>
       <Link href="/post/search">
         <a className={classes.navLink}>Поиск</a>

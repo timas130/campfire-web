@@ -9,5 +9,5 @@ export function logout(req, res) {
 
 export default function logoutHandler(req, res) {
   logout(req, res);
-  res.redirect("/");
+  res.redirect(302, "/");
 }

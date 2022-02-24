@@ -41,7 +41,7 @@ export default function PostPage(props) {
     </Head>
     <FeedLayout
       list={<>
-        <Post post={props.post.unit} alwaysExpanded />
+        <Post post={props.post.unit} alwaysExpanded main />
         <Tags tags={props.post.tags} />
         <div id="comments">
           <CommentPoster pubId={props.post.unit.id} />

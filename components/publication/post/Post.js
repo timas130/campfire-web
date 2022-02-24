@@ -26,7 +26,7 @@ function CommentCounter(props) {
 }
 
 export default function Post(props) {
-  const {post: postL, alwaysExpanded, showBestComment, pinned, draft} = props;
+  const {post: postL, alwaysExpanded, showBestComment, pinned, draft, main = false} = props;
   const router = useRouter();
   const [expanded, setExpanded] = useState(true);
   const contentRef = useRef();
@@ -40,6 +40,7 @@ export default function Post(props) {
     }
     return postL;
   }, [postL]);
+  const ContentEl = main ? "main" : "div";
   return <article className={classes.post}>
     <FandomHeader
       pinned={pinned} fandom={post.fandom} addTitle={<>
@@ -67,13 +68,13 @@ export default function Post(props) {
         <DotsVerticalIcon className={classes.headerMore} />
       </Dropdown>}
     />
-    <div className={classNames(
+    <ContentEl className={classNames(
       classes.content,
       (alwaysExpanded || expanded) && classes.expanded
     )} ref={contentRef}>
       <Pages pages={post.jsonDB.J_PAGES} />
       {post.userActivity && <UserActivityPage page={post.userActivity} />}
-    </div>
+    </ContentEl>
     <div className={classes.footer}>
       {!alwaysExpanded && <ExpandButton
         contentRef={contentRef} setExpanded={setExpanded}
