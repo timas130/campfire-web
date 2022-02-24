@@ -5,9 +5,8 @@ LABEL org.opencontainers.image.source=https://github.com/timas130/campfire-web
 COPY . /app
 WORKDIR /app
 ARG SENTRY_TOKEN
-ENV SENTRY_TOKEN=$SENTRY_TOKEN
 RUN npm install
-RUN npm run build
+RUN SENTRY_AUTH_TOKEN=$SENTRY_TOKEN npm run build
 
 HEALTHCHECK --interval=35s --timeout=4s CMD curl -f http://localhost:3000/api/account/1 || exit 1
 

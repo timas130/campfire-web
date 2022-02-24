@@ -21,6 +21,8 @@ jobs:
         env:
           SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
         with:
+          build-args: |
+            SENTRY_TOKEN=${{ secrets.SENTRY_TOKEN }}
           file: Dockerfile
           push: true
           tags: |
