@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /api
+Disallow: /drafts
+Disallow: /me
+
+User-agent: *
+Allow: /
+Allow: /api/image

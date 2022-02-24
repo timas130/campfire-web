@@ -1,6 +1,5 @@
 import FeedLayout, {FeedLoader} from "../../components/FeedLayout";
 import Post from "../../components/publication/post/Post";
-import {fetchPost} from "../api/post/[id]";
 import AuthenticateCard from "../../components/cards/AuthenticateCard";
 import Comment from "../../components/publication/Comment";
 import {fetchComments} from "../api/post/[id]/comments";
@@ -59,15 +58,20 @@ export default function PostPage(props) {
   </>;
 }
 
-export async function getServerSideProps(ctx) {
+export async function getStaticProps(ctx) {
   try {
     return {
       props: {
-        post: await fetchPost(ctx.req, ctx.res, mustInt(ctx.query.id)),
-        comments: await fetchComments(ctx.req, ctx.res, mustInt(ctx.query.id)),
+        post: await fe1tchPost(null, null, mustInt(ctx.params.id)),
+        comments: await fetchComments(null, null, mustInt(ctx.params.id)),
       },
+      revalidate: 60,
     };
   } catch (e) {
-    return handleSSRError(e, ctx.res);
+    return handleSSRError(e, {}, true);
   }
+}
+
+export async function getStaticPaths() {
+  return { paths: [], fallback: "blocking" };
 }

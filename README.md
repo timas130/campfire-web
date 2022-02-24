@@ -1,15 +1,16 @@
 # Campfire Web Reborn
 
-[Демо](https://camp.33rd.dev) | [Баги сюда](https://github.com/timas130/campfire-web/issues)
-
 [![Wakatime](https://wakatime.com/badge/github/timas130/campfire-web.svg)](https://wakatime.com/badge/github/timas130/campfire-web)
-[![Node.js CI](https://github.com/timas130/campfire-web/actions/workflows/node.js.yml/badge.svg)](https://github.com/timas130/campfire-web/actions/workflows/node.js.yml)
+
+[Демо](https://camp.33rd.dev) | [Баги сюда](https://github.com/timas130/campfire-web/issues)
 
 ## Как запустить у себя
 
 ### Docker
 
-Я периодически собираю [контейнерную версию](https://github.com/timas130/campfire-web/pkgs/container/campfire-web)
+[![Docker Image CI](https://github.com/timas130/campfire-web/actions/workflows/docker.yml/badge.svg)](https://github.com/timas130/campfire-web/actions/workflows/docker.yml)
+
+На каждый коммит собирается [контейнерная версия](https://github.com/timas130/campfire-web/pkgs/container/campfire-web)
 для быстрого локального запуска.
 
 ```shell
