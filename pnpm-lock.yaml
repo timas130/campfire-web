@@ -36,6 +36,7 @@ specifiers:
   react-dom: 17.0.2
   react-instantsearch-dom: ^6.22.0
   react-intersection-observer: ^8.33.1
+  react-virtual: git://github.com/TanStack/react-virtual.git#next
   swr: 1.1.0-beta.5
   uuid: ^8.3.2
 
@@ -71,6 +72,7 @@ dependencies:
   react-dom: 17.0.2_react@17.0.2
   react-instantsearch-dom: 6.22.0_react-dom@17.0.2+react@17.0.2
   react-intersection-observer: 8.33.1_react@17.0.2
+  react-virtual: github.com/TanStack/react-virtual/20eb79c00396be1bf82daf4b70a24e6e9540f5de_react@17.0.2
   swr: 1.1.0-beta.5_react@17.0.2
   uuid: 8.3.2
 
@@ -354,6 +356,10 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
     dev: true
+
+  /@reach/observe-rect/1.2.0:
+    resolution: {integrity: sha512-Ba7HmkFgfQxZqqaeIWWkNK0rEhpxVQHIoVyW1YDSkGsGIXzcaW4deC8B0pZrNSSyLTdIk7y+5olKt5+g0GmFIQ==}
+    dev: false
 
   /@rushstack/eslint-patch/1.1.0:
     resolution: {integrity: sha512-JLo+Y592QzIE+q7Dl2pMUtt4q8SKYI5jDrZxrozEQxnGVOyYE+GWK9eLkwTaeN9DDctlaRAQ3TBmzZ1qdLE30A==}
@@ -2981,3 +2987,17 @@ packages:
 
   /yallist/4.0.0:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
+
+  github.com/TanStack/react-virtual/20eb79c00396be1bf82daf4b70a24e6e9540f5de_react@17.0.2:
+    resolution: {tarball: https://codeload.github.com/TanStack/react-virtual/tar.gz/20eb79c00396be1bf82daf4b70a24e6e9540f5de}
+    id: github.com/TanStack/react-virtual/20eb79c00396be1bf82daf4b70a24e6e9540f5de
+    name: react-virtual
+    version: 0.0.0
+    prepare: true
+    requiresBuild: true
+    peerDependencies:
+      react: ^16.6.3 || ^17.0.0
+    dependencies:
+      '@reach/observe-rect': 1.2.0
+      react: 17.0.2
+    dev: false
