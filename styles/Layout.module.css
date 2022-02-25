@@ -1,14 +1,13 @@
 .layout {
     min-height: 100vh;
     background-color: var(--background);
-    color: var(--text);
 }
 
 .main {
     padding-top: 50px;
 }
 
-.layout {
+.light {
     --background: #D1D5DB;
     --background-secondary: #F3F4F6;
     --background-element: #FAFAF9;
@@ -24,8 +23,9 @@
     --yellow: #FBBF24;
     --monospace-font: "JetBrains Mono", SFMono-Regular, Menlo, Monaco,
         Consolas, "Liberation Mono", "Courier New", monospace;
+    color: var(--text);
 }
-.layout.dark {
+.dark {
     --background: #18181B;
     --background-secondary: #27272A;
     --background-element: #3F3F46;

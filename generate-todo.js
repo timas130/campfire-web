@@ -28,12 +28,11 @@ for (const file of sourceFiles) {
   const source = fs.readFileSync(file);
   for (let i = 0; i < requestList.length; i++) {
     if ( // i know, ineffective af. i'm just lazy
-      source.includes('"' + requestList[i].name + '"') ||
+      source.includes("\"" + requestList[i].name + "\"") ||
       source.includes("'" + requestList[i].name + "'")
     ) {
       requestList[i].used = true;
       usedRequests++;
-      break;
     }
   }
 }

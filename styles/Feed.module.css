@@ -22,7 +22,7 @@
 }
 .loader svg {
     width: 2rem;
-    vertical-align: top;
+    vertical-align: bottom;
     margin-right: 0.5rem;
 }
 

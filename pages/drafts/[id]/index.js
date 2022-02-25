@@ -221,7 +221,7 @@ export default function Draft() {
 
   useEffect(() => {
     if (!user && router && !isValidatingUser) {
-      router.push(`/auth/login`);
+      router.push("/auth/login");
     }
   }, [isValidatingUser, router, user]);
   if (!user || !router) return <FeedLoader />;

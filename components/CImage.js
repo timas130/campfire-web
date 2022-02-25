@@ -2,33 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import classes from "../styles/CImage.module.css";
 import classNames from "classnames";
-import {createPortal} from "react-dom";
 import React, {useState} from "react";
 import {isOnline} from "../lib/client-api";
+import {ModalPortal} from "./ModalPortal";
 
-class ModalPortal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.el = document.createElement("div");
-  }
-
-  componentDidMount() {
-    const modalRoot = document.getElementById("modal-root");
-    modalRoot.appendChild(this.el);
-  }
-
-  componentWillUnmount() {
-    const modalRoot = document.getElementById("modal-root");
-    modalRoot.removeChild(this.el);
-  }
-
-  render() {
-    return createPortal(
-      this.props.children,
-      this.el,
-    );
-  }
-}
 function ModalInner({className, ...props}) {
   return <div className={classNames("modal", className)} {...props} />;
 }
@@ -40,7 +17,7 @@ export default function CImage(props) {
   if (modal) {
     return <>
       <Image
-        src={`/api/image/${id}`} alt={alt} unoptimized
+        src={`/api/image/${id}`} alt={alt}
         width={w} height={h} onClick={() => setModalOpen(x => !x)}
         {...rest}
       />
@@ -52,7 +29,7 @@ export default function CImage(props) {
   } else {
     return <Image
       src={`/api/image/${id}`} alt={alt}
-      width={w} height={h} unoptimized
+      width={w} height={h}
       {...rest}
     />;
   }

@@ -22,7 +22,7 @@ const handleMatcher = {
     return 0;
   },
   normalize(match) {
-    match.url = "/r/" + encodeURIComponent(match.url.replace(/^[@#]/, ''));
+    match.url = "/r/" + encodeURIComponent(match.url.replace(/^[@#]/, ""));
   },
 };
 

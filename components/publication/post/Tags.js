@@ -31,7 +31,7 @@ export function Tag({tag, selectable, selected, select}) {
   }
 }
 
-export default function Tags({tags}) {
+export default function Tags({tags, className}) {
   // no legacy code, Zeon?
   tags = tags.map(tag => {
     if (typeof tag.jsonDB === "string") {
@@ -40,7 +40,7 @@ export default function Tags({tags}) {
     return tag;
   });
 
-  return <div className={classes.tags}>
+  return <div className={classNames(classes.tags, className)}>
     {tags.filter(tag => !tag.parentUnitId).map(parentTag => <span key={parentTag.id}>
       <Tag tag={parentTag} />
       {tags.filter(tag => tag.parentUnitId === parentTag.id)
