@@ -10,6 +10,7 @@ import FormattedText from "../../../components/FormattedText";
 import MetaTags from "../../../components/MetaTags";
 import {handleSSRError} from "../../../lib/api";
 import useSWR from "swr";
+import classNames from "classnames";
 
 export default function Profile({account: initialAccount, profile: initialProfile}) {
   const {data: {account, profile}} = useSWR(
@@ -32,10 +33,14 @@ export default function Profile({account: initialAccount, profile: initialProfil
     <FeedLayout
       list={<>
         <ProfileCard account={account} profile={profile} />
+        <div className={classNames(postClasses.post, postClasses.mb05)}>
+          <div className={postClasses.profileStatus}>
+            <FormattedText text={profile.status || "{_cweb_secondary Статус не задан}"} />
+          </div>
+        </div>
         <div className={postClasses.post}>
-          {/* lol why not */}
           <div className={postClasses.header}>
-            <FormattedText text={profile.description} />
+            <FormattedText text={profile.description || "{_cweb_secondary Нет описания}"} />
           </div>
         </div>
 

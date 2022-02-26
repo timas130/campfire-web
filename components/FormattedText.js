@@ -134,21 +134,22 @@ export class TextFormatter {
       if (!this.isInLink() && this.parseHtmlTag("_", "u")) continue;
       if (this.parseLink()) continue;
       if (this.parseColorHash()) continue;
-      if (this.parseColorName("red", "D32F2F")) continue;
-      if (this.parseColorName("pink", "C2185B")) continue;
-      if (this.parseColorName("purple", "7B1FA2")) continue;
-      if (this.parseColorName("indigo", "303F9F")) continue;
-      if (this.parseColorName("blue", "1976D2")) continue;
-      if (this.parseColorName("cyan", "0097A7")) continue;
-      if (this.parseColorName("teal", "00796B")) continue;
-      if (this.parseColorName("green", "388E3C")) continue;
-      if (this.parseColorName("lime", "689F38")) continue;
-      if (this.parseColorName("yellow", "FBC02D")) continue;
-      if (this.parseColorName("amber", "FFA000")) continue;
-      if (this.parseColorName("orange", "F57C00")) continue;
-      if (this.parseColorName("brown", "5D4037")) continue;
-      if (this.parseColorName("grey", "616161")) continue;
-      if (this.parseColorName("campfire", "FF6D00")) continue;
+      if (this.parseColorName("red", "#D32F2F")) continue;
+      if (this.parseColorName("pink", "#C2185B")) continue;
+      if (this.parseColorName("purple", "#7B1FA2")) continue;
+      if (this.parseColorName("indigo", "#303F9F")) continue;
+      if (this.parseColorName("blue", "#1976D2")) continue;
+      if (this.parseColorName("cyan", "#0097A7")) continue;
+      if (this.parseColorName("teal", "#00796B")) continue;
+      if (this.parseColorName("green", "#388E3C")) continue;
+      if (this.parseColorName("lime", "#689F38")) continue;
+      if (this.parseColorName("yellow", "#FBC02D")) continue;
+      if (this.parseColorName("amber", "#FFA000")) continue;
+      if (this.parseColorName("orange", "#F57C00")) continue;
+      if (this.parseColorName("brown", "#5D4037")) continue;
+      if (this.parseColorName("grey", "#616161")) continue;
+      if (this.parseColorName("campfire", "#FF6D00")) continue;
+      if (this.parseColorName("_cweb_secondary", "var(--text-secondary)")) continue;
       this.pushStr(this.text.charAt(this.i++));
     }
   }
@@ -322,7 +323,7 @@ export class TextFormatter {
           const next = this.findNext("}", name.length + 1);
           if (next !== -1) {
             const t = new TextFormatter(this.text.substring(this.i + name.length + 2, next), this.i).parseHtml();
-            t.props.style.color = "#" + hash;
+            t.props.style.color = hash;
             this.result.props.children.push(t);
           }
           this.i = next + 1;

@@ -1,59 +1,25 @@
 import Head from "next/head";
 import MetaTags from "../../components/MetaTags";
 import FeedLayout from "../../components/FeedLayout";
-import {instantMeiliSearch} from "@meilisearch/instant-meilisearch";
-import {
-  connectPagination,
-  connectSearchBox,
-  connectStats,
-  Hits,
-  InstantSearch,
-  ScrollTo,
-} from "react-instantsearch-dom";
 import Post from "../../components/publication/post/Post";
 import Button from "../../components/Button";
-import Input from "../../components/Input";
 import "instantsearch.css/themes/reset.css";
-import classes from "../../styles/Search.module.css";
-import {useMemo, useState} from "react";
 import {useRouter} from "next/router";
+import dynamic from "next/dynamic";
+import {instantMeiliSearch} from "@meilisearch/instant-meilisearch";
+
+const searchClient = instantMeiliSearch(process.env.meiliUrl, process.env.meiliKey);
+
+const Hits = dynamic(() => import("react-instantsearch-dom").then(a => a.Hits));
+const InstantSearch = dynamic(() => import("react-instantsearch-dom").then(a => a.InstantSearch));
+const ScrollTo = dynamic(() => import("react-instantsearch-dom").then(a => a.ScrollTo));
+
+const CustomPagination = dynamic(() => import("../../lib/search").then(a => a.CustomPagination));
+const CustomStats = dynamic(() => import("../../lib/search").then(a => a.CustomStats));
+const CustomSearchBox = dynamic(() => import("../../lib/search").then(a => a.CustomSearchBox));
 
 export default function Search() {
   const query = useRouter().query.q;
-
-  const {searchClient, CustomSearchBox, CustomStats, CustomPagination} = useMemo(() => {
-    const searchClient = instantMeiliSearch(process.env.meiliUrl, process.env.meiliKey);
-
-    const CustomSearchBox = connectSearchBox(({ refine }) => {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const [value, setValue] = useState("");
-      return <form className={classes.bar} onSubmit={ev => {
-        ev.preventDefault();
-        refine(value);
-      }}>
-        <Input
-          type="search" value={value}
-          onChange={ev => setValue(ev.target.value)}
-          placeholder="Поиск..." className={classes.input}
-        />
-        <Button type="submit">Поиск</Button>
-      </form>;
-    });
-    const CustomStats = connectStats(({ nbHits, processingTimeMS }) => {
-      return <div className={classes.stats}>Найдено {nbHits} за {processingTimeMS} мс</div>;
-    });
-    const CustomPagination = connectPagination(({ currentRefinement, refine, nbPages }) => {
-      return <div className={classes.pagination}>
-        <Button onClick={() => refine(1)}>«</Button>
-        <Button onClick={() => currentRefinement > 1 && refine(currentRefinement - 1)}>←</Button>
-        <span className={classes.paginationText}>{currentRefinement} из {nbPages}</span>
-        <Button onClick={() => currentRefinement < nbPages && refine(currentRefinement + 1)}>→</Button>
-        <Button onClick={() => refine(nbPages)}>»</Button>
-      </div>;
-    });
-
-    return {searchClient, CustomSearchBox, CustomStats, CustomPagination};
-  }, []);
 
   const title = "Поиск | Campfire";
   return <>

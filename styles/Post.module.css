@@ -3,6 +3,9 @@
     border-radius: 0.5rem;
     margin-bottom: 1rem;
 }
+.post.mb05 {
+    margin-bottom: 0.5rem;
+}
 
 .header {
     padding: 0.75rem;
@@ -125,7 +128,7 @@ a.headerAuthor:hover, .headerRubric:hover, .headerFandom:hover {
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: flex-end;
     font-size: 1.25rem;
     margin-bottom: 1rem;
     cursor: pointer;
@@ -174,4 +177,9 @@ a.headerAuthor:hover, .headerRubric:hover, .headerFandom:hover {
     .coverComments {
         padding: 0;
     }
+}
+
+.profileStatus {
+    text-align: center;
+    padding: 0.75rem;
 }

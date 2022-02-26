@@ -132,7 +132,7 @@ export default function ProfileCard({account, profile}) {
   const user = useUser() || {};
   const [upd, setUpd] = useState(null);
 
-  return <div className={classNames(postClasses.post, classes.profile)}>
+  return <div className={classNames(postClasses.post, postClasses.mb05, classes.profile)}>
     <div className={classes.profileRow}>
       <ProfileShort account={account} />
       <SponsorChip account={account} />
