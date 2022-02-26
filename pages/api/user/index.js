@@ -36,7 +36,10 @@ export default async function userInfoHandler(req, res) {
   }
 
   try {
-    res.send(await fetchUserInfo(req, res));
+    res.send({
+      ...(await fetchUserInfo(req, res)),
+      ip: req.headers["x-real-ip"] || req.headers["cf-connecting-ip"] || "{{auto}}",
+    });
   } catch (e) {
     sendErrorIfFromRemote(res, e);
   }
