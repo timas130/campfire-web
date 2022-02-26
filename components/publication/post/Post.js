@@ -5,7 +5,7 @@ import "moment/locale/ru";
 import classNames from "classnames";
 import {ArrowsExpandIcon, ChatAlt2Icon, DotsVerticalIcon, PencilIcon, XIcon} from "@heroicons/react/solid";
 import Karma from "../../Karma";
-import {useContext, useMemo, useState} from "react";
+import {useContext, useLayoutEffect, useMemo, useRef, useState} from "react";
 import ShareButton from "../../ShareButton";
 import {useRouter} from "next/router";
 import Pages from "./pages/Pages";
@@ -70,7 +70,9 @@ export default function Post(props) {
   const {post: postL, alwaysExpanded, showBestComment, pinned, draft, main = false, collapse} = props;
   const router = useRouter();
   const theme = useContext(ThemeContext).theme;
+  const contentRef = useRef();
   const [expanded, setExpanded] = useState(false);
+  const [showGradient, setShowGradient] = useState(true);
 
   const expand = () => {
     if (window.history) {
@@ -82,6 +84,12 @@ export default function Post(props) {
     window.history.back();
     setExpanded(false);
   };
+
+  useLayoutEffect(() => {
+    if (!contentRef) return;
+    const h = contentRef.current.getBoundingClientRect().height;
+    setShowGradient(h >= 512);
+  }, []);
 
   const post = useMemo(() => {
     if (typeof postL.jsonDB !== "object") {
@@ -124,7 +132,10 @@ export default function Post(props) {
         <DotsVerticalIcon className={classes.headerMore} />
       </Dropdown>}
     />
-    <ContentEl className={classNames(classes.content, alwaysExpanded && classes.expanded)}>
+    <ContentEl className={classNames(
+      classes.content,
+      (alwaysExpanded || !showGradient) && classes.expanded
+    )} ref={contentRef}>
       <Pages pages={post.jsonDB.J_PAGES} />
       {post.userActivity && <UserActivityPage page={post.userActivity} />}
     </ContentEl>

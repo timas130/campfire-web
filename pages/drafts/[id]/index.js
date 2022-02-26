@@ -2,7 +2,7 @@ import {useRouter} from "next/router";
 import FeedLayout, {FeedLoader} from "../../../components/FeedLayout";
 import {fetcher, useLocalMutSWR, useSWRUser, useUser} from "../../../lib/client-api";
 import postClasses from "../../../styles/Post.module.css";
-import FandomHeader from "../../../components/FandomHeader";
+import FandomHeader, {FandomHeaderPlaceholder} from "../../../components/FandomHeader";
 import classNames from "classnames";
 import classes from "../../../styles/Draft.module.css";
 import Pages from "../../../components/publication/post/pages/Pages";
@@ -189,10 +189,10 @@ function MutPost({post, setPost, fandomId, onGetId}) {
     {post?.id ? <FandomHeader
       fandom={post.fandom} author={post.creator.J_NAME}
       authorLink={`/account/${encodeURIComponent(post.creator.J_NAME)}`}
-    /> : (fandom && <FandomHeader
+    /> : (fandom ? <FandomHeader
       fandom={fandom.fandom} author={user.J_NAME}
       authorLink={`/account/${encodeURIComponent(user.J_NAME)}`}
-    />)}
+    /> : <FandomHeaderPlaceholder />)}
     <div className={classNames(postClasses.content, postClasses.expanded, classes.draftContent)}>
       <div className={classes.newPageLine}>
         <div className={classes.newPageHover} tabIndex={0} onClick={() => !isEditing && setShowPageSelTop(x => !x)}>

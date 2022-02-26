@@ -25,6 +25,9 @@ async function handler(req, res) {
     const url1 = `https://${sentryHost}/api/${projectId}/envelope/`;
     const response = await fetch(url1, {
       method: "POST",
+      headers: {
+        "X-Real-IP": req.headers["x-real-ip"],
+      },
       body: envelope,
     });
     return res.json(await response.json());

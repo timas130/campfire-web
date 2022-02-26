@@ -2,6 +2,7 @@ import classes from "../styles/Post.module.css";
 import classNames from "classnames";
 import {CAvatar} from "./CImage";
 import Link from "next/link";
+import {BoxPlaceholder, TextPlaceholder} from "./Placeholder";
 
 // this is
 
@@ -37,5 +38,24 @@ export default function FandomHeader(props) {
       </div>
     </div>
     {addRight}
+  </header>;
+}
+
+export function FandomHeaderPlaceholder(props) {
+  const {className, noPadding, dense} = props;
+  return <header className={className || classNames(
+    classes.header,
+    noPadding && classes.noPadding,
+    dense && classes.dense,
+  )}>
+    <BoxPlaceholder w={40} h={40} />
+    <div className={classes.headerText}>
+      <div className={classes.headerTitle}>
+        <TextPlaceholder className={classes.headerFandom} w={70} />
+      </div>
+      <div className={classes.headerSecondary}>
+        <TextPlaceholder classes={classes.headerAuthor} w={200} />
+      </div>
+    </div>
   </header>;
 }

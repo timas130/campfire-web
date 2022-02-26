@@ -87,6 +87,7 @@ a.headerAuthor:hover, .headerRubric:hover, .headerFandom:hover {
 }
 .commentIcon, .expandIcon, .editIcon {
     width: 1.2rem;
+    height: 1.2rem;
     margin-right: 0.25rem;
 }
 
@@ -107,6 +108,9 @@ a.headerAuthor:hover, .headerRubric:hover, .headerFandom:hover {
     left: 0;
     z-index: 100;
     background: linear-gradient(180deg, transparent, var(--background-secondary));
+}
+.content.padded {
+    padding: 0.5rem 0.75rem;
 }
 
 .postCover {

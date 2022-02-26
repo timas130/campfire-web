@@ -9,6 +9,7 @@ import DailyQuestCard from "../components/cards/DailyQuestCard";
 import MetaTags from "../components/MetaTags";
 import {useState} from "react";
 import FeedTypeSelectorCard from "../components/cards/FeedTypeSelectorCard";
+import PostPlaceholder from "../components/publication/post/PostPlaceholder";
 
 export default function Home() {
   const [type, setType] = useState("subscribed");
@@ -31,9 +32,14 @@ export default function Home() {
     <FeedLayout list={<>
       <FeedTypeSelectorCard type={type} setType={setType} />
       {feed && feed.map(feedPage => feedPage.units.map(post => <Post key={post.id} post={post} showBestComment />))}
-      {showLoader ? <FeedLoader ref={ref} /> : <FeedLoader text={
-        type === "subscribed" ? "Подпишитесь на фэндом, чтобы тут появились посты" : "Конец"
-      } />}
+      {showLoader ?
+        <PostPlaceholder ref={ref} /> :
+        <FeedLoader text={
+          type === "subscribed" ?
+            "Подпишитесь на фэндом, чтобы тут появились посты" :
+            "Конец"
+        } />
+      }
       {/* TODO: subscribe button in PopularFandomsCard */}
       {!showLoader && type === "subscribed" && <PopularFandomsCard limit={15} shuffle={false} />}
     </>} sidebar={<>
