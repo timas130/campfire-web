@@ -1,0 +1,11 @@
+.root {
+    text-align: center;
+    padding: 0 1rem;
+}
+.image {
+    padding-top: 1rem;
+}
+.text {
+    font-size: 1.2rem;
+    padding-bottom: 1rem;
+}

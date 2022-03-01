@@ -13,6 +13,10 @@
     align-items: center;
     word-wrap: anywhere;
 }
+.header > svg {
+    width: 2rem;
+    height: 2rem;
+}
 .header.pinned {
     background: var(--background-element);
     border-radius: 0.5rem;
@@ -34,6 +38,8 @@
 }
 .headerTitle, .headerSecondary {
     display: block;
+}
+.headerTitle:not(.allowOverflow), .headerSecondary:not(.allowOverflow) {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

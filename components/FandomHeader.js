@@ -4,16 +4,16 @@ import {CAvatar} from "./CImage";
 import Link from "next/link";
 import {BoxPlaceholder, TextPlaceholder} from "./Placeholder";
 
-// this is
-
 export default function FandomHeader(props) {
   const {
     fandom, className, pinned, imageId, name,
     link, addTitle, author, authorLink,
     addSecondary, addRight, noPadding,
-    onClick, dense,
+    onClick, dense, addLeft, el,
+    allowOverflow = 0,
   } = props;
-  return <header className={className || classNames(
+  const El = el || "div";
+  return <El className={className || classNames(
     classes.header,
     pinned && classes.pinned,
     noPadding && classes.noPadding,
@@ -21,8 +21,12 @@ export default function FandomHeader(props) {
     onClick && classes.clickable,
   )} onClick={onClick}>
     {Boolean(fandom || imageId) && <CAvatar fandom={fandom} id={imageId} alt={name} link={link} />}
+    {addLeft}
     <div className={classes.headerText}>
-      <div className={classes.headerTitle}>
+      <div className={classNames(
+        classes.headerTitle,
+        (allowOverflow & 0b1) && classes.allowOverflow
+      )}>
         {onClick ?
           <span className={classes.headerFandom}>{name || fandom.name}</span> :
           <Link href={link || `/fandom/${fandom.id}`}>
@@ -30,7 +34,10 @@ export default function FandomHeader(props) {
           </Link>}
         {addTitle}
       </div>
-      <div className={classes.headerSecondary}>
+      <div className={classNames(
+        classes.headerSecondary,
+        (allowOverflow & 0b10) && classes.allowOverflow
+      )}>
         {authorLink ? <Link href={authorLink}>
           <a className={classes.headerAuthor}>{author}</a>
         </Link> : <span className={classes.headerAuthor}>{author}</span>}
@@ -38,7 +45,7 @@ export default function FandomHeader(props) {
       </div>
     </div>
     {addRight}
-  </header>;
+  </El>;
 }
 
 export function FandomHeaderPlaceholder(props) {

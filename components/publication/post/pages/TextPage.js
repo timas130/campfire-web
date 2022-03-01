@@ -4,7 +4,11 @@ import classes from "../../../../styles/Page.module.css";
 import React, {useState} from "react";
 import FormattedText from "../../../FormattedText";
 import Input from "../../../Input";
-import {faAlignCenter, faAlignLeft, faAlignRight, faHeading, faIcons} from "@fortawesome/free-solid-svg-icons";
+import {faAlignCenter} from "@fortawesome/free-solid-svg-icons/faAlignCenter";
+import {faAlignLeft} from "@fortawesome/free-solid-svg-icons/faAlignLeft";
+import {faAlignRight} from "@fortawesome/free-solid-svg-icons/faAlignRight";
+import {faHeading} from "@fortawesome/free-solid-svg-icons/faHeading";
+import {faIcons} from "@fortawesome/free-solid-svg-icons/faIcons";
 import {EditToolbar, ToolbarActions, ToolbarButton} from "./Page";
 
 export default function TextPage({ page, onEdit = null }) {

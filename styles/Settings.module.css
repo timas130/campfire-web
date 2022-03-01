@@ -1,0 +1,12 @@
+.padUp {
+    padding-top: 0.5rem;
+}
+
+.smallerH1 {
+    font-size: 1.8rem;
+    margin: 0 0 1.5rem;
+}
+
+.developers > * {
+    margin-bottom: 0.5rem;
+}

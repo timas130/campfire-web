@@ -16,12 +16,12 @@ Router.events.on("routeChangeStart", (url) => {
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, err }) {
   const [theme, setTheme] = useState("dark");
   return <ThemeContext.Provider value={{theme, setTheme}}>
     <SWRConfig value={{fetcher}}>
       <Layout dark={theme === "dark"}>
-        <Component {...pageProps} />
+        <Component {...pageProps} err={err} />
       </Layout>
     </SWRConfig>
   </ThemeContext.Provider>;

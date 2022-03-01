@@ -1,6 +1,6 @@
 import {useRouter} from "next/router";
 import FeedLayout, {FeedLoader} from "../../../components/FeedLayout";
-import {fetcher, useLocalMutSWR, useSWRUser, useUser} from "../../../lib/client-api";
+import {fetcher, useLocalMutSWR, useRequiredUser, useUser} from "../../../lib/client-api";
 import postClasses from "../../../styles/Post.module.css";
 import FandomHeader, {FandomHeaderPlaceholder} from "../../../components/FandomHeader";
 import classNames from "classnames";
@@ -8,7 +8,7 @@ import classes from "../../../styles/Draft.module.css";
 import Pages from "../../../components/publication/post/pages/Pages";
 import {Page, pageEditTypes} from "../../../components/publication/post/pages/Page";
 import {PlusSmIcon} from "@heroicons/react/solid";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {pageTypesNames} from "../../../lib/text-cover";
 import NoticeCard, {RulesCard, TextFormattingCard} from "../../../components/cards/NoticeCard";
 import Link from "next/link";
@@ -211,20 +211,15 @@ function MutPost({post, setPost, fandomId, onGetId}) {
 
 export default function Draft() {
   const router = useRouter();
-  const {data: user, isValidating: isValidatingUser} = useSWRUser();
   const draftId = parseInt(router.query.id);
   const fandomId = parseInt(router.query.fandom) || 0;
 
+  const user = useRequiredUser();
   const {data: draft, setData: setDraft} = useLocalMutSWR(
     user && draftId && draftId !== 0 && `/api/drafts/${draftId}`
   );
 
-  useEffect(() => {
-    if (!user && router && !isValidatingUser) {
-      router.push("/auth/login");
-    }
-  }, [isValidatingUser, router, user]);
-  if (!user || !router) return <FeedLoader />;
+  if (!user) return <FeedLoader />;
 
   return <FeedLayout
     list={<>

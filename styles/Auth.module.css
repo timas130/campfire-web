@@ -23,3 +23,12 @@
     color: var(--red);
     margin-bottom: 1rem;
 }
+
+.horizontal {
+    display: flex;
+    margin-top: 0.3rem;
+    margin-bottom: 0.5rem;
+}
+.horizontalInput {
+    margin-right: 0.5rem;
+}

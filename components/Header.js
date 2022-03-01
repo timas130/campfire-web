@@ -56,6 +56,7 @@ function HeaderMenu({expanded, setExpanded}) {
     <HeaderProfile full />
     <DailyQuest />
     <MenuButton text="Черновики" href="/drafts" />
+    <MenuButton text="Настройки аккаунта" href="/me/settings" />
     <MenuButton text="Выйти" href="/api/auth/logout" />
   </div>;
 }

@@ -12,7 +12,7 @@ export async function fetchRubric(req, res, id, offset = 0) {
       req, res, "RRubricGet", {
         rubricId: id,
       },
-    ) : async () => {},
+    ) : (async () => {})(),
   ]);
   return {
     rubric: result[1] && result[1].J_RESPONSE.rubric,

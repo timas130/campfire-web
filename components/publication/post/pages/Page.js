@@ -8,7 +8,9 @@ import ImagesPage from "./ImagesPage";
 import classes from "../../../../styles/Page.module.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
-import {faCheck, faTrash, faWindowClose} from "@fortawesome/free-solid-svg-icons";
+import {faCheck} from "@fortawesome/free-solid-svg-icons/faCheck";
+import {faTrash} from "@fortawesome/free-solid-svg-icons/faTrash";
+import {faWindowClose} from "@fortawesome/free-solid-svg-icons/faWindowClose";
 import NProgress from "nprogress";
 
 const pageTypes = {

@@ -32,7 +32,7 @@ function RubricList({onSelect = (_id => {}), selectedId = 0, fandomId = 0, showE
     {rubricPages.map(page => page.map(rubric => (
       <FandomHeader
         link={`/rubric/${rubric.id}`}
-        key={rubric.id} fandom={rubric.fandom}
+        key={rubric.id} fandom={rubric.fandom} name={rubric.name}
         onClick={() => onSelect(rubric.id)}
         addRight={<KarmaCounter value={rubric.karmaCof} isCof />}
         pinned={selectedId === rubric.id} dense

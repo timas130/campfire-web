@@ -26,7 +26,7 @@ export async function editAccountProp(req, res, type, value) {
 }
 
 export default async function editAccountPropHandler(req, res) {
-  requireArguments(req, res, ["prop", "value"]);
+  if (requireArguments(req, res, ["prop", "value"])) return;
   try {
     res.send(await editAccountProp(req, res, req.body.prop, req.body.value));
   } catch (e) {

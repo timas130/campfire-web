@@ -5,7 +5,7 @@ import "moment/locale/ru";
 import classNames from "classnames";
 import {ArrowsExpandIcon, ChatAlt2Icon, DotsVerticalIcon, PencilIcon, XIcon} from "@heroicons/react/solid";
 import Karma from "../../Karma";
-import {useContext, useLayoutEffect, useMemo, useRef, useState} from "react";
+import {useContext, useEffect, useMemo, useRef, useState} from "react";
 import ShareButton from "../../ShareButton";
 import {useRouter} from "next/router";
 import Pages from "./pages/Pages";
@@ -71,24 +71,27 @@ export default function Post(props) {
   const router = useRouter();
   const theme = useContext(ThemeContext).theme;
   const contentRef = useRef();
-  const [expanded, setExpanded] = useState(false);
+  const [modalShown, setModalShown] = useState(false);
   const [showGradient, setShowGradient] = useState(true);
 
-  const expand = () => {
-    if (window.history) {
-      window.history.pushState(null, "", `/post/${postL.id}`);
-    }
-    setExpanded(true);
-  };
   const hideModal = () => {
-    window.history.back();
-    setExpanded(false);
+    setModalShown(false);
+  };
+  const showModal = () => {
+    setModalShown(true);
   };
 
-  useLayoutEffect(() => {
-    if (!contentRef) return;
-    const h = contentRef.current.getBoundingClientRect().height;
-    setShowGradient(h >= 512);
+  useEffect(() => {
+    if (!contentRef.current) return;
+    const content = contentRef.current;
+    let cnt = 0;
+    let interval;
+    interval = setInterval(() => {
+      const h = content.getBoundingClientRect().height;
+      setShowGradient(h >= 510);
+      if (++cnt >= 3 || h >= 512) clearInterval(interval);
+    }, 500);
+    return () => clearInterval(interval);
   }, []);
 
   const post = useMemo(() => {
@@ -100,13 +103,14 @@ export default function Post(props) {
     }
     return postL;
   }, [postL]);
-  const ContentEl = main ? "main" : "div";
+  const ContentEl = main ? "div" : "div";
   return <article className={classes.post}>
-    {expanded && <ModalPortal>
+    {modalShown && <ModalPortal>
       {/* TODO: one day i'll be able to make a fancy animation for expanding the post... */}
       <PostCover theme={theme} post={postL} hide={hideModal} />
     </ModalPortal>}
     <FandomHeader
+      el="header"
       pinned={pinned} fandom={post.fandom} addTitle={<>
         {post.rubricId !== 0 && <>&nbsp;<Link href={`/rubric/${post.rubricId}`}>
           <a className={classNames(classes.headerRubric)}>
@@ -140,7 +144,7 @@ export default function Post(props) {
       {post.userActivity && <UserActivityPage page={post.userActivity} />}
     </ContentEl>
     <div className={classes.footer}>
-      {!alwaysExpanded && <div className={classes.expander} onClick={expand} tabIndex={0}>
+      {!alwaysExpanded && <div className={classes.expander} onClick={showModal} tabIndex={0}>
         <ArrowsExpandIcon className={classes.expandIcon} />
         Развернуть
       </div>}

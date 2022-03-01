@@ -1,7 +1,7 @@
 import classes from "../styles/Feed.module.css";
 import classNames from "classnames";
 import React from "react";
-import {faCircleNotch} from "@fortawesome/free-solid-svg-icons";
+import {faCircleNotch} from "@fortawesome/free-solid-svg-icons/faCircleNotch";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export const FeedLoader = React.forwardRef(

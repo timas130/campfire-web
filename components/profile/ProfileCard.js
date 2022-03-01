@@ -20,7 +20,8 @@ import {KarmaCounter} from "../Karma";
 import {useEffect, useRef, useState} from "react";
 import Input from "../Input";
 import {EditToolbar, ToolbarButton} from "../publication/post/pages/Page";
-import {faCheck, faTimes} from "@fortawesome/free-solid-svg-icons";
+import {faCheck} from "@fortawesome/free-solid-svg-icons/faCheck";
+import {faTimes} from "@fortawesome/free-solid-svg-icons/faTimes";
 import {useSWRConfig} from "swr";
 
 export function ProfileShort({account}) {

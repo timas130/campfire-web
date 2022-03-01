@@ -12,7 +12,7 @@
     outline: 2px solid var(--text-secondary);
 }
 
-.input[type=password] {
+.input[type=password], .input[data-password] {
     font-family: var(--monospace-font);
 }
 .input[type=checkbox] {
@@ -34,7 +34,7 @@
     display: block;
 }
 
-.label .input {
+.label.inputMargin .input {
     margin-top: 0.3rem;
     margin-bottom: 0.5rem;
 }
