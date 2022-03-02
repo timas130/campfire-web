@@ -5,6 +5,7 @@
 .smallerH1 {
     font-size: 1.8rem;
     margin: 0 0 1.5rem;
+    padding-left: 1rem;
 }
 
 .developers > * {

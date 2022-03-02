@@ -7,9 +7,35 @@ import {ArrowRightIcon, UsersIcon} from "@heroicons/react/solid";
 import useSWR from "swr/immutable";
 import {BoxPlaceholder, TextPlaceholder} from "../Placeholder";
 import {fetcher} from "../../lib/client-api";
+import {useMemo} from "react";
 
-export default function PopularFandomsCard({ limit = 5, shuffle = false }) {
-  let { data: fandoms } = useSWR(`/api/fandom?card=${shuffle}`, fetcher);
+// s/o 2450954#2450976
+function shuffleArray(array) {
+  let currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+export default function PopularFandomsCard({ limit = 5, shuffle = true }) {
+  let { data: fandomsL } = useSWR("/api/fandom", fetcher);
+
+  const fandoms = useMemo(
+    () => (shuffle && fandomsL) ? shuffleArray(fandomsL) : fandomsL,
+    [fandomsL, shuffle]
+  );
+
   return <section className={postClasses.post}>
     <header className={cardClasses.cardTitle}>
       Популярные фэндомы

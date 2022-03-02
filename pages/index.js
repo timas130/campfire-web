@@ -19,9 +19,9 @@ export default function Home() {
 
   return <>
     <Head>
-      <title>Лента | Campfire</title>
+      <title>Campfire &mdash; сообщества и фэндомы</title>
       <MetaTags
-        title={"Campfire"}
+        title={"Campfire — сообщества и фэндомы"}
         description={
           "Campfire — это уютное место с сообществами и " +
           "фэндомами на самые разные темы. Заходите на огонёк!"

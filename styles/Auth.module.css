@@ -1,6 +1,5 @@
 .card {
     max-width: 28rem;
-    margin: 1rem auto;
     padding: 1rem;
     border-radius: 0.5rem;
     background-color: var(--background-secondary);
@@ -31,4 +30,40 @@
 }
 .horizontalInput {
     margin-right: 0.5rem;
+}
+
+.layout {
+    margin: 1rem auto;
+    display: flex;
+    padding: 0;
+    justify-content: center;
+}
+
+.registerLayoutLeft {
+    display: flex;
+    flex-direction: column;
+    width: 660px;
+    margin-right: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+.layoutLeftImage {
+    margin-bottom: 1rem;
+}
+.layoutLeftText {
+    margin-left: 1rem;
+    flex-shrink: 1;
+}
+.layoutLeftText > * {
+    margin-bottom: 0.5rem;
+}
+
+.registerLayoutRight {
+    max-width: 450px;
+}
+
+@media screen and (max-width: 890px) {
+    .registerLayoutLeft {
+        display: none;
+    }
 }

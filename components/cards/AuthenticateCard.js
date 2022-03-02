@@ -3,12 +3,12 @@ import classes from "../../styles/Card.module.css";
 import Button from "../Button";
 import Link from "next/link";
 import classNames from "classnames";
-import {useUser} from "../../lib/client-api";
+import {useSWRUser} from "../../lib/client-api";
 
 export default function AuthenticateCard() {
-  const account = useUser();
+  const {data: account, isValidating: isValidatingUser} = useSWRUser();
 
-  if (account) {
+  if (account || isValidatingUser) {
     return null;
   }
 

@@ -13,7 +13,7 @@ export default function Login() {
     <Head>
       <title>Войти | Campfire</title>
     </Head>
-    <form className={classes.card} method="post" action="/api/auth/login">
+    <div className={classes.layout}><form className={classes.card} method="post" action="/api/auth/login">
       <h1 className={classes.h1}>
         Вход
       </h1>
@@ -43,6 +43,6 @@ export default function Login() {
         <Link href="/auth/register" passHref><Button type="button" noBackground>Регистрация</Button></Link>
         <Button type="submit" className={classes.buttonRight}>Войти</Button>
       </div>
-    </form>
+    </form></div>
   </>;
 }
