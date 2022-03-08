@@ -221,3 +221,8 @@
     text-decoration: underline;
 }
 /*#endregion*/
+/*#region CodePage*/
+.codePage {
+    font-size: 0.8rem;
+}
+/*#endregion*/

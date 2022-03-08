@@ -31,6 +31,7 @@ specifiers:
   next: '12'
   normalize.css: ^8.0.1
   nprogress: ^0.2.0
+  prismjs: ^1.27.0
   progress: ^2.0.3
   raw-body: ^2.5.0
   react: 17.0.2
@@ -67,6 +68,7 @@ dependencies:
   next: 12.1.0_react-dom@17.0.2+react@17.0.2
   normalize.css: 8.0.1
   nprogress: 0.2.0
+  prismjs: 1.27.0
   progress: 2.0.3
   raw-body: 2.5.0
   react: 17.0.2
@@ -2353,6 +2355,11 @@ packages:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
     dev: true
+
+  /prismjs/1.27.0:
+    resolution: {integrity: sha512-t13BGPUlFDR7wRB5kQDG4jjl7XeuH6jbJGt11JHPL96qwsEHNX2+68tFXqc1/k+/jALsbSWJKUOT/hcYAZ5LkA==}
+    engines: {node: '>=6'}
+    dev: false
 
   /process-nextick-args/2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
