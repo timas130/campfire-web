@@ -16,7 +16,7 @@ export default function Fandom({ fandom, profile, info }) {
   return <>
     <Head>
       <title>{title}</title>
-      <MetaTags title={title} url={`https://camp.33rd.dev/fandom/${fandom.id}`} />
+      <MetaTags title={title} url={`https://campfire.moe/fandom/${fandom.id}`} />
     </Head>
     <FeedLayout
       list={<>

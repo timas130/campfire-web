@@ -7,17 +7,3 @@
     cursor: pointer;
     vertical-align: bottom;
 }
-.copied {
-    display: none;
-    position: absolute;
-    top: -2rem; left: 50%;
-    transform: translateX(-50%);
-    font-size: 1rem;
-    padding: 0.25rem;
-    background: var(--background);
-    border-radius: 0.5rem;
-    z-index: 1000;
-}
-.copied.active {
-    display: block;
-}

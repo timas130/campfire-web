@@ -22,7 +22,7 @@ export default function LinkPage({ page, onEdit = null }) {
     <div className={classes.linkIcon}><ExternalLinkIcon /></div>
     <div className={classes.linkText}>
       <div className={classes.linkName}>{name}</div>
-      <div className={classes.linkLink}>{sayzenMatch ? "https://camp.33rd.dev" : ""}{link}</div>
+      <div className={classes.linkLink}>{sayzenMatch ? "https://campfire.moe" : ""}{link}</div>
     </div>
   </El>;
 }

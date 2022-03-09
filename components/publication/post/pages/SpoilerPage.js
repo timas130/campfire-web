@@ -9,7 +9,7 @@ import {EditToolbar, ToolbarActions} from "./Page";
 export default function SpoilerPage({ page, children, onEdit = null }) {
   const [expanded, setExpanded] = useState(Boolean(onEdit));
 
-  return <section>
+  return <div>
     <header tabIndex={0} className={classNames(
       classes.spoilerHeader,
       page.__internal && classes.internal,
@@ -23,7 +23,7 @@ export default function SpoilerPage({ page, children, onEdit = null }) {
     <div className={classNames(classes.spoilerContent, expanded && classes.expanded)}>
       {children}
     </div>
-  </section>;
+  </div>;
 }
 
 export function SpoilerPageEdit({page: initialPage, commit}) {

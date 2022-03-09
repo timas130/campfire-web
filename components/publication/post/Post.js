@@ -130,7 +130,7 @@ export default function Post(props) {
       addRight={<Dropdown items={[
         {
           id: "share", label: "Копировать ссылку",
-          onClick: () => copy(`https://camp.33rd.dev/post/${post.id}`),
+          onClick: () => copy(`https://campfire.moe/post/${post.id}`),
         },
       ]}>
         <DotsVerticalIcon className={classes.headerMore} />

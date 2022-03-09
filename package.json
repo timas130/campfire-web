@@ -13,7 +13,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.0.0",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.17",
-    "@heroicons/react": "^1.0.5",
+    "@heroicons/react": "^1.0.6",
     "@meilisearch/instant-meilisearch": "^0.6.0",
     "@sentry/nextjs": "^6.18.1",
     "JSON2": "^0.1.0",

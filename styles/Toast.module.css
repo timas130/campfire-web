@@ -1,0 +1,25 @@
+.toast {
+    display: inline-block;
+    padding: 0.5rem;
+    background: #3F3F46;
+    border-radius: 0.5rem;
+    font-weight: normal;
+    max-width: 100%;
+    white-space: break-spaces;
+    position: absolute;
+    z-index: 9999;
+    color: white;
+    animation: 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28) toast-appear;
+}
+
+@keyframes toast-appear {
+    from {
+        transform: scale(1);
+    }
+    33% {
+        transform: scale(1.25);
+    }
+    to {
+        transform: scale(1);
+    }
+}

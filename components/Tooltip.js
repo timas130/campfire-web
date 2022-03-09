@@ -16,12 +16,13 @@ export default function Tooltip({ children, text, className = "" }) {
     const tooltipEl = tooltipRef.current;
 
     const enterListener = () => {
+      const bodyOffset = Math.abs(document.body.getBoundingClientRect().top);
       const parentBB = parentEl.getBoundingClientRect();
       const tooltipBB = tooltipEl.getBoundingClientRect();
       setTooltipStyle({
         visibility: "visible",
         position: "absolute",
-        top: parentBB.top - parentBB.height * 2,
+        top: bodyOffset + parentBB.top - parentBB.height * 2,
         left: Math.max(parentBB.left - tooltipBB.width / 2 + parentBB.width / 2, 0),
       });
     };

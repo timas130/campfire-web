@@ -1,10 +1,11 @@
 import classes from "../styles/Karma.module.css";
 import classNames from "classnames";
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/solid";
 import {useRouter} from "next/router";
 import {fetcher, useUser} from "../lib/client-api";
 import {useSWRConfig} from "swr";
+import {showButtonToast} from "../lib/ui";
 
 export function KarmaCounter(props) {
   const {value, cof, precise, el, isCof} = props;
@@ -39,6 +40,8 @@ export default function Karma(props) {
   const {mutate} = useSWRConfig();
   const [myKarmaClient, setMyKarmaClient] = useState(pub.myKarma);
 
+  const wrapperRef = useRef();
+
   const setKarma = positive => {
     if (! account) {
       // noinspection JSIgnoredPromiseFromCall
@@ -48,12 +51,15 @@ export default function Karma(props) {
         .then(r => {
           setMyKarmaClient(r.myKarmaCount);
           return mutate("/api/user/quest");
+        })
+        .catch(() => {
+          showButtonToast(wrapperRef.current, "Произошла ошибка", null, 5000, -2);
         });
     }
   };
 
   const disabled = myKarmaClient !== 0 || (account && pub.creator.J_ID === account.J_ID);
-  return <div className={classNames(
+  return <div ref={wrapperRef} className={classNames(
     classes.karma,
     vertical && classes.vertical,
     disabled && classes.karmaVoted,

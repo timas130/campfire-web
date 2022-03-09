@@ -1,4 +1,4 @@
-export default function MetaTags({title, url, description = "", image = "https://camp.33rd.dev/social-poster.png"}) {
+export default function MetaTags({title, url, description = "", image = "https://campfire.moe/social-poster.png"}) {
   return <>
     <meta name="title" content={title} />
     <meta name="description" content={description} />

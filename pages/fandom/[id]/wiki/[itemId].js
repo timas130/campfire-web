@@ -51,7 +51,7 @@ export function WikiSectionPage(fandomId, itemId, fallback = [], fandom = null, 
   return <>
     <Head>
       <title>{title}</title>
-      <MetaTags title={title} url={`https://camp.33rd.dev/fandom/${fandomId}/wiki/${itemId}`} />
+      <MetaTags title={title} url={`https://campfire.moe/fandom/${fandomId}/wiki/${itemId}`} />
     </Head>
     <FeedLayout
       list={<>

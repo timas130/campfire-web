@@ -10,11 +10,15 @@ export class ModalPortal extends React.Component {
   componentDidMount() {
     const modalRoot = document.getElementById("modal-root");
     modalRoot.appendChild(this.el);
+    document.documentElement.classList.add("modal-open");
   }
 
   componentWillUnmount() {
     const modalRoot = document.getElementById("modal-root");
     modalRoot.removeChild(this.el);
+    if (modalRoot.childElementCount === 0) {
+      document.documentElement.classList.remove("modal-open");
+    }
   }
 
   render() {

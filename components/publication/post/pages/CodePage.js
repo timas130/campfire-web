@@ -70,9 +70,9 @@ export default function CodePage({ page }) {
     Prism.highlightElement(codeRef.current, true);
   }, [code, language]);
 
-  return <section className={classNames(classes.codePage)}>
+  return <div className={classNames(classes.codePage)}>
     <pre>
       <code ref={codeRef} className={`language-${language}`}>{code}</code>
     </pre>
-  </section>;
+  </div>;
 }

@@ -25,7 +25,7 @@ export default function Search() {
   return <>
     <Head>
       <title>{title}</title>
-      <MetaTags title={title} url="https://camp.33rd.dev/post/search" />
+      <MetaTags title={title} url="https://campfire.moe/post/search" />
     </Head>
     <FeedLayout list={<>
       <InstantSearch

@@ -14,6 +14,7 @@ import NoticeCard, {RulesCard, TextFormattingCard} from "../../../components/car
 import Link from "next/link";
 import Button from "../../../components/Button";
 import useSWRImmutable from "swr/immutable";
+import Head from "next/head";
 
 // it's better than legacy campweb, but still pretty shitty
 
@@ -223,6 +224,9 @@ export default function Draft() {
 
   return <FeedLayout
     list={<>
+      <Head>
+        <title>Черновик | Campfire</title>
+      </Head>
       {(draftId && draftId !== 0 && draft) || (draftId === 0) ?
         <MutPost
           post={draft} setPost={setDraft}

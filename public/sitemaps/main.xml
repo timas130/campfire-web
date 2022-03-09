@@ -3,27 +3,27 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     <url>
-        <loc>https://camp.33rd.dev/</loc>
+        <loc>https://campfire.moe/</loc>
         <priority>1.0</priority>
     </url>
     <url>
-        <loc>https://camp.33rd.dev/fandom</loc>
+        <loc>https://campfire.moe/fandom</loc>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://camp.33rd.dev/app/auth/login</loc>
+        <loc>https://campfire.moe/app/auth/login</loc>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://camp.33rd.dev/app/auth/register</loc>
+        <loc>https://campfire.moe/app/auth/register</loc>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://camp.33rd.dev/post/search</loc>
+        <loc>https://campfire.moe/post/search</loc>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://camp.33rd.dev/app/rules</loc>
+        <loc>https://campfire.moe/app/rules</loc>
         <priority>0.3</priority>
     </url>
 </urlset>

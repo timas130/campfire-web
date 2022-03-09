@@ -1,32 +1,19 @@
 import {ShareIcon} from "@heroicons/react/solid";
 import classes from "../styles/ShareButton.module.css";
 import copy from "copy-to-clipboard";
-import {useEffect, useState} from "react";
+import {useRef} from "react";
 import classNames from "classnames";
+import {showButtonToast} from "../lib/ui";
 
 export default function ShareButton({ link, className = "" }) {
-  const [copied, setCopied] = useState(false);
-  useEffect(() => {
-    if (copied) {
-      let timeout = setTimeout(() => {
-        setCopied(false);
-        timeout = null;
-      }, 2000);
-      return () => timeout && clearTimeout(timeout);
-    }
-  }, [copied]);
+  const shareRef = useRef();
   return <div className={classNames(classes.buttonWrap, className)}>
-    <div className={classNames(
-      classes.copied,
-      copied && classes.active
-    )}>
-      Скопировано
-    </div>
     <ShareIcon
+      ref={shareRef}
       className={classes.button}
       onClick={() => {
-        copy("https://camp.33rd.dev" + link);
-        setCopied(true);
+        copy("https://campfire.moe" + link);
+        showButtonToast(shareRef.current, "Скопировано");
       }}
       tabIndex={0}
     />

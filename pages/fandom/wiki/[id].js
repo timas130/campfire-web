@@ -17,7 +17,7 @@ export default function WikiArticle({item, pages}) {
   return <>
     <Head>
       <title>{title}</title>
-      <MetaTags title={title} url={`https://camp.33rd.dev/fandom/wiki/${item.itemId}`} />
+      <MetaTags title={title} url={`https://campfire.moe/fandom/wiki/${item.itemId}`} />
     </Head>
     <FeedLayout
       list={<>

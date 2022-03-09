@@ -19,7 +19,7 @@ export default function TextPage({ page, onEdit = null }) {
     "left";
   const icon = icons[page["icon"]];
   const text = page["J_TEXT"];
-  return <section className={classNames(
+  return <div className={classNames(
     classes.textPage,
     big && classes.textBig,
     onEdit && classes.editable,
@@ -28,7 +28,7 @@ export default function TextPage({ page, onEdit = null }) {
     <p className={classes.textBlock} style={{textAlign}}>
       <FormattedText text={text} />
     </p>
-  </section>;
+  </div>;
 }
 
 export function TextPageEdit({ page: initialPage, commit }) {

@@ -17,7 +17,7 @@ export default function Rubric({rubric, posts}) {
     <Head>
       <title>{title}</title>
       <MetaTags
-        title={title} url={`https://camp.33rd.dev/rubric/${rubric.id}`}
+        title={title} url={`https://campfire.moe/rubric/${rubric.id}`}
       />
     </Head>
     <FeedLayout

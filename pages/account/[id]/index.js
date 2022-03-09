@@ -28,7 +28,7 @@ export default function Profile({account: initialAccount, profile: initialProfil
   return <>
     <Head>
       <title>{title}</title>
-      <MetaTags title={title} url={`https://camp.33rd.dev/account/${encodeURIComponent(account.J_NAME)}`} />
+      <MetaTags title={title} url={`https://campfire.moe/account/${encodeURIComponent(account.J_NAME)}`} />
     </Head>
     <FeedLayout
       list={<>

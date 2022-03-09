@@ -3,9 +3,9 @@
     <ShortName>Поиск Campfire</ShortName>
     <Description>Campfire</Description>
     <InputEncoding>UTF-8</InputEncoding>
-    <Image width="256" height="256" type="image/x-icon">https://camp.33rd.dev/favicon.ico</Image>
-    <Url type="text/html" template="https://camp.33rd.dev/post/search">
+    <Image width="256" height="256" type="image/x-icon">https://campfire.moe/favicon.ico</Image>
+    <Url type="text/html" template="https://campfire.moe/post/search">
         <Param name="q" value="{searchTerms}" />
     </Url>
-    <moz:SearchForm>https://camp.33rd.dev/post/search</moz:SearchForm>
+    <moz:SearchForm>https://campfire.moe/post/search</moz:SearchForm>
 </OpenSearchDescription>

@@ -19,7 +19,7 @@ export default function Fandoms() {
       <title>Популярные фэндомы | Campfire</title>
       <MetaTags
         title="Популярные фэндомы | Campfire"
-        url="https://camp.33rd.dev/fandom"
+        url="https://campfire.moe/fandom"
       />
     </Head>
     <FeedLayout
