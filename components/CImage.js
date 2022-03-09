@@ -10,6 +10,10 @@ function ModalInner({className, ...props}) {
   return <div className={classNames("modal", className)} {...props} />;
 }
 
+const cdnImageLoader = ({ src, width, quality }) => (
+  `${process.env.cdnUrl}/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality || 75}`
+);
+
 export default function CImage(props) {
   const {id, w, h, alt, modal, ...rest} = props;
   const [modalOpen, setModalOpen] = useState(false);
@@ -17,19 +21,19 @@ export default function CImage(props) {
   if (modal) {
     return <>
       <Image
-        src={`/api/image/${id}`} alt={alt}
+        src={`/api/image/${id}`} alt={alt} loader={cdnImageLoader}
         width={w} height={h} onClick={() => setModalOpen(x => !x)}
         {...rest}
       />
       {modalOpen && <ModalPortal><ModalInner onClick={() => setModalOpen(false)}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`/api/image/${id}`} alt={alt} />
+        <img src={`${process.env.cdnUrl}/api/image/${id}`} alt={alt} />
       </ModalInner></ModalPortal>}
     </>;
   } else {
     return <Image
       src={`/api/image/${id}`} alt={alt}
-      width={w} height={h}
+      width={w} height={h} loader={cdnImageLoader}
       {...rest}
     />;
   }
