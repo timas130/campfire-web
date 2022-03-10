@@ -5,7 +5,7 @@ import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/solid";
 import {useRouter} from "next/router";
 import {fetcher, useUser} from "../lib/client-api";
 import {useSWRConfig} from "swr";
-import {showButtonToast} from "../lib/ui";
+import {showErrorToast} from "../lib/ui";
 
 export function KarmaCounter(props) {
   const {value, cof, precise, el, isCof} = props;
@@ -52,8 +52,8 @@ export default function Karma(props) {
           setMyKarmaClient(r.myKarmaCount);
           return mutate("/api/user/quest");
         })
-        .catch(() => {
-          showButtonToast(wrapperRef.current, "Произошла ошибка", null, 5000, -2);
+        .catch(err => {
+          showErrorToast(wrapperRef.current, err, null, 5000, -2);
         });
     }
   };

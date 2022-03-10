@@ -11,6 +11,10 @@
     color: white;
     animation: 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28) toast-appear;
 }
+.error {
+    background: #ef4444;
+    color: black;
+}
 
 @keyframes toast-appear {
     from {
