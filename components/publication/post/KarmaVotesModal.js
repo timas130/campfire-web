@@ -7,7 +7,7 @@ import "moment/locale/ru";
 import {KarmaCounter} from "../../Karma";
 
 export default function KarmaVotesModel({id, open, setOpen}) {
-  const {data, ref, showLoader} = useInfScroll(`/api/pub/${id}/karma`);
+  const {data, ref, showLoader} = useInfScroll(open && `/api/pub/${id}/karma`);
   return <ModalDialog open={open} setOpen={setOpen} title="Оценки" scrollable>
     {data && data.map(page => page.map(vote => (
       <FandomHeader
