@@ -2,7 +2,7 @@ import {fetcher, useUser} from "../lib/client-api";
 import useSWRImmutable from "swr/immutable";
 import {BoxPlaceholder} from "./Placeholder";
 import classes from "../styles/Header.module.css";
-import Progress from "./Progress";
+import Progress from "./controls/Progress";
 
 const quests = [
   {

@@ -4,14 +4,16 @@ import React, {useRef, useState} from "react";
 import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/solid";
 import {useRouter} from "next/router";
 import {fetcher, useUser} from "../lib/client-api";
-import {useSWRConfig} from "swr";
+import useSWR, {useSWRConfig} from "swr";
 import {showErrorToast} from "../lib/ui";
+import Spinner from "./Spinner";
 
 export function KarmaCounter(props) {
   const {value, cof, precise, el, isCof} = props;
   const El = el || "div";
   return <El className={classNames(
     classes.karmaCounter,
+    cof && cof !== 100 && classes.withCof,
     isCof ?
       value > 100 ?
         classes.karmaPositive :
@@ -36,24 +38,36 @@ export function KarmaCounter(props) {
 export default function Karma(props) {
   const {pub, vertical, small, precise} = props;
   const account = useUser();
+  const {data: {settings: {anonRates = false} = {}} = {}} = useSWR(account && "/api/user/settings");
   const router = useRouter();
   const {mutate} = useSWRConfig();
   const [myKarmaClient, setMyKarmaClient] = useState(pub.myKarma);
+  const [loadingDirection, setLoadingDirection] = useState(null);
 
   const wrapperRef = useRef();
 
   const setKarma = positive => {
+    if (loadingDirection) return;
     if (! account) {
       // noinspection JSIgnoredPromiseFromCall
       router.push("/auth/login");
     } else {
-      fetcher(`/api/pub/${pub.id}/karma?positive=${positive}`)
+      setLoadingDirection(positive ? "up" : "down");
+      fetcher(`/api/pub/${pub.id}/karma?positive=${positive}&anon=${anonRates}`, {method: "POST"})
         .then(r => {
           setMyKarmaClient(r.myKarmaCount);
-          return mutate("/api/user/quest");
+          setLoadingDirection(null);
+          return mutate("/api/user/quest", quest => {
+            if (quest.questIndex === 6) {
+              quest.questProgress++;
+            }
+            return quest;
+          }, true);
         })
         .catch(err => {
           showErrorToast(wrapperRef.current, err, null, 5000, -2);
+          setLoadingDirection(null);
+          // not using finally because we also wait for /api/user/quest here
         });
     }
   };
@@ -65,25 +79,25 @@ export default function Karma(props) {
     disabled && classes.karmaVoted,
     small && classes.small
   )}>
-    <ChevronDownIcon
+    {loadingDirection !== "down" ? <ChevronDownIcon
       className={classNames(
         classes.karmaButton,
         myKarmaClient < 0 && classes.karmaNegative
       )}
       onClick={() => !disabled && setKarma(false)}
       tabIndex={0}
-    />
+    /> : <Spinner className={classNames(classes.karmaButton, classes.loading, classes.karmaNegative)} />}
     <KarmaCounter
       value={pub.karmaCount + (pub.myKarma ? 0 : myKarmaClient || 0)}
       cof={pub.fandom.karmaCof} precise={precise}
     />
-    <ChevronUpIcon
+    {loadingDirection !== "up" ? <ChevronUpIcon
       className={classNames(
         classes.karmaButton,
         myKarmaClient > 0 && classes.karmaPositive
       )}
       onClick={() => !disabled && setKarma(true)}
       tabIndex={0}
-    />
+    /> : <Spinner className={classNames(classes.karmaButton, classes.loading, classes.karmaPositive)} />}
   </div>;
 }

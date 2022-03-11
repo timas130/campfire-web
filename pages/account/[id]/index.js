@@ -4,7 +4,7 @@ import ProfileCard from "../../../components/profile/ProfileCard";
 import Head from "next/head";
 import Post from "../../../components/publication/post/Post";
 import {useInfScroll} from "../../../lib/client-api";
-import Comment from "../../../components/publication/Comment";
+import Comment from "../../../components/publication/comment/Comment";
 import postClasses from "../../../styles/Post.module.css";
 import FormattedText from "../../../components/FormattedText";
 import MetaTags from "../../../components/MetaTags";

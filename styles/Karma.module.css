@@ -1,12 +1,10 @@
 .karmaCounter {
     font-weight: bold;
     position: relative;
+    text-align: center;
 }
-.karmaPositive, .karmaVoted .karmaButton.karmaPositive {
-    color: var(--green);
-}
-.karmaNegative, .karmaVoted .karmaButton.karmaNegative {
-    color: var(--red);
+.karmaCounter.withCof {
+    min-width: 2rem;
 }
 
 .cof {
@@ -17,6 +15,7 @@
     font-weight: normal;
     color: var(--text-secondary);
     font-size: 0.8rem;
+    width: 100%;
 }
 
 .karma {
@@ -28,16 +27,27 @@
 }
 .karmaButton {
     width: 2rem;
+    height: 2rem;
     padding: 0.2rem;
     cursor: pointer;
 }
-.karmaVoted .karmaButton {
+/* svg - loading spinner */
+.karmaVoted .karmaButton, .karmaButton.loading {
     cursor: default;
     color: var(--text-secondary);
+}
+.karmaPositive, .karmaVoted .karmaButton.karmaPositive {
+    color: var(--green);
+    fill: var(--green);
+}
+.karmaNegative, .karmaVoted .karmaButton.karmaNegative {
+    color: var(--red);
+    fill: var(--red);
 }
 
 .karma.small .karmaButton {
     width: 1.5rem;
+    height: 1.5rem;
     padding: 0;
 }
 .karma.small .karmaButton:first-child {

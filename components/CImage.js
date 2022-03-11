@@ -4,7 +4,7 @@ import classes from "../styles/CImage.module.css";
 import classNames from "classnames";
 import React, {useState} from "react";
 import {isOnline} from "../lib/client-api";
-import {ModalPortal} from "./ModalPortal";
+import {ModalPortal} from "./Modal";
 
 function ModalInner({className, ...props}) {
   return <div className={classNames("modal", className)} {...props} />;

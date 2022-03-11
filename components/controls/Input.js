@@ -1,4 +1,4 @@
-import classes from "../styles/Input.module.css";
+import classes from "../../styles/Input.module.css";
 import classNames from "classnames";
 
 function Input(props) {

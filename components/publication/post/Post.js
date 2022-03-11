@@ -6,21 +6,22 @@ import classNames from "classnames";
 import {ArrowsExpandIcon, ChatAlt2Icon, DotsVerticalIcon, PencilIcon, XIcon} from "@heroicons/react/solid";
 import Karma from "../../Karma";
 import {useContext, useEffect, useMemo, useRef, useState} from "react";
-import ShareButton from "../../ShareButton";
+import ShareButton from "../../controls/ShareButton";
 import {useRouter} from "next/router";
 import Pages from "./pages/Pages";
-import Comment from "../Comment";
+import Comment from "../comment/Comment";
 import UserActivityPage from "./pages/UserActivityPage";
 import FandomHeader from "../../FandomHeader";
-import Dropdown from "../../Dropdown";
+import Dropdown from "../../controls/Dropdown";
 import copy from "copy-to-clipboard";
-import {ModalPortal} from "../../ModalPortal";
+import {ModalPortal} from "../../Modal";
 import {ThemeContext} from "../../../lib/theme";
 import layoutClasses from "../../../styles/Layout.module.css";
 import useSWR from "swr";
 import {FeedLoader} from "../../FeedLayout";
 import Tags from "./Tags";
 import {useInfScroll} from "../../../lib/client-api";
+import KarmaVotesModel from "./KarmaVotesModal";
 
 function CommentCounter(props) {
   return <Link href={props.href}>
@@ -73,6 +74,7 @@ export default function Post(props) {
   const contentRef = useRef();
   const [modalShown, setModalShown] = useState(false);
   const [showGradient, setShowGradient] = useState(true);
+  const [karmaDialogOpen, setKarmaDialogOpen] = useState(false);
 
   const hideModal = () => {
     setModalShown(false);
@@ -104,11 +106,14 @@ export default function Post(props) {
     return postL;
   }, [postL]);
   const ContentEl = main ? "div" : "div";
+
   return <article className={classes.post}>
+    <KarmaVotesModel open={karmaDialogOpen} setOpen={setKarmaDialogOpen} id={postL.id} />
     {modalShown && <ModalPortal>
       {/* TODO: one day i'll be able to make a fancy animation for expanding the post... */}
       <PostCover theme={theme} post={postL} hide={hideModal} />
     </ModalPortal>}
+
     <FandomHeader
       el="header"
       pinned={pinned} fandom={post.fandom} addTitle={<>
@@ -131,6 +136,11 @@ export default function Post(props) {
         {
           id: "share", label: "Копировать ссылку",
           onClick: () => copy(`https://campfire.moe/post/${post.id}`),
+        },
+        {type: "separator"},
+        {
+          id: "karma", label: "Посмотреть карму",
+          onClick: () => setKarmaDialogOpen(true),
         },
       ]}>
         <DotsVerticalIcon className={classes.headerMore} />

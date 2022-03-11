@@ -3,7 +3,7 @@ import classNames from "classnames";
 import classes from "../../../../styles/Page.module.css";
 import React, {useState} from "react";
 import FormattedText from "../../../FormattedText";
-import Input from "../../../Input";
+import Input from "../../../controls/Input";
 import {faAlignCenter} from "@fortawesome/free-solid-svg-icons/faAlignCenter";
 import {faAlignLeft} from "@fortawesome/free-solid-svg-icons/faAlignLeft";
 import {faAlignRight} from "@fortawesome/free-solid-svg-icons/faAlignRight";

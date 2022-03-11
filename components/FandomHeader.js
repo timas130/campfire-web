@@ -9,7 +9,7 @@ export default function FandomHeader(props) {
     fandom, className, pinned, imageId, name,
     link, addTitle, author, authorLink,
     addSecondary, addRight, noPadding,
-    onClick, dense, addLeft, el,
+    onClick, dense, addLeft, el, account,
     allowOverflow = 0,
   } = props;
   const El = el || "div";
@@ -20,7 +20,8 @@ export default function FandomHeader(props) {
     dense && classes.dense,
     onClick && classes.clickable,
   )} onClick={onClick}>
-    {Boolean(fandom || imageId) && <CAvatar fandom={fandom} id={imageId} alt={name} link={link} />}
+    {Boolean(fandom || imageId) &&
+      <CAvatar account={account} fandom={fandom} id={imageId} alt={name} link={link} />}
     {addLeft}
     <div className={classes.headerText}>
       <div className={classNames(
@@ -28,9 +29,13 @@ export default function FandomHeader(props) {
         (allowOverflow & 0b1) && classes.allowOverflow
       )}>
         {onClick ?
-          <span className={classes.headerFandom}>{name || fandom.name}</span> :
-          <Link href={link || `/fandom/${fandom.id}`}>
-            <a className={classes.headerFandom}>{name || fandom.name}</a>
+          <span className={classes.headerFandom}>{fandom ? fandom.name : name || account.J_NAME}</span> :
+          <Link href={
+            fandom ? `/fandom/${fandom.id}` :
+            account ? `/account/${encodeURIComponent(account.J_NAME)}` :
+            link
+          }>
+            <a className={classes.headerFandom}>{fandom ? fandom.name : name || account.J_NAME}</a>
           </Link>}
         {addTitle}
       </div>

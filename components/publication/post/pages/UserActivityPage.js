@@ -6,7 +6,7 @@ import moment from "moment";
 import "moment/locale/ru";
 import {useState} from "react";
 import {fetcher, useInterval, useUser} from "../../../../lib/client-api";
-import Button from "../../../Button";
+import Button from "../../../controls/Button";
 import classNames from "classnames";
 import FandomHeader from "../../../FandomHeader";
 

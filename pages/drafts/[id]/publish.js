@@ -9,13 +9,13 @@ import {ArrowLeftIcon} from "@heroicons/react/solid";
 import {useState} from "react";
 import {Tag} from "../../../components/publication/post/Tags";
 import classes from "../../../styles/Draft.module.css";
-import InputLabel from "../../../components/InputLabel";
-import Input from "../../../components/Input";
+import InputLabel from "../../../components/controls/InputLabel";
+import Input from "../../../components/controls/Input";
 import SpoilerPage from "../../../components/publication/post/pages/SpoilerPage";
 import FandomHeader from "../../../components/FandomHeader";
 import {KarmaCounter} from "../../../components/Karma";
 import {Countdown} from "../../../components/publication/post/pages/UserActivityPage";
-import Button from "../../../components/Button";
+import Button from "../../../components/controls/Button";
 
 function RubricList({onSelect = (_id => {}), selectedId = 0, fandomId = 0, showEmpty = false}) {
   const user = useUser();

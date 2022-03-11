@@ -19,8 +19,8 @@ Router.events.on("routeChangeError", () => NProgress.done());
 function MyApp({ Component, pageProps, err }) {
   const [theme, setTheme] = useState("dark");
   return <ThemeContext.Provider value={{theme, setTheme}}>
-    <SWRConfig value={{fetcher}}>
-      <Layout dark={theme === "dark"}>
+    <SWRConfig value={{fetcher, revalidateOnFocus: false}}>
+      <Layout>
         <Component {...pageProps} err={err} />
       </Layout>
     </SWRConfig>

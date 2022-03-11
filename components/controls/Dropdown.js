@@ -1,5 +1,5 @@
 import {useRef, useState} from "react";
-import classes from "../styles/Dropdown.module.css";
+import classes from "../../styles/Dropdown.module.css";
 import classNames from "classnames";
 
 export default function Dropdown({items, children}) {

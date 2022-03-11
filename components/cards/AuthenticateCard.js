@@ -1,6 +1,6 @@
 import postClasses from "../../styles/Post.module.css";
 import classes from "../../styles/Card.module.css";
-import Button from "../Button";
+import Button from "../controls/Button";
 import Link from "next/link";
 import classNames from "classnames";
 import {useSWRUser} from "../../lib/client-api";

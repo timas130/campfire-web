@@ -1,9 +1,9 @@
 import {ShareIcon} from "@heroicons/react/solid";
-import classes from "../styles/ShareButton.module.css";
+import classes from "../../styles/ShareButton.module.css";
 import copy from "copy-to-clipboard";
 import {useRef} from "react";
 import classNames from "classnames";
-import {showButtonToast} from "../lib/ui";
+import {showButtonToast} from "../../lib/ui";
 
 export default function ShareButton({ link, className = "" }) {
   const shareRef = useRef();

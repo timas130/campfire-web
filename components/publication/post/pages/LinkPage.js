@@ -2,8 +2,8 @@ import classes from "../../../../styles/Page.module.css";
 import {ExternalLinkIcon} from "@heroicons/react/outline";
 import {sayzenLink} from "../../../FormattedText";
 import classNames from "classnames";
-import InputLabel from "../../../InputLabel";
-import Input from "../../../Input";
+import InputLabel from "../../../controls/InputLabel";
+import Input from "../../../controls/Input";
 import {EditToolbar, ToolbarActions} from "./Page";
 import {useState} from "react";
 

@@ -3,8 +3,8 @@ import postClasses from "../../styles/Post.module.css";
 import classes from "../../styles/Card.module.css";
 import classNames from "classnames";
 import Link from "next/link";
-import Button from "../Button";
-import Progress from "../Progress";
+import Button from "../controls/Button";
+import Progress from "../controls/Progress";
 import {fetcher} from "../../lib/client-api";
 
 export default function DonateCard() {

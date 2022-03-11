@@ -18,7 +18,7 @@ import {
 } from "@heroicons/react/solid";
 import {KarmaCounter} from "../Karma";
 import {useEffect, useRef, useState} from "react";
-import Input from "../Input";
+import Input from "../controls/Input";
 import {EditToolbar, ToolbarButton} from "../publication/post/pages/Page";
 import {faCheck} from "@fortawesome/free-solid-svg-icons/faCheck";
 import {faTimes} from "@fortawesome/free-solid-svg-icons/faTimes";

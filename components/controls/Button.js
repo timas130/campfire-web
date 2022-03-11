@@ -1,4 +1,4 @@
-import classes from "../styles/Button.module.css";
+import classes from "../../styles/Button.module.css";
 import classNames from "classnames";
 import React from "react";
 

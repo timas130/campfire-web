@@ -1,0 +1,32 @@
+.dialog {
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    width: 660px;
+}
+
+@media (max-width: 660px) {
+    .dialog {
+        width: 100%;
+    }
+}
+
+.scrollable {
+    height: 300px;
+    overflow-y: auto;
+}
+
+.dialogHeader {
+    display: flex;
+    padding: 0.75rem;
+    font-weight: bold;
+    border-bottom: 1px solid var(--background-element);
+}
+.dialogClose {
+    margin-left: auto;
+    cursor: pointer;
+}
+.dialogClose > svg {
+    width: 1rem;
+    height: 1rem;
+    vertical-align: bottom;
+}

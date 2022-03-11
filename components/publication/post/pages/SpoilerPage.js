@@ -2,8 +2,8 @@ import classes from "../../../../styles/Page.module.css";
 import {useState} from "react";
 import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/solid";
 import classNames from "classnames";
-import InputLabel from "../../../InputLabel";
-import Input from "../../../Input";
+import InputLabel from "../../../controls/InputLabel";
+import Input from "../../../controls/Input";
 import {EditToolbar, ToolbarActions} from "./Page";
 
 export default function SpoilerPage({ page, children, onEdit = null }) {

@@ -2,7 +2,7 @@ import postClasses from "../../styles/Post.module.css";
 import classes from "../../styles/Card.module.css";
 import classNames from "classnames";
 import {ExternalLinkIcon, LockClosedIcon, UsersIcon} from "@heroicons/react/solid";
-import Button from "../Button";
+import Button from "../controls/Button";
 import Tooltip from "../Tooltip";
 import useSWRImmutable from "swr/immutable";
 import {fetcher, useUser} from "../../lib/client-api";

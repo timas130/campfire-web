@@ -1,8 +1,8 @@
 import classes from "../../../../styles/Page.module.css";
 import classNames from "classnames";
 import {useState} from "react";
-import Input from "../../../Input";
-import InputLabel from "../../../InputLabel";
+import Input from "../../../controls/Input";
+import InputLabel from "../../../controls/InputLabel";
 import {EditToolbar, ToolbarActions} from "./Page";
 
 export default function QuotePage({ page, onEdit = null }) {

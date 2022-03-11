@@ -12,7 +12,7 @@ import {useState} from "react";
 import {pageTypesNames} from "../../../lib/text-cover";
 import NoticeCard, {RulesCard, TextFormattingCard} from "../../../components/cards/NoticeCard";
 import Link from "next/link";
-import Button from "../../../components/Button";
+import Button from "../../../components/controls/Button";
 import useSWRImmutable from "swr/immutable";
 import Head from "next/head";
 

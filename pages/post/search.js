@@ -2,7 +2,7 @@ import Head from "next/head";
 import MetaTags from "../../components/MetaTags";
 import FeedLayout from "../../components/FeedLayout";
 import Post from "../../components/publication/post/Post";
-import Button from "../../components/Button";
+import Button from "../../components/controls/Button";
 import "instantsearch.css/themes/reset.css";
 import {useRouter} from "next/router";
 import dynamic from "next/dynamic";

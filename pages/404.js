@@ -2,7 +2,7 @@ import CImage from "../components/CImage";
 import classNames from "classnames";
 import classes from "../styles/NotFound.module.css";
 import Head from "next/head";
-import Button from "../components/Button";
+import Button from "../components/controls/Button";
 import {useRouter} from "next/router";
 
 export default function NotFoundPage() {

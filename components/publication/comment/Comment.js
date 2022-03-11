@@ -1,12 +1,12 @@
-import classes from "../../styles/Comment.module.css";
-import CImage, {CAvatar} from "../CImage";
+import classes from "../../../styles/Comment.module.css";
+import CImage, {CAvatar} from "../../CImage";
 import moment from "moment";
 import Link from "next/link";
-import FormattedText from "../FormattedText";
-import Karma from "../Karma";
+import FormattedText from "../../FormattedText";
+import Karma from "../../Karma";
 import React from "react";
 import classNames from "classnames";
-import {limitText} from "../../lib/text-cover";
+import {limitText} from "../../../lib/text-cover";
 
 // todo: multiple images in one comment
 

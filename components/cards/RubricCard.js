@@ -1,7 +1,7 @@
 import classes from "../../styles/Card.module.css";
 import postClasses from "../../styles/Post.module.css";
 import {KarmaCounter} from "../Karma";
-import ShareButton from "../ShareButton";
+import ShareButton from "../controls/ShareButton";
 import FandomHeader from "../FandomHeader";
 
 export default function RubricCard({rubric}) {

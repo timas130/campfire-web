@@ -1,11 +1,11 @@
 import FeedLayout, {FeedLoader} from "../../components/FeedLayout";
 import Post from "../../components/publication/post/Post";
 import AuthenticateCard from "../../components/cards/AuthenticateCard";
-import Comment from "../../components/publication/Comment";
+import Comment from "../../components/publication/comment/Comment";
 import {fetchComments} from "../api/post/[id]/comments";
 import Head from "next/head";
 import {useMemo} from "react";
-import CommentPoster from "../../components/CommentPoster";
+import CommentPoster from "../../components/publication/comment/CommentPoster";
 import FandomCard from "../../components/cards/FandomCard";
 import MetaTags from "../../components/MetaTags";
 import {useInfScroll} from "../../lib/client-api";

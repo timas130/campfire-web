@@ -1,10 +1,10 @@
-import classes from "../styles/Comment.module.css";
-import Input from "./Input";
-import InputLabel from "./InputLabel";
-import Button from "./Button";
+import classes from "../../../styles/Comment.module.css";
+import Input from "../../controls/Input";
+import InputLabel from "../../controls/InputLabel";
+import Button from "../../controls/Button";
 import {PaperClipIcon} from "@heroicons/react/solid";
 import {useCallback, useState} from "react";
-import {fetcher} from "../lib/client-api";
+import {fetcher} from "../../../lib/client-api";
 
 export default function CommentPoster({ pubId, addComment }) {
   const [isLoading, setIsLoading] = useState(false);
