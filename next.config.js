@@ -1,7 +1,7 @@
 const { withSentryConfig } = require("@sentry/nextjs");
 
 // no trailing slash!
-const cdnUrl = process.env.NODE_ENV === "production" ? "https://ccdn.33rd.dev" : "http://localhost:3000";
+const cdnUrl = process.env.NODE_ENV === "production" ? "https://cdn.campfire.moe" : "http://localhost:3000";
 
 module.exports = withSentryConfig({
   reactStrictMode: true,
