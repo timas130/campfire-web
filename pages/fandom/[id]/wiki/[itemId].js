@@ -5,11 +5,10 @@ import {fetchFandomBasic} from "../../../api/fandom/[id]";
 import MetaTags from "../../../../components/MetaTags";
 import FeedLayout, {FeedLoader} from "../../../../components/FeedLayout";
 import WikiListItem, {getWikiName} from "../../../../components/WikiListItem";
-import cardClasses from "../../../../styles/Card.module.css";
 import {ArrowLeftIcon} from "@heroicons/react/solid";
-import classNames from "classnames";
 import {fetchWikiItem} from "../../../api/fandom/wiki/[wikiId]";
 import {handleSSRError, mustInt} from "../../../../lib/api";
+import IconLink from "../../../../components/IconLink";
 
 export async function getServerSideProps(ctx) {
   try {
@@ -48,6 +47,9 @@ export function WikiSectionPage(fandomId, itemId, fallback = [], fandom = null, 
       title = `Вики | ${fandom.name} | Campfire`;
   else
     title = "Вики фэндома | Campfire";
+
+  const wikiList = wikiListPages.flat();
+
   return <>
     <Head>
       <title>{title}</title>
@@ -55,17 +57,16 @@ export function WikiSectionPage(fandomId, itemId, fallback = [], fandom = null, 
     </Head>
     <FeedLayout
       list={<>
-        <a
+        <IconLink
           href={item ? `/fandom/${fandomId}/wiki/${item.parentItemId}` : `/fandom/${fandomId}`}
-          className={classNames(cardClasses.fandomSubs, cardClasses.moreFandoms)}
+          right
         >
           <ArrowLeftIcon />
-          Назад
-        </a>
+          Назад {!item && "в фэндом"}
+        </IconLink>
 
-        {wikiListPages.map(page => page.map(
-          wikiItem => <WikiListItem key={wikiItem.id} fandomId={fandomId} item={wikiItem} />
-        ))}
+        {wikiList.map(item => <WikiListItem key={item.id} fandomId={fandomId} item={item} />)}
+        {wikiList.length === 0 && <FeedLoader text="Этот раздел вики пустой" />}
         {showLoader && <FeedLoader ref={ref} />}
       </>}
     />

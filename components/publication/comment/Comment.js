@@ -1,6 +1,6 @@
 import classes from "../../../styles/Comment.module.css";
 import CImage, {CAvatar} from "../../CImage";
-import moment from "moment";
+import dayjs from "../../../lib/time";
 import Link from "next/link";
 import FormattedText from "../../FormattedText";
 import Karma from "../../Karma";
@@ -48,8 +48,8 @@ export default React.forwardRef(function Comment({ comment, bestComment = false,
       <Link href={`/account/${encodeURIComponent(comment.creator.J_NAME)}`}>
         <a className={classes.author}>{comment.creator.J_NAME}</a>
       </Link>&nbsp;
-      <time dateTime={moment(comment.dateCreate).toISOString()} className={classes.time}>
-        {moment(comment.dateCreate).locale("ru").fromNow()}
+      <time dateTime={dayjs(comment.dateCreate).toISOString()} className={classes.time}>
+        {dayjs(comment.dateCreate).locale("ru").fromNow()}
       </time>
       {comment.changed && <span className={classes.time}>(ред.)</span>}
       {full && <>&nbsp;<Link href={`/post/${comment.parentUnitId}`}>

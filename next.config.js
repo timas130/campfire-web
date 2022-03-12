@@ -1,9 +1,12 @@
 const { withSentryConfig } = require("@sentry/nextjs");
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
 
 // no trailing slash!
 const cdnUrl = process.env.NODE_ENV === "production" ? "https://cdn.campfire.moe" : "http://localhost:3000";
 
-module.exports = withSentryConfig({
+module.exports = withBundleAnalyzer(withSentryConfig({
   reactStrictMode: true,
   async headers() {
     return [
@@ -28,6 +31,9 @@ module.exports = withSentryConfig({
   swcMinify: true,
   assetPrefix: cdnUrl,
   poweredByHeader: false,
+  sentry: {
+    disableClientWebpackPlugin: true,
+  },
 }, {
   silent: true,
-});
+}));

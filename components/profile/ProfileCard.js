@@ -3,8 +3,7 @@ import classes from "../../styles/Profile.module.css";
 import classNames from "classnames";
 import {CAvatar} from "../CImage";
 import {isOnline, useUser} from "../../lib/client-api";
-import moment from "moment";
-import "moment/locale/ru";
+import dayjs from "../../lib/time";
 import {
   CalendarIcon,
   ClockIcon,
@@ -32,7 +31,7 @@ export function ProfileShort({account}) {
       <div className={isOnline(account) ? classes.online : classes.onlineDate}>
         {isOnline(account) ?
           "Онлайн" :
-          ("Был онлайн " + moment(account.J_LAST_ONLINE_DATE)
+          ("Был онлайн " + dayjs(account.J_LAST_ONLINE_DATE)
             .locale("ru").fromNow())}
       </div>
     </div>
@@ -139,7 +138,7 @@ export default function ProfileCard({account, profile}) {
       <SponsorChip account={account} />
     </div>
     {profile.banDate > Date.now() ? <div className={classNames(classes.profileRow, classes.bans)}>
-      Аккаунт заблокирован до {moment(profile.banDate).locale("ru").calendar()}
+      Аккаунт заблокирован до {dayjs(profile.banDate).calendar()}
     </div> : null}
     <div className={classes.profileRow}>
       <ProfileKV
@@ -207,7 +206,7 @@ export default function ProfileCard({account, profile}) {
       />
       <ProfileKV
         icon={CalendarIcon} keyS="Возраст аккаунта"
-        value={moment(profile.dateCreate).locale("ru").fromNow(true)}
+        value={dayjs(profile.dateCreate).locale("ru").fromNow(true)}
       />
     </div>
   </div>;

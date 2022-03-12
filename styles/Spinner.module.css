@@ -1,5 +1,6 @@
 .spinner {
     animation: 0.5s linear infinite spin;
+    fill: var(--text);
 }
 
 @keyframes spin {

@@ -2,8 +2,7 @@ import classes from "../../../../styles/Page.module.css";
 import postClasses from "../../../../styles/Post.module.css";
 import {CAvatar} from "../../../CImage";
 import Link from "next/link";
-import moment from "moment";
-import "moment/locale/ru";
+import dayjs from "../../../../lib/time";
 import {useState} from "react";
 import {fetcher, useInterval, useUser} from "../../../../lib/client-api";
 import Button from "../../../controls/Button";
@@ -16,7 +15,7 @@ export function Countdown({timestamp}) {
     setDate(Date.now());
   }, 1000);
 
-  return moment(timestamp).locale("ru").calendar();
+  return dayjs(timestamp).locale("ru").calendar();
 }
 
 export default function UserActivityPage({page, full = false}) {

@@ -3,8 +3,6 @@ import {fetcher, useInfScroll, useUser} from "../../../lib/client-api";
 import FeedLayout, {FeedLoader} from "../../../components/FeedLayout";
 import FandomCard from "../../../components/cards/FandomCard";
 import useSWRImmutable from "swr/immutable";
-import Link from "next/link";
-import cardClasses from "../../../styles/Card.module.css";
 import {ArrowLeftIcon} from "@heroicons/react/solid";
 import {useState} from "react";
 import {Tag} from "../../../components/publication/post/Tags";
@@ -16,6 +14,7 @@ import FandomHeader from "../../../components/FandomHeader";
 import {KarmaCounter} from "../../../components/Karma";
 import {Countdown} from "../../../components/publication/post/pages/UserActivityPage";
 import Button from "../../../components/controls/Button";
+import IconLink from "../../../components/IconLink";
 
 function RubricList({onSelect = (_id => {}), selectedId = 0, fandomId = 0, showEmpty = false}) {
   const user = useUser();
@@ -108,10 +107,9 @@ export default function PublishDraft() {
 
   return <FeedLayout
     list={<form className={classes.publish} onSubmit={publish}>
-      <Link href={`/drafts/${draftId}`}><a className={cardClasses.moreFandoms}>
-        <ArrowLeftIcon />
-        Назад к редактированию
-      </a></Link>
+      <IconLink href={`/drafts/${draftId}`} right>
+        <ArrowLeftIcon />Назад к редактированию
+      </IconLink>
       {(draft && tags) ? <>
         {tags
           .filter(tag => !tag.parentUnitId)

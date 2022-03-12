@@ -1,7 +1,6 @@
 import classes from "../../../styles/Post.module.css";
 import Link from "next/link";
-import moment from "moment";
-import "moment/locale/ru";
+import dayjs from "../../../lib/time";
 import classNames from "classnames";
 import {ArrowsExpandIcon, ChatAlt2Icon, DotsVerticalIcon, PencilIcon, XIcon} from "@heroicons/react/solid";
 import Karma from "../../Karma";
@@ -116,7 +115,9 @@ export default function Post(props) {
 
     <FandomHeader
       el="header"
-      pinned={pinned} fandom={post.fandom} addTitle={<>
+      pinned={pinned}
+      fandom={post.fandom}
+      addTitle={<>
         {post.rubricId !== 0 && <>&nbsp;<Link href={`/rubric/${post.rubricId}`}>
           <a className={classNames(classes.headerRubric)}>
             в {post.rubricName}
@@ -128,9 +129,10 @@ export default function Post(props) {
           </a>
         </Link></>}
       </>}
-      author={post.creator.J_NAME} authorLink={`/account/${encodeURIComponent(post.creator.J_NAME)}`}
-      addSecondary={<time dateTime={moment(post.dateCreate).toISOString()}>
-        {moment(post.dateCreate).locale("ru").fromNow()}
+      author={post.creator.J_NAME}
+      authorLink={`/account/${encodeURIComponent(post.creator.J_NAME)}`}
+      addSecondary={<time dateTime={dayjs(post.dateCreate).format()}>
+        {dayjs(post.dateCreate).locale("ru").fromNow()}
       </time>}
       addRight={<Dropdown items={[
         {

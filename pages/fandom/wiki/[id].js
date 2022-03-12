@@ -3,8 +3,7 @@ import postClasses from "../../../styles/Post.module.css";
 import FeedLayout from "../../../components/FeedLayout";
 import Pages from "../../../components/publication/post/pages/Pages";
 import FandomHeader from "../../../components/FandomHeader";
-import moment from "moment";
-import "moment/locale/ru";
+import dayjs from "../../../lib/time";
 import classNames from "classnames";
 import {getWikiName} from "../../../components/WikiListItem";
 import Head from "next/head";
@@ -25,7 +24,7 @@ export default function WikiArticle({item, pages}) {
           <FandomHeader
             imageId={item.imageId} name={getWikiName(item)}
             link={`/fandom/${item.fandomId}/wiki/${item.itemId}/article`}
-            author={"Обновлено: " + moment(item.changeDate).locale("ru").calendar()}
+            author={"Обновлено: " + dayjs(item.changeDate).locale("ru").calendar()}
           />
         </div>
         <div className={postClasses.post}>

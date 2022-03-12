@@ -22,6 +22,7 @@
     "cookie-cutter": "^0.2.0",
     "cookies": "^0.8.0",
     "copy-to-clipboard": "^3.3.1",
+    "dayjs": "^1.10.8",
     "dotenv": "^10.0.0",
     "fastify": "^3.27.2",
     "fastify-websocket": "^4.0.0",
@@ -31,7 +32,6 @@
     "linkify-it": "^3.0.3",
     "md5": "^2.3.0",
     "memory-cache": "^0.2.0",
-    "moment": "^2.29.1",
     "next": "12",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "@elastic/elasticsearch": "^7.17.0",
+    "@next/bundle-analyzer": "^12.1.0",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
     "glob": "^7.2.0"

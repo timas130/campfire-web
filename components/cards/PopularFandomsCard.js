@@ -8,6 +8,7 @@ import useSWR from "swr/immutable";
 import {BoxPlaceholder, TextPlaceholder} from "../Placeholder";
 import {fetcher} from "../../lib/client-api";
 import {useMemo} from "react";
+import IconLink from "../IconLink";
 
 // s/o 2450954#2450976
 function shuffleArray(array) {
@@ -61,10 +62,7 @@ export default function PopularFandomsCard({ limit = 5, shuffle = true }) {
               </span>
             </a>
           </Link>)}
-      <Link href="/fandom"><a className={cardClasses.moreFandoms}>
-        Посмотреть другие фэндомы
-        <ArrowRightIcon />
-      </a></Link>
+      <IconLink href="/fandom" left>Другие фэндомы <ArrowRightIcon /></IconLink>
     </div>
   </section>;
 }

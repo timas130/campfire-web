@@ -9,11 +9,11 @@ import {showErrorToast} from "../lib/ui";
 import Spinner from "./Spinner";
 
 export function KarmaCounter(props) {
-  const {value, cof, precise, el, isCof} = props;
+  const {value, cof, precise, el, isCof, mr} = props;
   const El = el || "div";
   return <El className={classNames(
     classes.karmaCounter,
-    cof && cof !== 100 && classes.withCof,
+    mr && classes.mr,
     isCof ?
       value > 100 ?
         classes.karmaPositive :
@@ -36,7 +36,7 @@ export function KarmaCounter(props) {
 }
 
 export default function Karma(props) {
-  const {pub, vertical, small, precise} = props;
+  const {pub, vertical, small, precise, mr} = props;
   const account = useUser();
   const {data: {settings: {anonRates = false} = {}} = {}} = useSWR(account && "/api/user/settings");
   const router = useRouter();
@@ -89,7 +89,7 @@ export default function Karma(props) {
     /> : <Spinner className={classNames(classes.karmaButton, classes.loading, classes.karmaNegative)} />}
     <KarmaCounter
       value={pub.karmaCount + (pub.myKarma ? 0 : myKarmaClient || 0)}
-      cof={pub.fandom.karmaCof} precise={precise}
+      cof={pub.fandom.karmaCof} precise={precise} mr={mr}
     />
     {loadingDirection !== "up" ? <ChevronUpIcon
       className={classNames(

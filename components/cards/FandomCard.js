@@ -1,7 +1,7 @@
 import postClasses from "../../styles/Post.module.css";
 import classes from "../../styles/Card.module.css";
 import classNames from "classnames";
-import {ExternalLinkIcon, LockClosedIcon, UsersIcon} from "@heroicons/react/solid";
+import {BookOpenIcon, ExternalLinkIcon, LockClosedIcon, TagIcon, UsersIcon} from "@heroicons/react/solid";
 import Button from "../controls/Button";
 import Tooltip from "../Tooltip";
 import useSWRImmutable from "swr/immutable";
@@ -11,6 +11,7 @@ import FandomHeader from "../FandomHeader";
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import Link from "next/link";
+import IconLink from "../IconLink";
 
 export const SUB_TYPE_IMPORTANT = -1;
 export const SUB_TYPE_SUBBED = 0;
@@ -68,6 +69,14 @@ export default function FandomCard({ fandom, profile, info, fetchId = null, noLi
         </div>
       </>}
     />
+    <div className={classes.fandomLinks}>
+      <IconLink href={`/fandom/${fandomL.id}/tags`} right primary>
+        <TagIcon />Все теги
+      </IconLink>
+      <IconLink href={`/fandom/${fandomL.id}/wiki`} right primary>
+        <BookOpenIcon />Вики фэндома
+      </IconLink>
+    </div>
     <div className={classes.fandomButtons}>
       <Button fullWidth onClick={changeSubscriptionStatus}>
         {subscriptionStatus !== SUB_TYPE_NONE ? "Отписаться" : "Подписаться"}

@@ -2,8 +2,7 @@ import {ModalDialog} from "../../Modal";
 import {useInfScroll} from "../../../lib/client-api";
 import {FeedLoader} from "../../FeedLayout";
 import FandomHeader from "../../FandomHeader";
-import moment from "moment";
-import "moment/locale/ru";
+import dayjs from "../../../lib/time";
 import {KarmaCounter} from "../../Karma";
 
 export default function KarmaVotesModel({id, open, setOpen}) {
@@ -15,8 +14,8 @@ export default function KarmaVotesModel({id, open, setOpen}) {
         imageId={vote.anonymous ? 569232 : vote.account.J_IMAGE_ID}
         name={vote.anonymous ? "Аноним" : vote.account.J_NAME}
         link="#"
-        author={moment(vote.date).locale("ru").calendar()}
-        addRight={<KarmaCounter cof={vote.karmaCof} value={vote.karmaCount} />}
+        author={dayjs(vote.date).locale("ru").calendar()}
+        addRight={<KarmaCounter cof={vote.karmaCof} value={vote.karmaCount} mr />}
       />
     )))}
     {showLoader && <FeedLoader ref={ref} />}

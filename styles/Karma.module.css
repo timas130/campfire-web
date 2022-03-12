@@ -1,10 +1,9 @@
 .karmaCounter {
     font-weight: bold;
     position: relative;
-    text-align: center;
 }
-.karmaCounter.withCof {
-    min-width: 2rem;
+.mr {
+    margin-right: 0.5rem;
 }
 
 .cof {
@@ -16,6 +15,7 @@
     color: var(--text-secondary);
     font-size: 0.8rem;
     width: 100%;
+    min-width: 2rem;
 }
 
 .karma {
