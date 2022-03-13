@@ -4,7 +4,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 });
 
 // no trailing slash!
-const cdnUrl = process.env.NODE_ENV === "production" ? "https://cdn.campfire.moe" : "http://localhost:3000";
+const cdnUrl = process.env.NODE_ENV === "production" ? "https://cdn.campfire.moe" : "";
 
 module.exports = withBundleAnalyzer(withSentryConfig({
   reactStrictMode: true,

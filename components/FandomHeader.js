@@ -26,7 +26,7 @@ export default function FandomHeader(props) {
     dense && classes.dense,
     onClick && classes.clickable,
   )} onClick={onClick}>
-    {Boolean(fandom || imageId) &&
+    {Boolean(account || fandom || imageId) &&
       <CAvatar account={account} fandom={fandom} id={imageId} alt={name} link={avatarLink || link} />}
     {addLeft}
     <div className={classes.headerText}>

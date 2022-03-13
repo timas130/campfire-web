@@ -56,7 +56,7 @@
     text-decoration: none;
     color: var(--text-secondary);
 }
-.headerAuthor > svg {
+.headerAuthor svg {
     width: 1rem;
     vertical-align: bottom;
     margin-right: 0.25rem;

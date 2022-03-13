@@ -62,7 +62,7 @@ export default function PopularFandomsCard({ limit = 5, shuffle = true }) {
               </span>
             </a>
           </Link>)}
-      <IconLink href="/fandom" left>Другие фэндомы <ArrowRightIcon /></IconLink>
+      <IconLink href="/fandom" left top bottom={false}>Другие фэндомы <ArrowRightIcon /></IconLink>
     </div>
   </section>;
 }

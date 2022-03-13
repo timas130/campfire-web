@@ -2,7 +2,9 @@
     display: inline-block;
 }
 .tooltipText {
+    left: 0;
     padding: 0.5rem;
+    color: var(--text);
     background: var(--background-element);
     border-radius: 0.5rem;
     font-weight: normal;

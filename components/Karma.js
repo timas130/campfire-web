@@ -65,8 +65,13 @@ export default function Karma(props) {
           }, true);
         })
         .catch(err => {
-          showErrorToast(wrapperRef.current, err, null, 5000, -2);
           setLoadingDirection(null);
+          if (err.code === "E_ALREADY_EXIST") {
+            // TODO: Make a PR to CampfireServer so it returns the amount of karma in err.params
+            setMyKarmaClient(1);
+            return;
+          }
+          showErrorToast(wrapperRef.current, err, null, 5000, -2);
           // not using finally because we also wait for /api/user/quest here
         });
     }

@@ -3,8 +3,8 @@ import classes from "../../../styles/Tag.module.css";
 import CImage from "../../CImage";
 import Link from "next/link";
 
-export function Tag({tag, selectable, selected, select}) {
-  const El = selectable ? "span" : "a";
+export function Tag({tag, noLink, selectable, selected, select}) {
+  const El = (selectable || noLink) ? "span" : "a";
   const tagEl = <El
     className={classNames(
       classes.tag,
@@ -22,7 +22,7 @@ export function Tag({tag, selectable, selected, select}) {
     <span className={classes.tagText}>{tag.jsonDB.J_NAME}</span>
   </El>;
 
-  if (selectable) {
+  if (selectable || noLink) {
     return tagEl;
   } else {
     return <Link href={`/fandom/${tag.fandom.id}/tags/${tag.id}`}>

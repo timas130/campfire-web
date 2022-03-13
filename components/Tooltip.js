@@ -1,6 +1,6 @@
 import classes from "../styles/Tooltip.module.css";
 import classNames from "classnames";
-import {useLayoutEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 export default function Tooltip({ children, text, className = "" }) {
   const parentRef = useRef();
@@ -10,21 +10,32 @@ export default function Tooltip({ children, text, className = "" }) {
     position: "fixed",
   });
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!parentRef.current) return;
     const parentEl = parentRef.current;
     const tooltipEl = tooltipRef.current;
 
     const enterListener = () => {
-      const bodyOffset = Math.abs(document.body.getBoundingClientRect().top);
+      const bodyBB = document.body.getBoundingClientRect();
+      const bodyOffset = Math.abs(bodyBB.top);
       const parentBB = parentEl.getBoundingClientRect();
       const tooltipBB = tooltipEl.getBoundingClientRect();
-      setTooltipStyle({
-        visibility: "visible",
-        position: "absolute",
-        top: bodyOffset + parentBB.top - parentBB.height * 2,
-        left: Math.max(parentBB.left - tooltipBB.width / 2 + parentBB.width / 2, 0),
-      });
+      if (tooltipBB.width >= bodyBB.width) {
+        setTooltipStyle({
+          visibility: "visible",
+          position: "absolute",
+          top: bodyOffset + parentBB.top - tooltipBB.height,
+          left: 0,
+          width: "100%",
+        });
+      } else {
+        setTooltipStyle({
+          visibility: "visible",
+          position: "absolute",
+          top: bodyOffset + parentBB.top - tooltipBB.height,
+          left: Math.max(parentBB.left - tooltipBB.width / 2 + parentBB.width / 2, 0),
+        });
+      }
     };
     const leaveListener = () => {
       setTooltipStyle({
@@ -46,7 +57,7 @@ export default function Tooltip({ children, text, className = "" }) {
   }, []);
 
   return <div className={classNames(classes.tooltip, className)} tabIndex={0} ref={parentRef}>
-    {children}
     <span className={classes.tooltipText} style={tooltipStyle} ref={tooltipRef}>{text}</span>
+    {children}
   </div>;
 }

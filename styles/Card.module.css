@@ -17,6 +17,13 @@
     text-decoration: none;
     color: var(--text);
 }
+
+.fandomTitleImg {
+    padding: -10px;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
 .fandomAvatar {
     margin-right: 10px;
     flex-shrink: 0;
@@ -44,11 +51,14 @@
     margin-right: 0.2rem;
 }
 
-.fandomSubs.left {
+.fandomSubs.left, .fandomSubs.right {
     margin-left: 0;
 }
 .fandomSubs.left svg {
     margin-right: 0.2rem;
+}
+.fandomSubs.right svg {
+    margin-left: 0.2rem;
 }
 
 .authenticate {
@@ -67,8 +77,9 @@
 }
 
 .fandomButtons {
-    margin: 0.5rem 0;
+    margin: 0 0 0.5rem;
     text-align: center;
+    padding: 0 0.75rem;
 }
 .fandomButtons > * {
     margin-bottom: 0.25rem;
@@ -76,15 +87,21 @@
 
 .fandomDescription {
     overflow-wrap: break-word;
+    padding: 0 0.75rem;
 }
 
 .fandomLinks {
     margin-top: 0.5rem;
+    padding: 0 0.75rem;
 }
 .fandomLink {
     display: block;
     margin: 0.25rem 0;
     text-decoration: none;
+}
+
+.fandomExpand {
+    padding: 0.75rem;
 }
 
 .fandomLinkTitle {
@@ -106,6 +123,17 @@
 }
 .fandomLink:hover .fandomLinkUrl {
     text-decoration: underline;
+}
+
+.fandomHidden {
+    display: none;
+}
+.fandomPrimary {
+    color: var(--text);
+    font-weight: bold;
+}
+.fandomSecondary {
+    color: var(--text-secondary-active);
 }
 
 .donatesSubtitle {
