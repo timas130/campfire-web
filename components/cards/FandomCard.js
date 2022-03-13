@@ -122,7 +122,7 @@ export default function FandomCard({ fandom, profile, info, fetchId = null, noLi
       </IconLink>
     </div>
     <div className={classes.fandomLinks}>
-      <FandomHeader account={profileL.viceroyAccount} author={<>
+      {profileL.viceroyAccount ? <FandomHeader account={profileL.viceroyAccount} author={<>
         Наместник
         <Tooltip
           text={"Пользователь, который отвечает за фэндом и занимается его развитием."}
@@ -130,7 +130,9 @@ export default function FandomCard({ fandom, profile, info, fetchId = null, noLi
         >
           <InformationCircleIcon />
         </Tooltip>
-      </>} noPadding />
+      </>} noPadding /> : <FandomHeader
+        name="Нет наместника" onClick={() => {}}
+      />}
     </div>
     {!noLinks && <div className={classes.fandomLinks}>
       {infoL.links
