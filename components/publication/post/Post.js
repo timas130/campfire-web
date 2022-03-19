@@ -3,8 +3,8 @@ import Link from "next/link";
 import dayjs from "../../../lib/time";
 import classNames from "classnames";
 import {ArrowsExpandIcon, ChatAlt2Icon, DotsVerticalIcon, PencilIcon, XIcon} from "@heroicons/react/solid";
-import Karma from "../../Karma";
-import {useContext, useEffect, useMemo, useRef, useState} from "react";
+import Karma, {KarmaCounter} from "../../Karma";
+import React, {useContext, useEffect, useMemo, useRef, useState} from "react";
 import ShareButton from "../../controls/ShareButton";
 import {useRouter} from "next/router";
 import Pages from "./pages/Pages";
@@ -21,6 +21,7 @@ import {FeedLoader} from "../../FeedLayout";
 import Tags from "./Tags";
 import {useInfScroll} from "../../../lib/client-api";
 import KarmaVotesModel from "./KarmaVotesModal";
+import Tooltip from "../../Tooltip";
 
 function CommentCounter(props) {
   return <Link href={props.href}>
@@ -66,7 +67,7 @@ function PostCover({theme, post, hide}) {
   </div></div>;
 }
 
-export default function Post(props) {
+function Post(props) {
   const {post: postL, alwaysExpanded, showBestComment, pinned, draft, main = false, collapse} = props;
   const router = useRouter();
   const theme = useContext(ThemeContext).theme;
@@ -74,6 +75,9 @@ export default function Post(props) {
   const [modalShown, setModalShown] = useState(false);
   const [showGradient, setShowGradient] = useState(true);
   const [karmaDialogOpen, setKarmaDialogOpen] = useState(false);
+
+  const {data: {rubric} = {}} = useSWR(postL.rubricId && `/api/rubric/${postL.rubricId}?offset=-1`);
+  const rubricCof = rubric ? rubric.karmaCof : 0;
 
   const hideModal = () => {
     setModalShown(false);
@@ -104,6 +108,7 @@ export default function Post(props) {
     }
     return postL;
   }, [postL]);
+
   const ContentEl = main ? "div" : "div";
 
   return <article className={classes.post}>
@@ -120,7 +125,9 @@ export default function Post(props) {
       addTitle={<>
         {post.rubricId !== 0 && <>&nbsp;<Link href={`/rubric/${post.rubricId}`}>
           <a className={classNames(classes.headerRubric)}>
-            в {post.rubricName}
+            в {post.rubricName} {rubricCof > 100 && <Tooltip text="Коэффициент кармы у рубрики">
+              <KarmaCounter isCof value={rubricCof} />
+            </Tooltip>}
           </a>
         </Link></>}
         {post.userActivity && <>&nbsp;<Link href={`/activity/${post.userActivity.id}`}>
@@ -152,7 +159,7 @@ export default function Post(props) {
       classes.content,
       (alwaysExpanded || !showGradient) && classes.expanded
     )} ref={contentRef}>
-      <Pages pages={post.jsonDB.J_PAGES} />
+      <Pages pages={post.jsonDB.J_PAGES} additional={{postId: post.id}} />
       {post.userActivity && <UserActivityPage page={post.userActivity} />}
     </ContentEl>
     <div className={classes.footer}>
@@ -179,3 +186,5 @@ export default function Post(props) {
     {showBestComment && post.bestComment && <Comment bestComment comment={post.bestComment} />}
   </article>;
 }
+
+export default React.memo(Post);

@@ -203,7 +203,7 @@ function MutPost({post, setPost, fandomId, onGetId}) {
       {showPageSelTop && !isEditing && <NewPageSelector where={0} createPage={createPage} />}
       <Pages
         pages={post?.jsonDB?.J_PAGES || []}
-        additional={{setPost, post, isEditing, setIsEditing, onGetId, fandomId}}
+        additional={{setPost, post, isEditing, setIsEditing, onGetId, fandomId, postId: post?.id}}
         pageEl={EditablePage}
       />
     </div>

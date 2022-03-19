@@ -226,3 +226,52 @@
     font-size: 0.8rem;
 }
 /*#endregion*/
+/*#region PollPage*/
+.pollTitle {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 0.2rem;
+}
+.pollAllowed {
+    color: var(--green);
+}
+.pollRestricted {
+    color: var(--red);
+}
+.pollOption {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    /* todo: this background is pretty ugly, find something better */
+    background: var(--background-secondary);
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+.pollVotable {
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+.pollVotable:hover {
+    background: var(--background);
+}
+.pollRight {
+    margin-left: auto;
+}
+.pollBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: var(--green-very-muted);
+    border-radius: 0.5rem;
+    z-index: -1;
+}
+.pollOption > svg {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.25rem;
+    vertical-align: bottom;
+}
+/*#endregion*/

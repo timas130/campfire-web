@@ -14,6 +14,7 @@ import {faWindowClose} from "@fortawesome/free-solid-svg-icons/faWindowClose";
 import NProgress from "nprogress";
 import CodePage from "./CodePage";
 import CampfireObjectPage from "./CampfireObjectPage";
+import PollPage from "./PollPage";
 
 const pageTypes = {
   1: TextPage,
@@ -22,6 +23,7 @@ const pageTypes = {
   4: LinkPage,
   5: QuotePage,
   6: SpoilerPage,
+  7: PollPage,
   12: CampfireObjectPage,
   16: CodePage,
 };

@@ -36,15 +36,18 @@ export function KarmaCounter(props) {
 }
 
 export default function Karma(props) {
-  const {pub, vertical, small, precise, mr} = props;
+  const {pub, vertical, small, precise, mr, rubricId} = props;
   const account = useUser();
   const {data: {settings: {anonRates = false} = {}} = {}} = useSWR(account && "/api/user/settings");
+  const {data: {rubric} = {}} = useSWR(pub.rubricId && `/api/rubric/${pub.rubricId}?offset=-1`);
   const router = useRouter();
   const {mutate} = useSWRConfig();
   const [myKarmaClient, setMyKarmaClient] = useState(pub.myKarma);
   const [loadingDirection, setLoadingDirection] = useState(null);
 
   const wrapperRef = useRef();
+
+  const rubricCof = rubric ? (rubric.karmaCof - 100) : 0;
 
   const setKarma = positive => {
     if (loadingDirection) return;
@@ -94,7 +97,7 @@ export default function Karma(props) {
     /> : <Spinner className={classNames(classes.karmaButton, classes.loading, classes.karmaNegative)} />}
     <KarmaCounter
       value={pub.karmaCount + (pub.myKarma ? 0 : myKarmaClient || 0)}
-      cof={pub.fandom.karmaCof} precise={precise} mr={mr}
+      cof={(pub.fandom.karmaCof || 100) + rubricCof} precise={precise} mr={mr}
     />
     {loadingDirection !== "up" ? <ChevronUpIcon
       className={classNames(

@@ -4,6 +4,8 @@
 
 [Демо](https://campfire.moe) | [Баги сюда](https://github.com/timas130/campfire-web/issues)
 
+[Доска Notion](https://mhutils.notion.site/0a6ef789f2b843a3b2436c8619f09cc1)
+
 ## Как запустить у себя
 
 ### Docker
