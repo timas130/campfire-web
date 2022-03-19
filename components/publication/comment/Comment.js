@@ -4,9 +4,11 @@ import dayjs from "../../../lib/time";
 import Link from "next/link";
 import FormattedText from "../../FormattedText";
 import Karma from "../../Karma";
-import React from "react";
+import React, {useRef, useState} from "react";
 import classNames from "classnames";
 import {limitText} from "../../../lib/text-cover";
+import {ReplyIcon, XIcon} from "@heroicons/react/solid";
+import {CommentEditor} from "./Comments";
 
 // todo: multiple images in one comment
 
@@ -40,9 +42,13 @@ function CommentQuote({jsonDB}) {
   </div>;
 }
 
-export default React.forwardRef(function Comment({ comment, bestComment = false, full = false }, ref) {
+function Comment({comment, bestComment = false, full = false, id, reply, replyLoading, element}, ref) {
   const jsonDB = typeof comment.jsonDB === "string" ? JSON.parse(comment.jsonDB) : comment.jsonDB;
-  return <article className={classNames(classes.comment, bestComment && classes.best, full && classes.full)} ref={ref}>
+  const [replyEditorShown, setReplyEditorShown] = useState(false);
+  const replyBtnRef = useRef();
+
+  return <article className={classNames(classes.comment, bestComment && classes.best, full && classes.full)}
+                  ref={ref} id={id}>
     <header className={classes.header}>
       <CAvatar account={comment.creator} small className={classes.avatar} />
       <Link href={`/account/${encodeURIComponent(comment.creator.J_NAME)}`}>
@@ -72,6 +78,25 @@ export default React.forwardRef(function Comment({ comment, bestComment = false,
     </div>
     <div className={classes.footer}>
       <Karma pub={comment} small />
+      {reply && <span className={classes.footerReply} tabIndex={0}
+                      onClick={() => setReplyEditorShown(a => !a)}>
+        {replyEditorShown ? <XIcon /> : <ReplyIcon />}
+        {replyEditorShown ? "Закрыть" : "Ответить"}
+      </span>}
     </div>
+    {reply && replyEditorShown && <CommentEditor
+      isReply element={element}
+      isLoading={replyLoading}
+      submitBtnRef={replyBtnRef}
+      submit={ev => {
+        ev.preventDefault();
+        const data = new FormData(ev.target);
+        const content = data.get("content");
+        reply(content, comment.id, replyBtnRef.current)
+          .then(close => close && setReplyEditorShown(false));
+      }}
+    />}
   </article>;
-});
+}
+
+export default React.forwardRef(Comment);

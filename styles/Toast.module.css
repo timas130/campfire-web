@@ -7,7 +7,7 @@
     max-width: 100%;
     white-space: break-spaces;
     position: absolute;
-    z-index: 9999;
+    z-index: 99999;
     color: white;
     animation: 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28) toast-appear;
 }

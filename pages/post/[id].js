@@ -1,25 +1,18 @@
-import FeedLayout, {FeedLoader} from "../../components/FeedLayout";
+import FeedLayout from "../../components/FeedLayout";
 import Post from "../../components/publication/post/Post";
 import AuthenticateCard from "../../components/cards/AuthenticateCard";
-import Comment from "../../components/publication/comment/Comment";
 import {fetchComments} from "../api/post/[id]/comments";
 import Head from "next/head";
 import {useMemo} from "react";
-import CommentPoster from "../../components/publication/comment/CommentPoster";
 import FandomCard from "../../components/cards/FandomCard";
 import MetaTags from "../../components/MetaTags";
-import {useInfScroll} from "../../lib/client-api";
 import Tags from "../../components/publication/post/Tags";
 import {generateCoverForPages} from "../../lib/text-cover";
 import {handleSSRError, mustInt} from "../../lib/api";
 import {fetchPost} from "../api/post/[id]";
+import Comments from "../../components/publication/comment/Comments";
 
 export default function PostPage(props) {
-  const {data: commentPages, ref, showLoader} = useInfScroll(
-    `/api/post/${props.post.unit.id}/comments`,
-    true, null, [props.comments]
-  );
-
   const shortDesc = useMemo(
     () => generateCoverForPages(
       typeof props.post.unit.jsonDB.J_PAGES === "string" ?
@@ -43,13 +36,8 @@ export default function PostPage(props) {
       list={<>
         <Post post={props.post.unit} alwaysExpanded main />
         <Tags tags={props.post.tags} />
-        <div id="comments">
-          <CommentPoster pubId={props.post.unit.id} />
-          {commentPages && commentPages.map(page => page.map(comment => (
-            <Comment key={comment.id} comment={comment} />
-          )))}
-          {showLoader && <FeedLoader ref={ref} />}
-        </div>
+        <Comments unitId={props.post.unit.id} addId fallback={props.comments}
+                  totalComments={props.post.unit.subUnitsCount} />
       </>}
       sidebar={<>
         <FandomCard fetchId={props.post.unit.fandom.id} noLinks />

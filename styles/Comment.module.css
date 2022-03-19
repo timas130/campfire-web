@@ -73,8 +73,20 @@
 
 .footer {
     display: flex;
+    align-items: center;
 }
-
+.footerReply {
+    display: flex;
+    align-items: center;
+    margin-left: 0.2rem;
+    cursor: pointer;
+}
+.footerReply > svg {
+    margin-right: 0.25rem;
+    width: 1rem;
+    height: 1rem;
+    vertical-align: bottom;
+}
 
 /* --- editor --- */
 
@@ -88,6 +100,13 @@
     }
 }
 
+.reply {
+    margin-top: 1rem;
+    margin-bottom: 0;
+    padding-left: 0.5rem;
+    border-left: 0.3rem solid var(--background-element);
+}
+
 .editor .input {
     background: var(--background-secondary);
 }
@@ -97,10 +116,15 @@
     justify-content: flex-end;
 }
 .attachmentButton {
-    width: 3rem;
+    width: 1rem;
     cursor: pointer;
-    padding: 0 1rem;
+    margin-right: 0.5rem;
 }
 .postButton {
     margin-left: 0.5rem;
+}
+.postButton > svg {
+    margin-right: 0.2rem;
+    width: 1rem;
+    height: 1rem;
 }

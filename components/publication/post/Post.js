@@ -19,9 +19,9 @@ import layoutClasses from "../../../styles/Layout.module.css";
 import useSWR from "swr";
 import {FeedLoader} from "../../FeedLayout";
 import Tags from "./Tags";
-import {useInfScroll} from "../../../lib/client-api";
 import KarmaVotesModel from "./KarmaVotesModal";
 import Tooltip from "../../Tooltip";
+import Comments from "../comment/Comments";
 
 function CommentCounter(props) {
   return <Link href={props.href}>
@@ -33,18 +33,14 @@ function CommentCounter(props) {
 }
 
 function PostCover({theme, post, hide}) {
-  const {data: commentPages, ref, showLoader} = useInfScroll(
-    `/api/post/${post.id}/comments`, true,
-  );
   const {data} = useSWR(`/api/post/${post.id}`);
-
-  const comments = useMemo(() => commentPages.flatMap(a => a), [commentPages]);
+  const scrollRef = useRef();
 
   return <div className={classNames(
     classes.postCover,
     theme === "dark" && layoutClasses.dark,
     layoutClasses.light
-  )} onClick={hide} autoFocus><div
+  )} onClick={hide} autoFocus ref={scrollRef}><div
     className={classes.postCoverClick}
     onClick={ev => ev.stopPropagation()}
   >
@@ -57,12 +53,10 @@ function PostCover({theme, post, hide}) {
       {data.tags.length > 0 && <div className={classes.coverTagsOuter}>
         <Tags tags={data.tags} className={classes.coverTags} />
       </div>}
-      {comments.length > 0 ? <div className={classes.coverComments}>
-        {comments.map(comment => <Comment key={comment.id} comment={comment} />)}
-        {showLoader && <FeedLoader ref={ref} />}
-      </div> : <div className={classes.coverComments}>
-        <FeedLoader text="Нет комментариев" />
-      </div>}
+      <div className={classes.coverComments}>
+        <Comments totalComments={post.subUnitsCount} unitId={post.id} element
+                  scrollElement={scrollRef.current} />
+      </div>
     </> : <FeedLoader />}
   </div></div>;
 }
