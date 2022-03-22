@@ -35,3 +35,8 @@
     --text-secondary-active: #E5E7EB;
     --green-very-muted: #206f56;
 }
+
+.green {
+    /* i'm tired of creating separate stylesheets */
+    color: var(--green);
+}

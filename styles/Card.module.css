@@ -148,6 +148,22 @@
     text-align: center;
     margin-top: 0.5rem;
 }
+.donateSum {
+    color: var(--green);
+    font-weight: bold;
+}
+.donateItem {
+    padding: 0 0 0.5rem;
+    display: flex;
+    align-items: center;
+    word-wrap: anywhere;
+}
+.donateHeader {
+    display: flex;
+}
+.donateRight {
+    margin-left: auto;
+}
 
 .rubricCof {
     margin-left: auto;

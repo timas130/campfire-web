@@ -24,11 +24,12 @@ import Tooltip from "../../Tooltip";
 import Comments from "../comment/Comments";
 
 function CommentCounter(props) {
-  return <Link href={props.href}>
-    <a className={classes.commentCounter} target="_blank">
-      <ChatAlt2Icon className={classes.commentIcon} />
-      {props.count}
-    </a>
+  const link = <a className={classes.commentCounter} target="_blank" onClick={props.onClick}>
+    <ChatAlt2Icon className={classes.commentIcon} />
+    {props.count}
+  </a>;
+  return props.onClick ? link : <Link href={props.href}>
+    {link}
   </Link>;
 }
 
@@ -168,7 +169,8 @@ function Post(props) {
       <div className={classes.spacer} />
       {!draft ? <>
         <ShareButton link={router.basePath + `/post/${post.id}`} />
-        <CommentCounter href={`/post/${post.id}#comments`} count={post.subUnitsCount} />
+        <CommentCounter href={`/post/${post.id}#comments`} count={post.subUnitsCount}
+                        onClick={!alwaysExpanded && showModal} />
       </> : <Link href={`/drafts/${post.id}`}>
         <a className={classes.editButton}>
           <PencilIcon className={classes.editIcon} />

@@ -5,6 +5,7 @@
 
 .feedList {
     width: 660px;
+    position: relative;
 }
 .feedSidebar {
     flex: 0 0 330px;

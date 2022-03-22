@@ -150,6 +150,8 @@ export class TextFormatter {
       if (this.parseColorName("grey", "#616161")) continue;
       if (this.parseColorName("campfire", "#FF6D00")) continue;
       if (this.parseColorName("_cweb_secondary", "var(--text-secondary)")) continue;
+      if (this.parseColorName("_cweb_red", "var(--red)")) continue;
+      if (this.parseColorName("_cweb_green", "var(--green)")) continue;
       this.pushStr(this.text.charAt(this.i++));
     }
   }

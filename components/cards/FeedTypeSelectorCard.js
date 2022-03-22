@@ -11,11 +11,16 @@ function FeedTypeSelectorItem({text, value, type, setType}) {
   </div>;
 }
 
-export default function FeedTypeSelectorCard({type, setType}) {
+export default function FeedTypeSelectorCard({type: currentType, setType, types = {
+  subscribed: "Подписки",
+  all: "Всё",
+  best: "Лучшее",
+  all_subs: "Всё с подписками",
+}}) {
   return <div className={classNames(postClasses.post, classes.feedTypeSelector)}>
-    <FeedTypeSelectorItem text="Подписки" value="subscribed" type={type} setType={setType} />
-    <FeedTypeSelectorItem text="Всё" value="all" type={type} setType={setType} />
-    <FeedTypeSelectorItem text="Лучшее" value="best" type={type} setType={setType} />
-    <FeedTypeSelectorItem text="Всё с подписками" value="all_subs" type={type} setType={setType} />
+    {Object.keys(types).map(type => (
+      <FeedTypeSelectorItem text={types[type]} value={type} key={type}
+                            type={currentType} setType={setType} />
+    ))}
   </div>;
 }
