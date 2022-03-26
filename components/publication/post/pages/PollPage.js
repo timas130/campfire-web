@@ -18,11 +18,7 @@ export default function PollPage({page, additional: {postId}}) {
   }, [page.options]);
 
   const {data: {account: user} = {}} = useSWR("/api/user/settings");
-  const {data: pollL, mutate} = useSWR(
-    `/api/poll/${page.pollingId}`,
-    (...args) => fetcher(...args)
-      .then(resp => (resp.length !== options.length) ? null : resp)
-  );
+  const {data: pollL, mutate} = useSWR(`/api/poll/${page.pollingId}`);
 
   const levelPass = user ? (user.J_LVL >= page.minLevel) : false;
   const karmaPass = user ? (user.karma30 >= page.minKarma) : false;
@@ -33,11 +29,22 @@ export default function PollPage({page, additional: {postId}}) {
   const canVote = levelPass && karmaPass && daysPass && blacklistPass;
 
   const poll = useMemo(() => {
-    return pollL ? pollL.sort((a, b) => a.itemId - b.itemId) : null;
-  }, [pollL]);
+    if (!pollL) return null;
+    const result = [];
+    const pollSorted = pollL.sort((a, b) => a.itemId - b.itemId);
+    let psI = 0;
+    for (let i = 0; i < options.length; i++) {
+      if ((pollSorted[psI] || {}).itemId !== i) result.push({itemId: i, myVote: false, count: 0});
+      else {
+        result.push(pollSorted[i]);
+        psI++;
+      }
+    }
+    return result;
+  }, [options.length, pollL]);
 
-  const voted = poll ? poll.find(opt => opt.myVote) : null;
-  const totalVotes = poll ? poll.reduce((pr, cur) => pr + cur.count, 0) : 0;
+  const voted = poll ? poll.find(opt => (opt || {}).myVote) : null;
+  const totalVotes = poll ? poll.reduce((pr, cur) => pr + ((cur || {}).count || 0), 0) : 0;
 
   const showResults = !!(voted || !canVote);
 
@@ -45,7 +52,7 @@ export default function PollPage({page, additional: {postId}}) {
   const vote = idx => {
     if (voted) return;
     if (loadingItem !== null) return;
-    if (!poll) return;
+    console.log(poll);
     setLoadingItem(idx);
     mutate(async data => {
       await fetcher(`/api/poll/${page.pollingId}/vote`, {
@@ -61,13 +68,13 @@ export default function PollPage({page, additional: {postId}}) {
         }),
       });
 
-      return data.map(item => {
+      return data ? data.map(item => {
         if (item.itemId === idx) return {
           itemId: idx,
           myVote: true,
           count: item.count + 1,
         }; else return item;
-      });
+      }) : [];
     }, true)
       .finally(() => setLoadingItem(null));
   };
@@ -104,15 +111,15 @@ export default function PollPage({page, additional: {postId}}) {
         classes.pollOption,
         !voted && classes.pollVotable,
       )} key={idx} onClick={() => vote(idx)}>
-        {poll && poll[idx].myVote && <CheckIcon />}
+        {poll && poll[idx] && poll[idx].myVote && <CheckIcon />}
         {showResults && <div className={classes.pollBar} style={{
-          width: `${poll ? poll[idx].count / totalVotes * 100 : 0}%`,
+          width: `${poll ? ((poll[idx] || {}).count || 0) / totalVotes * 100 : 0}%`,
         }} />}
         {loadingItem === idx && <Spinner />}
         {option}
         {showResults && <div className={classes.pollRight}>
-          {poll ? Math.round(poll[idx].count / totalVotes * 100) : 0}%
-          ({poll ? poll[idx].count : 0})
+          {poll ? Math.round(((poll[idx] || {}).count || 0) / totalVotes * 100) : 0}%
+          ({poll ? (poll[idx] || {}).count || 0 : 0})
         </div>}
       </div>)}
     </div>

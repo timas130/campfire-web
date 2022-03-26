@@ -29,7 +29,6 @@ export const SUB_TYPE_IMPORTANT = -1;
 export const SUB_TYPE_SUBBED = 0;
 export const SUB_TYPE_NONE = 1;
 
-//<editor-fold defaultstate="collapsed" desc="Переводы">
 const shitCache = {};
 
 function toShittyIdx(cat, idx) {
@@ -37,8 +36,6 @@ function toShittyIdx(cat, idx) {
   shitCache[cat] = sorted;
   return sorted[idx];
 }
-
-//</editor-fold>
 
 // TODO: Fandom gallery
 

@@ -39,6 +39,8 @@ export async function getStaticProps(ctx) {
       props: {
         ...(await fetchFandom(null, null, mustInt(ctx.params.id))),
       },
+      // next.js moment: in js time is represented primarily in milliseconds
+      revalidate: 300, // every 5 minutes
     };
   } catch (e) {
     return handleSSRError(e, {}, true);
