@@ -1,8 +1,6 @@
 {
-  "extends": "next/core-web-vitals",
-  "rules": {
-    "comma-dangle": ["warn", "always-multiline"],
-    "semi": ["error", "always"],
-    "quotes": ["error", "double"]
-  }
+  "extends": [
+    "next/core-web-vitals",
+    "@sitting/eslint-config"
+  ]
 }

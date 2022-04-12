@@ -10,6 +10,7 @@ specifiers:
   '@meilisearch/instant-meilisearch': ^0.6.1
   '@next/bundle-analyzer': ^12.1.0
   '@sentry/nextjs': ^6.18.2
+  '@sitting/eslint-config': ^1.0.0
   JSON2: ^0.1.0
   axios: ^0.24.0
   classnames: ^2.3.1
@@ -84,6 +85,7 @@ dependencies:
 devDependencies:
   '@elastic/elasticsearch': 7.17.0
   '@next/bundle-analyzer': 12.1.0
+  '@sitting/eslint-config': 1.0.0_eslint@7.32.0
   eslint: 7.32.0
   eslint-config-next: 11.1.2_eslint@7.32.0+next@12.1.0
   glob: 7.2.0
@@ -554,6 +556,14 @@ packages:
       - encoding
       - supports-color
     dev: false
+
+  /@sitting/eslint-config/1.0.0_eslint@7.32.0:
+    resolution: {integrity: sha512-C7uAZhsMzgs57oQp+537xQrgA1UqltAh/roJf9oyHpD9l30/5788y8Xcsxn9/TZtecLDbuD3ULS1eRi00F5WZg==}
+    peerDependencies:
+      eslint: '>= 7'
+    dependencies:
+      eslint: 7.32.0
+    dev: true
 
   /@types/json5/0.0.29:
     resolution: {integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=}
