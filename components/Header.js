@@ -8,7 +8,7 @@ import classNames from "classnames";
 import {useRouter} from "next/router";
 import {DailyQuest} from "./DailyQuest";
 import {useTheme} from "../lib/theme";
-import {MoonIcon, SunIcon} from "@heroicons/react/solid";
+import {CogIcon, LogoutIcon, MoonIcon, PencilIcon, SunIcon} from "@heroicons/react/outline";
 
 function HeaderProfile({setMenuExpanded, full = false}) {
   const account = useUser();
@@ -41,10 +41,10 @@ function HeaderProfile({setMenuExpanded, full = false}) {
   </Link>;
 }
 
-function MenuButton({text, onClick = null, href = null}) {
+function MenuButton({text, onClick = null, icon = null, href = null}) {
   if (href) {
     return <Link href={href}>
-      <a className={classes.navLink}>{text}</a>
+      <a className={classes.navLink}>{icon} {text}</a>
     </Link>;
   } else {
     return <div className={classes.navLink} onClick={onClick}>{text}</div>;
@@ -55,9 +55,9 @@ function HeaderMenu({expanded, setExpanded}) {
               onClick={() => setExpanded(false)}>
     <HeaderProfile full />
     <DailyQuest />
-    <MenuButton text="Черновики" href="/drafts" />
-    <MenuButton text="Настройки аккаунта" href="/me/settings" />
-    <MenuButton text="Выйти" href="/api/auth/logout" />
+    <MenuButton icon={<PencilIcon />} text="Черновики" href="/drafts" />
+    <MenuButton icon={<CogIcon />} text="Настройки" href="/me/settings" />
+    <MenuButton icon={<LogoutIcon />} text="Выйти" href="/api/auth/logout" />
   </div>;
 }
 

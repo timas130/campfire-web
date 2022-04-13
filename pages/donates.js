@@ -21,7 +21,7 @@ export default function DonatesPage() {
 
   return <FeedLayout list={<>
     <Head>
-      <title>Пожертвования | Campfire</title>
+      <title>Пожертвования в Campfire</title>
     </Head>
     <FeedTypeSelectorCard types={{
       month: "За этот месяц",

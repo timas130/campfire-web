@@ -21,7 +21,7 @@ const CustomSearchBox = dynamic(() => import("../../lib/search").then(a => a.Cus
 export default function Search() {
   const query = useRouter().query.q;
 
-  const title = "Поиск | Campfire";
+  const title = "Поиск постов в Campfire";
   return <>
     <Head>
       <title>{title}</title>

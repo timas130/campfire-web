@@ -12,7 +12,7 @@ export default function Rubric({rubric, posts}) {
     `/api/rubric/${rubric.id}`, false,
     20, [{posts}]
   );
-  const title = `Рубрика "${rubric.name}" | Campfire`;
+  const title = `Рубрика "${rubric.name}" в ${rubric.fandom.name} в Campfire`;
   return <>
     <Head>
       <title>{title}</title>

@@ -113,7 +113,7 @@ export const rulesConsts = {
 export default function Rules() {
   return <main className="container">
     <Head>
-      <title>Общие правила | Campfire</title>
+      <title>Общие правила Campfire</title>
     </Head>
     <header className={classes.rulesHeader}>
       {rulesConsts.info}

@@ -14,7 +14,7 @@ export default function Tag({tag, posts}) {
     false, 20, [posts],
   );
 
-  const title = `${tag.jsonDB.J_NAME} | ${tag.fandom.name} | Campfire`;
+  const title = `Тег "${tag.jsonDB.J_NAME}" в ${tag.fandom.name}`;
   return <>
     <Head>
       <title>{title}</title>

@@ -88,3 +88,26 @@
 .bans {
     color: var(--red);
 }
+
+.bioEditRow {
+    padding: 0.75rem 0.75rem 0;
+}
+.bioEditButton {
+    padding: 0.4rem 0.8rem;
+}
+.bioEditButton > svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-right: 0.25rem;
+    vertical-align: bottom;
+}
+.bioEditForm {
+    width: 100%;
+}
+.bioEditForm > textarea.bioEditInput {
+    min-height: 250px;
+}
+
+.centered {
+    text-align: center;
+}

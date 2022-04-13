@@ -21,15 +21,25 @@ export default function PostPage(props) {
     ),
     [props.post.unit]
   );
-  const title = (shortDesc ? shortDesc + " | " : "")
-    + `Пост в ${props.post.unit.fandom.name} от ${props.post.unit.creator.J_NAME} | Campfire`;
+  const longDesc = useMemo(
+    () => generateCoverForPages(
+      typeof props.post.unit.jsonDB.J_PAGES === "string" ?
+      JSON.parse(props.post.unit.jsonDB.J_PAGES) :
+      props.post.unit.jsonDB.J_PAGES,
+      100, 200,
+    ),
+    [props.post.unit]
+  );
+
+  const title = (shortDesc ? `"${shortDesc}"` : "Пост")
+    + ` в ${props.post.unit.fandom.name} в Campfire`;
   return <>
     <Head>
-      {/* TODO: add partial text content */}
       <title>{title}</title>
       <MetaTags
-        title={title}
+        title={title} type="article" description={longDesc}
         url={`https://campfire.moe/post/${props.post.unit.id}`}
+        image={`https://campfire.moe/api/image/${props.post.unit.fandom.imageId}`}
       />
     </Head>
     <FeedLayout

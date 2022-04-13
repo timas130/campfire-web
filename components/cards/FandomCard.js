@@ -24,6 +24,7 @@ import IconLink from "../IconLink";
 import CImage from "../CImage";
 import {Tag} from "../publication/post/Tags";
 import tags from "./FandomCard_data.json";
+import FormattedText from "../FormattedText";
 
 export const SUB_TYPE_IMPORTANT = -1;
 export const SUB_TYPE_SUBBED = 0;
@@ -105,10 +106,7 @@ export default function FandomCard({ fandom, profile, info, fetchId = null, noLi
       </Link>
     </div>
     <div className={classes.fandomDescription}>
-      {(infoL.description.trim() || "Нет описания")
-        .split("\n")
-        .flatMap((a, idx) => [a, <br key={idx} />])
-      }
+      <FormattedText text={infoL.description.trim() || "{_cweb_secondary Нет описания}"} />
     </div>
     <div className={classes.fandomLinks}>
       <IconLink href={`/fandom/${fandomL.id}/tags`} right primary>

@@ -7,6 +7,10 @@ export async function editAccountProp(req, res, type, value) {
       return (await sendRequestAuthenticated(
         req, res, "RAccountsBioSetAge", {age: mustInt(value)},
       )).J_RESPONSE;
+    case "status":
+      return (await sendRequestAuthenticated(
+        req, res, "RAccountsStatusSet", {status: value},
+      )).J_RESPONSE;
     case "description":
       return (await sendRequestAuthenticated(
         req, res, "RAccountsBioSetDescription", {description: value},

@@ -14,13 +14,13 @@ import MetaTags from "../../../../components/MetaTags";
 import IconLink from "../../../../components/IconLink";
 
 export default function TagsListPage({tags, fandom}) {
-  const title = `Теги ${fandom.name} | Campfire`;
+  const title = `Теги фэндома ${fandom.name} в Campfire`;
   return <>
     <Head>
       <title>{title}</title>
       <MetaTags
         url={`https://campfire.moe/fandom/${fandom.id}/tags`}
-        title={title}
+        title={title} image={`https://campfire.moe/api/image/${fandom.imageId}`}
       />
     </Head>
     <FeedLayout

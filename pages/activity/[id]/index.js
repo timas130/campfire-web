@@ -6,6 +6,8 @@ import UserActivityPage from "../../../components/publication/post/pages/UserAct
 import {fetchActivity} from "../../api/activity/[id]";
 import Post from "../../../components/publication/post/Post";
 import {handleSSRError, mustInt} from "../../../lib/api";
+import Head from "next/head";
+import MetaTags from "../../../components/MetaTags";
 
 export default function Activity({activity, posts}) {
   const id = useRouter().query.id;
@@ -15,8 +17,17 @@ export default function Activity({activity, posts}) {
     [posts]
   );
 
+  const title = `Эстафета ${activity.name} в Campfire`;
   return <FeedLayout
     list={<>
+      <Head>
+        <title>{title}</title>
+        <MetaTags
+          title={title} description={activity.description}
+          url={`https://campfire.moe/activity/${activity.id}`}
+          image={`https://campfire.moe/api/image/${activity.fandom.imageId}`}
+        />
+      </Head>
       <UserActivityPage page={activity} full />
       {postPages.map(page => page.map(post => <Post key={post.id} post={post} showBestComment />))}
       {showLoader && <FeedLoader ref={ref} />}

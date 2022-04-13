@@ -41,6 +41,12 @@
 .navLink:hover, .navLink:focus {
     color: var(--text);
 }
+.navLink > svg {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.2rem;
+    vertical-align: bottom;
+}
 
 .spacer {
     flex-grow: 1;

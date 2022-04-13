@@ -5,13 +5,18 @@ import Input from "../../components/controls/Input";
 import InputLabel from "../../components/controls/InputLabel";
 import Button from "../../components/controls/Button";
 import {useRouter} from "next/router";
+import MetaTags from "../../components/MetaTags";
 
 export default function Login() {
   const router = useRouter();
   const error = router.query.error;
   return <>
     <Head>
-      <title>Войти | Campfire</title>
+      <title>Войти в Campfire</title>
+      <MetaTags
+        title="Войти в Campfire"
+        url="https://campfire.moe/auth/login"
+      />
     </Head>
     <div className={classes.layout}><form className={classes.card} method="post" action="/api/auth/login">
       <h1 className={classes.h1}>

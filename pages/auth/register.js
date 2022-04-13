@@ -7,6 +7,7 @@ import Button from "../../components/controls/Button";
 import {useState} from "react";
 import classNames from "classnames";
 import CImage from "../../components/CImage";
+import MetaTags from "../../components/MetaTags";
 
 const googleRules = "https://play.google.com/intl/ru_ALL/about/restricted-content/inappropriate-content/";
 const privacyPolicy = "https://sayzen.ru/rus.html";
@@ -17,7 +18,11 @@ export default function Register() {
 
   return <>
     <Head>
-      <title>Регистрация | Campfire</title>
+      <title>Регистрация в Campfire</title>
+      <MetaTags
+        title="Регистрация в Campfire"
+        url="https://campfire.moe/auth/register"
+      />
     </Head>
     <div className={classNames(classes.layout, "container")}>
       <div className={classes.registerLayoutLeft}>
@@ -70,9 +75,14 @@ export default function Register() {
         <InputLabel horizontal>
           <Input type="checkbox" name="rules-agree" required />
           <div>
-            Я согласен с <Link href="/app/rules"><a>правилами приложения</a></Link>,&nbsp;
-            <a href={privacyPolicy} target="_blank" rel="noreferrer">политикой конфиденциальности</a> и&nbsp;
-            <a href={googleRules}>правилами Google</a>.
+            Я согласен с <Link href="/app/rules"><a>правилами приложения</a></Link> и&nbsp;
+            <Link href="/app/privacy"><a>политикой конфиденциальности</a></Link>.
+          </div>
+        </InputLabel>
+        <InputLabel horizontal>
+          <Input type="checkbox" required />
+          <div>
+            Я хочу <Link href="/fandom/wiki/2583"><a>продать свою бессмертную душу</a></Link> Zeon&apos;у.
           </div>
         </InputLabel>
         <div className={classes.buttons}>

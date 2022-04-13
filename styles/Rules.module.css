@@ -17,3 +17,10 @@
 .incorrect {
     color: var(--red);
 }
+
+.root p {
+    margin: 0.5rem 0;
+}
+.root h2 {
+    margin-top: 1rem;
+}

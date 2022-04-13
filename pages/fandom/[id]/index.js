@@ -12,11 +12,15 @@ export default function Fandom({ fandom, profile, info }) {
     `/api/fandom/${fandom.id}/posts`
   );
 
-  const title = `Фэндом ${fandom.name} | Campfire`;
+  const title = `Фэндом ${fandom.name} в Campfire`;
   return <>
     <Head>
       <title>{title}</title>
-      <MetaTags title={title} url={`https://campfire.moe/fandom/${fandom.id}`} />
+      <MetaTags
+        title={title} description={info.description}
+        url={`https://campfire.moe/fandom/${fandom.id}`}
+        image={`https://campfire.moe/api/image/${fandom.imageId}`}
+      />
     </Head>
     <FeedLayout
       list={<>
