@@ -4,7 +4,9 @@ export default function WikiListItem({fandomId, item}) {
   const link =
     item.itemType === 1 ? `/fandom/${fandomId}/wiki/${item.itemId}` :
     item.itemType === 2 ? `/fandom/wiki/${item.itemId}` :
-    (() => {throw "bad itemType";})();
+    (() => {
+      throw "bad itemType";
+    })();
   return <FandomHeader
     imageId={item.imageId} name={getWikiName(item)}
     link={link} dense

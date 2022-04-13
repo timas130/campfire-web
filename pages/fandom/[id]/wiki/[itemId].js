@@ -40,13 +40,12 @@ export function WikiSectionPage(fandomId, itemId, fallback = [], fandom = null, 
   );
 
   let title;
-  if (fandom)
-    if (item)
-      title = `${getWikiName(item)} | Вики ${fandom.name} | Campfire`;
-    else
-      title = `Вики | ${fandom.name} | Campfire`;
-  else
+  if (fandom) {
+    if (item) title = `${getWikiName(item)} | Вики ${fandom.name} | Campfire`;
+    else title = `Вики | ${fandom.name} | Campfire`;
+  } else {
     title = "Вики фэндома | Campfire";
+  }
 
   const wikiList = wikiListPages.flat();
 

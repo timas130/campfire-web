@@ -10,7 +10,7 @@ import classNames from "classnames";
 import FandomHeader from "../../../FandomHeader";
 
 export function Countdown({timestamp}) {
-  const [,setDate] = useState(null);
+  const [, setDate] = useState(null);
   useInterval(() => {
     setDate(Date.now());
   }, 1000);

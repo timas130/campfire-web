@@ -316,20 +316,22 @@ export class TextFormatter {
   parseColorName(name, hash) {
     try {
       if (this.text.charAt(this.i) === "{") {
-        for (let i = 0; i < name.length; i++)
-          if (this.text.charAt(this.i + 1 + i).toLowerCase() !== name.charAt(i))
+        for (let i = 0; i < name.length; i++) {
+          if (this.text.charAt(this.i + 1 + i).toLowerCase() !== name.charAt(i)) {
             return false;
-
-          if (! this.text.charAt(this.i + name.length + 1) === " ") return false;
-
-          const next = this.findNext("}", name.length + 1);
-          if (next !== -1) {
-            const t = new TextFormatter(this.text.substring(this.i + name.length + 2, next), this.i).parseHtml();
-            t.props.style.color = hash;
-            this.result.props.children.push(t);
           }
-          this.i = next + 1;
-          return true;
+        }
+
+        if (! this.text.charAt(this.i + name.length + 1) === " ") return false;
+
+        const next = this.findNext("}", name.length + 1);
+        if (next !== -1) {
+          const t = new TextFormatter(this.text.substring(this.i + name.length + 2, next), this.i).parseHtml();
+          t.props.style.color = hash;
+          this.result.props.children.push(t);
+        }
+        this.i = next + 1;
+        return true;
       }
     } catch (e) {
       console.warn("parser error:", e);

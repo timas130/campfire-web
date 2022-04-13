@@ -5,8 +5,9 @@ import {sendErrorIfFromRemote} from "../../../lib/api";
 export async function fetchFandoms(req, res, request = {}) {
   const cacheKey = "/api/fandoms::" + JSON.stringify(request);
   const cachedResp = cache.get(cacheKey);
-  if (cachedResp) return cachedResp;
-  else {
+  if (cachedResp) {
+    return cachedResp;
+  } else {
     const resp = (await sendRequestAlwaysAuthenticated(
       req, res, "RFandomsGetAll", {
         subscribedStatus: 0,

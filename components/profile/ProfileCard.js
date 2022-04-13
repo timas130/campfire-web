@@ -177,11 +177,14 @@ export default function ProfileCard({account, profile}) {
           })
             .catch(() => setUpd(Date.now()))
             .then(resp => {
-              if (!resp.ok) setUpd(Date.now());
-              else mutate(`/api/account/${account.J_ID}`, {account, profile: {
-                ...profile,
-                age: value,
-              }});
+              if (!resp.ok) {
+                setUpd(Date.now());
+              } else {
+                mutate(`/api/account/${account.J_ID}`, {account, profile: {
+                  ...profile,
+                  age: value,
+                }});
+              }
             });
         } : null}
       />

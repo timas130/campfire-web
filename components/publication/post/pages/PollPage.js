@@ -34,8 +34,9 @@ export default function PollPage({page, additional: {postId}}) {
     const pollSorted = pollL.sort((a, b) => a.itemId - b.itemId);
     let psI = 0;
     for (let i = 0; i < options.length; i++) {
-      if ((pollSorted[psI] || {}).itemId !== i) result.push({itemId: i, myVote: false, count: 0});
-      else {
+      if ((pollSorted[psI] || {}).itemId !== i) {
+        result.push({itemId: i, myVote: false, count: 0});
+      } else {
         result.push(pollSorted[i]);
         psI++;
       }
@@ -69,11 +70,15 @@ export default function PollPage({page, additional: {postId}}) {
       });
 
       return data ? data.map(item => {
-        if (item.itemId === idx) return {
-          itemId: idx,
-          myVote: true,
-          count: item.count + 1,
-        }; else return item;
+        if (item.itemId === idx) {
+          return {
+            itemId: idx,
+            myVote: true,
+            count: item.count + 1,
+          };
+        } else {
+          return item;
+        }
       }) : [];
     }, true)
       .finally(() => setLoadingItem(null));

@@ -1,6 +1,8 @@
 import Head from "next/head";
 import classes from "../../styles/Rules.module.css";
 
+// just enable wrapping
+/* eslint-disable max-len */
 export const rulesConsts = {
   info: "Пожалуйста, прочтите все правила приложения, это не займет много времени, но поможет лучше понимать как устроено наше сообщество.",
   rules: [
