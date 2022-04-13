@@ -3,7 +3,7 @@ import FeedLayout, {FeedLoader} from "../../../components/FeedLayout";
 import ProfileCard from "../../../components/profile/ProfileCard";
 import Head from "next/head";
 import Post from "../../../components/publication/post/Post";
-import {useInfScroll} from "../../../lib/client-api";
+import {fetcher, useInfScroll, useUser} from "../../../lib/client-api";
 import Comment from "../../../components/publication/comment/Comment";
 import postClasses from "../../../styles/Post.module.css";
 import FormattedText from "../../../components/FormattedText";
@@ -11,6 +11,50 @@ import MetaTags from "../../../components/MetaTags";
 import {handleSSRError} from "../../../lib/api";
 import useSWR from "swr";
 import classNames from "classnames";
+import Button from "../../../components/controls/Button";
+import classes from "../../../styles/Profile.module.css";
+import {PencilAltIcon} from "@heroicons/react/solid";
+import {useState} from "react";
+import Input from "../../../components/controls/Input";
+import {EditToolbar, ToolbarButton} from "../../../components/publication/post/pages/Page";
+import {faCheck} from "@fortawesome/free-solid-svg-icons/faCheck";
+import {faTimes} from "@fortawesome/free-solid-svg-icons/faTimes";
+
+export function ProfileBioEditor({type = "description", initialValue = "", onFinish = () => {}, accountId = 0}) {
+  const {mutate} = useSWR(`/api/account/${accountId}`);
+  const [value, setValue] = useState(initialValue);
+
+  const submit = ev => {
+    ev.preventDefault();
+    mutate(async account => {
+      await fetcher("/api/user/edit", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({prop: type, value: value}),
+      });
+      return {
+        ...account,
+        profile: {
+          ...account.profile,
+          [type]: value,
+        },
+      };
+    }).then(onFinish);
+  };
+
+  return <form onSubmit={submit} className={classes.bioEditForm}>
+    <Input
+      el={type === "status" ? "input" : "textarea"}
+      className={type === "status" ? classes.centered : classes.bioEditInput}
+      value={value} onChange={ev => setValue(ev.target.value)}
+      autoFocus
+    />
+    <EditToolbar>
+      <ToolbarButton left icon={faCheck} onClick={submit} />
+      <ToolbarButton icon={faTimes} onClick={onFinish} />
+    </EditToolbar>
+  </form>;
+}
 
 export default function Profile({account: initialAccount, profile: initialProfile}) {
   const {data: {account, profile}} = useSWR(
@@ -24,6 +68,11 @@ export default function Profile({account: initialAccount, profile: initialProfil
     `/api/account/${account.J_ID}/publications`
   );
 
+  const user = useUser();
+  const isCurrentUser = user?.J_ID === account.J_ID;
+
+  const [editing, setEditing] = useState({status: false, description: false});
+
   const title = `Профиль ${account.J_NAME} | Campfire`;
   return <>
     <Head>
@@ -34,13 +83,35 @@ export default function Profile({account: initialAccount, profile: initialProfil
       list={<>
         <ProfileCard account={account} profile={profile} />
         <div className={classNames(postClasses.post, postClasses.mb05)}>
+          {isCurrentUser && !editing.status && <div className={classes.bioEditRow}>
+            <Button className={classes.bioEditButton} onClick={() => setEditing(a => ({...a, status: true}))}>
+              <PencilAltIcon />
+              Редактировать статус
+            </Button>
+          </div>}
           <div className={postClasses.profileStatus}>
-            <FormattedText text={profile.status || "{_cweb_secondary Статус не задан}"} />
+            {!editing.status ?
+              <FormattedText text={profile.status.trim() || "{_cweb_secondary Статус не задан}"} /> :
+              <ProfileBioEditor
+                type="status" initialValue={profile.status} accountId={initialAccount.J_ID}
+                onFinish={() => setEditing(a => ({...a, status: false}))}
+              />}
           </div>
         </div>
         <div className={postClasses.post}>
+          {isCurrentUser && !editing.description && <div className={classes.bioEditRow}>
+            <Button className={classes.bioEditButton} onClick={() => setEditing(a => ({...a, description: true}))}>
+              <PencilAltIcon />
+              Редактировать описание
+            </Button>
+          </div>}
           <div className={postClasses.header}>
-            <FormattedText text={profile.description || "{_cweb_secondary Нет описания}"} />
+            {!editing.description ?
+              <FormattedText text={profile.description.trim() || "{_cweb_secondary Нет описания}"} /> :
+              <ProfileBioEditor
+                type="description" initialValue={profile.description} accountId={initialAccount.J_ID}
+                onFinish={() => setEditing(a => ({...a, description: false}))}
+              />}
           </div>
         </div>
 
