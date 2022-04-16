@@ -35,6 +35,12 @@
     background-color: var(--background-secondary);
 }
 
+.editToolbar > svg.iconEl {
+    width: 25px;
+    height: 25px;
+    padding: 0.2rem;
+}
+
 .editToolbar > svg.active {
     color: var(--primary);
 }
@@ -137,6 +143,70 @@
 .imagePage img {
     max-height: 512px;
 }
+
+/* --- editing --- */
+.imagePage.editable:hover img {
+    filter: opacity(50%);
+}
+.imagePage.editing {
+    margin: 0.5rem;
+}
+
+/* -- wrapper and image -- */
+.imagePageEditWrap {
+    background-size: contain;
+    background-repeat: no-repeat;
+    max-width: 100%;
+    max-height: initial;
+    position: relative;
+}
+.imagePageEditImage {
+    max-width: 100%;
+    min-height: 200px;
+    border-radius: 0.5rem;
+}
+.imagePageEditPlaceholder {
+    min-height: 200px;
+    max-width: 100%;
+    background-color: white;
+    border-radius: 0.5rem;
+}
+
+/* -- overlay -- */
+.imagePageEditOverlay {
+    display: flex;
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+}
+
+.imagePageEditWrap.dragOver > .imagePageEditOverlay {
+    border: 5px dashed white;
+}
+
+.imagePageEditOverlay > svg {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.imagePageEditDropOverlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+    cursor: pointer;
+}
 /*#endregion*/
 /*#region SpoilerPage*/
 .spoilerHeader {
@@ -181,6 +251,10 @@
     display: inline-block;
     vertical-align: top;
 }
+
+.imagesPage.editable:hover img {
+    filter: opacity(50%);
+}
 /*#endregion*/
 /*#region UserActivityPage*/
 .activity {
@@ -224,6 +298,27 @@
 /*#region CodePage*/
 .codePage {
     font-size: 0.8rem;
+}
+.codePage.editable:hover > pre {
+    background-color: #555;
+}
+.codePageEditorCodeLabel {
+    margin: 0 0.3rem;
+}
+.codePageEditorToolbar {
+    margin: 0.5rem;
+}
+select.codePageEditorSelect {
+    max-width: 200px;
+    padding: 0.1rem;
+    font-size: 1rem;
+}
+.codePageEditorInputWrap {
+    margin: 0 0.5rem;
+}
+.codePageEditorInputWrap > textarea {
+    font-family: var(--monospace-font);
+    min-height: 300px;
 }
 /*#endregion*/
 /*#region PollPage*/

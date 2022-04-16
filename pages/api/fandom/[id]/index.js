@@ -1,5 +1,5 @@
 import {sendRequestAlwaysAuthenticated} from "../../../../lib/server";
-import {sendErrorIfFromRemote} from "../../../../lib/api";
+import {castToBoolean, sendErrorIfFromRemote} from "../../../../lib/api";
 
 export async function fetchFandomBasic(req, res, id) {
   const fandom = sendRequestAlwaysAuthenticated(
@@ -48,7 +48,11 @@ export async function fetchFandom(req, res, id) {
 
 export default async function fandomHandler(req, res) {
   try {
-    res.send(await fetchFandom(req, res, req.query.id));
+    if (castToBoolean(req.query.basic)) {
+      res.send({fandom: await fetchFandomBasic(req, res, req.query.id)});
+    } else {
+      res.send(await fetchFandom(req, res, req.query.id));
+    }
   } catch (e) {
     sendErrorIfFromRemote(res, e);
   }

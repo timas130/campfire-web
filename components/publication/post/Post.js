@@ -158,7 +158,7 @@ function Post(props) {
       {post.userActivity && <UserActivityPage page={post.userActivity} />}
     </ContentEl>
     <div className={classes.footer}>
-      {!alwaysExpanded && <div className={classes.expander} onClick={showModal} tabIndex={0}>
+      {!draft && !alwaysExpanded && <div className={classes.expander} onClick={showModal} tabIndex={0}>
         <ArrowsExpandIcon className={classes.expandIcon} />
         Развернуть
       </div>}

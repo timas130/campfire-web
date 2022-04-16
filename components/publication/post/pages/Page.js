@@ -1,5 +1,5 @@
 import TextPage, {TextPageEdit} from "./TextPage";
-import ImagePage from "./ImagePage";
+import ImagePage, {ImagePageEdit} from "./ImagePage";
 import LinkPage, {LinkPageEdit} from "./LinkPage";
 import QuotePage, {QuotePageEdit} from "./QuotePage";
 import React, {useState} from "react";
@@ -8,13 +8,13 @@ import ImagesPage from "./ImagesPage";
 import classes from "../../../../styles/Page.module.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
-import {faCheck} from "@fortawesome/free-solid-svg-icons/faCheck";
-import {faTrash} from "@fortawesome/free-solid-svg-icons/faTrash";
-import {faWindowClose} from "@fortawesome/free-solid-svg-icons/faWindowClose";
 import NProgress from "nprogress";
-import CodePage from "./CodePage";
+import CodePage, {CodePageEdit} from "./CodePage";
 import CampfireObjectPage from "./CampfireObjectPage";
 import PollPage from "./PollPage";
+import {CheckIcon, XIcon, TrashIcon, SelectorIcon} from "@heroicons/react/solid";
+import {blobToBase64} from "../../../../lib/client-api";
+import {getErrorText, showErrorToast} from "../../../../lib/ui";
 
 const pageTypes = {
   1: TextPage,
@@ -29,9 +29,11 @@ const pageTypes = {
 };
 export const pageEditTypes = {
   1: TextPageEdit,
+  2: ImagePageEdit,
   4: LinkPageEdit,
   5: QuotePageEdit,
   6: SpoilerPageEdit,
+  16: CodePageEdit,
 };
 const pageTypesNames = {
   1: "PAGE_TYPE_TEXT",
@@ -65,28 +67,39 @@ export function Page(props) {
     if ((isEditing || page.__new) && editable && pageEditTypes[page.J_PAGE_TYPE]) {
       return React.createElement(pageEditTypes[page.J_PAGE_TYPE], {
         page: page.__new ? null : page,
-        commit(newPage) {
+        async commit(newPage, target = null) {
           NProgress.start();
           console.group("commit");
           console.time("commit");
           console.timeLog("commit", "start [new, old]", newPage, page);
+
+          const cleanup = () => {
+            console.timeEnd("commit");
+            console.groupEnd();
+            setGlobalIsEditing(false);
+            setIsEditing(false);
+            NProgress.done();
+          };
+
+          if (page?.__new && newPage?.__delete) {
+            console.timeLog("commit", "deleting new page => new = null");
+            newPage = null;
+          }
+
+          if (newPage?._cweb_image) {
+            newPage._cweb_image = await blobToBase64(newPage._cweb_image);
+          }
+
           commit(newPage)
+            .then(cleanup)
             .catch(e => {
               console.error(e);
-              if (typeof e === "object" && e.code && e.messageError) {
-                alert(`Ошибка: [${e.code}] ${e.messageError}`);
+              if (target) {
+                showErrorToast(target, e, cleanup, 3500);
               } else {
-                alert("Ошибка: " + JSON.stringify(e));
+                alert(`Ошибка: ${getErrorText(e)}`);
+                cleanup();
               }
-            })
-            .finally(() => {
-              console.timeEnd("commit");
-              console.groupEnd();
-              setGlobalIsEditing(false);
-              setIsEditing(false);
-            })
-            .finally(() => {
-              NProgress.done();
             });
         },
       });
@@ -107,10 +120,12 @@ export function EditToolbar({children, profile}) {
     {children}
   </div>;
 }
-export function ToolbarButton({icon, active, sep, left, onClick}) {
-  return <FontAwesomeIcon
-    icon={icon} tabIndex={0} onClick={onClick}
+export function ToolbarButton({icon, iconEl: IconEl = FontAwesomeIcon, active, sep, left, onClick}) {
+  return <IconEl
+    icon={IconEl ? icon : undefined}
+    tabIndex={0} onClick={onClick}
     className={classNames(
+      IconEl !== FontAwesomeIcon && classes.iconEl,
       active ? classes.active : "",
       sep && classes.toolbarSep,
       left && classes.toolbarLeft,
@@ -119,8 +134,9 @@ export function ToolbarButton({icon, active, sep, left, onClick}) {
 }
 export function ToolbarActions({commit, page}) {
   return <>
-    <ToolbarButton icon={faTrash} left onClick={() => commit({__delete: true})} />
-    <ToolbarButton icon={faWindowClose} onClick={() => commit(null)} />
-    <ToolbarButton icon={faCheck} onClick={() => commit(page)} />
+    <ToolbarButton iconEl={SelectorIcon} left onClick={ev => commit({__move: true}, ev.target)} />
+    <ToolbarButton iconEl={TrashIcon} onClick={ev => commit({__delete: true}, ev.target)} />
+    <ToolbarButton iconEl={XIcon} onClick={ev => commit(null, ev.target)} />
+    <ToolbarButton iconEl={CheckIcon} onClick={ev => commit(page, ev.target)} />
   </>;
 }

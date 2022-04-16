@@ -1,9 +1,29 @@
 import classNames from "classnames";
 import classes from "../../../../styles/Page.module.css";
-import {useEffect, useMemo, useRef} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 
 import Prism from "prismjs";
 import "prismjs/themes/prism-tomorrow.css";
+import dynamic from "next/dynamic";
+import FeedTypeSelectorCard from "../../../cards/FeedTypeSelectorCard";
+import {EditToolbar, ToolbarActions} from "./Page";
+import Input from "../../../controls/Input";
+import InputLabel from "../../../controls/InputLabel";
+import isTouchDevice from "is-touch-device";
+
+const Editor = dynamic(() => import("@monaco-editor/react")
+  .then(a => a.loader.config({
+    paths: {
+      vs: "/vs",
+    },
+    "vs/nls": {
+      availableLanguages: {
+        "*": "ru",
+      },
+    },
+  }))
+  .then(() => import("@monaco-editor/react"))
+  .then(a => a.default));
 
 async function loadLanguage(lang) {
   switch (lang) {
@@ -48,21 +68,65 @@ async function loadLanguage(lang) {
   }
 }
 
-export default function CodePage({ page }) {
+const languageNames = {
+  "c": "C", "cs": "C#", "java": "Java", "bash": "Bash", "python": "Python",
+  "perl": "Perl", "ruby": "Ruby", "js": "JavaScript (умный)",
+  "coffee": "CoffeeScript", "rust": "Rust", "basic": "Basic", "clj": "Clojure",
+  "css": "CSS (умный)", "dart": "Dart", "erlang": "Erlang", "go": "Go", "hs": "Haskell",
+  "lisp": "Lisp", "llvm": "LLVM", "lua": "Lua", "matlab": "Matlab",
+  "fs": "ML (OCaml, SML, F#)", "mumps": "Mumps", "n": "Nemerle",
+  "pascal": "Pascal", "r": "R", "rd": "Rd", "scala": "Scala", "sql": "SQL",
+  "tex": "Tex", "vb": "Visual Basic", "vhdl": "VHDL", "apollo": "Apollo",
+  "tcl": "Tcl", "wiki.meta": "Wiki", "xq": "XQuery", "yaml": "YAML",
+  "md": "Markdown", "json": "JSON (умный)", "xml": "HTML/XML (умный)",
+  "proto": "Protobuf", "regex": "Regex",
+};
+const languageOverrides = {
+  "clj": "clojure",
+  "fs": "fsharp",
+  "mumps": "powershell",
+  "n": "python",
+  "rd": "r",
+  "apollo": "python",
+  "wiki.meta": "wiki",
+  "xq": "xquery",
+  "proto": "protobuf",
+};
+const monacoOverrides = {
+  "cs": "csharp",
+  "bash": "shell",
+  "js": "javascript",
+  "coffee": "coffeescript",
+  "basic": "common",
+  "clj": "clojure",
+  "erlang": "common",
+  "hs": "common",
+  "lisp": "common",
+  "llvm": "common",
+  "lua": "lua",
+  "matlab": "common",
+  "fs": "fsharp",
+  "mumps": "common",
+  "n": "common",
+  "r": "r",
+  "rd": "common",
+  "tex": "common",
+  "vb": "common",
+  "vhdl": "common",
+  "apollo": "common",
+  "wiki.meta": "common",
+  "xq": "common",
+  "md": "markdown",
+  "xml": "html",
+  "regex": "Regex",
+};
+
+export default function CodePage({ page, onEdit = null }) {
   const code = page.code || "";
   let language = useMemo(() => {
     let language = page.language || "";
 
-    if (language === "clj") language = "clojure";
-    else if (language === "fs") language = "fsharp";
-    else if (language === "mumps") language = "powershell";
-    else if (language === "n") language = "python";
-    else if (language === "rd") language = "r";
-    else if (language === "apollo") language = "python";
-    else if (language === "wiki.meta") language = "wiki";
-    else if (language === "xq") language = "xquery";
-    else if (language === "proto") language = "protobuf";
-
+    if (languageOverrides[language]) language = languageOverrides[language];
     else if (!language.match(/^[a-z]+$/)) language = "c";
 
     return language;
@@ -78,9 +142,89 @@ export default function CodePage({ page }) {
     })();
   }, [code, language]);
 
-  return <div className={classNames(classes.codePage)}>
+  return <div className={classNames(classes.codePage, onEdit && classes.editable)} onClick={onEdit}>
     <pre>
       <code ref={codeRef} className={`language-${language}`}>{code}</code>
     </pre>
   </div>;
+}
+
+export function CodePageEdit({page: initialPage, commit: _commit}) {
+  const [page, setPage] = useState(initialPage || {
+    J_PAGE_TYPE: 16,
+    code: "",
+    language: "c",
+  });
+  const [editorType, _setEditorType] = useState("monaco");
+  const editorRef = useRef(null);
+
+  useEffect(() => {
+    _setEditorType(isTouchDevice() ? "mobile" : "monaco");
+  }, []);
+
+  const updatePage = () => {
+    if (editorType === "monaco") {
+      const newPage = {...page, code: editorRef.current.getValue()};
+      setPage(newPage);
+      return newPage;
+    }
+    return page;
+  };
+  const setEditorType = type => {
+    updatePage();
+    _setEditorType(type);
+  };
+  const commit = arg => {
+    if (arg?.__page) {
+      const page = updatePage();
+      _commit(page);
+    } else {
+      _commit(arg);
+    }
+  };
+
+  return <section className={classNames(classes.editing)}>
+    <FeedTypeSelectorCard
+      type={editorType} setType={setEditorType}
+      types={{monaco: "VS Code", mobile: "Мобильный редактор"}}
+      className={classes.codePageEditorToolbar}
+    />
+    {editorType === "monaco" ? <Editor
+      height="300px"
+      language={monacoOverrides[page.language] || page.language || "common"}
+      defaultValue={page.code}
+      onMount={editor => editorRef.current = editor}
+      theme="vs-dark"
+      options={{
+        minimap: {enabled: false},
+        fontFamily: "\"JetBrains Mono\", SFMono-Regular, Menlo, Monaco, Consolas, " +
+          "\"Liberation Mono\", \"Courier New\", monospace",
+        fontLigatures: true,
+      }}
+    /> : <div className={classes.codePageEditorInputWrap}><Input
+      el="textarea"
+      value={page.code} onChange={ev => setPage(a => ({...a, code: ev.target.value}))}
+      placeholder={
+        "fn main() -> Result<(), ()> {\n" +
+        "    println!(\"Hello, world!\");\n" +
+        "    Ok(())\n" +
+        "}"
+      }
+      autoComplete="none" spellCheck={false}
+    /></div>}
+    <div className={classes.codePageEditorToolbar}>
+      <EditToolbar>
+        <InputLabel className={classes.codePageEditorCodeLabel} horizontal noInputMargin>
+          Язык:&nbsp;
+          <Input
+            el="select" className={classes.codePageEditorSelect}
+            value={page.language} onChange={ev => setPage(a => ({...a, language: ev.target.value}))}
+          >
+            {Object.entries(languageNames).map(lang => <option key={lang[0]} value={lang[0]}>{lang[1]}</option>)}
+          </Input>
+        </InputLabel>
+        <ToolbarActions page={{__page: true}} commit={commit} />
+      </EditToolbar>
+    </div>
+  </section>;
 }

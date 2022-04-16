@@ -88,7 +88,6 @@ a.headerAuthor:hover, .headerRubric:hover, .headerFandom:hover {
     text-decoration: none;
     color: var(--text);
     display: flex;
-    margin-right: 1rem;
     cursor: pointer;
 }
 .commentIcon, .expandIcon, .editIcon {

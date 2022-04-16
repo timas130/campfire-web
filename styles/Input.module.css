@@ -29,6 +29,7 @@
 }
 .label.horizontal {
     display: flex;
+    align-items: center;
 }
 .label.block {
     display: block;
@@ -41,7 +42,6 @@
 
 textarea.input {
     resize: vertical;
-    min-height: fit-content;
 }
 
 /* switch */

@@ -4,6 +4,7 @@ import {useState} from "react";
 import Input from "../../../controls/Input";
 import InputLabel from "../../../controls/InputLabel";
 import {EditToolbar, ToolbarActions} from "./Page";
+import FormattedText from "../../../FormattedText";
 
 export default function QuotePage({ page, onEdit = null }) {
   const author = page.author;
@@ -14,7 +15,7 @@ export default function QuotePage({ page, onEdit = null }) {
         {author + ":"}
       </figcaption>}
       <blockquote>
-        {text}
+        <FormattedText text={text} />
       </blockquote>
     </figure>
   </div>;

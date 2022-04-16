@@ -5,12 +5,13 @@
 
 .feedList {
     width: 660px;
-    position: relative;
+    margin-bottom: 2rem;
 }
 .feedSidebar {
     flex: 0 0 330px;
     width: 330px;
     margin-left: 15px;
+    margin-bottom: 2rem;
 }
 .feedStatic {
     display: none;

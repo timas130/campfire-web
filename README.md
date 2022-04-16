@@ -25,14 +25,30 @@ docker run --rm -p 3001:3000 -e LOGIN_TOKEN="<см. .env.example>" ghcr.io/timas
 
 Стандартная процедура для [Next.js](https://nextjs.org).
 
-0. Устанавливаем [Node.js](https://nodejs.org) и npm
+0. Устанавливаем [Node.js](https://nodejs.org) и [pnpm](https://pnpm.io)
 1. Клонируем проект:
    ```shell
    $ git clone https://github.com/timas130/campfire-web
    ```
 2. Копируем `.env.example` в `.env.local` и изменяем там параметры на свои
-3. `$ npm install`
-4. `$ npm run dev`
+3. Распакуй содержание [этого архива](https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.33.0.tgz)
+   в `/public/vs`. Вот так:
+   ```
+   .
+   │ ...
+   ├── public
+   │   │ ...
+   │   └── vs
+   │       ├── base
+   │       ├── basic-languages
+   │       ├── editor
+   │       ├── language
+   │       ├── loader.js
+   │       └── README.md
+   │ ...
+   ```
+4. `$ pnpm install`
+5. `$ pnpm dev`
 
 ## Краткие штуки о разработке
 

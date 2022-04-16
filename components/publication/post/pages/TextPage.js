@@ -10,6 +10,7 @@ import {faAlignRight} from "@fortawesome/free-solid-svg-icons/faAlignRight";
 import {faHeading} from "@fortawesome/free-solid-svg-icons/faHeading";
 import {faIcons} from "@fortawesome/free-solid-svg-icons/faIcons";
 import {EditToolbar, ToolbarActions, ToolbarButton} from "./Page";
+import {showButtonToast} from "../../../../lib/ui";
 
 export default function TextPage({ page, onEdit = null }) {
   const big = Boolean(page["J_SIZE"]);
@@ -59,6 +60,7 @@ export function TextPageEdit({ page: initialPage, commit }) {
         ...page,
         J_TEXT: ev.target.value,
       }))}
+      autoFocus
     />
     <EditToolbar>
       <ToolbarButton
@@ -70,6 +72,7 @@ export function TextPageEdit({ page: initialPage, commit }) {
       />
       <ToolbarButton
         icon={faIcons} active={page.icon !== 0} sep
+        onClick={ev => showButtonToast(ev.target, "Скоро :)", null, 2000, -60)}
       />
 
       <ToolbarButton
