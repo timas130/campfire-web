@@ -113,15 +113,17 @@ function EditablePage({
       return;
     }
 
-    if (newPage?.__delete) {
-      await fetcher(`/api/drafts/${post.id}/page?action=remove`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({pageIndexes: [pageIdx]}),
-      });
-      console.timeLog("commit", "deleted page", pageIdx);
+    if ((!newPage && page.__new) || (newPage && newPage.__delete)) {
+      if (newPage && newPage.__delete) { // deleted page
+        await fetcher(`/api/drafts/${post.id}/page?action=remove`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({pageIndexes: [pageIdx]}),
+        });
+        console.timeLog("commit", "deleted page", pageIdx);
+      }
 
       setPost(post => ({
         ...post,
