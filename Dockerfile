@@ -6,7 +6,7 @@ COPY . /app
 WORKDIR /app
 ARG SENTRY_TOKEN
 RUN wget -o /app/monaco.tgz https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.33.0.tgz && \
-    tar xf /app/monaco.tgz -C /app/public/vs --wildcards 'package/esm/vs/*' && \
+    tar xf /app/monaco.tgz -C /app/public/vs && \
     mv /app/public/vs/package/esm/vs/* /app/public/vs && \
     rm -rf /app/monaco.tar.gz /app/public/vs/package/
 RUN npx pnpm install
