@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.source=https://github.com/timas130/campfire-web
 COPY . /app
 WORKDIR /app
 ARG SENTRY_TOKEN
-RUN wget -o /app/monaco.tgz https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.33.0.tgz && \
+RUN wget -O /app/monaco.tgz https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.33.0.tgz && \
     tar xf /app/monaco.tgz -C /app/public/vs && \
     mv /app/public/vs/package/esm/vs/* /app/public/vs && \
     rm -rf /app/monaco.tar.gz /app/public/vs/package/
