@@ -23,8 +23,8 @@ import KarmaVotesModel from "./KarmaVotesModal";
 import Tooltip from "../../Tooltip";
 import Comments from "../comment/Comments";
 
-function CommentCounter(props) {
-  const link = <a className={classes.commentCounter} target="_blank" onClick={props.onClick}>
+export function CommentCounter({target = "_blank", ...props}) {
+  const link = <a className={classes.commentCounter} target={target} onClick={props.onClick}>
     <ChatAlt2Icon className={classes.commentIcon} />
     {props.count}
   </a>;

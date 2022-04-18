@@ -89,6 +89,7 @@ a.headerAuthor:hover, .headerRubric:hover, .headerFandom:hover {
     color: var(--text);
     display: flex;
     cursor: pointer;
+    margin-right: 0.5rem;
 }
 .commentIcon, .expandIcon, .editIcon {
     width: 1.2rem;
@@ -191,4 +192,43 @@ a.headerAuthor:hover, .headerRubric:hover, .headerFandom:hover {
 .profileStatus {
     text-align: center;
     padding: 0.8rem;
+}
+
+/* --- moderation --- */
+
+.modContent {
+    padding: 0.5rem 0.75rem;
+}
+.modContent:last-of-type {
+    padding-bottom: 1rem;
+}
+
+.modAdminLink {
+    color: var(--red);
+}
+.modUserLink {
+    color: var(--blue);
+}
+
+.modAdminAccept {
+    color: var(--green);
+}
+.modAdminReject {
+    color: var(--red);
+}
+.modRejectTitle {
+    color: var(--text);
+}
+.modRejectComment {
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+.modImage {
+    margin: 0.5rem 0;
+    text-align: center;
+}
+.modImage img {
+    max-height: 512px;
+    max-width: 100%;
 }

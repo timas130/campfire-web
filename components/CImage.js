@@ -15,25 +15,27 @@ const cdnImageLoader = ({ src, width, quality }) => (
 );
 
 export default function CImage(props) {
-  const {id, w, h, alt, modal, ...rest} = props;
+  const {id, w, h, alt, modal, useImg, ...rest} = props;
   const [modalOpen, setModalOpen] = useState(false);
+
+  const ImageEl = useImg ? "img" : Image;
 
   if (modal) {
     return <>
-      <Image
-        src={`/api/image/${id}`} alt={alt} loader={cdnImageLoader}
+      <ImageEl
+        src={`/api/image/${id}`} alt={alt} loader={useImg ? undefined : cdnImageLoader}
         width={w} height={h} onClick={() => setModalOpen(x => !x)}
         {...rest}
       />
       {modalOpen && <ModalPortal><ModalInner onClick={() => setModalOpen(false)}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`${process.env.cdnUrl}/api/image/${id}`} alt={alt} />
+        <ImageEl src={`${process.env.cdnUrl}/api/image/${id}`} alt={alt} />
       </ModalInner></ModalPortal>}
     </>;
   } else {
-    return <Image
+    return <ImageEl
       src={`/api/image/${id}`} alt={alt}
-      width={w} height={h} loader={cdnImageLoader}
+      width={w} height={h} loader={useImg ? undefined : cdnImageLoader}
       {...rest}
     />;
   }

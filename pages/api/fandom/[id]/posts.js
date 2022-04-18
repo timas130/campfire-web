@@ -2,28 +2,14 @@ import {sendRequestAlwaysAuthenticated} from "../../../../lib/server";
 import {sendErrorIfFromRemote} from "../../../../lib/api";
 
 export async function fetchFandomPosts(req, res, fandomId, offset = 0,
-                                       types = [9], request = {}) {
+                                       types = [9, 11], request = {}) {
   return (await sendRequestAlwaysAuthenticated(
     req, res, "RPublicationsGetAll", {
-      accountId: 0,
-      parentUnitId: 0,
       offset,
       fandomId,
-      fandomsIds: [],
-      important: 0,
-      drafts: false,
-      includeZeroLanguages: true,
-      includeModerationsBlocks: false,
-      includeModerationsOther: false,
-      includeMultilingual: true,
       unitTypes: types,
-      order: 1,
       languageId: 2,
-      onlyWithFandom: true,
       count: 20,
-      appKey: null,
-      appSubKey: null,
-      tags: [],
       ...request,
     }
   )).J_RESPONSE.units;

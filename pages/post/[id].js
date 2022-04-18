@@ -39,7 +39,7 @@ export default function PostPage(props) {
       <MetaTags
         title={title} type="article" description={longDesc}
         url={`https://campfire.moe/post/${props.post.unit.id}`}
-        image={`https://campfire.moe/api/image/${props.post.unit.fandom.imageId}`}
+        image={`https://campfire.moe/api/image/${props.post.unit.creator.J_IMAGE_ID}`}
       />
     </Head>
     <FeedLayout
