@@ -19,6 +19,7 @@ import Input from "../../../components/controls/Input";
 import {EditToolbar, ToolbarButton} from "../../../components/publication/post/pages/Page";
 import {faCheck} from "@fortawesome/free-solid-svg-icons/faCheck";
 import {faTimes} from "@fortawesome/free-solid-svg-icons/faTimes";
+import Publication from "../../../components/publication/Publication";
 
 export function ProfileBioEditor({type = "description", initialValue = "", onFinish = () => {}, accountId = 0}) {
   const {mutate} = useSWR(`/api/account/${accountId}`);
@@ -121,9 +122,7 @@ export default function Profile({account: initialAccount, profile: initialProfil
 
         {profile.pinnedPost && <Post post={profile.pinnedPost} pinned showBestComment />}
         {pubPages && pubPages.map(page => page.map(pub => (
-          pub.unitType === 1 ?
-            <Comment full key={pub.id} comment={pub} /> :
-            <Post key={pub.id} post={pub} showBestComment />
+          <Publication pub={pub} key={pub.id} full showBestComment />
         )))}
         {showLoader && <FeedLoader ref={ref} />}
       </>}

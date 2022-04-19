@@ -5,24 +5,10 @@ export async function fetchProfilePubs(req, res, accountId, offset = 0, request 
   return (await sendRequestAlwaysAuthenticated(
     req, res, "RPublicationsGetAll", {
       accountId,
-      parentUnitId: 0,
       offset,
-      fandomId: 0,
-      fandomsIds: [],
-      important: 0,
-      drafts: false,
-      includeZeroLanguages: true,
-      includeModerationsBlocks: false,
-      includeModerationsOther: false,
-      includeMultilingual: true,
-      unitTypes: [9, 1],
-      order: 1,
+      unitTypes: [9, 1, 11],
       languageId: 2,
-      onlyWithFandom: true,
       count: 20,
-      appKey: null,
-      appSubKey: null,
-      tags: [],
       ...request,
     }
   )).J_RESPONSE.units;

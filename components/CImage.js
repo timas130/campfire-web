@@ -23,13 +23,14 @@ export default function CImage(props) {
   if (modal) {
     return <>
       <ImageEl
-        src={`/api/image/${id}`} alt={alt} loader={useImg ? undefined : cdnImageLoader}
-        width={w} height={h} onClick={() => setModalOpen(x => !x)}
-        {...rest}
+        src={`/api/image/${id}`} alt={alt}
+        loader={useImg ? undefined : cdnImageLoader}
+        width={w} height={h} {...rest}
+        onClick={() => setModalOpen(x => !x)}
       />
       {modalOpen && <ModalPortal><ModalInner onClick={() => setModalOpen(false)}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <ImageEl src={`${process.env.cdnUrl}/api/image/${id}`} alt={alt} />
+        <img src={`${process.env.cdnUrl}/api/image/${id}`} alt={alt} />
       </ModalInner></ModalPortal>}
     </>;
   } else {

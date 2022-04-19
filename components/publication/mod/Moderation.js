@@ -10,6 +10,8 @@ import {useRouter} from "next/router";
 import {CommentCounter} from "../post/Post";
 import Karma from "../../Karma";
 
+// I spent >3 hours on this.
+
 const moderationTypes = {
   1: ModerationBlock,
   2: ModerationTagCreate,
@@ -26,6 +28,27 @@ const moderationTypes = {
   13: ModerationPostTags,
   14: ModerationNames,
   15: ModerationForgive,
+  16: ModerationBackgroundImage,
+  17: ModerationLinkChange,
+  170: ModerationTagMove,
+  171: ModerationTagMoveBetweenCategory,
+  172: ModerationPinPostInFandom,
+  // 173: unknown
+  174: ModerationMultilingualNot,
+  175: ModerationPostClose,
+  176: ModerationPostCloseNo,
+  177: ModerationRubricChangeName,
+  178: ModerationRubricChangeOwner,
+  179: ModerationRubricCreate,
+  180: ModerationRubricRemove,
+  181: ModerationChatCreate,
+  182: ModerationChatChange,
+  183: ModerationChatRemove,
+  184: ModerationBackgroundImageSub,
+  185: ModerationActivitiesCreate,
+  186: ModerationActivitiesChange,
+  187: ModerationActivitiesRemove,
+  188: ModerationRubricFandomMove, // I made this!
 };
 
 function AccLink({name, className}) {
@@ -62,7 +85,7 @@ function MCheck({pub}) {
 }
 function MComment({pub}) {
   return <div className={classes.modContent}>
-    Комментарий: {pub.jsonDB.moderation.comment}
+    Комментарий: {pub.jsonDB.moderation.comment || "[пусто]"}
   </div>;
 }
 
@@ -271,6 +294,267 @@ function ModerationForgive({pub}) {
     <div className={classes.modContent}>
       Модератор <MLink pub={pub} /> <MSex pub={pub} he="помиловал" she="+а" /> пользователя&nbsp;
       <TLink pub={pub} />.
+    </div>
+    <MComment pub={pub} />
+  </>;
+}
+
+function ModerationBackgroundImage({pub}) {
+  return <>
+    <div className={classes.modContent}>
+      Модератор <MLink pub={pub} /> <MSex pub={pub} he="изменил" she="+а" /> фон
+      основного чата.
+    </div>
+    <MComment pub={pub} />
+  </>;
+}
+
+function ModerationLinkChange({pub}) {
+  return <>
+    <div className={classes.modContent}>
+      Модератор <MLink pub={pub} /> <MSex pub={pub} he="изменил" she="+а" /> ссылку
+      в фэндоме.
+    </div>
+    <div className={classes.modContent}>
+      Название: {pub.jsonDB.moderation.title}<br />
+      Ссылка: <a href={pub.jsonDB.moderation.url} target="_blank" rel="noreferrer nofollow">
+      {pub.jsonDB.moderation.url}
+    </a>
+    </div>
+    <MComment pub={pub} />
+  </>;
+}
+
+function ModerationTagMove({pub}) {
+  return <>
+    <div className={classes.modContent}>
+      Модератор <MLink pub={pub} /> <MSex pub={pub} he="поставил" she="+а" /> тег
+      &quot;{pub.jsonDB.moderation.tagName}&quot; перед
+      &quot;{pub.jsonDB.moderation.tagOtherName}&quot;.
+    </div>
+    <MComment pub={pub} />
+  </>;
+}
+
+function ModerationTagMoveBetweenCategory({pub}) {
+  return <>
+    <div className={classes.modContent}>
+      Модератор <MLink pub={pub} /> <MSex pub={pub} he="переместил" she="+а" /> тег
+      &quot;{pub.jsonDB.moderation.tagName}&quot; из категории
+      &quot;{pub.jsonDB.moderation.tagOldName}&quot; в категорию
+      &quot;{pub.jsonDB.moderation.tagNewName}&quot;.
+    </div>
+    <MComment pub={pub} />
+  </>;
+}
+
+function ModerationPinPostInFandom({pub}) {
+  return <>
+    <div className={classes.modContent}>
+      Модератор <MLink pub={pub} />&nbsp;
+      <MSex pub={pub} he={pub.jsonDB.moderation.postId ? "закрепил" : "открепил"} she="+а" />
+      &nbsp;пост&nbsp;
+      <Link href={`/post/${pub.jsonDB.moderation.postId}`}><a>
+        @post_{pub.jsonDB.moderation.postId || pub.jsonDB.moderation.oldPostId}
+      </a></Link>.
+    </div>
+    {pub.jsonDB.moderation.oldPostId > 0 && <div className={classes.modContent}>
+      <FormattedText text={"{_cweb_secondary Заметка разработчика веба: почему-то сервер " +
+        "приложения возвращает неправильный ID откреплённого поста. " +
+        "Просим прощения за неудобства.} Хотя виноват @Zeon."} />
+    </div>}
+    <MComment pub={pub} />
+  </>;
+}
+
+function ModerationMultilingualNot({pub}) {
+  return <>
+    <div className={classes.modContent}>
+      Модератор <MLink pub={pub} /> <MSex pub={pub} he="убрал" she="+а" /> метку
+      мультиязычности с поста&nbsp;
+      <Link href={`/post/${pub.jsonDB.moderation.unitId}`}><a>
+        @post_{pub.jsonDB.moderation.unitId}
+      </a></Link> пользователя <TLink pub={pub} />.
+    </div>
+    <MComment pub={pub} />
+  </>;
+}
+
+function ModerationPostClose({pub}) {
+  return <>
+    <div className={classes.modContent}>
+      Модератор <MLink pub={pub} /> <MSex pub={pub} he="закрыл" she="+а" /> пост&nbsp;
+      <Link href={`/post/${pub.jsonDB.moderation.postId}`}><a>
+        @post_{pub.jsonDB.moderation.postId}
+      </a></Link>.
+    </div>
+    <MComment pub={pub} />
+  </>;
+}
+
+function ModerationPostCloseNo({pub}) {
+  return <>
+    <div className={classes.modContent}>
+      Модератор <MLink pub={pub} /> <MSex pub={pub} he="открыл" she="+а" /> пост&nbsp;
+      <Link href={`/post/${pub.jsonDB.moderation.postId}`}><a>
+        @post_{pub.jsonDB.moderation.postId}
+      </a></Link>.
+    </div>
+    <MComment pub={pub} />
+  </>;
+}
+
+function ModerationRubricChangeName({pub}) {
+  return <>
+    <div className={classes.modContent}>
+      Модератор <MLink pub={pub} /> <MSex pub={pub} he="изменил" she="+а" /> название рубрики с
+      &quot;{pub.jsonDB.moderation.rubricOldName}&quot; на&nbsp;
+      <Link href={`/rubric/${pub.jsonDB.moderation.rubricId}`}>
+        <a>&quot;{pub.jsonDB.moderation.rubricNewName}&quot;</a>
+      </Link>.
+    </div>
+    <MComment pub={pub} />
+  </>;
+}
+
+function ModerationRubricChangeOwner({pub}) {
+  return <>
+    <div className={classes.modContent}>
+      Модератор <MLink pub={pub} /> <MSex pub={pub} he="изменил" she="+а" /> владельца
+      рубрики&nbsp;
+      <Link href={`/rubric/${pub.jsonDB.moderation.rubricId}`}>
+        <a>&quot;{pub.jsonDB.moderation.rubricName}&quot;</a>
+      </Link> с&nbsp;
+      <AccLink name={pub.jsonDB.moderation.oldOwnerName} /> на&nbsp;
+      <AccLink name={pub.jsonDB.moderation.newOwnerName} />.
+    </div>
+    <MComment pub={pub} />
+  </>;
+}
+
+function ModerationRubricCreate({pub}) {
+  return <>
+    <div className={classes.modContent}>
+      Модератор <MLink pub={pub} /> <MSex pub={pub} he="создал" she="+а" /> рубрику&nbsp;
+      <Link href={`/rubric/${pub.jsonDB.moderation.rubricId}`}>
+        <a>&quot;{pub.jsonDB.moderation.rubricName}&quot;</a>
+      </Link> и назначил <AccLink name={pub.jsonDB.moderation.ownerName} /> её владельцем.
+    </div>
+    <MComment pub={pub} />
+  </>;
+}
+
+function ModerationRubricRemove({pub}) {
+  return <>
+    <div className={classes.modContent}>
+      Модератор <MLink pub={pub} /> <MSex pub={pub} he="удалил" she="+а" /> рубрику
+      &quot;{pub.jsonDB.moderation.rubricName}&quot;.
+    </div>
+    <MComment pub={pub} />
+  </>;
+}
+
+function ModerationRubricFandomMove({pub}) {
+  // TODO: test this
+  return <>
+    <div className={classes.modContent}>
+      Администратор <MLink pub={pub} /> <MSex pub={pub} he="изменил" she="+а" /> фэндом
+      рубрики&nbsp;
+      <Link href={`/rubric/${pub.jsonDB.moderation.rubricId}`}>
+        <a>&quot;{pub.jsonDB.moderation.rubricName}&quot;</a>
+      </Link> с&nbsp;
+      <Link href={`/fandom/${pub.jsonDB.moderation.srcFandomId}`}>
+        <a>{pub.jsonDB.moderation.srcFandomName}</a>
+      </Link> на&nbsp;
+      <Link href={`/fandom/${pub.jsonDB.moderation.destFandomId}`}>
+        <a>{pub.jsonDB.moderation.destFandomName}</a>
+      </Link>.
+    </div>
+    <MComment pub={pub} />
+  </>;
+}
+
+function ModerationBackgroundImageSub({pub}) {
+  return <>
+    <div className={classes.modContent}>
+      Модератор <MLink pub={pub} /> <MSex pub={pub} he="изменил" she="+а" /> фон
+      чата &quot;{pub.jsonDB.moderation.chatName}&quot;.
+    </div>
+    <MComment pub={pub} />
+  </>;
+}
+
+function ModerationChatCreate({pub}) {
+  return <>
+    <div className={classes.modContent}>
+      Модератор <MLink pub={pub} /> <MSex pub={pub} he="создал" she="+а" /> чат
+      &quot;{pub.jsonDB.moderation.name}&quot;.
+    </div>
+    <MComment pub={pub} />
+  </>;
+}
+
+function ModerationChatChange({pub}) {
+  return <>
+    <div className={classes.modContent}>
+      Модератор <MLink pub={pub} /> <MSex pub={pub} he="изменил" she="+а" /> чат
+      &quot;{pub.jsonDB.moderation.name}&quot;.
+    </div>
+    <div className={classes.modContent}>
+      <FormattedText text={"{_cweb_secondary Заметка разработчика веба: конкретные " +
+        "изменения чата не записываются на сервере. Просим прощения за неудобства.} " +
+        "Хотя виноват @Zeon."} />
+    </div>
+    <MComment pub={pub} />
+  </>;
+}
+
+function ModerationChatRemove({pub}) {
+  return <>
+    <div className={classes.modContent}>
+      Модератор <MLink pub={pub} /> <MSex pub={pub} he="удалил" she="+а" /> чат
+      &quot;{pub.jsonDB.moderation.name}&quot;.
+    </div>
+    <MComment pub={pub} />
+  </>;
+}
+
+function ModerationActivitiesCreate({pub}) {
+  return <>
+    <div className={classes.modContent}>
+      Модератор <MLink pub={pub} /> <MSex pub={pub} he="создал" she="+а" /> эстафету&nbsp;
+      <Link href={`/activity/${pub.jsonDB.moderation.activityId}`}>
+        <a>&quot;{pub.jsonDB.moderation.name}&quot;</a>
+      </Link>.
+    </div>
+    <MComment pub={pub} />
+  </>;
+}
+
+function ModerationActivitiesChange({pub}) {
+  const mod = pub.jsonDB.moderation;
+  return <>
+    <div className={classes.modContent}>
+      Модератор <MLink pub={pub} /> <MSex pub={pub} he="изменил" she="+а" /> эстафету&nbsp;
+      <Link href={`/activity/${mod.activityId}`}>
+        <a>&quot;{mod.oldName}&quot;</a>
+      </Link>.
+    </div>
+    {mod.newName !== mod.oldName && <div className={classes.modContent}>
+      Новое название: &quot;{mod.newName}&quot;
+    </div>}
+    {mod.newDescription !== mod.oldDescription && <div className={classes.modContent}>
+      Новое описание: &quot;{mod.newDescription}&quot;
+    </div>}
+    <MComment pub={pub} />
+  </>;
+}
+
+function ModerationActivitiesRemove({pub}) {
+  return <>
+    <div className={classes.modContent}>
+      Модератор <MLink pub={pub} /> <MSex pub={pub} he="удалил" she="+а" /> эстафету
+      &quot;{pub.jsonDB.moderation.name}&quot;.
     </div>
     <MComment pub={pub} />
   </>;
