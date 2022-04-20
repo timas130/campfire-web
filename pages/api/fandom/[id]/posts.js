@@ -2,7 +2,7 @@ import {sendRequestAlwaysAuthenticated} from "../../../../lib/server";
 import {sendErrorIfFromRemote} from "../../../../lib/api";
 
 export async function fetchFandomPosts(req, res, fandomId, offset = 0,
-                                       types = [9, 11], request = {}) {
+                                       types = [9], request = {}) {
   return (await sendRequestAlwaysAuthenticated(
     req, res, "RPublicationsGetAll", {
       offset,
