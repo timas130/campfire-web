@@ -11,7 +11,7 @@ export function getPinnedPost(req, res, fandomId, languageId = 2) {
 
 export default async function pinnedPostHandler(req, res) {
   try {
-    res.send(await getPinnedPost(req, res, req.query.id, req.query.lang));
+    res.send(await getPinnedPost(req, res, req.query.id, req.query.lang) || "null");
   } catch (e) {
     sendErrorIfFromRemote(res, e);
   }

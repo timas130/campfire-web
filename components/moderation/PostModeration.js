@@ -49,17 +49,16 @@ export function usePostModerationEntries({post}) {
       },
       modCan(settings, "pin", post.fandom.id, post.fandom.languageId) && {
         id: "pin", className: classes.moderator,
-        loading: async () => {
-          console.log(Date.now().toString() + " calling loading");
-          const pinnedPost = await fetcher(
-            `/api/fandom/${post.fandom.id}/pinned?lang=${post.fandom.languageId}`
-          );
-          if (pinnedPost.id === post.id) {
+        // FIXME: for some reason this sends two requests
+        loading: () => fetcher(
+          `/api/fandom/${post.fandom.id}/pinned?lang=${post.fandom.languageId}`
+        ).then(pinnedPost => {
+          if (pinnedPost?.id === post.id) {
             return {label: "Открепить", onClick: () => mod.setTypeOpen("unpin")};
           } else {
             return {label: "Закрепить", onClick: () => mod.setTypeOpen("pin")};
           }
-        },
+        }),
       },
     ];
 
