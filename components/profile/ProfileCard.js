@@ -2,7 +2,7 @@ import postClasses from "../../styles/Post.module.css";
 import classes from "../../styles/Profile.module.css";
 import classNames from "classnames";
 import {CAvatar} from "../CImage";
-import {isOnline, useUser} from "../../lib/client-api";
+import {fetcher, isOnline, useUser} from "../../lib/client-api";
 import dayjs from "../../lib/time";
 import {
   CalendarIcon,
@@ -170,7 +170,7 @@ export default function ProfileCard({account, profile}) {
         value={profile.age || "Не указано"}
         upd={upd}
         edit={user.J_ID === account.J_ID ? value => {
-          fetch("/api/user/edit", {
+          fetcher("/api/user/edit", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({prop: "age", value: parseInt(value)}),
@@ -195,7 +195,7 @@ export default function ProfileCard({account, profile}) {
         editSelect={["Он", "Она"]}
         edit={user.J_ID === account.J_ID ? value => {
           const sex = value === "Она" ? 1 : 0;
-          fetch("/api/user/edit", {
+          fetcher("/api/user/edit", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({prop: "sex", value: sex}),

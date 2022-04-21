@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import classes from "../styles/CImage.module.css";
 import classNames from "classnames";
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import {isOnline} from "../lib/client-api";
 import {ModalPortal} from "./Modal";
 
@@ -20,13 +20,15 @@ export default function CImage(props) {
 
   const ImageEl = useImg ? "img" : Image;
 
+  const onClick = useCallback(() => setModalOpen(x => !x), []);
+
   if (modal) {
     return <>
       <ImageEl
         src={`/api/image/${id}`} alt={alt}
         loader={useImg ? undefined : cdnImageLoader}
         width={w} height={h} {...rest}
-        onClick={() => setModalOpen(x => !x)}
+        onClick={onClick}
       />
       {modalOpen && <ModalPortal><ModalInner onClick={() => setModalOpen(false)}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -42,7 +44,7 @@ export default function CImage(props) {
   }
 }
 
-export function CAvatar(props) {
+function _CAvatar(props) {
   let {link, id, alt, className, account, fandom, small, el, online, ...rest} = props;
   link =
     link ? link :
@@ -82,3 +84,5 @@ export function CAvatar(props) {
     return <Link href={link}>{inner}</Link>;
   }
 }
+
+export const CAvatar = React.memo(_CAvatar);

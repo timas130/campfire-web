@@ -4,7 +4,6 @@ import ProfileCard from "../../../components/profile/ProfileCard";
 import Head from "next/head";
 import Post from "../../../components/publication/post/Post";
 import {fetcher, useInfScroll, useUser} from "../../../lib/client-api";
-import Comment from "../../../components/publication/comment/Comment";
 import postClasses from "../../../styles/Post.module.css";
 import FormattedText from "../../../components/FormattedText";
 import MetaTags from "../../../components/MetaTags";
@@ -20,6 +19,7 @@ import {EditToolbar, ToolbarButton} from "../../../components/publication/post/p
 import {faCheck} from "@fortawesome/free-solid-svg-icons/faCheck";
 import {faTimes} from "@fortawesome/free-solid-svg-icons/faTimes";
 import Publication from "../../../components/publication/Publication";
+import PostFilters, {defaultProfilePostFilters} from "../../../components/publication/post/PostFilters";
 
 export function ProfileBioEditor({type = "description", initialValue = "", onFinish = () => {}, accountId = 0}) {
   const {mutate} = useSWR(`/api/account/${accountId}`);
@@ -65,8 +65,9 @@ export default function Profile({account: initialAccount, profile: initialProfil
       revalidateOnFocus: false,
     },
   );
+  const [postFilters, setPostFilters] = useState(defaultProfilePostFilters);
   const {data: pubPages, ref, showLoader} = useInfScroll(
-    `/api/account/${account.J_ID}/publications`
+    `/api/account/${account.J_ID}/publications?types=${postFilters.unitTypes.join(",")}`
   );
 
   const user = useUser();
@@ -120,7 +121,12 @@ export default function Profile({account: initialAccount, profile: initialProfil
           </div>
         </div>
 
-        {profile.pinnedPost && <Post post={profile.pinnedPost} pinned showBestComment />}
+        <PostFilters options={postFilters} setOptions={setPostFilters} />
+        {
+          postFilters.unitTypes.includes(9) &&
+          profile.pinnedPost &&
+          <Post post={profile.pinnedPost} pinned showBestComment />
+        }
         {pubPages && pubPages.map(page => page.map(pub => (
           <Publication pub={pub} key={pub.id} full showBestComment />
         )))}

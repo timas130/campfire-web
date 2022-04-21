@@ -7,6 +7,7 @@ import classNames from "classnames";
 import classes from "../../../styles/Auth.module.css";
 import {useState} from "react";
 import {useRouter} from "next/router";
+import {fetcher} from "../../../lib/client-api";
 
 export default function PasswordSettings() {
   const router = useRouter();
@@ -22,7 +23,7 @@ export default function PasswordSettings() {
       return;
     }
 
-    fetch("/api/user/password", {
+    fetcher("/api/user/password", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

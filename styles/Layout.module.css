@@ -20,6 +20,7 @@
     --green-muted: #059669;
     --green-very-muted: #41d7a7;
     --blue: #3fa3f5;
+    --blue-alt: #096fc7;
     --red: #ef4444;
     --yellow: #FBBF24;
     --monospace-font: "JetBrains Mono", SFMono-Regular, Menlo, Monaco,
@@ -34,6 +35,8 @@
     --text-secondary: #A3A3A3;
     --text-secondary-active: #E5E7EB;
     --green-very-muted: #206f56;
+    --blue: #096fc7;
+    --blue-alt: #2084d9;
 }
 
 .green {

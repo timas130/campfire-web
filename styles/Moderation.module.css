@@ -1,0 +1,39 @@
+.content {
+    padding: 0.5rem;
+}
+
+.fandomInput {
+    margin-top: 0.25rem;
+}
+
+.inputRow {
+    display: flex;
+    align-items: center;
+}
+.inputRow svg {
+    color: white;
+    margin-left: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+}
+
+.bottomRow {
+    display: flex;
+    padding: 0 0.5rem 0.5rem;
+}
+.submitButton {
+    margin-left: auto;
+    background-color: var(--blue);
+}
+
+.tagsContent {
+    padding: 0 1rem 1rem;
+}
+.tagsContent > label {
+    display: block;
+    margin-top: 1rem;
+}
+.tagsContent > .bottomRow {
+    padding: 1rem 0 0;
+}

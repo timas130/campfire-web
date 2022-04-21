@@ -34,19 +34,17 @@ export class ModalPortal extends React.Component {
   }
 }
 
-export function ModalDialog({children, open, setOpen, title, scrollable}) {
-  return open && <ModalPortal>
-    <div className={classNames("modal", classes.dialogWrap)} onClick={() => setOpen(false)}>
-      <div className={classNames(classes.dialog, postClasses.post, getThemeClass())}
-           onClick={ev => ev.stopPropagation()}>
-        <div className={classes.dialogHeader}>
-          {title}
-          <div className={classes.dialogClose} onClick={() => setOpen(false)}>
-            <XIcon /> Закрыть
-          </div>
+export function ModalDialog({children, close, title, scrollable}) {
+  return <div className={classNames("modal", classes.dialogWrap)} onClick={() => close()}>
+    <div className={classNames(classes.dialog, postClasses.post, getThemeClass())}
+         onClick={ev => ev.stopPropagation()}>
+      <div className={classes.dialogHeader}>
+        {title}
+        <div className={classes.dialogClose} onClick={() => close()}>
+          <XIcon /> Закрыть
         </div>
-        <div className={scrollable && classes.scrollable}>{children}</div>
       </div>
+      <div className={scrollable && classes.scrollable}>{children}</div>
     </div>
-  </ModalPortal>;
+  </div>;
 }

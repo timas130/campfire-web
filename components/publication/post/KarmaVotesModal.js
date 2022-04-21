@@ -1,13 +1,14 @@
-import {ModalDialog} from "../../Modal";
+import {ModalDialog, ModalPortal} from "../../Modal";
 import {useInfScroll} from "../../../lib/client-api";
 import {FeedLoader} from "../../FeedLayout";
 import FandomHeader from "../../FandomHeader";
 import dayjs from "../../../lib/time";
 import {KarmaCounter} from "../../Karma";
 
-export default function KarmaVotesModel({id, open, setOpen}) {
-  const {data, ref, showLoader} = useInfScroll(open && `/api/pub/${id}/karma`);
-  return <ModalDialog open={open} setOpen={setOpen} title="Оценки" scrollable>
+export default function KarmaVotesModel({id, isOpen, close}) {
+  const {data, ref, showLoader} = useInfScroll(`/api/pub/${id}/karma`);
+
+  return isOpen && <ModalPortal><ModalDialog close={close} title="Оценки" scrollable>
     {data && data.map(page => page.map(vote => (
       <FandomHeader
         key={vote.date} account={vote.anonymous ? null : vote.account}
@@ -19,5 +20,5 @@ export default function KarmaVotesModel({id, open, setOpen}) {
       />
     )))}
     {showLoader && <FeedLoader ref={ref} />}
-  </ModalDialog>;
+  </ModalDialog></ModalPortal>;
 }

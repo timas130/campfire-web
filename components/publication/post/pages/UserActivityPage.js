@@ -4,16 +4,16 @@ import {CAvatar} from "../../../CImage";
 import Link from "next/link";
 import dayjs from "../../../../lib/time";
 import {useState} from "react";
-import {fetcher, useInterval, useUser} from "../../../../lib/client-api";
+import {fetcher, useUser} from "../../../../lib/client-api";
 import Button from "../../../controls/Button";
 import classNames from "classnames";
 import FandomHeader from "../../../FandomHeader";
 
 export function Countdown({timestamp}) {
-  const [, setDate] = useState(null);
-  useInterval(() => {
-    setDate(Date.now());
-  }, 1000);
+  // const [, setDate] = useState(null);
+  // useInterval(() => {
+  //   setDate(Date.now());
+  // }, 1000);
 
   return dayjs(timestamp).locale("ru").calendar();
 }

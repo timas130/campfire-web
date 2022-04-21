@@ -4,7 +4,7 @@ import dayjs from "../../../lib/time";
 import classNames from "classnames";
 import {ArrowsExpandIcon, ChatAlt2Icon, DotsVerticalIcon, PencilIcon, XIcon} from "@heroicons/react/solid";
 import Karma, {KarmaCounter} from "../../Karma";
-import React, {useContext, useEffect, useMemo, useRef, useState} from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import ShareButton from "../../controls/ShareButton";
 import {useRouter} from "next/router";
 import Pages from "./pages/Pages";
@@ -14,14 +14,16 @@ import FandomHeader from "../../FandomHeader";
 import Dropdown from "../../controls/Dropdown";
 import copy from "copy-to-clipboard";
 import {ModalPortal} from "../../Modal";
-import {ThemeContext} from "../../../lib/theme";
+import {useTheme} from "../../../lib/theme";
 import layoutClasses from "../../../styles/Layout.module.css";
 import useSWR from "swr";
 import {FeedLoader} from "../../FeedLayout";
 import Tags from "./Tags";
-import KarmaVotesModel from "./KarmaVotesModal";
 import Tooltip from "../../Tooltip";
 import Comments from "../comment/Comments";
+import {useModalState} from "../../../lib/ui";
+import KarmaVotesModel from "./KarmaVotesModal";
+import {PostModerationProvider, usePostModerationEntries} from "../../moderation/PostModeration";
 
 export function CommentCounter({target = "_blank", ...props}) {
   const link = <a className={classes.commentCounter} target={target} onClick={props.onClick}>
@@ -49,7 +51,7 @@ function PostCover({theme, post, hide}) {
       Закрыть
       <XIcon />
     </div>
-    <Post post={post} alwaysExpanded collapse={hide} />
+    <_Post post={post} alwaysExpanded collapse={hide} />
     {data ? <>
       {data.tags.length > 0 && <div className={classes.coverTagsOuter}>
         <Tags tags={data.tags} className={classes.coverTags} />
@@ -62,14 +64,15 @@ function PostCover({theme, post, hide}) {
   </div></div>;
 }
 
-function Post(props) {
+function _Post(props) {
   const {post: postL, alwaysExpanded, showBestComment, pinned, draft, main = false, collapse} = props;
   const router = useRouter();
-  const theme = useContext(ThemeContext).theme;
+  const {theme} = useTheme();
   const contentRef = useRef();
   const [modalShown, setModalShown] = useState(false);
   const [showGradient, setShowGradient] = useState(true);
-  const [karmaDialogOpen, setKarmaDialogOpen] = useState(false);
+
+  const karmaModal = useModalState();
 
   const {data: {rubric} = {}} = useSWR(postL.rubricId && `/api/rubric/${postL.rubricId}?offset=-1`);
   const rubricCof = rubric ? rubric.karmaCof : 0;
@@ -106,11 +109,13 @@ function Post(props) {
 
   const ContentEl = main ? "div" : "div";
 
+  const pagesAdditional = useMemo(() => ({postId: post.id}), [post]);
+
   return <article className={classes.post}>
-    <KarmaVotesModel open={karmaDialogOpen} setOpen={setKarmaDialogOpen} id={postL.id} />
+    <KarmaVotesModel id={post.id} close={karmaModal.close} isOpen={karmaModal.isOpen} />
     {modalShown && <ModalPortal>
       {/* TODO: one day i'll be able to make a fancy animation for expanding the post... */}
-      <PostCover theme={theme} post={postL} hide={hideModal} />
+      <PostCover theme={theme} post={post} hide={hideModal} />
     </ModalPortal>}
 
     <FandomHeader
@@ -141,11 +146,11 @@ function Post(props) {
           id: "share", label: "Копировать ссылку",
           onClick: () => copy(`https://campfire.moe/post/${post.id}`),
         },
-        {type: "separator"},
         {
           id: "karma", label: "Посмотреть карму",
-          onClick: () => setKarmaDialogOpen(true),
+          onClick: karmaModal.open,
         },
+        ...usePostModerationEntries({post}),
       ]}>
         <DotsVerticalIcon className={classes.headerMore} />
       </Dropdown>}
@@ -154,7 +159,7 @@ function Post(props) {
       classes.content,
       (alwaysExpanded || !showGradient) && classes.expanded
     )} ref={contentRef}>
-      <Pages pages={post.jsonDB.J_PAGES} additional={{postId: post.id}} />
+      <Pages pages={post.jsonDB.J_PAGES} additional={pagesAdditional} />
       {post.userActivity && <UserActivityPage page={post.userActivity} />}
     </ContentEl>
     <div className={classes.footer}>
@@ -183,4 +188,8 @@ function Post(props) {
   </article>;
 }
 
-export default React.memo(Post);
+export default React.memo(function Post(props) {
+  return <PostModerationProvider pub={props.post}>
+    <_Post {...props} />
+  </PostModerationProvider>;
+});

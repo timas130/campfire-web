@@ -17,6 +17,9 @@
     text-align: left;
     background: var(--background-element);
 }
+.dropdown.wide {
+    min-width: 300px;
+}
 .dropdown.open {
     display: block;
     position: absolute;
@@ -24,6 +27,7 @@
     top: 120%;
     height: auto;
     z-index: 999;
+    filter: drop-shadow(0 0 8px rgb(0 0 0 / 0.04)) drop-shadow(0 0 3px rgb(0 0 0 / 0.1));
 }
 .dropdown.open.top {
     top: initial;
@@ -39,6 +43,23 @@
 }
 .item:hover, .item:focus {
     background: var(--background);
+}
+
+.loading {
+    display: flex;
+    align-items: center;
+}
+.loading > svg {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.5rem;
+}
+
+.item.moderator {
+    background-color: var(--blue);
+}
+.item.moderator:hover {
+    background-color: var(--blue-alt);
 }
 
 .separator {

@@ -17,4 +17,4 @@ function Layout({children}, ref) {
   </div>;
 }
 
-export default React.forwardRef(Layout);
+export default React.memo(React.forwardRef(Layout));

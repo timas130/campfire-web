@@ -5,6 +5,7 @@
 // was still mine.
 
 import {Page} from "./Page";
+import {useMemo} from "react";
 
 function spoilersNest(pages, start, len) {
   let result = [];
@@ -43,9 +44,14 @@ function nestToElements(nested, PageEl = Page, additional) {
 }
 
 export default function Pages({ pages, pageEl: PageEl = Page, additional }) {
+  const nested = useMemo(
+    () => PageEl === Page && nestToElements(spoilersNest(pages, 0)[0], PageEl, additional)[0],
+    [additional, pages, PageEl],
+  );
+
   if (PageEl !== Page) {
     return pages.map((page, idx) => <PageEl page={page} idx={idx} key={idx} additional={additional} />);
   } else {
-    return nestToElements(spoilersNest(pages, 0)[0], PageEl, additional)[0];
+    return nested;
   }
 }

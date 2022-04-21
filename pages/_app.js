@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps, err }) {
   const [theme, _setTheme] = useState("dark");
 
   useEffect(() => {
-    _setTheme(localStorage?.getItem("cweb:theme"));
+    _setTheme(localStorage?.getItem("cweb:theme") === "light" ? "light" : "dark");
   }, []);
 
   return <ThemeContext.Provider value={{

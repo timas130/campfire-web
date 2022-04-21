@@ -6,10 +6,14 @@ import Post from "../../../components/publication/post/Post";
 import {useInfScroll} from "../../../lib/client-api";
 import MetaTags from "../../../components/MetaTags";
 import {handleSSRError, mustInt} from "../../../lib/api";
+import {useState} from "react";
+import PostFilters, {defaultFandomPostFilters} from "../../../components/publication/post/PostFilters";
+import Publication from "../../../components/publication/Publication";
 
 export default function Fandom({ fandom, profile, info }) {
+  const [postFilters, setPostFilters] = useState(defaultFandomPostFilters);
   const {data: postPages, ref, showLoader} = useInfScroll(
-    `/api/fandom/${fandom.id}/posts`
+    `/api/fandom/${fandom.id}/posts?types=${postFilters.unitTypes.join(",")}`
   );
 
   const title = `Фэндом ${fandom.name} в Campfire`;
@@ -24,9 +28,14 @@ export default function Fandom({ fandom, profile, info }) {
     </Head>
     <FeedLayout
       list={<>
-        {profile.pinnedPost && <Post post={profile.pinnedPost} pinned />}
+        <PostFilters options={postFilters} setOptions={setPostFilters} />
+        {
+          postFilters.unitTypes.includes(9) &&
+          profile.pinnedPost &&
+          <Post post={profile.pinnedPost} pinned />
+        }
         {postPages && postPages.map(page => (
-          page.map(post => <Post key={post.id} post={post} />)
+          page.map(pub => <Publication key={pub.id} pub={pub} />)
         ))}
         {showLoader && <FeedLoader ref={ref} />}
       </>}

@@ -18,6 +18,7 @@
     vertical-align: bottom;
     color: var(--text);
     text-decoration: none;
+    word-wrap: anywhere;
 }
 .tag.main {
     background: var(--background-element);

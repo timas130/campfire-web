@@ -3,14 +3,16 @@ import classNames from "classnames";
 import {CAvatar} from "./CImage";
 import Link from "next/link";
 import {BoxPlaceholder, TextPlaceholder} from "./Placeholder";
+import React from "react";
 
-export default function FandomHeader(props) {
+function FandomHeader(props) {
   const {
     fandom, className, pinned, imageId, name,
     link, addTitle, author, authorLink,
     addSecondary, addRight, noPadding,
     onClick, dense, addLeft, el, account,
     allowOverflow = 0, avatarLink,
+    smallIcon,
   } = props;
   const El = el || "div";
 
@@ -25,6 +27,7 @@ export default function FandomHeader(props) {
     noPadding && classes.noPadding,
     dense && classes.dense,
     onClick && classes.clickable,
+    smallIcon && classes.smallIcon,
   )} onClick={onClick}>
     {Boolean(account || fandom || imageId) &&
       <CAvatar account={account} fandom={fandom} id={imageId} alt={name} link={avatarLink || link} />}
@@ -58,6 +61,8 @@ export default function FandomHeader(props) {
     {addRight}
   </El>;
 }
+
+export default React.memo(FandomHeader);
 
 export function FandomHeaderPlaceholder(props) {
   const {className, noPadding, dense} = props;

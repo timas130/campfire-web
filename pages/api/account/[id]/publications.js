@@ -1,22 +1,26 @@
 import {sendRequestAlwaysAuthenticated} from "../../../../lib/server";
-import {sendErrorIfFromRemote} from "../../../../lib/api";
+import {mustInt, sendErrorIfFromRemote} from "../../../../lib/api";
 
-export async function fetchProfilePubs(req, res, accountId, offset = 0, request = {}) {
+export async function fetchProfilePubs(req, res, accountId, offset = 0, types = [9, 1]) {
   return (await sendRequestAlwaysAuthenticated(
     req, res, "RPublicationsGetAll", {
       accountId,
       offset,
-      unitTypes: [9, 1, 11],
+      unitTypes: types,
       languageId: 2,
       count: 20,
-      ...request,
     }
   )).J_RESPONSE.units;
 }
 
 export default async function profilePubsHandler(req, res) {
   try {
-    res.send(await fetchProfilePubs(req, res, req.query.id, req.query.offset));
+    res.send(await fetchProfilePubs(
+      req, res, req.query.id, req.query.offset,
+      req.query.types ?
+        req.query.types.split(",").map(a => mustInt(a)) :
+        [9, 1],
+    ));
   } catch (e) {
     sendErrorIfFromRemote(res, e);
   }

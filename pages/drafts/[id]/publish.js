@@ -69,6 +69,24 @@ function ActivityList({onSelect = (_id => {}), selectedId = 0, fandomId = 0, sho
   </div>;
 }
 
+export function TagSelector({tags, selectedTags, setSelectedTags}) {
+  return tags
+    .filter(tag => !tag.parentUnitId)
+    .map(parentTag => <div key={parentTag.id}>
+      <h3 className={classes.tagHeader}>{parentTag.jsonDB.J_NAME}</h3>
+      {tags
+        .filter(tag => tag.parentUnitId === parentTag.id)
+        .map(tag => <Tag
+          key={tag.id} tag={tag}
+          selectable selected={selectedTags.includes(tag.id)}
+          select={() => setSelectedTags(tags => {
+            if (tags.includes(tag.id)) return tags.filter(id => id !== tag.id);
+            else return [...tags, tag.id];
+          })}
+        />)}
+    </div>);
+}
+
 export default function PublishDraft() {
   const draftId = useRouter().query.id;
   const {data: draft} = useSWRImmutable(draftId && `/api/drafts/${draftId}`, fetcher);
@@ -111,21 +129,7 @@ export default function PublishDraft() {
         <ArrowLeftIcon />Назад к редактированию
       </IconLink>
       {(draft && tags) ? <>
-        {tags
-          .filter(tag => !tag.parentUnitId)
-          .map(parentTag => <div key={parentTag.id}>
-            <h3 className={classes.tagHeader}>{parentTag.jsonDB.J_NAME}</h3>
-            {tags
-              .filter(tag => tag.parentUnitId === parentTag.id)
-              .map(tag => <Tag
-                key={tag.id} tag={tag}
-                selectable selected={selectedTags.includes(tag.id)}
-                select={() => setSelectedTags(tags => {
-                  if (tags.includes(tag.id)) return tags.filter(id => id !== tag.id);
-                  else return [...tags, tag.id];
-                })}
-              />)}
-          </div>)}
+        <TagSelector tags={tags} selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
         <div className={classes.tagHeader}>
           <InputLabel block>
             <Input type="checkbox" name="notify" />
