@@ -25,6 +25,7 @@
 .submitButton {
     margin-left: auto;
     background-color: var(--blue);
+    color: white;
 }
 
 .tagsContent {

@@ -19,6 +19,11 @@ export function CommentEditor({isLoading, submit, submitBtnRef, formRef, isReply
       <Input
         el="textarea" className={!element && classes.input} name="content"
         placeholder={isReply ? "Текст ответа..." : "Текст комментария..."}
+        onKeyDown={ev => {
+          if (ev.ctrlKey && (ev.key === "Enter" || ev.keyCode === 13)) {
+            submit({target: formRef.current, preventDefault() {}});
+          }
+        }}
       />
     </InputLabel>
     <div className={classes.editorFooter}>
@@ -28,6 +33,7 @@ export function CommentEditor({isLoading, submit, submitBtnRef, formRef, isReply
       <Button type="submit" className={classes.postButton} ref={submitBtnRef}>
         {isLoading && <Spinner />}
         Отправить
+        <span className={classes.keyboardOnly}>(Ctrl+Enter)</span>
       </Button>
     </div>
   </form>;

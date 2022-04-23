@@ -42,6 +42,7 @@
     border-radius: 0.5rem;
     z-index: 999;
     padding: 0.25rem 0;
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 .itemsSection {
     padding: 0.2rem 0;
@@ -60,6 +61,7 @@
 
 .moderator {
     background-color: var(--blue);
+    color: white;
 }
 .moderator.active {
     background-color: var(--blue-alt);

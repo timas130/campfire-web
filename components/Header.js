@@ -3,11 +3,13 @@ import Link from "next/link";
 import {CAvatar} from "./CImage";
 import {KarmaCounter} from "./Karma";
 import {useUser} from "../lib/client-api";
-import {useState} from "react";
+import {Fragment, useState} from "react";
 import classNames from "classnames";
 import {DailyQuest} from "./DailyQuest";
 import {useTheme} from "../lib/theme";
 import {CogIcon, LogoutIcon, MoonIcon, PencilIcon, SunIcon} from "@heroicons/react/outline";
+import {Transition} from "@headlessui/react";
+import classesDropdown from "../styles/Dropdown.module.css";
 
 function HeaderProfile({setMenuExpanded, full = false}) {
   const account = useUser();
@@ -61,14 +63,26 @@ function MenuButton({text, onClick = null, icon = null, href = null}) {
   }
 }
 function HeaderMenu({expanded, setExpanded}) {
-  return <div className={classNames(classes.menu, expanded && classes.expanded)}
-              onClick={() => setExpanded(false)}>
-    <HeaderProfile full />
-    <DailyQuest />
-    <MenuButton icon={<PencilIcon />} text="Черновики" href="/drafts" />
-    <MenuButton icon={<CogIcon />} text="Настройки" href="/me/settings" />
-    <MenuButton icon={<LogoutIcon />} text="Выйти" href="/api/auth/logout" />
-  </div>;
+  return <Transition
+    as={Fragment} show={expanded}
+    enter={classesDropdown.transitionEnter}
+    enterFrom={classesDropdown.transitionEnterFrom}
+    enterTo={classesDropdown.transitionEnterTo}
+    leave={classesDropdown.transitionLeave}
+    leaveFrom={classesDropdown.transitionLeaveFrom}
+    leaveTo={classesDropdown.transitionLeaveTo}
+  >
+    <div
+      className={classNames(classes.menu)}
+      onClick={() => setExpanded(false)}
+    >
+      <HeaderProfile full />
+      <DailyQuest />
+      <MenuButton icon={<PencilIcon />} text="Черновики" href="/drafts" />
+      <MenuButton icon={<CogIcon />} text="Настройки" href="/me/settings" />
+      <MenuButton icon={<LogoutIcon />} text="Выйти" href="/api/auth/logout" />
+    </div>
+  </Transition>;
 }
 
 function ThemeButton() {

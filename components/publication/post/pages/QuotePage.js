@@ -12,7 +12,7 @@ export default function QuotePage({ page, onEdit = null }) {
   return <div className={classNames(classes.linkPage, onEdit && classes.editable)} onClick={onEdit}>
     <figure className={classNames(classes.linkText, classes.quoteText)}>
       {author && <figcaption className={classes.linkName}>
-        {author + ":"}
+        <FormattedText text={author} />:
       </figcaption>}
       <blockquote>
         <FormattedText text={text} />

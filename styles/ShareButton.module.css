@@ -2,6 +2,9 @@
     margin-right: 1rem;
     position: relative;
 }
+.buttonWrap.noMr {
+    margin-right: 0;
+}
 .button {
     width: 1rem;
     cursor: pointer;

@@ -5,9 +5,9 @@ import {useRef} from "react";
 import classNames from "classnames";
 import {showButtonToast} from "../../lib/ui";
 
-export default function ShareButton({ link, className = "" }) {
+export default function ShareButton({ link, noMr, className = "" }) {
   const shareRef = useRef();
-  return <div className={classNames(classes.buttonWrap, className)}>
+  return <div className={classNames(classes.buttonWrap, noMr && classes.noMr, className)}>
     <ShareIcon
       ref={shareRef}
       className={classes.button}

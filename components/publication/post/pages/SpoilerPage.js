@@ -5,6 +5,7 @@ import classNames from "classnames";
 import InputLabel from "../../../controls/InputLabel";
 import Input from "../../../controls/Input";
 import {EditToolbar, ToolbarActions} from "./Page";
+import FormattedText from "../../../FormattedText";
 
 export default function SpoilerPage({ page, children, onEdit = null }) {
   const [expanded, setExpanded] = useState(Boolean(onEdit));
@@ -18,7 +19,7 @@ export default function SpoilerPage({ page, children, onEdit = null }) {
       {expanded ?
         <ChevronUpIcon className={classes.spoilerIcon} /> :
         <ChevronDownIcon className={classes.spoilerIcon} />}
-      {page.name} {!page.__internal && `(${page.length || page.count} стр.)`}
+      <FormattedText text={page.name} /> {!page.__internal && `(${page.length || page.count} стр.)`}
     </header>
     <div className={classNames(classes.spoilerContent, expanded && classes.expanded)}>
       {children}

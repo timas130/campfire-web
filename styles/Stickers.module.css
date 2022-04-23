@@ -1,0 +1,10 @@
+.cardContent {
+    padding: 0 0.25rem 0.5rem;
+}
+
+.list {
+    display: grid;
+    grid-gap: 0.25rem;
+    grid-template-columns: auto auto auto;
+    margin-bottom: 1.5rem;
+}

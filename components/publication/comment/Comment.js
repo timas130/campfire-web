@@ -29,12 +29,14 @@ function CommentQuote({jsonDB}) {
       (jsonDB.quoteCreatorName ? `{_cweb_secondary ${jsonDB.quoteCreatorName}:}` : "") +
       limitText(text, 64, 150)
     } />
-    {jsonDB.quoteStickerImageId !== 0 && <div className={classes.image}>
-      <CImage
-        id={jsonDB.quoteStickerImageId} w={100} h={100}
-        loading="lazy" alt="Стикер"
-      />
-    </div>}
+    {jsonDB.quoteStickerImageId !== 0 && <Link href={`/stickers/sticker/${jsonDB.quoteStickerId}`}>
+      <a className={classes.image}>
+        <CImage
+          id={jsonDB.quoteStickerImageId} w={100} h={100}
+          loading="lazy" alt="Стикер"
+        />
+      </a>
+    </Link>}
     {(jsonDB.quoteImages || []).length !== 0 && <div className={classes.image}><CImage
       id={jsonDB.quoteImages[0]} w={100} h={100}
       loading="lazy" modal objectFit="cover" alt="Изображение"
@@ -65,10 +67,14 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
     <div className={classes.content}>
       {jsonDB.quoteId !== 0 && <CommentQuote jsonDB={jsonDB} />}
       <FormattedText text={jsonDB.J_TEXT} />
-      {jsonDB.stickerImageId !== 0 && <div className={classes.image}><CImage
-        id={jsonDB.stickerImageId} w={128} h={128}
-        loading="lazy" alt="Стикер"
-      /></div>}
+      {jsonDB.stickerImageId !== 0 && <Link href={`/stickers/sticker/${jsonDB.stickerId}`}>
+        <a className={classes.image}>
+          <CImage
+            id={jsonDB.stickerImageId} w={128} h={128}
+            loading="lazy" alt="Стикер"
+          />
+        </a>
+      </Link>}
       {jsonDB.imageId !== 0 && <div className={classes.image}><CImage
         id={jsonDB.imageId}
         w={jsonDB.imageW} h={jsonDB.imageH}

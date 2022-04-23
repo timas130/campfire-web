@@ -75,7 +75,7 @@
 }
 
 .menu {
-    display: none;
+    display: block;
     position: fixed;
     top: 50px;
     right: 0;
@@ -86,9 +86,31 @@
     border-bottom-left-radius: 1rem;
     border-bottom: 2px solid var(--background-element);
     border-left: 2px solid var(--background-element);
+    transform-origin: top right;
 }
-.menu.expanded {
-    display: block;
+
+.transitionEnter {
+    transition: all 100ms ease-out;
+}
+.transitionEnterFrom {
+    transform: scale(95%);
+    opacity: 0;
+}
+.transitionEnterTo {
+    transform: scale(100%);
+    opacity: 1;
+}
+
+.transitionLeave {
+    transition: all 75ms ease-in;
+}
+.transitionLeaveFrom {
+    transform: scale(100%);
+    opacity: 1;
+}
+.transitionLeaveTo {
+    transform: scale(95%);
+    opacity: 0;
 }
 
 .menu > .account {

@@ -97,7 +97,7 @@ export default function BlockModal() {
           dense
           allowOverflow={2}
           onClick={() => {}}
-          author={<Input el="select" className={classes.fandomInput}
+          author={<Input el="select" className={classes.fandomInput} autoFocus
                          value={punishment} onChange={ev => setPunishment(ev.target.value)}>
             <option value="none">Не наказывать</option>
             <option value="warn">Предупреждение</option>

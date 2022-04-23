@@ -82,7 +82,7 @@ export default function PostTagsModal() {
           <InputLabel>
             Комментарий:
             <div className={classes.inputRow}>
-              <Input el="textarea" value={comment} onChange={ev => setComment(ev.target.value)} />
+              <Input el="textarea" value={comment} onChange={ev => setComment(ev.target.value)} autoFocus />
               <ChevronDownIcon
                 tabIndex={0} onClick={() => setTemplateSelectorOpen(true)}
               />

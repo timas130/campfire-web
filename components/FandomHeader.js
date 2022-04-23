@@ -28,7 +28,7 @@ function FandomHeader(props) {
     dense && classes.dense,
     onClick && classes.clickable,
     smallIcon && classes.smallIcon,
-  )} onClick={onClick}>
+  )} onClick={onClick} tabIndex={onClick ? 0 : undefined}>
     {Boolean(account || fandom || imageId) &&
       <CAvatar account={account} fandom={fandom} id={imageId} alt={name} link={avatarLink || link} />}
     {addLeft}
