@@ -36,7 +36,7 @@ export function KarmaCounter(props) {
 }
 
 export default function Karma(props) {
-  const {pub, vertical, small, precise, mr, rubricId} = props;
+  const {pub, vertical, small, precise, mr} = props;
   const account = useUser();
   const {data: {settings: {anonRates = false} = {}} = {}} = useSWR(account && "/api/user/settings");
   const {data: {rubric} = {}} = useSWR(pub.rubricId && `/api/rubric/${pub.rubricId}?offset=-1`);

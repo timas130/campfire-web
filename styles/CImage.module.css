@@ -27,6 +27,6 @@
     font-size: 0.6rem;
 }
 .avatarBadge.online {
-    background: var(--green);
-    color: black; /* to comply with the contrast guidelines */
+    background: var(--green-very-muted);
+    color: var(--text);
 }

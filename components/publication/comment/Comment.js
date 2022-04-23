@@ -26,7 +26,7 @@ function CommentQuote({jsonDB}) {
 
   return <div className={classes.quote}>
     <FormattedText text={
-      (jsonDB.quoteCreatorName ? `{90A4AE ${jsonDB.quoteCreatorName}:}` : "") +
+      (jsonDB.quoteCreatorName ? `{_cweb_secondary ${jsonDB.quoteCreatorName}:}` : "") +
       limitText(text, 64, 150)
     } />
     {jsonDB.quoteStickerImageId !== 0 && <div className={classes.image}>

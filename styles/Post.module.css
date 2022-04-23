@@ -2,6 +2,7 @@
     background-color: var(--background-secondary);
     border-radius: 0.5rem;
     margin-bottom: 1rem;
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 .mb05 {
     margin-bottom: 0.5rem;
@@ -121,6 +122,18 @@ a.headerAuthor:hover, .headerRubric:hover, .headerFandom:hover {
 }
 .content.padded {
     padding: 0.5rem 0.75rem;
+}
+
+.transitionLeave {
+    transition: all 200ms ease-in;
+}
+.transitionLeaveFrom {
+    transform: scale(100%);
+    opacity: 1;
+}
+.transitionLeaveTo {
+    transform: scale(95%);
+    opacity: 0;
 }
 
 .postCover {
@@ -256,9 +269,12 @@ a.headerAuthor:hover, .headerRubric:hover, .headerFandom:hover {
 
 .filtersContent {
     transition: all 0.5s ease;
-    height: 0;
+    opacity: 0;
     overflow: hidden;
+    transform-origin: top;
+    max-height: 0;
 }
 .filtersExpanded > .filtersContent {
-    height: 125px;
+    opacity: 1;
+    max-height: 125px;
 }

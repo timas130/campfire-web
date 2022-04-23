@@ -1,5 +1,6 @@
 import Head from "next/head";
 import classes from "../../styles/Rules.module.css";
+import MetaTags from "../../components/MetaTags";
 
 // just enable wrapping
 /* eslint-disable max-len */
@@ -114,6 +115,11 @@ export default function Rules() {
   return <main className="container">
     <Head>
       <title>Общие правила Campfire</title>
+      <MetaTags
+        title="Общие правила Campfire"
+        description={rulesConsts.info}
+        url="https://campfire.moe/app/rules"
+      />
     </Head>
     <header className={classes.rulesHeader}>
       {rulesConsts.info}

@@ -9,20 +9,20 @@
 
 .light {
     --background: #D1D5DB;
-    --background-secondary: #F3F4F6;
-    --background-element: #FAFAF9;
+    --background-secondary: #F5F5F5;
+    --background-element: #F9FAFB;
     --text: #1F2937;
     --text-secondary: #4B5563;
     --text-secondary-active: #6B7280;
     --primary: #ff6c01;
     --orange-muted: #D97706;
-    --green: #34D399;
+    --green: #15803D;
     --green-muted: #059669;
     --green-very-muted: #41d7a7;
     --blue: #3fa3f5;
     --blue-alt: #096fc7;
-    --red: #ef4444;
-    --yellow: #FBBF24;
+    --red: #B91C1C;
+    --yellow: #B45309;
     --monospace-font: "JetBrains Mono", SFMono-Regular, Menlo, Monaco,
         Consolas, "Liberation Mono", "Courier New", monospace;
     color: var(--text);
@@ -34,9 +34,12 @@
     --text: #F3F4F6;
     --text-secondary: #A3A3A3;
     --text-secondary-active: #E5E7EB;
+    --green: #34D399;
     --green-very-muted: #206f56;
     --blue: #096fc7;
     --blue-alt: #2084d9;
+    --red: #ef4444;
+    --yellow: #FBBF24;
 }
 
 .green {

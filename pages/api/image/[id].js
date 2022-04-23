@@ -4,10 +4,11 @@ import {sendErrorIfFromRemote} from "../../../lib/api";
 
 export default async function handler(req, res) {
   let {id} = req.query;
-  res.setHeader("Content-Type", "image/jpeg");
+  const isGif = id.endsWith(".gif");
+  res.setHeader("Content-Type", isGif ? "image/gif" : "image/jpeg");
   res.setHeader("Cache-Control", "public, max-age=604800, immutable");
-  if (id.endsWith(".jpg")) {
-    id = id.substr(0, id.length - 4);
+  if (id.endsWith(".jpg") || isGif) {
+    id = id.substring(0, id.length - 4);
   }
   const cached = cache.get("/api/image/" + id);
   if (cached) {

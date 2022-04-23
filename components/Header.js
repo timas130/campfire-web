@@ -5,40 +5,50 @@ import {KarmaCounter} from "./Karma";
 import {useUser} from "../lib/client-api";
 import {useState} from "react";
 import classNames from "classnames";
-import {useRouter} from "next/router";
 import {DailyQuest} from "./DailyQuest";
 import {useTheme} from "../lib/theme";
 import {CogIcon, LogoutIcon, MoonIcon, PencilIcon, SunIcon} from "@heroicons/react/outline";
 
 function HeaderProfile({setMenuExpanded, full = false}) {
   const account = useUser();
-  const router = useRouter();
-  return account ? <div
-    className={classNames(classes.account, full && classes.accountFull)}
-    onClick={ev => {
-      if (full) {
-        // noinspection JSIgnoredPromiseFromCall
-        router.push(`/account/${encodeURIComponent(account.J_NAME)}`);
-      } else {
-        setMenuExpanded(x => !x);
-        ev.stopPropagation();
-      }
-    }}
-    tabIndex={full ? 0 : null}
-  >
-    <CAvatar
-      account={account} online el="div"
-      className={classes.accountAvatar}
-    />
-    <div className={classes.accountText}>
-      {account.J_NAME}<br />
-      <span style={{fontWeight: "normal"}}>
-        <KarmaCounter value={account.karma30} el="span" /> за 30 дней
-      </span>
-    </div>
-  </div> : <Link href="/auth/login">
-    <a className={classes.navLink}>Войти</a>
-  </Link>;
+
+  if (account) {
+    const inner = <>
+      <CAvatar
+        account={account} online el="div"
+        className={classes.accountAvatar}
+      />
+      <div className={classes.accountText}>
+        {account.J_NAME}<br />
+        <span style={{fontWeight: "normal"}}>
+          <KarmaCounter value={account.karma30} el="span" /> за 30 дней
+        </span>
+      </div>
+    </>;
+
+    if (full) {
+      return <Link href={`/account/${encodeURIComponent(account.J_NAME)}`}>
+        <a className={classNames(classes.account, full && classes.accountFull)}>
+          {inner}
+        </a>
+      </Link>;
+    } else {
+      return <div
+        className={classNames(classes.account, full && classes.accountFull)}
+        onClick={ev => {
+          setMenuExpanded(x => !x);
+          ev.stopPropagation();
+        }}
+        tabIndex={0}
+      >
+        {inner}
+      </div>;
+    }
+  } else {
+    return <Link href="/auth/login">
+      <a className={classes.navLink}>Войти</a>
+    </Link>;
+  }
 }
 
 function MenuButton({text, onClick = null, icon = null, href = null}) {

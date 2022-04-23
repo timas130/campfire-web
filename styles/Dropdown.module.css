@@ -2,68 +2,65 @@
     position: relative;
     display: inline-block;
     text-align: left;
+}
+
+.button {
     cursor: pointer;
 }
 
-.dropdown {
-    position: absolute;
-    left: -99999px;
-    top: -99999px;
-    z-index: -999;
-    min-width: 200px;
+.transitionEnter {
+    transition: all 100ms ease-out;
+}
+.transitionEnterFrom {
+    transform: scale(95%);
+    opacity: 0;
+}
+.transitionEnterTo {
+    transform: scale(100%);
+    opacity: 1;
+}
 
-    padding: 5px 0;
-    border-radius: 0.5rem;
-    text-align: left;
-    background: var(--background-element);
+.transitionLeave {
+    transition: all 75ms ease-in;
 }
-.dropdown.wide {
-    min-width: 300px;
+.transitionLeaveFrom {
+    transform: scale(100%);
+    opacity: 1;
 }
-.dropdown.open {
-    display: block;
+.transitionLeaveTo {
+    transform: scale(95%);
+    opacity: 0;
+}
+
+.items {
     position: absolute;
-    left: -170px;
-    top: 120%;
-    height: auto;
+    right: 0;
+    width: 14rem;
+    margin-top: 0.5rem;
+    transform-origin: top right;
+    background-color: var(--background-element);
+    border-radius: 0.5rem;
     z-index: 999;
-    filter: drop-shadow(0 0 8px rgb(0 0 0 / 0.04)) drop-shadow(0 0 3px rgb(0 0 0 / 0.1));
+    padding: 0.25rem 0;
 }
-.dropdown.open.top {
-    top: initial;
-    bottom: 100%;
+.itemsSection {
+    padding: 0.2rem 0;
+}
+.itemsSection ~ .itemsSection {
+    border-top: 1px solid var(--background-secondary);
 }
 
 .item {
-    padding: 0.5rem 0.75rem;
-    font-size: 16px;
-    line-height: 20px;
+    padding: 0.5rem 0.5rem;
     cursor: pointer;
-    color: var(--text);
 }
-.item:hover, .item:focus {
-    background: var(--background);
-}
-
-.loading {
-    display: flex;
-    align-items: center;
-}
-.loading > svg {
-    width: 1rem;
-    height: 1rem;
-    margin-right: 0.5rem;
+.item.active {
+    background-color: var(--background);
 }
 
-.item.moderator {
+.moderator {
     background-color: var(--blue);
 }
-.item.moderator:hover {
+.moderator.active {
     background-color: var(--blue-alt);
-}
-
-.separator {
-    margin: 5px 0;
-    height: 1px;
-    background: rgba(255, 255, 255, 0.2);
 }

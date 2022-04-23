@@ -4,26 +4,28 @@ import dayjs from "../../../lib/time";
 import classNames from "classnames";
 import {ArrowsExpandIcon, ChatAlt2Icon, DotsVerticalIcon, PencilIcon, XIcon} from "@heroicons/react/solid";
 import Karma, {KarmaCounter} from "../../Karma";
-import React, {useEffect, useMemo, useRef, useState} from "react";
+import React, {Fragment, useEffect, useMemo, useRef, useState} from "react";
 import ShareButton from "../../controls/ShareButton";
 import {useRouter} from "next/router";
 import Pages from "./pages/Pages";
 import Comment from "../comment/Comment";
 import UserActivityPage from "./pages/UserActivityPage";
 import FandomHeader from "../../FandomHeader";
-import Dropdown from "../../controls/Dropdown";
+import {Dropdown, DropdownItem, DropdownSection} from "../../controls/Dropdown";
 import copy from "copy-to-clipboard";
 import {ModalPortal} from "../../Modal";
 import {useTheme} from "../../../lib/theme";
 import layoutClasses from "../../../styles/Layout.module.css";
-import useSWR from "swr";
+import useSWR, {useSWRConfig} from "swr";
 import {FeedLoader} from "../../FeedLayout";
 import Tags from "./Tags";
 import Tooltip from "../../Tooltip";
 import Comments from "../comment/Comments";
-import {useModalState} from "../../../lib/ui";
+import {showButtonToast, showErrorToast, useModalState} from "../../../lib/ui";
 import KarmaVotesModel from "./KarmaVotesModal";
-import {PostModerationProvider, usePostModerationEntries} from "../../moderation/PostModeration";
+import {PostModerationEntries, PostModerationProvider} from "../../moderation/PostModeration";
+import {fetcher} from "../../../lib/client-api";
+import {Transition} from "@headlessui/react";
 
 export function CommentCounter({target = "_blank", ...props}) {
   const link = <a className={classes.commentCounter} target={target} onClick={props.onClick}>
@@ -71,9 +73,11 @@ function _Post(props) {
   const contentRef = useRef();
   const [modalShown, setModalShown] = useState(false);
   const [showGradient, setShowGradient] = useState(true);
+  const [isDeleted, setIsDeleted] = useState(false);
 
   const karmaModal = useModalState();
 
+  const {mutate} = useSWRConfig();
   const {data: {rubric} = {}} = useSWR(postL.rubricId && `/api/rubric/${postL.rubricId}?offset=-1`);
   const rubricCof = rubric ? rubric.karmaCof : 0;
 
@@ -111,7 +115,10 @@ function _Post(props) {
 
   const pagesAdditional = useMemo(() => ({postId: post.id}), [post]);
 
-  return <article className={classes.post}>
+  return <Transition as={Fragment} show={!isDeleted}
+                     leave={classes.transitionLeave}
+                     leaveFrom={classes.transitionLeaveFrom}
+                     leaveTo={classes.transitionLeaveTo}><article className={classes.post}>
     <KarmaVotesModel id={post.id} close={karmaModal.close} isOpen={karmaModal.isOpen} />
     {modalShown && <ModalPortal>
       {/* TODO: one day i'll be able to make a fancy animation for expanding the post... */}
@@ -141,18 +148,34 @@ function _Post(props) {
       addSecondary={<time dateTime={dayjs(post.dateCreate).format()}>
         {dayjs(post.dateCreate).locale("ru").fromNow()}
       </time>}
-      addRight={<Dropdown items={[
-        {
-          id: "share", label: "Копировать ссылку",
-          onClick: () => copy(`https://campfire.moe/post/${post.id}`),
-        },
-        {
-          id: "karma", label: "Посмотреть карму",
-          onClick: karmaModal.open,
-        },
-        ...usePostModerationEntries({post}),
-      ]}>
-        <DotsVerticalIcon className={classes.headerMore} />
+      addRight={<Dropdown
+        activator={<DotsVerticalIcon />}
+        activatorClassName={classes.headerMore}
+      >
+        {draft && <DropdownSection>
+          <DropdownItem onClick={ev => {
+            fetcher(`/api/drafts/${postL.id}/delete`, {method: "POST"})
+              .then(() => {
+                setIsDeleted(true);
+                return mutate("/api/drafts");
+              })
+              .catch(err => showErrorToast(ev.target, err));
+          }}>
+            Удалить
+          </DropdownItem>
+        </DropdownSection>}
+        {!draft && <DropdownSection>
+          <DropdownItem onClick={ev => {
+            copy(`https://campfire.moe/post/${post.id}`);
+            showButtonToast(ev.target, "Скопировано");
+          }}>
+            Копировать ссылку
+          </DropdownItem>
+          <DropdownItem onClick={karmaModal.open}>
+            Посмотреть оценки
+          </DropdownItem>
+        </DropdownSection>}
+        {!draft && <PostModerationEntries />}
       </Dropdown>}
     />
     <ContentEl className={classNames(
@@ -185,7 +208,7 @@ function _Post(props) {
       {!draft && <Karma pub={post} />}
     </div>
     {showBestComment && post.bestComment && <Comment bestComment comment={post.bestComment} />}
-  </article>;
+  </article></Transition>;
 }
 
 export default React.memo(function Post(props) {
