@@ -11,7 +11,9 @@ import {DropdownItem, DropdownSection} from "../controls/Dropdown";
 import FandomPinModal from "./FandomPinModal";
 
 export function PostModerationEntries() {
-  const {data: settings} = useSWR("/api/user/settings");
+  const {data: settings} = useSWR("/api/user/settings", {
+    revalidateIfStale: false,
+  });
   const mod = useModeration();
   const post = mod.pub;
 

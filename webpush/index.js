@@ -5,6 +5,9 @@ fastify.register(require("fastify-websocket"), {
     conn.end("unknown error");
   },
 });
+fastify.register(require("fastify-cors"), {
+  origin: ["http://localhost:3000", "http://localhost:8080", "https://campfire.moe"],
+});
 const genUUID = require("uuid").v4;
 const {sign, verify} = require("jsonwebtoken");
 require("dotenv").config({
