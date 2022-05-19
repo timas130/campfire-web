@@ -1,4 +1,4 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 specifiers:
   '@elastic/elasticsearch': ^7.17.0
@@ -52,11 +52,11 @@ dependencies:
   '@fortawesome/fontawesome-svg-core': 1.3.0
   '@fortawesome/free-brands-svg-icons': 6.1.0
   '@fortawesome/free-solid-svg-icons': 5.15.4
-  '@fortawesome/react-fontawesome': 0.1.18_4bd8f766d7cd56ce339ee1b51a510026
-  '@headlessui/react': 1.5.0_react-dom@17.0.2+react@17.0.2
+  '@fortawesome/react-fontawesome': 0.1.18_jpmpozwxzvlm4m464g2ruuiaey
+  '@headlessui/react': 1.5.0_sfoxds7t5ydpegc3knd667wn6m
   '@heroicons/react': 1.0.6_react@17.0.2
   '@meilisearch/instant-meilisearch': 0.6.1
-  '@monaco-editor/react': 4.4.2_react-dom@17.0.2+react@17.0.2
+  '@monaco-editor/react': 4.4.2_sfoxds7t5ydpegc3knd667wn6m
   '@sentry/nextjs': 6.18.2_next@12.1.0+react@17.0.2
   JSON2: 0.1.0
   axios: 0.24.0
@@ -76,7 +76,7 @@ dependencies:
   linkify-it: 3.0.3
   md5: 2.3.0
   memory-cache: 0.2.0
-  next: 12.1.0_react-dom@17.0.2+react@17.0.2
+  next: 12.1.0_sfoxds7t5ydpegc3knd667wn6m
   normalize.css: 8.0.1
   nprogress: 0.2.0
   prismjs: 1.27.0
@@ -84,7 +84,7 @@ dependencies:
   raw-body: 2.5.1
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
-  react-instantsearch-dom: 6.22.0_react-dom@17.0.2+react@17.0.2
+  react-instantsearch-dom: 6.22.0_sfoxds7t5ydpegc3knd667wn6m
   react-intersection-observer: 8.33.1_react@17.0.2
   sharp: 0.30.3
   swr: 1.2.2_react@17.0.2
@@ -217,7 +217,7 @@ packages:
       '@fortawesome/fontawesome-common-types': 0.2.36
     dev: false
 
-  /@fortawesome/react-fontawesome/0.1.18_4bd8f766d7cd56ce339ee1b51a510026:
+  /@fortawesome/react-fontawesome/0.1.18_jpmpozwxzvlm4m464g2ruuiaey:
     resolution: {integrity: sha512-RwLIB4TZw0M9gvy5u+TusAA0afbwM4JQIimNH/j3ygd6aIvYPQLqXMhC9ErY26J23rDPyDZldIfPq/HpTTJ/tQ==}
     peerDependencies:
       '@fortawesome/fontawesome-svg-core': ~1 || ~6
@@ -228,7 +228,7 @@ packages:
       react: 17.0.2
     dev: false
 
-  /@headlessui/react/1.5.0_react-dom@17.0.2+react@17.0.2:
+  /@headlessui/react/1.5.0_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-aaRnYxBb3MU2FNJf3Ut9RMTUqqU3as0aI1lQhgo2n9Fa67wRu14iOGqx93xB+uMNVfNwZ5B3y/Ndm7qZGuFeMQ==}
     engines: {node: '>=10'}
     peerDependencies:
@@ -278,7 +278,7 @@ packages:
       state-local: 1.0.7
     dev: false
 
-  /@monaco-editor/react/4.4.2_react-dom@17.0.2+react@17.0.2:
+  /@monaco-editor/react/4.4.2_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-QwQKkP5zXK8oA6uMpZcyQqYKQbMFUIE1Z9gPhYajk4qXdt/kGCu3RvO9SGKGlS9MSciCyd3WjEksVMDoyxQk4w==}
     peerDependencies:
       monaco-editor: '>= 0.25.0 < 1'
@@ -524,7 +524,7 @@ packages:
       '@sentry/tracing': 6.18.2
       '@sentry/utils': 6.18.2
       '@sentry/webpack-plugin': 1.18.8
-      next: 12.1.0_react-dom@17.0.2+react@17.0.2
+      next: 12.1.0_sfoxds7t5ydpegc3knd667wn6m
       react: 17.0.2
       tslib: 1.14.1
     transitivePeerDependencies:
@@ -1080,12 +1080,22 @@ packages:
 
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
     dependencies:
       ms: 2.0.0
     dev: true
 
   /debug/3.2.7:
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
     dependencies:
       ms: 2.1.3
     dev: true
@@ -1265,13 +1275,14 @@ packages:
       '@typescript-eslint/parser': 4.33.0_eslint@7.32.0
       eslint: 7.32.0
       eslint-import-resolver-node: 0.3.6
-      eslint-import-resolver-typescript: 2.5.0_157002f9dff1b62f2b20650d7e8bf1eb
-      eslint-plugin-import: 2.25.4_eslint@7.32.0
+      eslint-import-resolver-typescript: 2.5.0_cvyaf6o76g3c6kzamugx5c7r5m
+      eslint-plugin-import: 2.25.4_nznavyij7jqnilhneopnpd2prq
       eslint-plugin-jsx-a11y: 6.5.1_eslint@7.32.0
       eslint-plugin-react: 7.29.4_eslint@7.32.0
       eslint-plugin-react-hooks: 4.3.0_eslint@7.32.0
-      next: 12.1.0_react-dom@17.0.2+react@17.0.2
+      next: 12.1.0_sfoxds7t5ydpegc3knd667wn6m
     transitivePeerDependencies:
+      - eslint-import-resolver-webpack
       - supports-color
     dev: true
 
@@ -1280,9 +1291,11 @@ packages:
     dependencies:
       debug: 3.2.7
       resolve: 1.22.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
-  /eslint-import-resolver-typescript/2.5.0_157002f9dff1b62f2b20650d7e8bf1eb:
+  /eslint-import-resolver-typescript/2.5.0_cvyaf6o76g3c6kzamugx5c7r5m:
     resolution: {integrity: sha512-qZ6e5CFr+I7K4VVhQu3M/9xGv9/YmwsEXrsm3nimw8vWaVHRDrQRp26BgCypTxBp3vUp4o5aVEJRiy0F2DFddQ==}
     engines: {node: '>=4'}
     peerDependencies:
@@ -1291,7 +1304,7 @@ packages:
     dependencies:
       debug: 4.3.4
       eslint: 7.32.0
-      eslint-plugin-import: 2.25.4_eslint@7.32.0
+      eslint-plugin-import: 2.25.4_nznavyij7jqnilhneopnpd2prq
       glob: 7.2.0
       is-glob: 4.0.3
       resolve: 1.22.0
@@ -1300,27 +1313,51 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-module-utils/2.7.3:
+  /eslint-module-utils/2.7.3_tng2bgx6qvcdz7r722u4hmglgy:
     resolution: {integrity: sha512-088JEC7O3lDZM9xGe0RerkOMd0EjFl+Yvd1jPWIkMT5u3H9+HC34mWWPnqPrN13gieT9pBOO+Qt07Nb/6TresQ==}
     engines: {node: '>=4'}
+    peerDependencies:
+      '@typescript-eslint/parser': '*'
+      eslint-import-resolver-node: '*'
+      eslint-import-resolver-typescript: '*'
+      eslint-import-resolver-webpack: '*'
+    peerDependenciesMeta:
+      '@typescript-eslint/parser':
+        optional: true
+      eslint-import-resolver-node:
+        optional: true
+      eslint-import-resolver-typescript:
+        optional: true
+      eslint-import-resolver-webpack:
+        optional: true
     dependencies:
+      '@typescript-eslint/parser': 4.33.0_eslint@7.32.0
       debug: 3.2.7
+      eslint-import-resolver-node: 0.3.6
+      eslint-import-resolver-typescript: 2.5.0_cvyaf6o76g3c6kzamugx5c7r5m
       find-up: 2.1.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
-  /eslint-plugin-import/2.25.4_eslint@7.32.0:
+  /eslint-plugin-import/2.25.4_nznavyij7jqnilhneopnpd2prq:
     resolution: {integrity: sha512-/KJBASVFxpu0xg1kIBn9AUa8hQVnszpwgE7Ld0lKAlx7Ie87yzEzCgSkekt+le/YVhiaosO4Y14GDAOc41nfxA==}
     engines: {node: '>=4'}
     peerDependencies:
+      '@typescript-eslint/parser': '*'
       eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8
+    peerDependenciesMeta:
+      '@typescript-eslint/parser':
+        optional: true
     dependencies:
+      '@typescript-eslint/parser': 4.33.0_eslint@7.32.0
       array-includes: 3.1.4
       array.prototype.flat: 1.2.5
       debug: 2.6.9
       doctrine: 2.1.0
       eslint: 7.32.0
       eslint-import-resolver-node: 0.3.6
-      eslint-module-utils: 2.7.3
+      eslint-module-utils: 2.7.3_tng2bgx6qvcdz7r722u4hmglgy
       has: 1.0.3
       is-core-module: 2.8.1
       is-glob: 4.0.3
@@ -1328,6 +1365,10 @@ packages:
       object.values: 1.1.5
       resolve: 1.22.0
       tsconfig-paths: 3.14.0
+    transitivePeerDependencies:
+      - eslint-import-resolver-typescript
+      - eslint-import-resolver-webpack
+      - supports-color
     dev: true
 
   /eslint-plugin-jsx-a11y/6.5.1_eslint@7.32.0:
@@ -2331,7 +2372,7 @@ packages:
     resolution: {integrity: sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=}
     dev: true
 
-  /next/12.1.0_react-dom@17.0.2+react@17.0.2:
+  /next/12.1.0_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-s885kWvnIlxsUFHq9UGyIyLiuD0G3BUC/xrH0CEnH5lHEWkwQcHOORgbDF0hbrW9vr/7am4ETfX4A7M6DjrE7Q==}
     engines: {node: '>=12.22.0'}
     hasBin: true
@@ -2714,7 +2755,7 @@ packages:
       react-fast-compare: 3.2.0
     dev: false
 
-  /react-instantsearch-dom/6.22.0_react-dom@17.0.2+react@17.0.2:
+  /react-instantsearch-dom/6.22.0_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-geXYTQqGsLggbf7MMuSPgXjuZ3yWtWjjPRWEbXmAHZ4oodbdYiKIuieTDoadYM+m+Y90WXpwn+hMi0EDTffeRA==}
     peerDependencies:
       react: '>= 16.3.0 < 18'
