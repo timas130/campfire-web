@@ -256,6 +256,15 @@ function ModerationToDrafts({pub}) {
 }
 
 function ModerationPostTags({pub}) {
+  const newTags = useMemo(() => {
+    if (typeof pub.jsonDB.moderation.newTags === "string") return JSON.parse(pub.jsonDB.moderation.newTags);
+    else return pub.jsonDB.moderation.newTags;
+  }, [pub.jsonDB.moderation.newTags]);
+  const removedTags = useMemo(() => {
+    if (typeof pub.jsonDB.moderation.removedTags === "string") return JSON.parse(pub.jsonDB.moderation.removedTags);
+    else return pub.jsonDB.moderation.removedTags;
+  }, [pub.jsonDB.moderation.removedTags]);
+
   return <>
     <div className={classes.modContent}>
       Модератор <MLink pub={pub} /> <MSex pub={pub} he="изменил" she="+а" /> теги поста&nbsp;
@@ -263,10 +272,10 @@ function ModerationPostTags({pub}) {
         @post_{pub.jsonDB.moderation.unitId}
       </a></Link>.
     </div>
-    {pub.jsonDB.moderation.newTags.length > 0 && <div className={classes.modContent}>
+    {newTags.length > 0 && <div className={classes.modContent}>
       Добавлены теги: {pub.jsonDB.moderation.newTags.join(", ")}
     </div>}
-    {pub.jsonDB.moderation.removedTags.length > 0 && <div className={classes.modContent}>
+    {removedTags.length > 0 && <div className={classes.modContent}>
       Убраны теги: {pub.jsonDB.moderation.removedTags.join(", ")}
     </div>}
     <MComment pub={pub} />
