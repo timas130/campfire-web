@@ -274,10 +274,10 @@ function ModerationPostTags({pub}) {
       </a></Link>.
     </div>
     {newTags.length > 0 && <div className={classes.modContent}>
-      Добавлены теги: {pub.jsonDB.moderation.newTags.join(", ")}
+      Добавлены теги: {newTags.join(", ")}
     </div>}
     {removedTags.length > 0 && <div className={classes.modContent}>
-      Убраны теги: {pub.jsonDB.moderation.removedTags.join(", ")}
+      Убраны теги: {removedTags.join(", ")}
     </div>}
     <MComment pub={pub} />
   </>;
