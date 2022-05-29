@@ -9,6 +9,7 @@ import ShareButton from "../../controls/ShareButton";
 import {useRouter} from "next/router";
 import {CommentCounter} from "../post/Post";
 import Karma from "../../Karma";
+import {useMemo} from "react";
 
 // I spent >3 hours on this.
 
