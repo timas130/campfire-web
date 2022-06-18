@@ -11,7 +11,7 @@ import {useRef, useState} from "react";
 import Spinner from "../../Spinner";
 import classNames from "classnames";
 
-export function CommentEditor({isLoading, submit, submitBtnRef, formRef, isReply, element}) {
+export function CommentEditor({isLoading, submit, submitBtnRef, formRef, isReply, element, hideSelf}) {
   return <form className={classNames(classes.editor, isReply && classes.reply)}
                method="POST" onSubmit={submit} ref={formRef}>
     <InputLabel>
@@ -22,6 +22,8 @@ export function CommentEditor({isLoading, submit, submitBtnRef, formRef, isReply
         onKeyDown={ev => {
           if (ev.ctrlKey && (ev.key === "Enter" || ev.keyCode === 13)) {
             submit({target: formRef.current, preventDefault() {}});
+          } else if (ev.key === "Escape") {
+            (typeof hideSelf === "function") && hideSelf();
           }
         }}
       />

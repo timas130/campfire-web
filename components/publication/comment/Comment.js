@@ -48,6 +48,7 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
   const jsonDB = typeof comment.jsonDB === "string" ? JSON.parse(comment.jsonDB) : comment.jsonDB;
   const [replyEditorShown, setReplyEditorShown] = useState(false);
   const replyBtnRef = useRef();
+  const replyFormRef = useRef();
 
   return <article className={classNames(classes.comment, bestComment && classes.best, full && classes.full)}
                   ref={ref} id={id}>
@@ -91,9 +92,11 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
       </span>}
     </div>
     {reply && replyEditorShown && <CommentEditor
-      isReply element={element}
+      isReply
+      element={element}
       isLoading={replyLoading}
       submitBtnRef={replyBtnRef}
+      formRef={replyFormRef}
       submit={ev => {
         ev.preventDefault();
         const data = new FormData(ev.target);
@@ -101,6 +104,7 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
         reply(content, comment.id, replyBtnRef.current)
           .then(close => close && setReplyEditorShown(false));
       }}
+      hideSelf={() => setReplyEditorShown(false)}
     />}
   </article>;
 }
