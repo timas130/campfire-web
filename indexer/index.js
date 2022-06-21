@@ -13,9 +13,9 @@ const startId = parseInt(args[2]) || 0;
 const endId = parseInt(args[3]) || 100000;
 const threads = parseInt(args[4]) || 1;
 
-const bar = new ProgressBar(":id (off :offset) :bar", {total: endId});
+// const bar = new ProgressBar(":id (off :offset) :bar", {total: endId});
 
-const resultFile = fs.createWriteStream("./result.2021.log");
+const resultFile = fs.createWriteStream("./result.2023.log");
 
 const workers = [];
 for (let thread = 0; thread < threads; thread++) {
@@ -24,10 +24,10 @@ for (let thread = 0; thread < threads; thread++) {
   });
   workers.push(worker);
   worker.on("message", msg => {
-    bar.tick(msg.units, {
-      id: msg.id,
-      offset: msg.offset,
-    });
+    // bar.tick(msg.units, {
+    //   id: msg.id,
+    //   offset: msg.offset,
+    // });
     resultFile.write(JSON.stringify(msg.resp));
     resultFile.write("\n");
   });
