@@ -32,14 +32,14 @@ export function checkNickname(nickname) {
 export async function doEmailRegister(req, res, email, password, captcha, nickname) {
   checkNickname(nickname);
 
-  let exists = true;
+  let exists = false;
   try {
     await sendRequestAlwaysAuthenticated(
       req, res, "RAccountsGet",
       {accountName: nickname},
     );
   } catch (e) {
-    if (e?.code === "ERROR_GONE") exists = false;
+    if (e?.code === "ERROR_GONE") exists = true;
   }
   if (exists) {
     throw {
