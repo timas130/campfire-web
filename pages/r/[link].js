@@ -20,7 +20,7 @@ export const links = {
   "tag": {link: "/fandom/tag/", args: true},
   "wikifandom": {link: "/fandom/{id}/wiki/", args: true},
   "wikisection": {link: "/fandom/wiki/section/", args: true},
-  "wikiarticle": {link: "/fandom/wiki/article/", args: true},
+  "wikiarticle": {link: "/fandom/wiki/", args: true},
   "rubric": {link: "/rubric/", args: true},
   "fandomchat": {link: "/chat/fc/", args: true},
   "activity": {link: "/activity/", args: true},

@@ -1,11 +1,11 @@
 import classes from "../../../../styles/Page.module.css";
 import useSWR from "swr";
-import Link from "next/link";
 import {useMemo, useState} from "react";
 import classNames from "classnames";
 import Spinner from "../../../Spinner";
 import {fetcher} from "../../../../lib/client-api";
 import {CheckIcon} from "@heroicons/react/solid";
+import {AccountLink} from "../../../FandomHeader";
 
 function toClass(b) {
   return b ? classes.pollAllowed : classes.pollRestricted;
@@ -101,11 +101,7 @@ export default function PollPage({page, additional: {postId}}) {
       </span>}
       {(page.blacklist || []).length > 0 && <span className={toClass(blacklistPass)}>
         Чёрный список: {page.blacklist.map((account, idx) => <span key={account.J_ID}>
-          <Link
-            href={`/account/${encodeURIComponent(account.J_NAME)}`} key={account.J_ID}
-          >
-            <a>{account.J_NAME}</a>
-          </Link>
+          <AccountLink account={account} />
           {idx !== page.blacklist.length - 1 && ", "}
         </span>)}
         <br />

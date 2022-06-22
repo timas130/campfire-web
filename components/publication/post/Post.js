@@ -10,7 +10,7 @@ import {useRouter} from "next/router";
 import Pages from "./pages/Pages";
 import Comment from "../comment/Comment";
 import UserActivityPage from "./pages/UserActivityPage";
-import FandomHeader from "../../FandomHeader";
+import FandomHeader, {SponsorStar} from "../../FandomHeader";
 import {Dropdown, DropdownItem, DropdownSection} from "../../controls/Dropdown";
 import copy from "copy-to-clipboard";
 import {ModalPortal} from "../../Modal";
@@ -143,7 +143,7 @@ function _Post(props) {
           </a>
         </Link></>}
       </>}
-      author={post.creator.J_NAME}
+      author={<>{post.creator.J_NAME}<SponsorStar account={post.creator} /></>}
       authorLink={`/account/${encodeURIComponent(post.creator.J_NAME)}`}
       addSecondary={<time dateTime={dayjs(post.dateCreate).format()}>
         {dayjs(post.dateCreate).locale("ru").fromNow()}

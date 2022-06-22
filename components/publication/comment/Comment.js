@@ -9,6 +9,7 @@ import classNames from "classnames";
 import {limitText} from "../../../lib/text-cover";
 import {ReplyIcon, XIcon} from "@heroicons/react/solid";
 import {CommentEditor} from "./Comments";
+import {AccountLink} from "../../FandomHeader";
 
 // todo: multiple images in one comment
 
@@ -54,9 +55,7 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
                   ref={ref} id={id}>
     <header className={classes.header}>
       <CAvatar account={comment.creator} small className={classes.avatar} />
-      <Link href={`/account/${encodeURIComponent(comment.creator.J_NAME)}`}>
-        <a className={classes.author}>{comment.creator.J_NAME}</a>
-      </Link>&nbsp;
+      <AccountLink account={comment.creator} className={classes.author} />&nbsp;
       <time dateTime={dayjs(comment.dateCreate).toISOString()} className={classes.time}>
         {dayjs(comment.dateCreate).locale("ru").fromNow()}
       </time>

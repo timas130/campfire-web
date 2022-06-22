@@ -10,9 +10,12 @@ import {useTheme} from "../lib/theme";
 import {CogIcon, LogoutIcon, MoonIcon, PencilIcon, SunIcon} from "@heroicons/react/outline";
 import {Transition} from "@headlessui/react";
 import classesDropdown from "../styles/Dropdown.module.css";
+import {SponsorStar} from "./FandomHeader";
+import useSWR from "swr";
 
 function HeaderProfile({setMenuExpanded, full = false}) {
   const account = useUser();
+  const accountF = useSWR("/api/user/settings").data?.account;
 
   if (account) {
     const inner = <>
@@ -21,7 +24,7 @@ function HeaderProfile({setMenuExpanded, full = false}) {
         className={classes.accountAvatar}
       />
       <div className={classes.accountText}>
-        {account.J_NAME}<br />
+        {account.J_NAME}<SponsorStar account={accountF} showTimes={full} /><br />
         <span style={{fontWeight: "normal"}}>
           <KarmaCounter value={account.karma30} el="span" /> за 30 дней
         </span>

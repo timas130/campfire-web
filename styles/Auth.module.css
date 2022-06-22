@@ -33,7 +33,7 @@
 }
 
 .layout {
-    margin: 1rem auto;
+    margin: 1rem auto 0;
     display: flex;
     padding: 0;
     justify-content: center;
@@ -63,7 +63,30 @@
 }
 
 @media screen and (max-width: 890px) {
-    .registerLayoutLeft {
-        display: none;
+    .layout {
+        flex-direction: column;
     }
+    .registerLayoutLeft {
+        width: auto;
+        margin-bottom: 1rem;
+    }
+    .registerLayoutRight {
+        margin-bottom: 5rem;
+    }
+}
+
+.captchaLoader {
+    background-color: var(--background-element);
+    height: 78px;
+    max-width: 303px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 3px;
+    border-radius: 0.5rem;
+}
+.spinner {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.5rem;
 }

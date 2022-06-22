@@ -2,12 +2,12 @@ import {useRouter} from "next/router";
 import FeedLayout, {FeedLoader} from "../../../components/FeedLayout";
 import {fetcher, useLocalMutSWR, useRequiredUser, useUser} from "../../../lib/client-api";
 import postClasses from "../../../styles/Post.module.css";
-import FandomHeader, {FandomHeaderPlaceholder} from "../../../components/FandomHeader";
+import FandomHeader, {FandomHeaderPlaceholder, SponsorStar} from "../../../components/FandomHeader";
 import classNames from "classnames";
 import classes from "../../../styles/Draft.module.css";
 import Pages from "../../../components/publication/post/pages/Pages";
 import {Page, pageEditTypes} from "../../../components/publication/post/pages/Page";
-import {PlusSmIcon, ClipboardIcon} from "@heroicons/react/solid";
+import {ClipboardIcon, PlusSmIcon} from "@heroicons/react/solid";
 import {useState} from "react";
 import {pageTypesNames} from "../../../lib/text-cover";
 import NoticeCard, {RulesCard, TextFormattingCard} from "../../../components/cards/NoticeCard";
@@ -249,10 +249,12 @@ function MutPost({post, setPost, fandomId, onGetId}) {
 
   return <div className={postClasses.post}>
     {post?.id ? <FandomHeader
-      fandom={post.fandom} author={post.creator.J_NAME}
+      fandom={post.fandom}
+      author={<>{post.creator.J_NAME}<SponsorStar account={post.creator} /></>}
       authorLink={`/account/${encodeURIComponent(post.creator.J_NAME)}`}
     /> : (fandom ? <FandomHeader
-      fandom={fandom.fandom} author={user.J_NAME}
+      fandom={fandom.fandom}
+      author={<>{user.J_NAME}<SponsorStar account={user} /></>}
       authorLink={`/account/${encodeURIComponent(user.J_NAME)}`}
     /> : <FandomHeaderPlaceholder />)}
     <div className={classNames(postClasses.content, postClasses.expanded, classes.draftContent)}>

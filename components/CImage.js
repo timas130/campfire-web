@@ -73,7 +73,8 @@ function _CAvatar(props) {
       {account && <div className={classNames(
         classes.avatarBadge,
         account.J_LVL >= 1000 && classes.long,
-        (online || isOnline(account)) && classes.online
+        (online || isOnline(account)) && classes.online,
+        account.sponsorTimes > 0 && classes.sponsor,
       )}>
         {Math.floor(account.J_LVL / 100)}
       </div>}

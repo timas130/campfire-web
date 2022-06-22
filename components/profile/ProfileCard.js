@@ -22,12 +22,14 @@ import {EditToolbar, ToolbarButton} from "../publication/post/pages/Page";
 import {faCheck} from "@fortawesome/free-solid-svg-icons/faCheck";
 import {faTimes} from "@fortawesome/free-solid-svg-icons/faTimes";
 import {useSWRConfig} from "swr";
+import Link from "next/link";
+import {AccountLink} from "../FandomHeader";
 
 export function ProfileShort({account}) {
   return <div className={classes.accountShort}>
     <CAvatar account={account} />
     <div className={classes.text}>
-      <div className={classes.nickname}>{account.J_NAME}</div>
+      <AccountLink account={account} className={classes.nickname} reset showTimes />
       <div className={isOnline(account) ? classes.online : classes.onlineDate}>
         {isOnline(account) ?
           "Онлайн" :
@@ -38,9 +40,9 @@ export function ProfileShort({account}) {
   </div>;
 }
 export function SponsorChip({account}) {
-  return account.sponsor ? <div className={classes.sponsorChip}>
+  return account.sponsor ? <Link href="/donates"><a className={classes.sponsorChip}>
     Спонсор {account.sponsor / 100} ₽
-  </div> : null;
+  </a></Link> : null;
 }
 export function ProfileKV({icon, keyS, value, upd = null, edit = null, editSelect = null}) {
   const Icon = icon;

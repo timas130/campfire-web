@@ -35,7 +35,7 @@ export default function Home() {
     <FeedLayout list={<>
       <FeedTypeSelectorCard type={resolvedType} setType={setType} />
       {feed && feed.map(feedPage => feedPage.units.map(post => <Post key={post.id} post={post} showBestComment />))}
-      <PostPlaceholder ref={ref} />
+      {showLoader && <PostPlaceholder ref={ref} />}
       {showLoader ?
         Array(feed.length === 0 ? 19 : 0).fill(null)
           .map((_v, i) => <PostPlaceholder key={i} />) :

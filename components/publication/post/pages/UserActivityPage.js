@@ -7,7 +7,7 @@ import {useState} from "react";
 import {fetcher, useUser} from "../../../../lib/client-api";
 import Button from "../../../controls/Button";
 import classNames from "classnames";
-import FandomHeader from "../../../FandomHeader";
+import FandomHeader, {AccountLink} from "../../../FandomHeader";
 
 export function Countdown({timestamp}) {
   // const [, setDate] = useState(null);
@@ -70,9 +70,9 @@ export default function UserActivityPage({page, full = false}) {
           <span className={postClasses.headerAuthor}>
             Следующий:&nbsp;
           </span>
-          {currentAccount.J_ID !== 0 ? <Link href={`/account/${encodeURIComponent(currentAccount.J_NAME)}`}>
-            <a className={classes.activityNext}>{currentAccount.J_NAME}</a>
-          </Link> : <span className={classes.activityNext}>никто</span>}
+          {currentAccount.J_ID !== 0 ?
+            <AccountLink account={currentAccount} className={classes.activityNext} /> :
+            <span className={classes.activityNext}>никто</span>}
         </div>
         {currentAccount.J_ID !== 0 ? <div className={classes.activityDue}>
           <span className={postClasses.headerAuthor}>истекает&nbsp;</span>

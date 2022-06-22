@@ -1,6 +1,6 @@
 import classes from "../../../styles/Post.module.css";
 import dayjs from "../../../lib/time";
-import FandomHeader from "../../FandomHeader";
+import FandomHeader, {AccountLink, ShortAccountLink, SponsorStar} from "../../FandomHeader";
 import Link from "next/link";
 import FormattedText from "../../FormattedText";
 import Tooltip from "../../Tooltip";
@@ -52,16 +52,11 @@ const moderationTypes = {
   188: ModerationRubricFandomMove, // I made this!
 };
 
-function AccLink({name, className}) {
-  return <Link href={`/account/${encodeURIComponent(name)}`}>
-    <a className={className}>@{name}</a>
-  </Link>;
-}
 function MLink({pub}) {
-  return <AccLink name={pub.creator.J_NAME} className={classes.modAdminLink} />;
+  return <AccountLink name={pub.creator} className={classes.modAdminLink} />;
 }
 function TLink({pub}) {
-  return <AccLink name={pub.jsonDB.moderation.accountName} className={classes.modUserLink} />;
+  return <ShortAccountLink name={pub.jsonDB.moderation.accountName} className={classes.modUserLink} />;
 }
 function MSex({pub, she, he}) {
   return pub.creator.sex === 1 ? (she.startsWith("+") ? (he + she.substring(1)) : she) : he;
@@ -72,14 +67,14 @@ function MCheck({pub}) {
       (pub.jsonDB.moderation.checkAdminComment ?
         <>
           <span className={classes.modAdminReject}>Отклонено </span>
-          <AccLink name={pub.jsonDB.moderation.checkAdminName} />.
+          <ShortAccountLink name={pub.jsonDB.moderation.checkAdminName} />.
           <div className={classes.modRejectComment}>
             {pub.jsonDB.moderation.checkAdminComment}
           </div>
         </> :
         <>
           <span className={classes.modAdminAccept}>Проверено </span>
-          <AccLink name={pub.jsonDB.moderation.checkAdminName} />.
+          <ShortAccountLink name={pub.jsonDB.moderation.checkAdminName} />.
         </>) :
       <FormattedText text="{_cweb_secondary Ещё не проверено администратором}" />}
   </div>;
@@ -435,8 +430,8 @@ function ModerationRubricChangeOwner({pub}) {
       <Link href={`/rubric/${pub.jsonDB.moderation.rubricId}`}>
         <a>&quot;{pub.jsonDB.moderation.rubricName}&quot;</a>
       </Link> с&nbsp;
-      <AccLink name={pub.jsonDB.moderation.oldOwnerName} /> на&nbsp;
-      <AccLink name={pub.jsonDB.moderation.newOwnerName} />.
+      <ShortAccountLink name={pub.jsonDB.moderation.oldOwnerName} /> на&nbsp;
+      <ShortAccountLink name={pub.jsonDB.moderation.newOwnerName} />.
     </div>
     <MComment pub={pub} />
   </>;
@@ -448,7 +443,7 @@ function ModerationRubricCreate({pub}) {
       Модератор <MLink pub={pub} /> <MSex pub={pub} he="создал" she="+а" /> рубрику&nbsp;
       <Link href={`/rubric/${pub.jsonDB.moderation.rubricId}`}>
         <a>&quot;{pub.jsonDB.moderation.rubricName}&quot;</a>
-      </Link> и назначил <AccLink name={pub.jsonDB.moderation.ownerName} /> её владельцем.
+      </Link> и назначил <ShortAccountLink name={pub.jsonDB.moderation.ownerName} /> её владельцем.
     </div>
     <MComment pub={pub} />
   </>;
@@ -578,7 +573,7 @@ export default function Moderation({pub}) {
     <FandomHeader
       el="header"
       fandom={pub.fandom}
-      author={"Модер " + pub.creator.J_NAME}
+      author={<>Модер {pub.creator.J_NAME}<SponsorStar account={pub.creator} /></>}
       authorLink={`/account/${encodeURIComponent(pub.creator.J_NAME)}`}
       addSecondary={<>
         {pub.jsonDB.moderation.accountId && <>
