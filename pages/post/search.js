@@ -1,7 +1,7 @@
 import Head from "next/head";
 import MetaTags from "../../components/MetaTags";
 import FeedLayout from "../../components/FeedLayout";
-import Post from "../../components/publication/post/Post";
+import Publication from "../../components/publication/Publication.js"; 
 import Button from "../../components/controls/Button";
 import "instantsearch.css/themes/reset.css";
 import {useRouter} from "next/router";
