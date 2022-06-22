@@ -42,7 +42,7 @@ export default function Search() {
         <CustomPagination />
           <Hits hitComponent={hit =>
             hit.hit ?
-              <Publication key={hit.hit.id} post={JSON.parse(hit.hit.raw_data)} full showBestComment /> :
+              <Publication key={hit.hit.id} pub={JSON.parse(hit.hit.raw_data)} full showBestComment /> :
               null
           } />
         <CustomPagination />
