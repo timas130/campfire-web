@@ -53,7 +53,7 @@ const moderationTypes = {
 };
 
 function MLink({pub}) {
-  return <AccountLink name={pub.creator} className={classes.modAdminLink} />;
+  return <AccountLink account={pub.creator} className={classes.modAdminLink} />;
 }
 function TLink({pub}) {
   return <ShortAccountLink name={pub.jsonDB.moderation.accountName} className={classes.modUserLink} />;
