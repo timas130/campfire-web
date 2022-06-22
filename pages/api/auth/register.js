@@ -32,14 +32,14 @@ export function checkNickname(nickname) {
 export async function doEmailRegister(req, res, email, password, captcha, nickname) {
   checkNickname(nickname);
 
-  let exists = false;
+  let exists = false; // todo
   try {
     await sendRequestAlwaysAuthenticated(
       req, res, "RAccountsGet",
-      {accountName: nickname},
+      {accountName: nickname, accountId: 0},
     );
   } catch (e) {
-    if (e?.code === "ERROR_GONE") exists = true;
+    if (e?.code === "ERROR_GONE") exists = false;
   }
   if (exists) {
     throw {
@@ -64,11 +64,13 @@ export async function doEmailRegister(req, res, email, password, captcha, nickna
 
   // noinspection ES6MissingAwait // I hate this
   const loginToken = `Email - ${email} - ${digest}`;
-  await sendRequestAuthenticated(req, res, "RAccountsChangeName", {
-    name: nickname,
-    achievementNotificationEnabled: false,
-    J_API_LOGIN_TOKEN: loginToken,
-  });
+  try {
+    await sendRequestAuthenticated(req, res, "RAccountsChangeName", {
+      name: nickname,
+      achievementNotificationEnabled: false,
+      J_API_LOGIN_TOKEN: loginToken,
+    });
+  } catch (e) {}
   return accountId;
 }
 
