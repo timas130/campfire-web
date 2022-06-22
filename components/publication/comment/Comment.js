@@ -30,7 +30,7 @@ function CommentQuote({jsonDB}) {
       (jsonDB.quoteCreatorName ? `{_cweb_secondary ${jsonDB.quoteCreatorName}:}` : "") +
       limitText(text, 64, 150)
     } />
-    {jsonDB.quoteStickerImageId !== 0 && <Link href={`/stickers/sticker/${jsonDB.quoteStickerId}`}>
+    {jsonDB.quoteStickerImageId > 0 && <Link href={`/stickers/sticker/${jsonDB.quoteStickerId}`}>
       <a className={classes.image}>
         <CImage
           id={jsonDB.quoteStickerImageId} w={100} h={100}
