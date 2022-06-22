@@ -4,18 +4,44 @@ import Link from "next/link";
 import Input from "../../components/controls/Input";
 import InputLabel from "../../components/controls/InputLabel";
 import Button from "../../components/controls/Button";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import classNames from "classnames";
 import CImage from "../../components/CImage";
 import MetaTags from "../../components/MetaTags";
+import useSWR from "swr";
+import {useTheme} from "../../lib/theme";
+import {useInterval} from "../../lib/client-api";
+import Spinner from "../../components/Spinner";
 
-const googleRules = "https://play.google.com/intl/ru_ALL/about/restricted-content/inappropriate-content/";
-const privacyPolicy = "https://sayzen.ru/rus.html";
 const androidApp = "https://play.google.com/store/apps/details?id=com.dzen.campfire";
 
-export default function Register() {
-  const [buttonClicked, setButtonClicked] = useState(0);
+export function HCaptchaBox() {
+  const {data: {siteKey} = {}} = useSWR("/api/project/captcha");
+  const theme = useTheme().theme;
+  const [libLoaded, setLibLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
+  useInterval(() => {
+    if (window.hcaptcha && !libLoaded) setLibLoaded(true);
+  }, 1000, [libLoaded]);
+  useEffect(() => {
+    if (siteKey) {
+      if (!libLoaded) return;
+      window.hcaptcha.render("hcaptcha", {sitekey: siteKey, theme});
+      setIsLoading(false);
+    }
+  }, [siteKey, libLoaded]);
+
+  return <>
+    {isLoading && <div className={classes.captchaLoader}>
+      <Spinner className={classes.spinner} />
+      Загрузка...
+    </div>}
+    <div id="hcaptcha" />
+  </>;
+}
+
+export default function Register() {
   return <>
     <Head>
       <title>Регистрация в Campfire</title>
@@ -23,6 +49,7 @@ export default function Register() {
         title="Регистрация в Campfire"
         url="https://campfire.moe/auth/register"
       />
+      <script src="https://js.hcaptcha.com/1/api.js?hl=ru&render=explicit" async defer></script>
     </Head>
     <div className={classNames(classes.layout, "container")}>
       <div className={classes.registerLayoutLeft}>
@@ -46,7 +73,7 @@ export default function Register() {
       </div>
       <form
         className={classNames(classes.card, classes.registerLayoutRight)}
-        method="post" action="/api/auth/register" onSubmit={ev => ev.preventDefault()}
+        method="post" action="/api/auth/register"
       >
         <h1 className={classes.h1}>
           Заходите на огонек
@@ -54,7 +81,7 @@ export default function Register() {
         <InputLabel>
           Никнейм:
           <Input
-            type="text" autoComplete="username" name="login"
+            type="text" autoComplete="nickname" name="nickname"
             placeholder="Zeon" required
           />
         </InputLabel>
@@ -72,6 +99,7 @@ export default function Register() {
             placeholder="••••••••" required
           />
         </InputLabel>
+        <HCaptchaBox />
         <InputLabel horizontal>
           <Input type="checkbox" name="rules-agree" required />
           <div>
@@ -79,29 +107,12 @@ export default function Register() {
             <Link href="/app/privacy"><a>политикой конфиденциальности</a></Link>.
           </div>
         </InputLabel>
-        <InputLabel horizontal>
-          <Input type="checkbox" required />
-          <div>
-            Я хочу <Link href="/fandom/wiki/2583"><a>продать свою бессмертную душу</a></Link> Zeon&apos;у.
-          </div>
-        </InputLabel>
+        <input type="hidden" name="redir" value="true" />
         <div className={classes.buttons}>
           <Link href="/auth/login" passHref><Button type="button" noBackground>Вход</Button></Link>
-          {buttonClicked < 6 && <Button
+          <Button
             type="submit" className={classes.buttonRight}
-            onClick={ev => {
-              ev.preventDefault();
-              setButtonClicked(x => x+1);
-            }}
-          >{
-            buttonClicked === 0 ? "Регистрация отключена" :
-            buttonClicked === 1 ? "Регистрация не работает" :
-            buttonClicked === 2 ? "Можно больше не нажимать" :
-            buttonClicked === 3 ? "Очень скоро заработает, ..." :
-            buttonClicked === 4 ? "когда будет обновление, ..." :
-            buttonClicked === 5 ? "в котором включат регистрацию." :
-            "ой"
-          }</Button>}
+          >Зарегистрироваться</Button>
         </div>
       </form>
     </div>

@@ -2,7 +2,7 @@ import {handleSSRError, mustInt} from "../../../lib/api";
 import {fetchStickerPack} from "../../api/stickers/[id]";
 import FeedLayout from "../../../components/FeedLayout";
 import postClasses from "../../../styles/Post.module.css";
-import FandomHeader from "../../../components/FandomHeader";
+import FandomHeader, {SponsorStar} from "../../../components/FandomHeader";
 import {useMemo} from "react";
 import ShareButton from "../../../components/controls/ShareButton";
 import Karma from "../../../components/Karma";
@@ -20,7 +20,7 @@ export function StickerPackCard({info}) {
       name={info.jsonDB.name}
       link={`/stickers/${info.id}`}
       authorLink={`/account/${encodeURIComponent(info.creator.J_NAME)}`}
-      author={info.creator.J_NAME}
+      author={<>{info.creator.J_NAME}<SponsorStar account={info.creator} /></>}
       addRight={<ShareButton link={`/stickers/${info.id}`} noMr />}
     />
     <div className={classes.cardContent}>

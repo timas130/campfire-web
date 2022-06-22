@@ -34,9 +34,11 @@
 
 .sponsorChip {
     padding: 0.3rem 0.5rem;
-    background: var(--green-muted);
+    background: var(--green);
     border-radius: 1rem;
     white-space: nowrap;
+    color: var(--background-secondary);
+    text-decoration: none;
 }
 
 .profileKV {

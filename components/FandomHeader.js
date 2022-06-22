@@ -4,6 +4,7 @@ import {CAvatar} from "./CImage";
 import Link from "next/link";
 import {BoxPlaceholder, TextPlaceholder} from "./Placeholder";
 import React from "react";
+import {StarIcon} from "@heroicons/react/solid";
 
 function FandomHeader(props) {
   const {
@@ -44,7 +45,9 @@ function FandomHeader(props) {
             fandom ? `/fandom/${fandom.id}` :
             `/account/${encodeURIComponent(account.J_NAME)}`
           }>
-            <a className={classes.headerFandom}>{nameL}</a>
+            <a className={classes.headerFandom}>
+              {nameL}<SponsorStar account={account} />
+            </a>
           </Link>}
         {addTitle}
       </div>
@@ -60,6 +63,26 @@ function FandomHeader(props) {
     </div>
     {addRight}
   </El>;
+}
+
+export function ShortAccountLink({name, addRight, className, reset, ...rest}) {
+  return <Link href={`/account/${encodeURIComponent(name)}`}>
+    <a className={classNames(reset && classes.reset, className)} {...rest}>{name}{addRight}</a>
+  </Link>;
+}
+
+export function AccountLink({account, showTimes, ...rest}) {
+  return <ShortAccountLink
+    name={account.J_NAME}
+    addRight={<SponsorStar showTimes={showTimes} account={account} />}
+    {...rest}
+  />;
+}
+
+export function SponsorStar({account, showTimes}) {
+  return (account && account.sponsorTimes > 0 && <span className={classes.sponsorStar}>
+    <StarIcon />{showTimes && account.sponsorTimes}
+  </span>) || null;
 }
 
 export default React.memo(FandomHeader);

@@ -1,5 +1,5 @@
 import postClasses from "../../styles/Post.module.css";
-import FandomHeader from "../FandomHeader";
+import FandomHeader, {SponsorStar} from "../FandomHeader";
 import Link from "next/link";
 import cardClasses from "../../styles/Card.module.css";
 import {ArrowLeftIcon, ViewListIcon} from "@heroicons/react/solid";
@@ -14,7 +14,7 @@ export default function TagCard({tag}) {
       author={<>
         Создатель тега:&nbsp;
         <Link href={`/account/${encodeURIComponent(tag.creator.J_NAME)}`}>
-          <a className={postClasses.headerRubric}>{tag.creator.J_NAME}</a>
+          <a className={postClasses.headerRubric}>{tag.creator.J_NAME}<SponsorStar account={tag.creator} /></a>
         </Link>
       </>}
       addTitle={<> <Link href={`/fandom/${tag.fandom.id}`}>

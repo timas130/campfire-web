@@ -281,3 +281,18 @@ a.headerAuthor:hover, .headerRubric:hover, .headerFandom:hover {
     opacity: 1;
     max-height: 125px;
 }
+
+
+.reset {
+    color: var(--text);
+    text-decoration: none;
+}
+.sponsorStar {
+    margin-left: 0.25rem;
+    color: rgb(236,72,153);
+}
+.sponsorStar > svg {
+    vertical-align: bottom;
+    width: 1rem;
+    height: 1rem;
+}

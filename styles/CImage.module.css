@@ -30,3 +30,8 @@
     background: var(--green-very-muted);
     color: var(--text);
 }
+.avatarBadge.sponsor {
+    background: rgb(236,72,153);
+    background: linear-gradient(135deg, rgba(236,72,153,1) 0%, rgba(184,128,20,1) 87%);
+    color: white;
+}
