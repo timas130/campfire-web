@@ -1,12 +1,12 @@
 .buttonWrap {
-    margin-right: 1rem;
+    padding: 0.75rem 0.5rem;
     position: relative;
+    cursor: pointer;
 }
 .buttonWrap.noMr {
-    margin-right: 0;
+    padding-right: 0;
 }
 .button {
     width: 1rem;
-    cursor: pointer;
     vertical-align: bottom;
 }

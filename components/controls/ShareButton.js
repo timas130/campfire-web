@@ -7,14 +7,16 @@ import {showButtonToast} from "../../lib/ui";
 
 export default function ShareButton({ link, noMr, className = "" }) {
   const shareRef = useRef();
-  return <div className={classNames(classes.buttonWrap, noMr && classes.noMr, className)}>
+  return <div
+    className={classNames(classes.buttonWrap, noMr && classes.noMr, className)}
+    onClick={() => {
+      copy("https://campfire.moe" + link);
+      showButtonToast(shareRef.current, "Скопировано", null, 1500, 7);
+    }}
+  >
     <ShareIcon
       ref={shareRef}
       className={classes.button}
-      onClick={() => {
-        copy("https://campfire.moe" + link);
-        showButtonToast(shareRef.current, "Скопировано", null, 1500, 7);
-      }}
       tabIndex={0}
     />
   </div>;

@@ -1,9 +1,12 @@
 .avatarWrap {
     position: relative;
     height: 40px;
+    width: 40px;
+    display: inline-block;
 }
 .avatarWrap.small {
     height: 30px;
+    width: 30px;
 }
 .avatar, .avatar img {
     border-radius: 8px;

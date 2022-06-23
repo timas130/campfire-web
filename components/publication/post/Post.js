@@ -16,7 +16,7 @@ import copy from "copy-to-clipboard";
 import {ModalPortal} from "../../Modal";
 import {useTheme} from "../../../lib/theme";
 import layoutClasses from "../../../styles/Layout.module.css";
-import useSWR, {useSWRConfig} from "swr";
+import useSWR from "swr";
 import {FeedLoader} from "../../FeedLayout";
 import Tags from "./Tags";
 import Tooltip from "../../Tooltip";
@@ -25,7 +25,7 @@ import {showButtonToast, showErrorToast, useModalState} from "../../../lib/ui";
 import KarmaVotesModel from "./KarmaVotesModal";
 import {PostModerationEntries, PostModerationProvider} from "../../moderation/PostModeration";
 import {fetcher} from "../../../lib/client-api";
-import {Transition} from "@headlessui/react";
+import {FocusTrap, Transition} from "@headlessui/react";
 
 export function CommentCounter({target = "_blank", ...props}) {
   const link = <a className={classes.commentCounter} target={target} onClick={props.onClick}>
@@ -41,13 +41,15 @@ function PostCover({theme, post, hide}) {
   const {data} = useSWR(`/api/post/${post.id}`);
   const scrollRef = useRef();
 
-  return <div className={classNames(
+  return <FocusTrap><div className={classNames(
     classes.postCover,
     theme === "dark" && layoutClasses.dark,
     layoutClasses.light
   )} onClick={hide} autoFocus ref={scrollRef}><div
     className={classes.postCoverClick}
     onClick={ev => ev.stopPropagation()}
+    onKeyDown={ev => ev.key === "Escape" && hide()}
+    tabIndex={0}
   >
     <div className={classes.coverClose} onClick={hide} tabIndex={0}>
       Закрыть
@@ -63,11 +65,11 @@ function PostCover({theme, post, hide}) {
                   scrollElement={scrollRef.current} />
       </div>
     </> : <FeedLoader />}
-  </div></div>;
+  </div></div></FocusTrap>;
 }
 
 function _Post(props) {
-  const {post: postL, alwaysExpanded, showBestComment, pinned, draft, main = false, collapse} = props;
+  const {post: postL, alwaysExpanded, showBestComment, pinned, draft, main = false, collapse, mutate} = props;
   const router = useRouter();
   const {theme} = useTheme();
   const contentRef = useRef();
@@ -77,7 +79,6 @@ function _Post(props) {
 
   const karmaModal = useModalState();
 
-  const {mutate} = useSWRConfig();
   const {data: {rubric} = {}} = useSWR(postL.rubricId && `/api/rubric/${postL.rubricId}?offset=-1`);
   const rubricCof = rubric ? rubric.karmaCof : 0;
 
@@ -155,10 +156,8 @@ function _Post(props) {
         {draft && <DropdownSection>
           <DropdownItem onClick={ev => {
             fetcher(`/api/drafts/${postL.id}/delete`, {method: "POST"})
-              .then(() => {
-                setIsDeleted(true);
-                return mutate("/api/drafts");
-              })
+              .then(() => setIsDeleted(true))
+              .then(() => mutate())
               .catch(err => showErrorToast(ev.target, err));
           }}>
             Удалить

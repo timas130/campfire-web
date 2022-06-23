@@ -4,7 +4,7 @@ import FeedLayout, {FeedLoader} from "../../components/FeedLayout";
 import Post from "../../components/publication/post/Post";
 
 export default function Drafts() {
-  const {data: draftPages, ref, showLoader} = useInfScroll(
+  const {data: draftPages, ref, showLoader, mutate} = useInfScroll(
     "/api/drafts", false, 5,
   );
 
@@ -14,7 +14,9 @@ export default function Drafts() {
     </Head>
     <FeedLayout
       list={<>
-        {draftPages && draftPages.map(page => page.map(draft => <Post draft post={draft} key={draft.id} />))}
+        {draftPages && draftPages.map(page => page.map(
+          draft => <Post mutate={mutate} draft post={draft} key={draft.id} />
+        ))}
         {showLoader && <FeedLoader ref={ref} />}
       </>}
     />

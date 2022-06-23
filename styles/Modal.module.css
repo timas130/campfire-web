@@ -3,6 +3,9 @@
     margin-bottom: 1rem;
     width: 660px;
 }
+.dialog:focus {
+    outline: var(--orange-muted);
+}
 
 @media (max-width: 660px) {
     .dialog {
