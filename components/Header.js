@@ -3,19 +3,20 @@ import Link from "next/link";
 import {CAvatar} from "./CImage";
 import {KarmaCounter} from "./Karma";
 import {useUser} from "../lib/client-api";
-import {Fragment, useState} from "react";
 import classNames from "classnames";
 import {DailyQuest} from "./DailyQuest";
 import {useTheme} from "../lib/theme";
 import {CogIcon, LogoutIcon, MoonIcon, PencilIcon, SunIcon} from "@heroicons/react/outline";
-import {Transition} from "@headlessui/react";
+import {Popover, Transition} from "@headlessui/react";
 import classesDropdown from "../styles/Dropdown.module.css";
 import {SponsorStar} from "./FandomHeader";
 import useSWR from "swr";
+import React from "react";
+import Button from "./controls/Button";
 
-function HeaderProfile({setMenuExpanded, full = false}) {
+const HeaderProfile = React.forwardRef(function _HeaderProfile({full = false}, ref) {
   const account = useUser();
-  const accountF = useSWR("/api/user/settings").data?.account;
+  const accountF = useSWR(account && "/api/user/settings").data?.account;
 
   if (account) {
     const inner = <>
@@ -32,60 +33,44 @@ function HeaderProfile({setMenuExpanded, full = false}) {
     </>;
 
     if (full) {
-      return <Link href={`/account/${encodeURIComponent(account.J_NAME)}`}>
-        <a className={classNames(classes.account, full && classes.accountFull)}>
-          {inner}
-        </a>
-      </Link>;
+      return <Popover.Button className={classes.buttonReset}>
+        <Link href={`/account/${encodeURIComponent(account.J_NAME)}`}>
+          <a className={classNames(classes.account, classes.accountFull)} ref={ref}>
+            {inner}
+          </a>
+        </Link>
+      </Popover.Button>;
     } else {
-      return <div
-        className={classNames(classes.account, full && classes.accountFull)}
-        onClick={ev => {
-          setMenuExpanded(x => !x);
-          ev.stopPropagation();
-        }}
+      return <Popover.Button
+        className={classNames(classes.buttonReset, classes.account)}
         tabIndex={0}
       >
         {inner}
-      </div>;
+      </Popover.Button>;
     }
   } else {
-    return <Link href="/auth/login">
-      <a className={classes.navLink}>Войти</a>
+    return <Link href="/auth/login" passHref>
+      <Button el="a">Войти</Button>
     </Link>;
   }
-}
+});
 
-function MenuButton({text, onClick = null, icon = null, href = null}) {
-  if (href) {
-    return <Link href={href}>
-      <a className={classes.navLink}>{icon} {text}</a>
-    </Link>;
-  } else {
-    return <div className={classes.navLink} onClick={onClick}>{text}</div>;
-  }
-}
-function HeaderMenu({expanded, setExpanded}) {
-  return <Transition
-    as={Fragment} show={expanded}
-    enter={classesDropdown.transitionEnter}
-    enterFrom={classesDropdown.transitionEnterFrom}
-    enterTo={classesDropdown.transitionEnterTo}
-    leave={classesDropdown.transitionLeave}
-    leaveFrom={classesDropdown.transitionLeaveFrom}
-    leaveTo={classesDropdown.transitionLeaveTo}
-  >
-    <div
-      className={classNames(classes.menu)}
-      onClick={() => setExpanded(false)}
-    >
-      <HeaderProfile full />
-      <DailyQuest />
-      <MenuButton icon={<PencilIcon />} text="Черновики" href="/drafts" />
-      <MenuButton icon={<CogIcon />} text="Настройки" href="/me/settings" />
-      <MenuButton icon={<LogoutIcon />} text="Выйти" href="/api/auth/logout" />
-    </div>
-  </Transition>;
+const MenuButton = React.forwardRef(function _MenuButton({text, icon = null, href, onClick}, ref) {
+  return <Popover.Button className={classNames(classes.buttonReset, classes.navLink)}>
+    <Link href={href} onClick={onClick}>
+      <a className={classes.navLink} ref={ref}>{icon} {text}</a>
+    </Link>
+  </Popover.Button>;
+});
+
+function HeaderMenu() {
+  return <div className={classNames(classes.menu)}>
+    <HeaderProfile full />
+    <DailyQuest />
+    <MenuButton icon={<PencilIcon />} text="Черновики" href="/drafts" />
+    <MenuButton icon={<CogIcon />} text="Настройки" href="/me/settings" />
+    <MenuButton icon={<LogoutIcon />} text="Выйти" href="/api/auth/logout" />
+  </div>;
 }
 
 function ThemeButton() {
@@ -96,10 +81,8 @@ function ThemeButton() {
 }
 
 export default function Header() {
-  const [menuExpanded, setMenuExpanded] = useState(false);
   return <>
-    <nav className={classNames(classes.header, menuExpanded && classes.expanded)}
-         onClick={() => setMenuExpanded(false)}>
+    <nav className={classNames(classes.header)}>
       <Link href="/">
         <a className={classes.h1link}>Campfire</a>
       </Link>
@@ -108,8 +91,23 @@ export default function Header() {
       </Link>
       <div className={classes.spacer} />
       <ThemeButton />
-      <HeaderProfile setMenuExpanded={setMenuExpanded} />
+      <Popover className={classes.popoverRoot}>
+        <HeaderProfile />
+        <Popover.Overlay className={classes.overlay} />
+        <Transition
+          className={classes.transitionRoot}
+          enter={classesDropdown.transitionEnter}
+          enterFrom={classesDropdown.transitionEnterFrom}
+          enterTo={classesDropdown.transitionEnterTo}
+          leave={classesDropdown.transitionLeave}
+          leaveFrom={classesDropdown.transitionLeaveFrom}
+          leaveTo={classesDropdown.transitionLeaveTo}
+        >
+          <Popover.Panel>
+            <HeaderMenu />
+          </Popover.Panel>
+        </Transition>
+      </Popover>
     </nav>
-    <HeaderMenu expanded={menuExpanded} setExpanded={setMenuExpanded} />
   </>;
 }

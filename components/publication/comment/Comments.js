@@ -7,17 +7,26 @@ import Input from "../../controls/Input";
 import {PaperClipIcon} from "@heroicons/react/solid";
 import Button from "../../controls/Button";
 import {showButtonToast, showErrorToast} from "../../../lib/ui";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import Spinner from "../../Spinner";
 import classNames from "classnames";
 
 export function CommentEditor({isLoading, submit, submitBtnRef, formRef, isReply, element, hideSelf}) {
+  const inputRef = useRef();
+
+  useEffect(() => {
+    if (isReply) inputRef.current.focus();
+  }, [isReply]);
+
   return <form className={classNames(classes.editor, isReply && classes.reply)}
                method="POST" onSubmit={submit} ref={formRef}>
     <InputLabel>
       {isReply ? "Ответ:" : "Комментарий:"}
       <Input
-        el="textarea" className={!element && classes.input} name="content"
+        el="textarea"
+        ref={inputRef}
+        className={!element && classes.input}
+        name="content"
         placeholder={isReply ? "Текст ответа..." : "Текст комментария..."}
         onKeyDown={ev => {
           if (ev.ctrlKey && (ev.key === "Enter" || ev.keyCode === 13)) {

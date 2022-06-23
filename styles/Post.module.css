@@ -2,7 +2,6 @@
     background-color: var(--background-secondary);
     border-radius: 0.5rem;
     margin-bottom: 1rem;
-    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 .mb05 {
     margin-bottom: 0.5rem;
@@ -87,17 +86,28 @@ a.headerAuthor:hover, .headerRubric:hover, .headerFandom:hover {
 
     display: flex;
     align-items: center;
-    padding: 0.75rem 1rem;
+}
+.footer > * {
+    padding: 0.75rem 0;
+}
+.footer > :first-child {
+    padding-left: 1rem;
+}
+.footer > :last-child, .expander {
+    padding-right: 1rem;
 }
 .spacer {
     flex-grow: 1;
+}
+.commentCounter {
+    padding-left: 0.5rem;
 }
 .commentCounter, .expander, .editButton {
     text-decoration: none;
     color: var(--text);
     display: flex;
     cursor: pointer;
-    margin-right: 0.5rem;
+    padding-right: 0.5rem;
 }
 .commentIcon, .expandIcon, .editIcon {
     width: 1.2rem;

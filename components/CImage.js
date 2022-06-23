@@ -5,6 +5,7 @@ import classNames from "classnames";
 import React, {useCallback, useState} from "react";
 import {isOnline} from "../lib/client-api";
 import {ModalPortal} from "./Modal";
+import {FocusTrap} from "@headlessui/react";
 
 function ModalInner({className, ...props}) {
   return <div className={classNames("modal", className)} {...props} />;
@@ -30,10 +31,18 @@ export default function CImage(props) {
         width={w} height={h} {...rest}
         onClick={onClick}
       />
-      {modalOpen && <ModalPortal><ModalInner onClick={() => setModalOpen(false)}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`${process.env.cdnUrl}/api/image/${id}`} alt={alt} />
-      </ModalInner></ModalPortal>}
+      {modalOpen && <ModalPortal>
+        <FocusTrap>
+          <ModalInner
+            onClick={() => setModalOpen(false)}
+            tabIndex={0}
+            onKeyDown={ev => ev.key === "Escape" && setModalOpen(false)}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={`${process.env.cdnUrl}/api/image/${id}`} alt={alt} />
+          </ModalInner>
+        </FocusTrap>
+      </ModalPortal>}
     </>;
   } else {
     return <ImageEl

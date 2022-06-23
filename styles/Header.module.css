@@ -9,15 +9,13 @@
     z-index: 1000;
     filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
-.header.expanded {
+
+.overlay {
     filter: none;
-}
-.header.expanded::before {
-    content: '';
     display: block;
     position: fixed;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     left: 0;
     top: 50px;
     background: rgba(0,0,0,.5);
@@ -74,55 +72,51 @@
     cursor: pointer;
 }
 
+.popoverRoot {
+    position: relative;
+    height: 40px;
+    display: flex;
+}
+.transitionRoot {
+    position: absolute;
+    top: 45px;
+    right: -1rem;
+    width: 50vw;
+    transform-origin: top right;
+    z-index: 1000;
+}
+
 .menu {
     display: block;
-    position: fixed;
-    top: 50px;
-    right: 0;
-    width: 50%;
     z-index: 1000;
     padding: 1rem;
     background-color: var(--background-secondary);
     border-bottom-left-radius: 1rem;
     border-bottom: 2px solid var(--background-element);
     border-left: 2px solid var(--background-element);
-    transform-origin: top right;
 }
 
-.transitionEnter {
-    transition: all 100ms ease-out;
-}
-.transitionEnterFrom {
-    transform: scale(95%);
-    opacity: 0;
-}
-.transitionEnterTo {
-    transform: scale(100%);
-    opacity: 1;
+.buttonReset {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    text-align: initial;
 }
 
-.transitionLeave {
-    transition: all 75ms ease-in;
-}
-.transitionLeaveFrom {
-    transform: scale(100%);
-    opacity: 1;
-}
-.transitionLeaveTo {
-    transform: scale(95%);
-    opacity: 0;
-}
-
-.menu > .account {
+.menu .account {
     margin-bottom: 1rem;
 }
 .menu > .navLink {
     display: block;
     margin: 0.5rem 0;
 }
+.menu > .quest {
+    margin-bottom: 1rem;
+}
 
 .questTitle {
     margin-bottom: 0.5rem;
+    line-height: 1rem;
 }
 .questProgress {
     color: var(--text-secondary);
@@ -138,14 +132,17 @@
     .account:not(.accountFull) .accountText {
         display: none;
     }
+    .transitionRoot {
+        width: 100vw;
+        right: -0.5rem;
+    }
     .menu {
-        width: 100%;
         border: none;
         border-radius: 0;
     }
 }
 @media screen and (min-width: 1024px) {
-    .menu {
-        width: 33%;
+    .transitionRoot {
+        width: 33vw;
     }
 }
