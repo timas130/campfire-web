@@ -56,7 +56,7 @@ function makeLink(type, id) {
 }
 
 function isShitty(text) {
-  const t = text.toLowerCase().replaceAll(",", "");
+  const t = text.toLowerCase().replace(/,/g, "");
   return t.search(/гейм ди|сит ди|ид тис|ид мйег|game go|og emag|гейм иди|сит иди/) !== -1;
 }
 
