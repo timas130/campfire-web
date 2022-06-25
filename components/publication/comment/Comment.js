@@ -8,9 +8,11 @@ import React, {useRef, useState} from "react";
 import classNames from "classnames";
 import {limitText} from "../../../lib/text-cover";
 import {ReplyIcon, XIcon} from "@heroicons/react/solid";
+import {EmojiHappyIcon} from "@heroicons/react/outline";
 import {CommentEditor} from "./Comments";
 import {AccountLink} from "../../FandomHeader";
 import Button from "../../controls/Button";
+import Reactions from "../Reactions";
 
 // todo: multiple images in one comment
 
@@ -32,17 +34,19 @@ function CommentQuote({jsonDB}) {
       limitText(text, 64, 150)
     } />
     {jsonDB.quoteStickerImageId > 0 && <Link href={`/stickers/sticker/${jsonDB.quoteStickerId}`}>
-      <a className={classes.image}>
+      <a className={classes.images}>
         <CImage
           id={jsonDB.quoteStickerImageId} w={100} h={100}
           loading="lazy" alt="Стикер"
         />
       </a>
     </Link>}
-    {(jsonDB.quoteImages || []).length > 0 && <div className={classes.image}><CImage
-      id={jsonDB.quoteImages[0]} w={100} h={100}
-      loading="lazy" modal objectFit="cover" alt="Изображение"
-    /></div>}
+    {(jsonDB.quoteImages || []).length > 0 && <div className={classes.images}>
+      {jsonDB.quoteImages.map(id => <CImage
+        key={id} id={id} w={100} h={100}
+        loading="lazy" modal objectFit="cover" alt="Изображение"
+      />)}
+    </div>}
   </div>;
 }
 
@@ -62,10 +66,17 @@ function isShitty(text) {
 
 function Comment({comment, bestComment = false, full = false, id, reply, replyLoading, element}, ref) {
   const jsonDB = typeof comment.jsonDB === "string" ? JSON.parse(comment.jsonDB) : comment.jsonDB;
+  const imageIdArray = typeof jsonDB.imageIdArray === "string" ? JSON.parse(jsonDB.imageIdArray) : jsonDB.imageIdArray;
+  const imageWArray = typeof jsonDB.imageWArray === "string" ? JSON.parse(jsonDB.imageWArray) : jsonDB.imageWArray;
+  const imageHArray = typeof jsonDB.imageHArray === "string" ? JSON.parse(jsonDB.imageHArray) : jsonDB.imageHArray;
+
   const [replyEditorShown, setReplyEditorShown] = useState(false);
   const [forceShow, setForceShow] = useState(false);
   const replyBtnRef = useRef();
   const replyFormRef = useRef();
+
+  const [reactions, setReactions] = useState(jsonDB.reactions);
+  const [showReactions, setShowReactions] = useState(false);
 
   if (isShitty(jsonDB.J_TEXT) && !forceShow) {
     return <article
@@ -88,7 +99,7 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
         <time dateTime={dayjs(comment.dateCreate).toISOString()} className={classes.time}>
           {dayjs(comment.dateCreate).locale("ru").fromNow()}
         </time>
-        {comment.changed && <span className={classes.time}>(ред.)</span>}
+        {jsonDB.changed && <span className={classes.time}>&nbsp;(ред.)</span>}
         {full && <>&nbsp;<Link href={makeLink(comment.parentUnitType, comment.parentUnitId)}>
           <a className={classes.openPost}>Открыть пост</a>
         </Link></>}
@@ -97,19 +108,27 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
         {jsonDB.quoteId > 0 && <CommentQuote jsonDB={jsonDB} />}
         <FormattedText text={jsonDB.J_TEXT} />
         {jsonDB.stickerImageId > 0 && <Link href={`/stickers/sticker/${jsonDB.stickerId}`}>
-          <a className={classes.image}>
+          <a className={classes.images}>
             <CImage
               id={jsonDB.stickerImageId} w={128} h={128}
               loading="lazy" alt="Стикер"
             />
           </a>
         </Link>}
-        {jsonDB.imageId > 0 && <div className={classes.image}><CImage
-          id={jsonDB.imageId}
-          w={jsonDB.imageW} h={jsonDB.imageH}
-          loading="lazy" modal
-          alt="Изображение"
-        /></div>}
+        {(jsonDB.imageId > 0 || (imageIdArray || []).length > 0) && <div className={classes.images}>
+          {jsonDB.imageId > 0 && <CImage
+            id={jsonDB.imageId}
+            w={jsonDB.imageW} h={jsonDB.imageH}
+            loading="lazy" modal
+            alt="Изображение"
+          />}
+          {(imageIdArray || []).map((id, idx) => <CImage
+            key={id} id={id}
+            w={imageWArray[idx]} h={imageHArray[idx]}
+            loading="lazy" modal
+            alt="Изображение"
+          />)}
+        </div>}
       </div>
       <div className={classes.footer}>
         <Karma pub={comment} small />
@@ -118,7 +137,12 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
           {replyEditorShown ? <XIcon /> : <ReplyIcon />}
           {replyEditorShown ? "Закрыть" : "Ответить"}
         </span>}
+        {(reactions.length === 0 || reactions === "[]") && <span className={classes.reactionsButton} tabIndex={0}
+                                                                 onClick={() => setShowReactions(a => !a)}>
+          <EmojiHappyIcon />
+        </span>}
       </div>
+      <Reactions reactions={reactions} setReactions={setReactions} id={comment.id} shown={showReactions} />
       {reply && replyEditorShown && <CommentEditor
         isReply
         element={element}

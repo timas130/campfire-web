@@ -1,0 +1,14 @@
+.reactions {
+    margin-top: 0.5rem;
+}
+.reaction {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    margin-right: 0.25rem;
+    border-radius: 999px;
+    background-color: var(--background-element);
+    cursor: pointer;
+}
+.you {
+    background-color: var(--blue);
+}
