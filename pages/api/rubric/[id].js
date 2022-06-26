@@ -18,7 +18,7 @@ export async function fetchRubric(req, res, id, offset = 0) {
   ]);
   if (result[1]) cache.put(`/api/rubric/${id}`, result[1], 3600000);
   return {
-    rubric: result[1] ? result[1].J_RESPONSE.rubric : cachedRubric.J_RESPONSE.rubric,
+    rubric: result[1] ? result[1].J_RESPONSE.rubric : cachedRubric?.J_RESPONSE?.rubric,
     posts: result[0] && result[0].J_RESPONSE.units,
     rubricCached: offset <= 0 && !result[1],
   };

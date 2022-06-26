@@ -103,10 +103,10 @@ function _Post(props) {
   }, []);
 
   const post = useMemo(() => {
-    if (typeof postL.jsonDB !== "object") {
+    if (typeof postL.jsonDB === "string") {
       postL.jsonDB = JSON.parse(postL.jsonDB);
     }
-    if (typeof postL.jsonDB.J_PAGES !== "object") {
+    if (typeof postL.jsonDB.J_PAGES === "string") {
       postL.jsonDB.J_PAGES = JSON.parse(postL.jsonDB.J_PAGES);
     }
     return postL;
