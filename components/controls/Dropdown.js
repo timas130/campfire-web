@@ -3,8 +3,8 @@ import classesNew from "../../styles/Dropdown.module.css";
 import classNames from "classnames";
 import {Menu, Transition} from "@headlessui/react";
 
-export function Dropdown({activatorClassName, children, activator}) {
-  return <Menu as="div" className={classesNew.wrapper}>
+export function Dropdown({rootClassName, activatorClassName, children, activator}) {
+  return <Menu as="div" className={classNames(classesNew.wrapper, rootClassName)}>
     <Menu.Button as="div" className={classNames(classesNew.button, activatorClassName)} tabIndex={0}>
       {activator}
     </Menu.Button>

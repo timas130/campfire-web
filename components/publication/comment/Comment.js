@@ -7,12 +7,13 @@ import Karma from "../../Karma";
 import React, {useRef, useState} from "react";
 import classNames from "classnames";
 import {limitText} from "../../../lib/text-cover";
-import {ReplyIcon, XIcon} from "@heroicons/react/solid";
-import {EmojiHappyIcon} from "@heroicons/react/outline";
+import {DotsVerticalIcon, ReplyIcon, XIcon} from "@heroicons/react/solid";
 import {CommentEditor} from "./Comments";
 import {AccountLink} from "../../FandomHeader";
 import Button from "../../controls/Button";
 import Reactions from "../Reactions";
+import {Dropdown, DropdownItem, DropdownSection} from "../../controls/Dropdown";
+import {CommentModerationEntries, CommentModerationProvider} from "../../moderation/PostModeration";
 
 // todo: multiple images in one comment
 
@@ -88,8 +89,10 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
     </article>;
   }
 
-  return <article className={classNames(classes.comment, bestComment && classes.best, full && classes.full)}
-                  ref={ref} id={id}>
+  const inner = <article
+    className={classNames(classes.comment, bestComment && classes.best, full && classes.full)}
+    ref={ref} id={id}
+  >
     <div className={classes.left}>
       <CAvatar account={comment.creator} small className={classes.avatar} />
     </div>
@@ -103,6 +106,17 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
         {full && <>&nbsp;<Link href={makeLink(comment.parentUnitType, comment.parentUnitId)}>
           <a className={classes.openPost}>Открыть пост</a>
         </Link></>}
+        <Dropdown rootClassName={!full && classes.moreDropdown}
+                  activator={<DotsVerticalIcon />}
+                  activatorClassName={classes.moreButton}>
+          <DropdownSection>
+            {(reactions && (reactions.length === 0 || reactions === "[]")) && (
+              <DropdownItem onClick={() => setShowReactions(a => !a)}>
+                {showReactions ? "Скрыть реакции" : "Показать реакции"}
+              </DropdownItem>)}
+          </DropdownSection>
+          <CommentModerationEntries />
+        </Dropdown>
       </header>
       <div className={classes.content}>
         {jsonDB.quoteId > 0 && <CommentQuote jsonDB={jsonDB} />}
@@ -137,10 +151,6 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
           {replyEditorShown ? <XIcon /> : <ReplyIcon />}
           {replyEditorShown ? "Закрыть" : "Ответить"}
         </span>}
-        {(reactions.length === 0 || reactions === "[]") && <span className={classes.reactionsButton} tabIndex={0}
-                                                                 onClick={() => setShowReactions(a => !a)}>
-          <EmojiHappyIcon />
-        </span>}
       </div>
       <Reactions reactions={reactions} setReactions={setReactions} id={comment.id} shown={showReactions} />
       {reply && replyEditorShown && <CommentEditor
@@ -160,6 +170,10 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
       />}
     </div>
   </article>;
+
+  return <CommentModerationProvider pub={comment}>
+    {inner}
+  </CommentModerationProvider>;
 }
 
 export default React.forwardRef(Comment);
