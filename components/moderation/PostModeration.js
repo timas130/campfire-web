@@ -53,6 +53,23 @@ export function PostModerationEntries() {
   }
 }
 
+export function CommentModerationEntries() {
+  const {data: settings} = useSWR("/api/user/settings", {
+    revalidateIfStale: false,
+  });
+  const mod = useModeration();
+  const comment = mod.pub;
+
+  if (!settings || settings.account.J_ID === comment.creator.J_ID) return <DropdownSection />;
+
+  return <DropdownSection>
+    {modCan(settings, "block", comment.fandom.id, comment.fandom.languageId) &&
+      <DropdownItem moderator onClick={() => mod.setTypeOpen("block")}>
+        Заблокировать
+      </DropdownItem>}
+  </DropdownSection>;
+}
+
 const ModerationContext = React.createContext({
   pub: {},
   typeOpen: null,
@@ -101,6 +118,15 @@ export function PostModerationProvider({pub, children}) {
     <NoMultilingualModal />
     <PostTagsModal />
     <FandomPinModal />
+    {children}
+  </ModerationContext.Provider>;
+}
+
+export function CommentModerationProvider({pub, children}) {
+  const [typeOpen, setTypeOpen] = useState(null);
+
+  return <ModerationContext.Provider value={{pub, typeOpen, setTypeOpen}}>
+    <BlockModal />
     {children}
   </ModerationContext.Provider>;
 }

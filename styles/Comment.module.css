@@ -105,13 +105,16 @@
     vertical-align: bottom;
 }
 
-.reactionsButton {
+.moreDropdown {
+    margin-left: auto;
+}
+.moreButton {
     margin-left: 0.5rem;
     cursor: pointer;
 }
-.reactionsButton > svg {
-    width: 1.25rem;
-    height: 1.25rem;
+.moreButton > svg {
+    width: 1.2rem;
+    height: 1.2rem;
     vertical-align: bottom;
 }
 
