@@ -135,6 +135,9 @@
 .fandomSecondary {
     color: var(--text-secondary-active);
 }
+.fandomDivider {
+    margin: 1rem 0.5rem 0.5rem;
+}
 
 .donatesSubtitle {
     margin-top: 0.25rem;

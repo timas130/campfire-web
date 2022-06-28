@@ -33,7 +33,7 @@ export default function PopularFandomsCard({ limit = 5, shuffle = true }) {
   let { data: fandomsL } = useSWR("/api/fandom", fetcher);
 
   const fandoms = useMemo(
-    () => (shuffle && fandomsL) ? shuffleArray(fandomsL) : fandomsL,
+    () => (shuffle && fandomsL) ? shuffleArray([...fandomsL]) : fandomsL,
     [fandomsL, shuffle]
   );
 
