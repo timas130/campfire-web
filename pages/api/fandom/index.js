@@ -2,7 +2,14 @@ import cache from "memory-cache";
 import {sendRequestAlwaysAuthenticated} from "../../../lib/server";
 import {sendErrorIfFromRemote} from "../../../lib/api";
 
-export async function fetchFandoms(req, res, request = {}) {
+export async function fetchFandoms(req, res, sub, request = {}) {
+  if (sub) {
+    return (await sendRequestAlwaysAuthenticated(
+      req, res, "RFandomsGetAllSubscribed",
+      {accountId: sub, ...request},
+    )).J_RESPONSE.fandoms;
+  }
+
   const cacheKey = "/api/fandoms::" + JSON.stringify(request);
   const cachedResp = cache.get(cacheKey);
   if (cachedResp) {
@@ -29,7 +36,7 @@ export async function fetchFandoms(req, res, request = {}) {
 
 export default async function fandomsHandler(req, res) {
   try {
-    res.send(await fetchFandoms(req, res, {offset: req.query.offset}));
+    res.send(await fetchFandoms(req, res, req.query.account, {offset: req.query.offset}));
   } catch (e) {
     sendErrorIfFromRemote(res, e);
   }
