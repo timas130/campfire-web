@@ -29,19 +29,27 @@ export function checkNickname(nickname) {
   }
 }
 
+async function doesAccountExist(req, res, name) {
+  let exists = true;
+  try {
+    const result = await sendRequestAlwaysAuthenticated(
+      req, res, "RAccountsGet",
+      {accountName: name, accountId: 0},
+    );
+    if (result.J_RESPONSE.account?.J_NAME === name) {
+      exists = true;
+    }
+  } catch (e) {
+    if (e.code === "ERROR_GONE") exists = false;
+  }
+  return exists;
+}
+
 export async function doEmailRegister(req, res, email, password, captcha, nickname) {
+  nickname = nickname.trim();
   checkNickname(nickname);
 
-  let exists = false; // todo
-  try {
-    await sendRequestAlwaysAuthenticated(
-      req, res, "RAccountsGet",
-      {accountName: nickname, accountId: 0},
-    );
-  } catch (e) {
-    if (e?.code === "ERROR_GONE") exists = false;
-  }
-  if (exists) {
+  if (await doesAccountExist(req, res, nickname)) {
     throw {
       code: "E_LOGIN_NOT_ENABLED",
       messageError: "this nickname already exists",
@@ -96,6 +104,10 @@ export default async function emailRegisterHandler(req, res) {
     }
   } catch (e) {
     logout(req, res);
-    sendErrorIfFromRemote(res, e);
+    if (castToBoolean(req.body.redir)) {
+      res.redirect(302, "/auth/register?error=" + (e.code ?? "E_UNKNOWN"));
+    } else {
+      sendErrorIfFromRemote(res, e);
+    }
   }
 }

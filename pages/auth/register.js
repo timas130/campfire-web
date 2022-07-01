@@ -12,6 +12,8 @@ import useSWR from "swr";
 import {useTheme} from "../../lib/theme";
 import {useInterval} from "../../lib/client-api";
 import Spinner from "../../components/Spinner";
+import {useRouter} from "next/router";
+import Script from "next/script";
 
 const androidApp = "https://play.google.com/store/apps/details?id=com.dzen.campfire";
 
@@ -27,21 +29,24 @@ export function HCaptchaBox() {
   useEffect(() => {
     if (siteKey) {
       if (!libLoaded) return;
-      window.hcaptcha.render("hcaptcha", {sitekey: siteKey, theme});
+      window.hcaptcha.render("hcaptcha_box", {sitekey: siteKey, theme});
       setIsLoading(false);
     }
   }, [siteKey, libLoaded]);
 
   return <>
+    <Script src="https://js.hcaptcha.com/1/api.js?hl=ru&render=explicit"></Script>
     {isLoading && <div className={classes.captchaLoader}>
       <Spinner className={classes.spinner} />
       Загрузка...
     </div>}
-    <div id="hcaptcha" />
+    <div id="hcaptcha_box" />
   </>;
 }
 
 export default function Register() {
+  const error = useRouter().query.error;
+
   return <>
     <Head>
       <title>Регистрация в Campfire</title>
@@ -49,7 +54,6 @@ export default function Register() {
         title="Регистрация в Campfire"
         url="https://campfire.moe/auth/register"
       />
-      <script src="https://js.hcaptcha.com/1/api.js?hl=ru&render=explicit" async defer></script>
     </Head>
     <div className={classNames(classes.layout, "container")}>
       <div className={classes.registerLayoutLeft}>
@@ -78,6 +82,17 @@ export default function Register() {
         <h1 className={classes.h1}>
           Заходите на огонек
         </h1>
+        {error && <div className={classes.error}>
+          {
+            error === "E_LOGIN_LENGTH" ? "Слишком короткий ник." :
+            error === "E_LOGIN_CHARS" ? "В нике можно использовать только латинские буквы и цифры (арабские)." :
+            error === "E_LOGIN_NOT_ENABLED" ? "Этот ник уже занят." :
+            error === "E_TERMS" ? "Необходимо принять условия." :
+            error === "E_EMAIL_EXIST" ? "Этот e-mail уже занят. Если что, восстановить пароль нельзя. :)" :
+            error === "E_CAPTCHA_FAILED" ? "Вы не прошли проверку на робота." :
+              "Неизвестная ошибка. Напишите sit'у с текущем временем."
+          }
+        </div>}
         <InputLabel>
           Никнейм:
           <Input
