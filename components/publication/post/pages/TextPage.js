@@ -11,6 +11,7 @@ import {faHeading} from "@fortawesome/free-solid-svg-icons/faHeading";
 import {faIcons} from "@fortawesome/free-solid-svg-icons/faIcons";
 import {EditToolbar, ToolbarActions, ToolbarButton} from "./Page";
 import {showButtonToast} from "../../../../lib/ui";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export default function TextPage({ page, onEdit = null }) {
   const big = Boolean(page["J_SIZE"]);
@@ -25,7 +26,7 @@ export default function TextPage({ page, onEdit = null }) {
     big && classes.textBig,
     onEdit && classes.editable,
   )} onClick={onEdit}>
-    {icon && React.createElement(icon, {className: classes.textIcon})}
+    {icon && <FontAwesomeIcon icon={icon} className={classes.textIcon} />}
     <p className={classes.textBlock} style={{textAlign}}>
       <FormattedText text={text} />
     </p>

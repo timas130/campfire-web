@@ -14,6 +14,8 @@ import Button from "../../controls/Button";
 import Reactions from "../Reactions";
 import {Dropdown, DropdownItem, DropdownSection} from "../../controls/Dropdown";
 import {CommentModerationEntries, CommentModerationProvider} from "../../moderation/PostModeration";
+import {useModalState} from "../../../lib/ui";
+import KarmaVotesModel from "../post/KarmaVotesModal";
 
 // todo: multiple images in one comment
 
@@ -79,6 +81,8 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
   const [reactions, setReactions] = useState(jsonDB.reactions);
   const [showReactions, setShowReactions] = useState(false);
 
+  const karmaModal = useModalState();
+
   if (isShitty(jsonDB.J_TEXT) && !forceShow) {
     return <article
       className={classNames(classes.comment, bestComment && classes.best, full && classes.full, classes.shitty)}
@@ -93,6 +97,7 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
     className={classNames(classes.comment, bestComment && classes.best, full && classes.full)}
     ref={ref} id={id}
   >
+    <KarmaVotesModel id={comment.id} close={karmaModal.close} isOpen={karmaModal.isOpen} />
     <div className={classes.left}>
       <CAvatar account={comment.creator} small className={classes.avatar} />
     </div>
@@ -114,6 +119,9 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
               <DropdownItem onClick={() => setShowReactions(a => !a)}>
                 {showReactions ? "Скрыть реакции" : "Показать реакции"}
               </DropdownItem>)}
+            <DropdownItem onClick={karmaModal.open}>
+              Посмотреть оценки
+            </DropdownItem>
           </DropdownSection>
           <CommentModerationEntries />
         </Dropdown>

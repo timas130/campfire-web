@@ -34,6 +34,7 @@ module.exports = withBundleAnalyzer(withSentryConfig({
   sentry: {
     disableClientWebpackPlugin: true,
   },
+  output: "standalone",
 }, {
   silent: true,
 }));

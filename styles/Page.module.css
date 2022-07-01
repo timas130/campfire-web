@@ -63,8 +63,9 @@
     padding: 0.5rem 0.75rem;
 }
 .textIcon {
-    flex: 0 0 32px;
-    padding: 5px;
+    flex: 0 0 1.2rem;
+    height: 1.2rem;
+    padding: 0.2rem 0.5rem 0.2rem 0.2rem;
 }
 .textBlock {
     width: 100%;
