@@ -4,7 +4,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 });
 
 // no trailing slash!
-const cdnUrl = process.env.NODE_ENV === "production" ? "" : "";
+const cdnUrl = process.env.NODE_ENV === "production" ? "https://memefolder.campfire.moe" : "";
 
 module.exports = withBundleAnalyzer(withSentryConfig({
   reactStrictMode: true,
@@ -34,7 +34,6 @@ module.exports = withBundleAnalyzer(withSentryConfig({
   sentry: {
     disableClientWebpackPlugin: true,
   },
-  output: "standalone",
 }, {
   silent: true,
 }));
