@@ -79,7 +79,7 @@ function _CAvatar(props) {
         className={classes.avatar}
         {...rest}
       />
-      {account && <div className={classNames(
+      {account && account.J_LVL >= 100 && <div className={classNames(
         classes.avatarBadge,
         account.J_LVL >= 1000 && classes.long,
         (online || isOnline(account)) && classes.online,

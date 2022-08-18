@@ -1,4 +1,4 @@
-import useSWR from "swr/immutable";
+import useSWRImmutable from "swr/immutable";
 import postClasses from "../../styles/Post.module.css";
 import classes from "../../styles/Card.module.css";
 import classNames from "classnames";
@@ -8,7 +8,7 @@ import Progress from "../controls/Progress";
 import {fetcher} from "../../lib/client-api";
 
 export default function DonateCard() {
-  const { data: supportInfo, error } = useSWR("/api/project/donates", fetcher);
+  const { data: supportInfo, error } = useSWRImmutable("/api/project/donates", fetcher);
 
   if (! supportInfo) return null;
   if (error) return null;

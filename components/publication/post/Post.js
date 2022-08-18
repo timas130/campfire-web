@@ -22,7 +22,7 @@ import Tags from "./Tags";
 import Tooltip from "../../Tooltip";
 import Comments from "../comment/Comments";
 import {showButtonToast, showErrorToast, useModalState} from "../../../lib/ui";
-import KarmaVotesModel from "./KarmaVotesModal";
+import KarmaVotesModel from "../KarmaVotesModal";
 import {PostModerationEntries, PostModerationProvider} from "../../moderation/PostModeration";
 import {fetcher} from "../../../lib/client-api";
 import {FocusTrap, Transition} from "@headlessui/react";

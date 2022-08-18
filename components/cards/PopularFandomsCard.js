@@ -4,7 +4,7 @@ import classNames from "classnames";
 import Link from "next/link";
 import {CAvatar} from "../CImage";
 import {ArrowRightIcon, UsersIcon} from "@heroicons/react/solid";
-import useSWR from "swr/immutable";
+import useSWRImmutable from "swr/immutable";
 import {BoxPlaceholder, TextPlaceholder} from "../Placeholder";
 import {fetcher} from "../../lib/client-api";
 import {useMemo} from "react";
@@ -30,7 +30,7 @@ function shuffleArray(array) {
 }
 
 export default function PopularFandomsCard({ limit = 5, shuffle = true }) {
-  let { data: fandomsL } = useSWR("/api/fandom", fetcher);
+  let { data: fandomsL } = useSWRImmutable("/api/fandom", fetcher);
 
   const fandoms = useMemo(
     () => (shuffle && fandomsL) ? shuffleArray([...fandomsL]) : fandomsL,

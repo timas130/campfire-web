@@ -2,13 +2,14 @@ import classes from "../styles/Placeholder.module.css";
 import classNames from "classnames";
 
 export function TextPlaceholder(props) {
-  const {className, children, el, w, h, ww, style, mb, ...rest} = props;
+  const {className, children, el, w, h, ww, style, mb, mr, ...rest} = props;
   const El = el || "span";
   return <El className={classNames(classes.text, className)} style={{
     maxWidth: w,
     width: ww,
     height: h,
     marginBottom: mb,
+    marginRight: mr,
     ...style,
   }} {...rest} />;
 }

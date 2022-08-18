@@ -15,7 +15,7 @@ import Reactions from "../Reactions";
 import {Dropdown, DropdownItem, DropdownSection} from "../../controls/Dropdown";
 import {CommentModerationEntries, CommentModerationProvider} from "../../moderation/PostModeration";
 import {useModalState} from "../../../lib/ui";
-import KarmaVotesModel from "../post/KarmaVotesModal";
+import KarmaVotesModel from "../KarmaVotesModal";
 
 // todo: multiple images in one comment
 

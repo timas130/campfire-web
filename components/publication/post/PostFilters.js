@@ -1,6 +1,6 @@
 import classes from "../../../styles/Post.module.css";
 import classNames from "classnames";
-import {BanIcon, ChatIcon, DocumentTextIcon, FilterIcon} from "@heroicons/react/solid";
+import {BanIcon, ChatIcon, DocumentTextIcon, FilterIcon, UserIcon} from "@heroicons/react/solid";
 import {useState} from "react";
 import FandomHeader from "../../FandomHeader";
 import Switch from "../../controls/Switch";
@@ -11,7 +11,7 @@ export const defaultFandomPostFilters = {
 };
 export const defaultProfilePostFilters = {
   unitTypes: [9, 1],
-  allowedTypes: [9, 1, 11],
+  allowedTypes: [9, 1, 11, 12],
 };
 
 function PostFilter({options, setValue, name, type, icon}) {
@@ -49,6 +49,7 @@ export default function PostFilters({options, setOptions}) {
       <PostFilter setValue={setValue} options={options} name="Посты" type={9} icon={<DocumentTextIcon />} />
       <PostFilter setValue={setValue} options={options} name="Комментарии" type={1} icon={<ChatIcon />} />
       <PostFilter setValue={setValue} options={options} name="Модераторские действия" type={11} icon={<BanIcon />} />
+      <PostFilter setValue={setValue} options={options} name="События пользователя" type={12} icon={<UserIcon />} />
     </div>
   </div>;
 }

@@ -4,7 +4,6 @@ import {CAvatar} from "./CImage";
 import Link from "next/link";
 import {BoxPlaceholder, TextPlaceholder} from "./Placeholder";
 import React from "react";
-import {StarIcon} from "@heroicons/react/solid";
 
 function FandomHeader(props) {
   const {
@@ -13,7 +12,7 @@ function FandomHeader(props) {
     addSecondary, addRight, noPadding,
     onClick, dense, addLeft, el, account,
     allowOverflow = 0, avatarLink,
-    smallIcon,
+    smallIcon, alignStart, noLink,
   } = props;
   const El = el || "div";
 
@@ -22,6 +21,11 @@ function FandomHeader(props) {
     fandom ? fandom.name :
     account.J_NAME;
 
+  const linkL = !noLink ? link ? link :
+    fandom ? `/fandom/${fandom.id}` :
+    account ? `/account/${encodeURIComponent(account.J_NAME)}` :
+    null : null;
+
   return <El className={className || classNames(
     classes.header,
     pinned && classes.pinned,
@@ -29,6 +33,7 @@ function FandomHeader(props) {
     dense && classes.dense,
     onClick && classes.clickable,
     smallIcon && classes.smallIcon,
+    alignStart && classes.alignStart,
   )} onClick={onClick} tabIndex={onClick ? 0 : undefined}>
     {Boolean(account || fandom || imageId) &&
       <CAvatar account={account} fandom={fandom} id={imageId} alt={name} link={avatarLink || link} />}
@@ -38,13 +43,9 @@ function FandomHeader(props) {
         classes.headerTitle,
         (allowOverflow & 0b1) && classes.allowOverflow
       )}>
-        {onClick ?
+        {(onClick || !linkL) ?
           <span className={classes.headerFandom}>{nameL}</span> :
-          <Link href={
-            link ? link :
-            fandom ? `/fandom/${fandom.id}` :
-            `/account/${encodeURIComponent(account.J_NAME)}`
-          }>
+          <Link href={linkL}>
             <a className={classes.headerFandom}>
               {nameL}<SponsorStar account={account} />
             </a>
@@ -79,10 +80,8 @@ export function AccountLink({account, showTimes, ...rest}) {
   />;
 }
 
-export function SponsorStar({account, showTimes}) {
-  return (account && account.sponsorTimes > 0 && <span className={classes.sponsorStar}>
-    <StarIcon />{showTimes && account.sponsorTimes}
-  </span>) || null;
+export function SponsorStar() {
+  return null;
 }
 
 export default React.memo(FandomHeader);

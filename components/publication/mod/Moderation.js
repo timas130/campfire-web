@@ -81,7 +81,7 @@ function MCheck({pub}) {
 }
 function MComment({pub}) {
   return <div className={classes.modContent}>
-    Комментарий: {pub.jsonDB.moderation.comment || "[пусто]"}
+    Комментарий: <FormattedText text={pub.jsonDB.moderation.comment || "[пусто]"} />
   </div>;
 }
 

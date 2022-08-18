@@ -19,7 +19,7 @@ function PostPlaceholder(_props, ref) {
         <TextPlaceholder ww={85} h={20} />
       </div>
       <div className={classes.spacer} />
-      <TextPlaceholder ww={100} />
+      <TextPlaceholder ww={100} mr="1rem" />
     </div>
   </div>;
 }

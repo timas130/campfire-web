@@ -1,5 +1,5 @@
 import {fetcher, useUser} from "../lib/client-api";
-import useSWRImmutable from "swr/immutable";
+import useSWR from "swr";
 import {BoxPlaceholder} from "./Placeholder";
 import classes from "../styles/Header.module.css";
 import Progress from "./controls/Progress";
@@ -39,7 +39,7 @@ const quests = [
   },
 ];
 
-function getQuest(id, lvl) {
+export function getQuest(id, lvl) {
   let quest;
   for (const quest1 of quests) {
     if (quest1.index === id) {
@@ -59,7 +59,7 @@ function getQuest(id, lvl) {
 
 export function DailyQuest() {
   const user = useUser();
-  const {data: quest, error} = useSWRImmutable("/api/user/quest", fetcher, {
+  const {data: quest, error} = useSWR("/api/user/quest", fetcher, {
     shouldRetryOnError: false,
   });
 

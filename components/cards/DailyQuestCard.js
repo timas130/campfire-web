@@ -1,11 +1,11 @@
 import classes from "../../styles/Card.module.css";
 import postClasses from "../../styles/Post.module.css";
 import {fetcher} from "../../lib/client-api";
-import useSWRImmutable from "swr/immutable";
+import useSWR from "swr";
 import {DailyQuest} from "../DailyQuest";
 
 export default function DailyQuestCard() {
-  const {error} = useSWRImmutable("/api/user/quest", fetcher, {
+  const {error} = useSWR("/api/user/quest", fetcher, {
     shouldRetryOnError: false,
   });
 

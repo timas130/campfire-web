@@ -7,8 +7,9 @@ export async function fetchProfilePubs(req, res, accountId, offset = 0, types = 
       accountId,
       offset,
       unitTypes: types,
-      languageId: 2,
       count: 20,
+      includeModerationsBlocks: true,
+      includeModerationsOther: true,
     }
   )).J_RESPONSE.units;
 }

@@ -12,7 +12,7 @@ import useSWR from "swr";
 import classNames from "classnames";
 import Button from "../../../components/controls/Button";
 import classes from "../../../styles/Profile.module.css";
-import {PencilAltIcon} from "@heroicons/react/solid";
+import {ExternalLinkIcon, PencilAltIcon} from "@heroicons/react/solid";
 import {useState} from "react";
 import Input from "../../../components/controls/Input";
 import {EditToolbar, ToolbarButton} from "../../../components/publication/post/pages/Page";
@@ -20,6 +20,7 @@ import {faCheck} from "@fortawesome/free-solid-svg-icons/faCheck";
 import {faTimes} from "@fortawesome/free-solid-svg-icons/faTimes";
 import Publication from "../../../components/publication/Publication";
 import PostFilters, {defaultProfilePostFilters} from "../../../components/publication/post/PostFilters";
+import cardClasses from "../../../styles/Card.module.css";
 
 export function ProfileBioEditor({type = "description", initialValue = "", onFinish = () => {}, accountId = 0}) {
   const {mutate} = useSWR(`/api/account/${accountId}`);
@@ -120,6 +121,19 @@ export default function Profile({account: initialAccount, profile: initialProfil
               />}
           </div>
         </div>
+        {profile.links?.links[0]?.url && <div className={classNames(postClasses.post, cardClasses.fandomProfileLinks)}>
+          {profile.links.links.map((link, idx) => link.url && <a
+            href={link.url} target="_blank"
+            rel="noreferrer noopener" key={idx}
+            className={classNames(cardClasses.fandomLink, cardClasses.fandomProfileLink)}
+          >
+            <div className={cardClasses.fandomLinkTitle}>{link.title}</div>
+            <div className={cardClasses.fandomLinkUrl}>
+              <ExternalLinkIcon />
+              {link.url}
+            </div>
+          </a>)}
+        </div>}
 
         <PostFilters options={postFilters} setOptions={setPostFilters} />
         {

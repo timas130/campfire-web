@@ -34,6 +34,9 @@
 .header.clickable {
     cursor: pointer;
 }
+.header.alignStart {
+    align-items: flex-start;
+}
 
 .headerText {
     margin-left: 0.5rem;
@@ -70,7 +73,7 @@
     font-weight: normal;
     text-decoration: none;
 }
-a.headerAuthor:hover, .headerRubric:hover, .headerFandom:hover {
+a.headerAuthor:hover, .headerRubric:hover, a.headerFandom:hover {
     text-decoration: underline;
 }
 /* dots */
@@ -289,9 +292,8 @@ a.headerAuthor:hover, .headerRubric:hover, .headerFandom:hover {
 }
 .filtersExpanded > .filtersContent {
     opacity: 1;
-    max-height: 125px;
+    max-height: 165px;
 }
-
 
 .reset {
     color: var(--text);
@@ -305,4 +307,13 @@ a.headerAuthor:hover, .headerRubric:hover, .headerFandom:hover {
     vertical-align: bottom;
     width: 1rem;
     height: 1rem;
+}
+
+.eventTop {
+    padding: 0.75rem;
+    border-bottom: 1px dotted var(--background-element);
+    color: var(--text-secondary);
+}
+.eventContent {
+    padding: 0.25rem 0;
 }

@@ -13,7 +13,7 @@ import {
 } from "@heroicons/react/solid";
 import Button from "../controls/Button";
 import Tooltip from "../Tooltip";
-import useSWRImmutable from "swr/immutable";
+import useSWR from "swr";
 import {fetcher, useUser} from "../../lib/client-api";
 import {KarmaCounter} from "../Karma";
 import FandomHeader from "../FandomHeader";
@@ -42,7 +42,7 @@ function toShittyIdx(cat, idx) {
 
 export default function FandomCard({ fandom, profile, info, fetchId = null, noLinks = false }) {
   const {data: fandomData} =
-    useSWRImmutable(fetchId && `/api/fandom/${fetchId}`, fetcher, {
+    useSWR(fetchId && `/api/fandom/${fetchId}`, fetcher, {
       fallbackData: fandom && {fandom, profile, info},
     });
   let {fandom: fandomL, profile: profileL, info: infoL} = fandomData || {};
@@ -133,7 +133,7 @@ export default function FandomCard({ fandom, profile, info, fetchId = null, noLi
       {infoL.links
         .map((link, idx) => <a
           href={link.url} target="_blank"
-          rel="noreferrer" key={link.index}
+          rel="noreferrer noopener" key={link.index}
           className={classNames(
             classes.fandomLink,
             idx > 2 && !expanded && classes.fandomHidden,

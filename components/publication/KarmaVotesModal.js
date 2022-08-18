@@ -1,9 +1,9 @@
-import {ModalDialog, ModalPortal} from "../../Modal";
-import {useInfScroll} from "../../../lib/client-api";
-import {FeedLoader} from "../../FeedLayout";
-import FandomHeader from "../../FandomHeader";
-import dayjs from "../../../lib/time";
-import {KarmaCounter} from "../../Karma";
+import {ModalDialog, ModalPortal} from "../Modal";
+import {useInfScroll} from "../../lib/client-api";
+import {FeedLoader} from "../FeedLayout";
+import FandomHeader from "../FandomHeader";
+import dayjs from "../../lib/time";
+import {KarmaCounter} from "../Karma";
 
 export default function KarmaVotesModel({id, isOpen, close}) {
   const {data, ref, showLoader} = useInfScroll(isOpen && `/api/pub/${id}/karma`);
