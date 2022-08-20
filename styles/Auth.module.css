@@ -5,6 +5,10 @@
     background-color: var(--background-secondary);
 }
 
+.card > p {
+    margin-bottom: 0.75rem;
+}
+
 .h1 {
     font-size: 2rem;
     margin: 0 0 1rem;
@@ -13,6 +17,7 @@
 .buttons {
     display: flex;
     margin-top: 1rem;
+    align-items: center;
 }
 .buttonRight {
     margin-left: auto;
@@ -37,6 +42,7 @@
     display: flex;
     padding: 0;
     justify-content: center;
+    align-items: flex-start;
 }
 
 .registerLayoutLeft {
@@ -85,8 +91,24 @@
     margin-bottom: 3px;
     border-radius: 0.5rem;
 }
+
 .spinner {
-    width: 1rem;
-    height: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
     margin-right: 0.5rem;
+    margin-left: auto;
+}
+.fullpageSpinner {
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -1rem;
+    margin-top: -1rem;
+}
+.leftSpinner {
+    width: 0.75rem;
+    height: 0.75rem;
+    margin-right: 0.25rem;
 }

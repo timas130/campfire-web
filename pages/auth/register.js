@@ -8,128 +8,277 @@ import {useEffect, useState} from "react";
 import classNames from "classnames";
 import CImage from "../../components/CImage";
 import MetaTags from "../../components/MetaTags";
-import useSWR from "swr";
-import {useTheme} from "../../lib/theme";
-import {useInterval} from "../../lib/client-api";
 import Spinner from "../../components/Spinner";
+import {createUserWithEmailAndPassword, sendEmailVerification} from "firebase/auth";
+import {authStatePromise, fbAuth} from "../../lib/firebase";
+import shajs from "sha.js";
+import {showButtonToast} from "../../lib/ui";
+import {mutate} from "swr";
 import {useRouter} from "next/router";
-import Script from "next/script";
+import {fetcher} from "../../lib/client-api";
 
 const androidApp = "https://play.google.com/store/apps/details?id=com.dzen.campfire";
 
-export function HCaptchaBox() {
-  const {data: {siteKey} = {}} = useSWR("/api/project/captcha");
-  const theme = useTheme().theme;
-  const [libLoaded, setLibLoaded] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useInterval(() => {
-    if (window.hcaptcha && !libLoaded) setLibLoaded(true);
-  }, 1000, [libLoaded]);
-  useEffect(() => {
-    if (siteKey) {
-      if (!libLoaded) return;
-      window.hcaptcha.render("hcaptcha_box", {sitekey: siteKey, theme});
-      setIsLoading(false);
-    }
-  }, [siteKey, libLoaded]);
-
-  return <>
-    <Script src="https://js.hcaptcha.com/1/api.js?hl=ru&render=explicit"></Script>
-    {isLoading && <div className={classes.captchaLoader}>
-      <Spinner className={classes.spinner} />
-      Загрузка...
-    </div>}
-    <div id="hcaptcha_box" />
-  </>;
-}
+// look at the history of this file for an awesome hcaptcha box!
 
 export default function Register() {
-  const error = useRouter().query.error;
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [isAccountLoaded, setIsAccountLoaded] = useState(false);
+  const [lastUserUpdate, setLastUserUpdate] = useState(Date.now());
 
-  return <>
-    <Head>
-      <title>Регистрация в Campfire</title>
-      <MetaTags
-        title="Регистрация в Campfire"
-        url="https://campfire.moe/auth/register"
-      />
-    </Head>
-    <div className={classNames(classes.layout, "container")}>
-      <div className={classes.registerLayoutLeft}>
-        <div className={classes.layoutLeftImage}>
-          <CImage id={419904} w={513/3} h={490/3} />
-          <CImage id={419898} w={458/3} h={512/3} />
+  useEffect(() => {
+    (async () => {
+      await authStatePromise;
+      setIsAccountLoaded(true);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (! fbAuth.currentUser) return;
+    if (! fbAuth.currentUser.emailVerified) {
+      setTimeout(() => {
+        fbAuth.currentUser.reload()
+          .then(() => setLastUserUpdate(Date.now()))
+          .catch(err => setError(`Ошибка. Код: ${err.code}`));
+      }, 3000);
+    }
+
+    // shut up
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastUserUpdate, (fbAuth.currentUser || {}).emailVerified]);
+
+  if (!isAccountLoaded) return <Spinner className={classes.fullpageSpinner} />;
+
+  if (! fbAuth.currentUser) {
+    const submit = ev => {
+      ev.preventDefault();
+      if (isLoading) return;
+      setError(null);
+      setIsLoading(true);
+
+      const data = new FormData(ev.target);
+      const email = data.get("email");
+      const password = shajs("sha512").update(data.get("password")).digest("hex");
+
+      createUserWithEmailAndPassword(fbAuth, email, password)
+        .then(cred => {
+          sendEmailVerification(cred.user).then(() => {
+            setLastUserUpdate(Date.now());
+          }).catch(err => {
+            setError(`Неизвестная ошибка. Код: ${err.code}`);
+          }).finally(() => {
+            setIsLoading(false);
+          });
+        })
+        .catch(err => {
+          setError(
+            err.code === "auth/invalid-email" ? "Неправильный e-mail" :
+            err.code === "auth/email-already-in-use" ? "Такой e-mail уже используется." :
+            err.code === "auth/unauthorized-domain" ? "Зеоны всё сломали. Напишите ситу :)" :
+            `Неизвестная ошибка. Код: ${err.code}`
+          );
+          setIsLoading(false);
+        });
+    };
+
+    return <>
+      <Head>
+        <title>Регистрация в Campfire</title>
+        <MetaTags
+          title="Регистрация в Campfire"
+          url="https://campfire.moe/auth/register"
+        />
+      </Head>
+      <div className={classNames(classes.layout, "container")}>
+        <div className={classes.registerLayoutLeft}>
+          <div className={classes.layoutLeftImage}>
+            <CImage id={419904} w={513 / 3} h={490 / 3}/>
+            <CImage id={419898} w={458 / 3} h={512 / 3}/>
+          </div>
+          <div className={classes.layoutLeftText}>
+            <h2>Добро пожаловать в Campfire</h2>
+            <p>
+              Campfire &mdash; уютное место для сообществ по интересам,
+              которое полностью модерируется пользователями.
+            </p>
+            <p>
+              Сейчас веб-версия Campfire готова не полностью, поэтому
+              проще использовать <a href={androidApp} target="_blank"
+                                    rel="noreferrer nofollow">приложение для Android</a>,
+              но мы будем рады если Вы присоединитесь.
+            </p>
+          </div>
         </div>
-        <div className={classes.layoutLeftText}>
-          <h2>Добро пожаловать в Campfire</h2>
+        <form className={classNames(classes.card, classes.registerLayoutRight)} onSubmit={submit}>
+          <h1 className={classes.h1}>
+            Заходите на огонек
+          </h1>
+          {error && <div className={classes.error}>
+            {error}
+          </div>}
+          <InputLabel>
+            Email:
+            <Input
+              type="email" autoComplete="email" name="email"
+              placeholder="me@33rd.dev" required
+            />
+          </InputLabel>
+          <InputLabel>
+            Пароль:
+            <Input
+              type="password" autoComplete="new-password" name="password"
+              placeholder="••••••••" required
+            />
+          </InputLabel>
+          <InputLabel horizontal>
+            <Input type="checkbox" name="rules-agree" required/>
+            <div>
+              Я согласен с <Link href="/app/rules"><a>правилами приложения</a></Link> и&nbsp;
+              <Link href="/app/privacy"><a>политикой конфиденциальности</a></Link>.
+            </div>
+          </InputLabel>
+          <input type="hidden" name="redir" value="true"/>
+          <div className={classes.buttons}>
+            <Link href="/auth/login" passHref><Button type="button" noBackground>Вход</Button></Link>
+            {!isLoading ?
+              <Button type="submit" className={classes.buttonRight}>Зарегистрироваться</Button> :
+              <Spinner className={classes.spinner}/>}
+          </div>
+        </form>
+      </div>
+    </>;
+  } else if (!fbAuth.currentUser.emailVerified) {
+    return <>
+      <Head>
+        <title>Регистрация в Campfire</title>
+        <MetaTags
+          title="Регистрация в Campfire"
+          url="https://campfire.moe/auth/register"
+        />
+      </Head>
+      <div className={classes.layout}>
+        <div className={classes.card}>
+          <h1 className={classes.h1}>
+            Подтверждение почты
+          </h1>
+          {error && <div className={classes.error}>
+            {error}
+          </div>}
           <p>
-            Campfire &mdash; уютное место для сообществ по интересам,
-            которое полностью модерируется пользователями.
+            В течение 10 минут к вам в почтовый ящик придёт письмо о регистрации.
+            Пройдите по ссылке, чтобы закончить регистрацию.
           </p>
           <p>
-            Сейчас веб-версия Campfire готова не полностью, поэтому
-            проще использовать <a href={androidApp} target="_blank"
-                                  rel="noreferrer nofollow">приложение для Android</a>,
-            но мы будем рады если Вы присоединитесь.
+            После этого возвращайтесь на эту страницу.
           </p>
+          <p>
+            Если письмо не приходит, проверьте папку Спам.
+          </p>
+          <div className={classes.buttons}>
+            <Button secondary onClick={ev => {
+              setError(null);
+              setIsLoading(true);
+              sendEmailVerification(fbAuth.currentUser)
+                .then(() => {
+                  showButtonToast(ev.target, "Письмо отправлено");
+                })
+                .catch(err => {
+                  setError(`Неизвестная ошибка. Код: ${err.code}`);
+                })
+                .finally(() => setIsLoading(false));
+            }}>
+              {isLoading && <Spinner className={classes.leftSpinner} />}
+              Отправить письмо снова
+            </Button>
+            <Button
+              className={classes.buttonRight}
+              onClick={() => {
+                setError(null);
+                fbAuth.signOut().finally(() => setLastUserUpdate(Date.now()));
+              }}
+            >
+              Выйти
+            </Button>
+          </div>
         </div>
       </div>
-      <form
-        className={classNames(classes.card, classes.registerLayoutRight)}
-        method="post" action="/api/auth/register"
-      >
-        <h1 className={classes.h1}>
-          Заходите на огонек
-        </h1>
-        {error && <div className={classes.error}>
-          {
-            error === "E_LOGIN_LENGTH" ? "Слишком короткий ник." :
-            error === "E_LOGIN_CHARS" ? "В нике можно использовать только латинские буквы и цифры (арабские)." :
-            error === "E_LOGIN_NOT_ENABLED" ? "Этот ник уже занят." :
-            error === "E_TERMS" ? "Необходимо принять условия." :
-            error === "E_EMAIL_EXIST" ? "Этот e-mail уже занят. Если что, восстановить пароль нельзя. :)" :
-            error === "E_CAPTCHA_FAILED" ? "Вы не прошли проверку на робота." :
-              "Неизвестная ошибка. Напишите sit'у с текущем временем."
-          }
-        </div>}
-        <InputLabel>
-          Никнейм:
-          <Input
-            type="text" autoComplete="nickname" name="nickname"
-            placeholder="Zeon" required
-          />
-        </InputLabel>
-        <InputLabel>
-          Email:
-          <Input
-            type="email" autoComplete="email" name="email"
-            placeholder="me@33rd.dev" required
-          />
-        </InputLabel>
-        <InputLabel>
-          Пароль:
-          <Input
-            type="password" autoComplete="new-password" name="password"
-            placeholder="••••••••" required
-          />
-        </InputLabel>
-        <HCaptchaBox />
-        <InputLabel horizontal>
-          <Input type="checkbox" name="rules-agree" required />
-          <div>
-            Я согласен с <Link href="/app/rules"><a>правилами приложения</a></Link> и&nbsp;
-            <Link href="/app/privacy"><a>политикой конфиденциальности</a></Link>.
+    </>;
+  } else {
+    const submit = ev => {
+      ev.preventDefault();
+      if (isLoading) return;
+      setError(null);
+      setIsLoading(true);
+
+      const data = new FormData(ev.target);
+      const nickname = data.get("nickname");
+
+      fetcher("/api/auth/nickname", {
+        method: "POST",
+        headers: {"content-type": "application/json"},
+        body: JSON.stringify({nickname}),
+      }).then(() => {
+        mutate("/api/user")
+          .then(() => router.push("/"))
+          .catch(() => window.location = "/"); // xd
+      }).catch(err => {
+        setError(
+          err.code === "E_LOGIN_IS_NOT_DEFAULT" ? "Вы уже изменили ник." :
+          err.code === "E_LOGIN_LENGTH" ? "Слишком короткий или длинный ник." :
+          err.code === "E_LOGIN_CHARS" ? "Используются недопустимые символы." :
+          err.code === "E_LOGIN_NOT_ENABLED" ? "Пользователь с таким ником уже существует." :
+          `Неизвестная ошибка. Код: ${err.code}`
+        );
+      }).finally(() => {
+        setIsLoading(false);
+      });
+    };
+
+    return <>
+      <Head>
+        <title>Регистрация в Campfire</title>
+        <MetaTags
+          title="Регистрация в Campfire"
+          url="https://campfire.moe/auth/register"
+        />
+      </Head>
+      <div className={classes.layout}>
+        <form className={classes.card} onSubmit={submit}>
+          <h1 className={classes.h1}>Придумайте ник</h1>
+          {error && <div className={classes.error}>
+            {error}
+          </div>}
+          <p>
+            Добро пожаловать в Campfire! Чтобы другим людям было проще вас
+            запомнить, придумайте ник. Он может включать любые буквы латинского
+            алфавита и цифры.
+          </p>
+          <InputLabel>
+            Никнейм:
+            <Input
+              type="text" autoComplete="nickname" name="nickname"
+              placeholder="Zeon" required autoFocus
+            />
+          </InputLabel>
+          <div className={classes.buttons}>
+            <Button
+              type="button"
+              secondary
+              onClick={() => {
+                setError(null);
+                fbAuth.signOut().finally(() => setLastUserUpdate(Date.now()));
+              }}
+            >
+              Выйти
+            </Button>
+            {!isLoading ?
+              <Button type="submit" className={classes.buttonRight}>Готово</Button> :
+              <Spinner className={classes.spinner} />}
           </div>
-        </InputLabel>
-        <input type="hidden" name="redir" value="true" />
-        <div className={classes.buttons}>
-          <Link href="/auth/login" passHref><Button type="button" noBackground>Вход</Button></Link>
-          <Button
-            type="submit" className={classes.buttonRight}
-          >Зарегистрироваться</Button>
-        </div>
-      </form>
-    </div>
-  </>;
+        </form>
+      </div>
+    </>;
+  }
 }

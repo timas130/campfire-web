@@ -10,6 +10,7 @@ import MetaTags from "../components/MetaTags";
 import {useState} from "react";
 import FeedTypeSelectorCard from "../components/cards/FeedTypeSelectorCard";
 import PostPlaceholder from "../components/publication/post/PostPlaceholder";
+import ChangeNicknameCard from "../components/cards/ChangeNicknameCard";
 
 export default function Home() {
   const [type, setType] = useState("subscribed");
@@ -33,6 +34,7 @@ export default function Home() {
       />
     </Head>
     <FeedLayout list={<>
+      <ChangeNicknameCard />
       <FeedTypeSelectorCard type={resolvedType} setType={setType} />
       {feed && feed.map(feedPage => feedPage.units.map(post => <Post key={post.id} post={post} showBestComment />))}
       {showLoader && <PostPlaceholder ref={ref} />}

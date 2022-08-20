@@ -13,6 +13,8 @@ import {SponsorStar} from "./FandomHeader";
 import useSWR from "swr";
 import React from "react";
 import Button from "./controls/Button";
+import {fbAuth} from "../lib/firebase";
+import {useRouter} from "next/router";
 
 const HeaderProfile = React.forwardRef(function _HeaderProfile({full = false}, ref) {
   const account = useUser();
@@ -57,19 +59,23 @@ const HeaderProfile = React.forwardRef(function _HeaderProfile({full = false}, r
 
 const MenuButton = React.forwardRef(function _MenuButton({text, icon = null, href, onClick}, ref) {
   return <Popover.Button className={classNames(classes.buttonReset, classes.navLink)}>
-    <Link href={href} onClick={onClick}>
+    {href ? <Link href={href} onClick={onClick}>
       <a className={classes.navLink} ref={ref}>{icon} {text}</a>
-    </Link>
+    </Link> : <div className={classes.navLink} ref={ref} onClick={onClick}>{icon} {text}</div>}
   </Popover.Button>;
 });
 
 function HeaderMenu() {
+  const router = useRouter();
+
   return <div className={classNames(classes.menu)}>
     <HeaderProfile full />
     <DailyQuest />
     <MenuButton icon={<PencilIcon />} text="Черновики" href="/drafts" />
     <MenuButton icon={<CogIcon />} text="Настройки" href="/me/settings" />
-    <MenuButton icon={<LogoutIcon />} text="Выйти" href="/api/auth/logout" />
+    <MenuButton icon={<LogoutIcon />} text="Выйти" onClick={() => {
+      fbAuth.signOut().finally(() => router.reload());
+    }} />
   </div>;
 }
 

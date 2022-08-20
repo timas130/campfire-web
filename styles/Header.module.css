@@ -39,6 +39,7 @@
     color: var(--text-secondary);
     text-decoration: none;
     padding-right: 0.5rem;
+    cursor: pointer;
 }
 .navLink:hover, .navLink:focus {
     color: var(--text);
