@@ -28,6 +28,8 @@ export default function Register() {
   const [isAccountLoaded, setIsAccountLoaded] = useState(false);
   const [lastUserUpdate, setLastUserUpdate] = useState(Date.now());
 
+  const isAgain = router.query.again === "true";
+
   useEffect(() => {
     (async () => {
       await authStatePromise;
@@ -152,7 +154,7 @@ export default function Register() {
   } else if (!fbAuth.currentUser.emailVerified) {
     return <>
       <Head>
-        <title>Регистрация в Campfire</title>
+        <title>{isAgain ? "Подтверждение нового адреса" : "Регистрация в Campfire"}</title>
         <MetaTags
           title="Регистрация в Campfire"
           url="https://campfire.moe/auth/register"
@@ -166,15 +168,31 @@ export default function Register() {
           {error && <div className={classes.error}>
             {error}
           </div>}
+          {!isAgain ? <>
+              <p>
+                В течение 10 минут к вам в почтовый ящик придёт письмо о регистрации.
+                Пройдите по ссылке, чтобы закончить регистрацию. После этого возвращайтесь
+                на эту страницу.
+              </p>
+              <p>
+                Если письмо не приходит, проверьте папку Спам или отправьте ещё одно.
+              </p>
+            </> : <>
+              <p>
+                В течение 10 минут к вам в почтовый ящик придёт письмо о подтверждении
+                нового адреса. Пройдите по ссылке, чтобы закончить изменение.
+              </p>
+              <p>
+                Если письмо не приходит, проверьте папку Спам.
+              </p>
+              <p>
+                На старый адрес также придёт письмо о изменении адреса со ссылкой для
+                отмены изменений.
+              </p>
+            </>}
           <p>
-            В течение 10 минут к вам в почтовый ящик придёт письмо о регистрации.
-            Пройдите по ссылке, чтобы закончить регистрацию.
-          </p>
-          <p>
-            После этого возвращайтесь на эту страницу.
-          </p>
-          <p>
-            Если письмо не приходит, проверьте папку Спам.
+            Ваш e-mail: {fbAuth.currentUser.email}&nbsp;
+            <Link href="/me/settings/email"><a>Изменить</a></Link>
           </p>
           <div className={classes.buttons}>
             <Button secondary onClick={ev => {
@@ -205,7 +223,7 @@ export default function Register() {
         </div>
       </div>
     </>;
-  } else {
+  } else if (!isAgain) {
     const submit = ev => {
       ev.preventDefault();
       if (isLoading) return;
@@ -222,8 +240,10 @@ export default function Register() {
       }).then(() => {
         mutate("/api/user")
           .then(() => router.push("/"))
-          .catch(() => window.location = "/"); // xd
+          .catch(() => window.location = "/") // xd
+          .finally(() => setIsLoading(false));
       }).catch(err => {
+        setIsLoading(false);
         setError(
           err.code === "E_LOGIN_IS_NOT_DEFAULT" ? "Вы уже изменили ник." :
           err.code === "E_LOGIN_LENGTH" ? "Слишком короткий или длинный ник." :
@@ -231,8 +251,6 @@ export default function Register() {
           err.code === "E_LOGIN_NOT_ENABLED" ? "Пользователь с таким ником уже существует." :
           `Неизвестная ошибка. Код: ${err.code}`
         );
-      }).finally(() => {
-        setIsLoading(false);
       });
     };
 
@@ -278,6 +296,32 @@ export default function Register() {
               <Spinner className={classes.spinner} />}
           </div>
         </form>
+      </div>
+    </>;
+  } else {
+    return <>
+      <Head>
+        <title>Подтверждение нового адреса</title>
+        <MetaTags
+          title="Регистрация в Campfire"
+          url="https://campfire.moe/auth/register"
+        />
+      </Head>
+      <div className={classes.layout}>
+        <div className={classes.card}>
+          <h1 className={classes.h1}>Готово!</h1>
+          <p>
+            Адрес изменён на {fbAuth.currentUser.email}. Возможно, вам придётся заново
+            войти в приложение.
+          </p>
+          <div className={classes.buttons}>
+            <Link href="/auth/login" passHref>
+              <Button el="a" className={classes.buttonRight}>
+                Войти
+              </Button>
+            </Link>
+          </div>
+        </div>
       </div>
     </>;
   }

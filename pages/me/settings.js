@@ -8,12 +8,14 @@ import {faGoogle} from "@fortawesome/free-brands-svg-icons/faGoogle";
 import {faEnvelope} from "@fortawesome/free-solid-svg-icons/faEnvelope";
 import Tooltip from "../../components/Tooltip";
 import classes from "../../styles/Settings.module.css";
-import {faUserLock} from "@fortawesome/free-solid-svg-icons/faUserLock";
 import NoticeCard from "../../components/cards/NoticeCard";
 import {useRouter} from "next/router";
 import {useState} from "react";
 import {faMicrophoneSlash} from "@fortawesome/free-solid-svg-icons/faMicrophoneSlash";
 import Switch from "../../components/controls/Switch";
+import Button from "../../components/controls/Button";
+import Link from "next/link";
+import {faUserLock} from "@fortawesome/free-solid-svg-icons/faUserLock";
 
 function SwitchSetting({mutatingProp, settings, changeSetting, name, hint, icon, prop}) {
   return <FandomHeader
@@ -72,31 +74,44 @@ export default function MySettings() {
       list={<div className={classes.padUp}>
         {router.query.state === "password_changed" && alertShown && <NoticeCard
           title={<>Пароль успешно изменён. <a href="#" onClick={() => setAlertShown(false)}>Закрыть</a></>}
-          content="Пароль на этом аккаунте был изменён. Его надо будет вводить снова в приложении."
+          content="Пароль на этом аккаунте был изменён."
         />}
         <h1 className={classes.smallerH1}>Настройки</h1>
         <NoticeCard
           title={"Безопасность"}
           content={<>
             <FandomHeader
-              el="div" link="/me/settings/password" name="Email"
+              el="div"
+              noLink
+              name="E-mail"
               author={settings.security.email}
               addLeft={<FontAwesomeIcon icon={faEnvelope} />}
+              addRight={settings.security.email &&
+                <Link href="/me/settings/email" passHref>
+                  <Button el="a">Изменить</Button>
+                </Link>}
               dense
             />
+            {settings.security.email && <FandomHeader
+              el="div"
+              noLink
+              name="Пароль"
+              author={"••••••••"}
+              addLeft={<FontAwesomeIcon icon={faUserLock} />}
+              addRight={settings.security.email &&
+                <Link href="/me/settings/password" passHref>
+                  <Button el="a">Изменить</Button>
+                </Link>}
+              dense
+            />}
             <FandomHeader
-              el="div" onClick={() => {}}
+              el="div"
+              noLink
               name={<Tooltip text="Входить через Google можно только в приложении">Google</Tooltip>}
               author={settings.security.google ?
                 `Вы вошли в Google. ID: ${settings.security.google}` :
                 "Вы не вошли в Google"}
               addLeft={<FontAwesomeIcon icon={faGoogle} />}
-              dense
-            />
-            <FandomHeader
-              el="div" link="/me/settings/password"
-              name="Изменить пароль"
-              addLeft={<FontAwesomeIcon icon={faUserLock} />}
               dense
             />
           </>}

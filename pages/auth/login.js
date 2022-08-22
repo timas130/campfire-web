@@ -69,7 +69,7 @@ export default function Login() {
           Email:
           <Input
             type="email" autoComplete="email" name="email"
-            placeholder="me@33rd.dev" required
+            placeholder="me@sit.sh" required
           />
         </InputLabel>
         <InputLabel>
