@@ -29,14 +29,17 @@ export async function fetchFandoms(req, res, sub, request = {}) {
         ...request,
       },
     )).J_RESPONSE.fandoms;
-    cache.put(cacheKey, resp, 120000);
+    if (!request.name) cache.put(cacheKey, resp, 120000);
     return resp;
   }
 }
 
 export default async function fandomsHandler(req, res) {
   try {
-    res.send(await fetchFandoms(req, res, req.query.account, {offset: req.query.offset}));
+    res.send(await fetchFandoms(req, res, req.query.account, {
+      offset: req.query.offset,
+      name: req.query.query || "",
+    }));
   } catch (e) {
     sendErrorIfFromRemote(res, e);
   }

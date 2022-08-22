@@ -10,6 +10,11 @@ import {KarmaCounter} from "../../components/Karma";
 import Tooltip from "../../components/Tooltip";
 import Head from "next/head";
 import MetaTags from "../../components/MetaTags";
+import searchClasses from "../../styles/Search.module.css";
+import Input from "../../components/controls/Input";
+import Button from "../../components/controls/Button";
+import {useEffect, useState} from "react";
+import {useRouter} from "next/router";
 
 function Fandom({fandom}) {
   return <FandomHeader
@@ -28,14 +33,29 @@ function Fandom({fandom}) {
 }
 
 export default function Fandoms() {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    if (router.isReady) setSearchQuery(router.query.q);
+  }, [router.isReady, router.query.q]);
+
   const {data: user, isValidating} = useSWRUser();
   const {data: fandomSub, ref: subRef, showLoader: subLoader}
     = useInfScroll(user && `/api/fandom?account=${user.J_ID}`);
   const {data: fandomPages, ref, showLoader}
-    = useInfScroll("/api/fandom");
+    = useInfScroll(`/api/fandom?query=${encodeURIComponent(searchQuery)}`);
 
   const subFlat = (fandomSub || []).flat();
-  const globalFlat = (fandomPages || []).flat().filter(a => !subFlat.find(b => a.id === b.id));
+  const globalFlat = (fandomPages || []).flat()
+    .filter(a => searchQuery || !subFlat.find(b => a.id === b.id));
+
+  const submit = ev => {
+    ev.preventDefault();
+    const query = new FormData(ev.target).get("q");
+    setSearchQuery(query);
+    router.replace("/fandom", "/fandom?q=" + encodeURIComponent(query));
+  };
 
   return <>
     <Head>
@@ -47,13 +67,20 @@ export default function Fandoms() {
     </Head>
     <FeedLayout
       list={<>
-        {(user || isValidating) && <>
+        <form className={searchClasses.bar} action="/fandom" method="get" onSubmit={submit}>
+          <Input type="search" placeholder="Поиск фэндомов" name="q"
+                 className={searchClasses.input} defaultValue={searchQuery} />
+          <Button type="submit">Искать</Button>
+        </form>
+        {(user || isValidating) && !searchQuery && <>
           <h2 className={classes.fandomDivider}>Подписки</h2>
-          {subFlat.map(fandom => <Fandom fandom={fandom} key={fandom.id} />)}
+          {subFlat.map(fandom => <Fandom fandom={fandom} key={`${fandom.id}-${fandom.languageId}`} />)}
           {subLoader && <FeedLoader ref={subRef} />}
         </>}
-        <h2 className={classes.fandomDivider}>Все фэндомы</h2>
-        {globalFlat.map(fandom => <Fandom fandom={fandom} key={fandom.id} />)}
+        <h2 className={classes.fandomDivider}>
+          {searchQuery ? "Поиск по фэндомам" : "Все фэндомы"}
+        </h2>
+        {globalFlat.map(fandom => <Fandom fandom={fandom} key={`${fandom.id}-${fandom.languageId}`} />)}
         {showLoader && <FeedLoader ref={ref} />}
       </>}
       sidebar={<>

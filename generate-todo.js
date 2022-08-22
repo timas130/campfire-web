@@ -25,6 +25,7 @@ let totalRequests = requestList.length, usedRequests = 0;
 
 const sourceFiles = glob.sync("./**/*.js");
 for (const file of sourceFiles) {
+  if (file.includes("node_modules") || file.includes("public/vs")) continue;
   const source = fs.readFileSync(file);
   for (let i = 0; i < requestList.length; i++) {
     if ( // i know, ineffective af. i'm just lazy

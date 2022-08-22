@@ -6,7 +6,7 @@ import {useUser} from "../lib/client-api";
 import classNames from "classnames";
 import {DailyQuest} from "./DailyQuest";
 import {useTheme} from "../lib/theme";
-import {CogIcon, LogoutIcon, MoonIcon, PencilIcon, SunIcon} from "@heroicons/react/outline";
+import {CashIcon, CogIcon, LogoutIcon, MoonIcon, PencilIcon, SunIcon, ViewGridIcon} from "@heroicons/react/outline";
 import {Popover, Transition} from "@headlessui/react";
 import classesDropdown from "../styles/Dropdown.module.css";
 import {SponsorStar} from "./FandomHeader";
@@ -65,12 +65,19 @@ const MenuButton = React.forwardRef(function _MenuButton({text, icon = null, hre
   </Popover.Button>;
 });
 
+function MenuDivider() {
+  return <div className={classes.menuDivider} />;
+}
+
 function HeaderMenu() {
   const router = useRouter();
 
   return <div className={classNames(classes.menu)}>
     <HeaderProfile full />
     <DailyQuest />
+    <MenuButton icon={<ViewGridIcon />} text="Фэндомы" href="/fandom" />
+    <MenuButton icon={<CashIcon />} text="Пожертвования" href="/donates" />
+    <MenuDivider />
     <MenuButton icon={<PencilIcon />} text="Черновики" href="/drafts" />
     <MenuButton icon={<CogIcon />} text="Настройки" href="/me/settings" />
     <MenuButton icon={<LogoutIcon />} text="Выйти" onClick={() => {

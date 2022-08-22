@@ -123,6 +123,13 @@
     color: var(--text-secondary);
 }
 
+.menuDivider {
+    width: 100%;
+    height: 2px;
+    background: var(--background-element);
+    border-radius: 1px;
+}
+
 @media screen and (max-width: 512px) {
     .header {
         padding: 0 0.5rem;
