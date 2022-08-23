@@ -37,7 +37,7 @@ export default function Fandoms() {
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    if (router.isReady) setSearchQuery(router.query.q);
+    if (router.isReady) setSearchQuery(router.query.q || "");
   }, [router.isReady, router.query.q]);
 
   const {data: user, isValidating} = useSWRUser();
