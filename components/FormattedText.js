@@ -113,7 +113,7 @@ export class TextFormatter {
           this.text.charAt(this.i) === "[" &&
           this.text.length - 1 >= TextFormatter.charNoFormatEnd.length &&
           this.text.substring(this.i, this.i + TextFormatter.charNoFormatEnd.length) ===
-            TextFormatter.charNoFormatEnd &&
+          TextFormatter.charNoFormatEnd &&
           (this.i === 0 || this.text.charAt(this.i - 1) !== TextFormatter.charProtector)
         ) {
           this.i += TextFormatter.charNoFormatEnd.length;
@@ -156,14 +156,26 @@ export class TextFormatter {
       if (!this.isInLink() && this.parseHtmlTag("_", "u")) continue;
       if (this.parseLink()) continue;
       if (this.text.charAt(this.i) === "{") {
-        const colorEndIdx = this.findNext(" ", this.i + 1);
-        if (colorEndIdx !== -1) {
-          const colorName = this.text.substring(this.i + 1, colorEndIdx);
-          const color = TextFormatter.colors[colorName];
-          if (color && this.parseColorName(colorName, color)) continue;
-        }
-
         if (this.parseColorHash()) continue;
+
+        let doBreak = false;
+        for (const color in TextFormatter.colors) {
+          let matches = true;
+          if (this.text.length - this.i < color.length + 2) continue;
+
+          const colorWithSpace = color + " ";
+          for (let i = 0; i < color.length; i++) {
+            if (this.text.charAt(this.i + i + 1).toLowerCase() !== colorWithSpace.charAt(i)) {
+              matches = false;
+              break;
+            }
+          }
+          if (matches && this.parseColorName(color, TextFormatter.colors[color])) {
+            doBreak = true;
+            break;
+          }
+        }
+        if (doBreak) break;
       }
       this.pushStr(this.text.charAt(this.i++));
     }
@@ -328,24 +340,14 @@ export class TextFormatter {
 
   parseColorName(name, hash) {
     try {
-      if (this.text.charAt(this.i) === "{") {
-        for (let i = 0; i < name.length; i++) {
-          if (this.text.charAt(this.i + 1 + i).toLowerCase() !== name.charAt(i)) {
-            return false;
-          }
-        }
-
-        if (! this.text.charAt(this.i + name.length + 1) === " ") return false;
-
-        const next = this.findNext("}", name.length + 1);
-        if (next !== -1) {
-          const t = new TextFormatter(this.text.substring(this.i + name.length + 2, next), this.i).parseHtml();
-          t.props.style.color = hash;
-          this.result.props.children.push(t);
-        }
+      const next = this.findNext("}", name.length + 1);
+      if (next !== -1) {
+        const t = new TextFormatter(this.text.substring(this.i + name.length + 2, next), this.i).parseHtml();
+        t.props.style.color = hash;
+        this.result.props.children.push(t);
         this.i = next + 1;
-        return true;
       }
+      return true;
     } catch (e) {
       console.warn("parser error:", e);
     }
