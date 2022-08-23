@@ -37,6 +37,27 @@ export class TextFormatter {
   static chars = ["\\", "@", "*", "^", "~", "_", "{", "}"];
   static charNoFormat = "[noFormat]";
   static charNoFormatEnd = "[/noFormat]";
+  static colors = {
+    "red": "#D32F2F",
+    "pink": "#C2185B",
+    "purple": "#7B1FA2",
+    "indigo": "#303F9F",
+    "blue": "#1976D2",
+    "cyan": "#0097A7",
+    "teal": "#00796B",
+    "green": "#388E3C",
+    "lime": "#689F38",
+    "yellow": "#FBC02D",
+    "amber": "#FFA000",
+    "orange": "#F57C00",
+    "brown": "#5D4037",
+    "grey": "#616161",
+    "campfire": "#FF6D00",
+    "_cweb_text": "var(--text)",
+    "_cweb_secondary": "var(--text-secondary)",
+    "_cweb_red": "var(--red)",
+    "_cweb_green": "var(--green)",
+  };
 
   static textChars = new RegExp(linkifyRe().src_ZPCc);
 
@@ -91,7 +112,8 @@ export class TextFormatter {
         if (
           this.text.charAt(this.i) === "[" &&
           this.text.length - 1 >= TextFormatter.charNoFormatEnd.length &&
-          this.text.substring(this.i, this.i + TextFormatter.charNoFormatEnd.length) === TextFormatter.charNoFormatEnd &&
+          this.text.substring(this.i, this.i + TextFormatter.charNoFormatEnd.length) ===
+            TextFormatter.charNoFormatEnd &&
           (this.i === 0 || this.text.charAt(this.i - 1) !== TextFormatter.charProtector)
         ) {
           this.i += TextFormatter.charNoFormatEnd.length;
@@ -133,25 +155,16 @@ export class TextFormatter {
       if (this.parseHtmlTag("~", "s")) continue;
       if (!this.isInLink() && this.parseHtmlTag("_", "u")) continue;
       if (this.parseLink()) continue;
-      if (this.parseColorHash()) continue;
-      if (this.parseColorName("red", "#D32F2F")) continue;
-      if (this.parseColorName("pink", "#C2185B")) continue;
-      if (this.parseColorName("purple", "#7B1FA2")) continue;
-      if (this.parseColorName("indigo", "#303F9F")) continue;
-      if (this.parseColorName("blue", "#1976D2")) continue;
-      if (this.parseColorName("cyan", "#0097A7")) continue;
-      if (this.parseColorName("teal", "#00796B")) continue;
-      if (this.parseColorName("green", "#388E3C")) continue;
-      if (this.parseColorName("lime", "#689F38")) continue;
-      if (this.parseColorName("yellow", "#FBC02D")) continue;
-      if (this.parseColorName("amber", "#FFA000")) continue;
-      if (this.parseColorName("orange", "#F57C00")) continue;
-      if (this.parseColorName("brown", "#5D4037")) continue;
-      if (this.parseColorName("grey", "#616161")) continue;
-      if (this.parseColorName("campfire", "#FF6D00")) continue;
-      if (this.parseColorName("_cweb_secondary", "var(--text-secondary)")) continue;
-      if (this.parseColorName("_cweb_red", "var(--red)")) continue;
-      if (this.parseColorName("_cweb_green", "var(--green)")) continue;
+      if (this.text.charAt(this.i) === "{") {
+        const colorEndIdx = this.findNext(" ", this.i + 1);
+        if (colorEndIdx !== -1) {
+          const color = this.text.substring(this.i + 1, colorEndIdx);
+          const colorName = TextFormatter.colors[color];
+          if (this.parseColorName(colorName, color)) continue;
+        }
+
+        if (this.parseColorHash()) continue;
+      }
       this.pushStr(this.text.charAt(this.i++));
     }
   }
