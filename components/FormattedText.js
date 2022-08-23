@@ -158,9 +158,9 @@ export class TextFormatter {
       if (this.text.charAt(this.i) === "{") {
         const colorEndIdx = this.findNext(" ", this.i + 1);
         if (colorEndIdx !== -1) {
-          const color = this.text.substring(this.i + 1, colorEndIdx);
-          const colorName = TextFormatter.colors[color];
-          if (this.parseColorName(colorName, color)) continue;
+          const colorName = this.text.substring(this.i + 1, colorEndIdx);
+          const color = TextFormatter.colors[colorName];
+          if (color && this.parseColorName(colorName, color)) continue;
         }
 
         if (this.parseColorHash()) continue;
