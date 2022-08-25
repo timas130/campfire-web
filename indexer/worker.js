@@ -15,7 +15,7 @@ async function work() {
           resp = (await sendRequest("RPublicationsGetAll", {
             onlyWithFandom: false,
             accountId: 0,
-            unitTypes: [9],
+            unitTypes: [9, 1],
             parentUnitId: 0,
             fandomId: 0,
             fandomsIds: [],
@@ -41,7 +41,7 @@ async function work() {
       }
       let end = false;
       for (const unit of resp) {
-        if (unit.id === 4105243) {
+        if (unit.id === 4712213) {
           end = true;
           break;
         }

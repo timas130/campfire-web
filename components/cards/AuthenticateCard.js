@@ -17,11 +17,8 @@ export default function AuthenticateCard() {
       Заходите на огонек!
     </header>
     <div className={classNames(classes.cardContent, classes.authenticate)}>
-      <Link href="/auth/register" passHref>
-        <Button el="a" fullWidth className={classes.registerButton}>Зарегистрироваться</Button>
-      </Link>
       <Link href="/auth/login" passHref>
-        <Button el="a" noBackground>Войти</Button>
+        <Button el="a" noBackground fullWidth>Войти / Зарегистрироваться</Button>
       </Link>
     </div>
   </section>;

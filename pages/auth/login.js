@@ -11,6 +11,7 @@ import shajs from "sha.js";
 import {fbAuth} from "../../lib/firebase";
 import Spinner from "../../components/Spinner";
 import {useRouter} from "next/router";
+import {googleRedirectUrl} from "../../lib/google";
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +34,8 @@ export default function Login() {
           window.location = "/";
         } else {
           // noinspection JSIgnoredPromiseFromCall
-          router.push("/auth/register");
+          setError("Регистрация отключена и даже подтверждение почты вам не поможет.");
+          setIsLoading(false);
         }
       })
       .catch(err => {
@@ -61,7 +63,11 @@ export default function Login() {
         <h1 className={classes.h1}>
           Вход
         </h1>
-        {/* FIXME: generate error pages statically */}
+        <p>
+          Предупреждение: регистрация, используя аккаунт Google,
+          пока доступа только в приложении. Регистрация по почте
+          не работает вообще.
+        </p>
         {error && <div className={classes.error}>
           {error}
         </div>}
@@ -79,9 +85,10 @@ export default function Login() {
             placeholder="••••••••" required
           />
         </InputLabel>
-        <input type="hidden" name="redir" value="true" />
         <div className={classes.buttons}>
-          <Link href="/auth/register" passHref><Button type="button" noBackground>Регистрация</Button></Link>
+          <Link href={googleRedirectUrl} passHref>
+            <Button el="a" secondary>Войти через Google</Button>
+          </Link>
           {!isLoading ?
             <Button type="submit" className={classes.buttonRight}>Войти</Button> :
             <Spinner className={classes.spinner} />}

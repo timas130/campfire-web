@@ -1,7 +1,7 @@
 const fs = require("fs");
 require("dotenv").config({path: ".env.local"});
 
-let posts = fs.readFileSync("./result.2023.log", {encoding: "utf8"})
+let posts = fs.readFileSync("./result.2024.log", {encoding: "utf8"})
   .split("\n")
   .flatMap(a => a.length > 0 ? JSON.parse(a) : []);
 
@@ -50,7 +50,7 @@ function createContent(pages) {
 }
 
 posts = posts
-  .map(a => ({
+  .map(a => a.unitType === 9 ? {
     "activity-name": a.userActivity?.name ?? "",
     "content": createContent(a.jsonDB.J_PAGES),
     "creator-name": a.creator.J_NAME,
@@ -66,6 +66,17 @@ posts = posts
     "closed": a.closed,
     "comment-count": a.subUnitsCount,
     "raw_data": JSON.stringify(a),
-  }));
+  } : {
+    "content": a.jsonDB.J_TEXT,
+    "creator-name": a.creator.J_NAME,
+    "fandom-name": a.fandom.name,
+    "id": a.id,
+    "creator-id": a.creator.J_ID,
+    "fandom-id": a.fandom.id,
+    "created": a.dateCreate,
+    "language": a.languageId,
+    "closed": a.closed,
+    "raw_data": JSON.stringify(a),
+  });
 
 fs.writeFileSync("./result.2023.p.log", JSON.stringify(posts));

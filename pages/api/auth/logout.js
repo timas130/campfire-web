@@ -1,7 +1,7 @@
 import Cookies from "cookies";
 
 export function logout(req, res) {
-  const cookies = new Cookies(req, res);
+  const cookies = new Cookies(req, res, {secure: true});
   cookies.set("token", null);
   cookies.set("refreshToken", null);
   cookies.set("loginToken", null);

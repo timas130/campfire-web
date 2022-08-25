@@ -15,7 +15,7 @@ const threads = parseInt(args[4]) || 1;
 
 // const bar = new ProgressBar(":id (off :offset) :bar", {total: endId});
 
-const resultFile = fs.createWriteStream("./result.2023.log");
+const resultFile = fs.createWriteStream("./result.2024.log");
 
 const workers = [];
 for (let thread = 0; thread < threads; thread++) {
