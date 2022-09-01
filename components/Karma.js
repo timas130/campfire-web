@@ -60,7 +60,8 @@ export default function Karma(props) {
         .then(r => {
           setMyKarmaClient(r.myKarmaCount);
           setLoadingDirection(null);
-          return mutate("/api/user/quest", quest => {
+          // noinspection JSIgnoredPromiseFromCall
+          mutate("/api/user/quest", quest => {
             if (quest.questIndex === 6) {
               quest.questProgress++;
             }
