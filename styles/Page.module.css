@@ -371,3 +371,47 @@ select.codePageEditorSelect {
     vertical-align: bottom;
 }
 /*#endregion*/
+/*#region VideoPage*/
+.videoPage {
+    position: relative;
+}
+.videoHidden {
+    background: var(--background-element);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.videoPage::before {
+    content: "";
+    display: block;
+    padding-bottom: calc(100% / (16 / 9));
+}
+.videoPage > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.videoPageHeadline {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+.videoPageText {
+    font-size: 1.1rem;
+    padding: 1rem;
+}
+.left {
+    margin-right: 0.5rem;
+}
+
+@media screen and (max-width: 500px) {
+    .videoPageText {
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+}
+/*#endregion*/

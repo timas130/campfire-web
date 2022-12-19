@@ -15,6 +15,7 @@ import PollPage from "./PollPage";
 import {CheckIcon, XIcon, TrashIcon, SelectorIcon} from "@heroicons/react/solid";
 import {blobToBase64} from "../../../../lib/client-api";
 import {getErrorText, showErrorToast} from "../../../../lib/ui";
+import VideoPage from "./VideoPage";
 
 const pageTypes = {
   1: TextPage,
@@ -24,6 +25,7 @@ const pageTypes = {
   5: QuotePage,
   6: SpoilerPage,
   7: PollPage,
+  9: VideoPage,
   12: CampfireObjectPage,
   16: CodePage,
 };

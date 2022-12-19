@@ -210,8 +210,8 @@ function _Post(props) {
   </article></Transition>;
 }
 
-export default React.memo(function Post(props) {
+export default function Post(props) {
   return <PostModerationProvider pub={props.post}>
     <_Post {...props} />
   </PostModerationProvider>;
-});
+};
