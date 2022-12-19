@@ -158,7 +158,7 @@ export class TextFormatter {
       if (this.text.charAt(this.i) === "{") {
         if (this.parseColorHash()) continue;
 
-        let doBreak = false;
+        let colorMatches = false;
         for (const color in TextFormatter.colors) {
           let matches = true;
           if (this.text.length - this.i < color.length + 2) continue;
@@ -171,11 +171,11 @@ export class TextFormatter {
             }
           }
           if (matches && this.parseColorName(color, TextFormatter.colors[color])) {
-            doBreak = true;
+            colorMatches = true;
             break;
           }
         }
-        if (doBreak) break;
+        if (colorMatches) continue;
       }
       this.pushStr(this.text.charAt(this.i++));
     }
