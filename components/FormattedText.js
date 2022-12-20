@@ -32,6 +32,7 @@ const linkifyInst = linkify()
 export const sayzenLink = /^https?:\/\/(?:sayzen\.ru|campfiresayzen\.net)\/r\/r\.php\?a=(.+)$/;
 
 export class TextFormatter {
+  static whitespace = /[\x00-\x1F\x7F-\x9F \xA0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000]/;
   static charProtector = "\\";
   static charProtectorWord = "@";
   static chars = ["\\", "@", "*", "^", "~", "_", "{", "}"];
@@ -87,7 +88,7 @@ export class TextFormatter {
     }, []);
     while (this.i < this.text.length) {
       if (this.skipToSpace) {
-        if (this.text.charAt(this.i) === " ") {
+        if (TextFormatter.whitespace.test(this.text.charAt(this.i))) {
           this.skipToSpace = false;
           if (
             this.text.charAt(this.i - 1) !== "@" &&
