@@ -35,13 +35,18 @@ const HeaderProfile = React.forwardRef(function _HeaderProfile({full = false}, r
     </>;
 
     if (full) {
-      return <Popover.Button className={classes.buttonReset}>
-        <Link href={`/account/${encodeURIComponent(account.J_NAME)}`}>
-          <a className={classNames(classes.account, classes.accountFull)} ref={ref}>
+      return (
+        <Popover.Button className={classes.buttonReset}>
+          <Link
+            href={`/account/${encodeURIComponent(account.J_NAME)}`}
+            className={classNames(classes.account, classes.accountFull)}
+            ref={ref}>
+
             {inner}
-          </a>
-        </Link>
-      </Popover.Button>;
+
+          </Link>
+        </Popover.Button>
+      );
     } else {
       return <Popover.Button
         className={classNames(classes.buttonReset, classes.account)}
@@ -51,18 +56,22 @@ const HeaderProfile = React.forwardRef(function _HeaderProfile({full = false}, r
       </Popover.Button>;
     }
   } else {
-    return <Link href="/auth/login" passHref>
-      <Button el="a">Войти</Button>
-    </Link>;
+    return (
+      <Link href="/auth/login" passHref legacyBehavior>
+        <Button el="a">Войти</Button>
+      </Link>
+    );
   }
 });
 
 const MenuButton = React.forwardRef(function _MenuButton({text, icon = null, href, onClick}, ref) {
-  return <Popover.Button className={classNames(classes.buttonReset, classes.navLink)}>
-    {href ? <Link href={href} onClick={onClick}>
-      <a className={classes.navLink} ref={ref}>{icon} {text}</a>
-    </Link> : <div className={classes.navLink} ref={ref} onClick={onClick}>{icon} {text}</div>}
-  </Popover.Button>;
+  return (
+    <Popover.Button className={classNames(classes.buttonReset, classes.navLink)}>
+      {href ? <Link href={href} onClick={onClick} className={classes.navLink} ref={ref}>
+        {icon} {text}
+      </Link> : <div className={classes.navLink} ref={ref} onClick={onClick}>{icon} {text}</div>}
+    </Popover.Button>
+  );
 });
 
 function MenuDivider() {
@@ -96,11 +105,11 @@ function ThemeButton() {
 export default function Header() {
   return <>
     <nav className={classNames(classes.header)}>
-      <Link href="/">
-        <a className={classes.h1link}>Campfire</a>
+      <Link href="/" className={classes.h1link}>
+        Campfire
       </Link>
-      <Link href="/post/search">
-        <a className={classes.navLink}>Поиск</a>
+      <Link href="/post/search" className={classes.navLink}>
+        Поиск
       </Link>
       <div className={classes.spacer} />
       <ThemeButton />

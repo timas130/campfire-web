@@ -200,14 +200,12 @@ function ModerationImportant({pub}) {
   return <>
     {pub.jsonDB.moderation.isImportant ? <div className={classes.modContent}>
       Модератор <MLink pub={pub} /> <MSex pub={pub} he="добавил" she="+а" /> метку
-      важности к посту <Link href={`/post/${pub.jsonDB.moderation.importantUnitId}`}><a>
-        @post_{pub.jsonDB.moderation.importantUnitId}
-      </a></Link>.
+      важности к посту <Link href={`/post/${pub.jsonDB.moderation.importantUnitId}`}>@post_{pub.jsonDB.moderation.importantUnitId}
+    </Link>.
     </div> : <div className={classes.modContent}>
       Модератор <MLink pub={pub} /> <MSex pub={pub} he="убрал" she="+а" /> метку
-      важности с поста <Link href={`/post/${pub.jsonDB.moderation.importantUnitId}`}><a>
-        @post_{pub.jsonDB.moderation.importantUnitId}
-      </a></Link>.
+      важности с поста <Link href={`/post/${pub.jsonDB.moderation.importantUnitId}`}>@post_{pub.jsonDB.moderation.importantUnitId}
+    </Link>.
     </div>}
     <MComment pub={pub} />
   </>;
@@ -243,9 +241,8 @@ function ModerationToDrafts({pub}) {
   return <>
     <div className={classes.modContent}>
       Модератор <MLink pub={pub} /> <MSex pub={pub} he="переместил" she="+а" /> пост&nbsp;
-      <Link href={`/post/${pub.jsonDB.moderation.unitId}`}><a>
-        @post_{pub.jsonDB.moderation.unitId}
-      </a></Link> пользователя <TLink pub={pub} /> в черновики.
+      <Link href={`/post/${pub.jsonDB.moderation.unitId}`}>@post_{pub.jsonDB.moderation.unitId}
+      </Link> пользователя <TLink pub={pub} /> в черновики.
     </div>
     <MComment pub={pub} />
   </>;
@@ -264,9 +261,8 @@ function ModerationPostTags({pub}) {
   return <>
     <div className={classes.modContent}>
       Модератор <MLink pub={pub} /> <MSex pub={pub} he="изменил" she="+а" /> теги поста&nbsp;
-      <Link href={`/post/${pub.jsonDB.moderation.unitId}`}><a>
-        @post_{pub.jsonDB.moderation.unitId}
-      </a></Link>.
+      <Link href={`/post/${pub.jsonDB.moderation.unitId}`}>@post_{pub.jsonDB.moderation.unitId}
+      </Link>.
     </div>
     {newTags.length > 0 && <div className={classes.modContent}>
       Добавлены теги: {newTags.join(", ")}
@@ -359,9 +355,8 @@ function ModerationPinPostInFandom({pub}) {
       Модератор <MLink pub={pub} />&nbsp;
       <MSex pub={pub} he={pub.jsonDB.moderation.postId ? "закрепил" : "открепил"} she="+а" />
       &nbsp;пост&nbsp;
-      <Link href={`/post/${pub.jsonDB.moderation.postId}`}><a>
-        @post_{pub.jsonDB.moderation.postId || pub.jsonDB.moderation.oldPostId}
-      </a></Link>.
+      <Link href={`/post/${pub.jsonDB.moderation.postId}`}>@post_{pub.jsonDB.moderation.postId || pub.jsonDB.moderation.oldPostId}
+      </Link>.
     </div>
     {pub.jsonDB.moderation.oldPostId > 0 && <div className={classes.modContent}>
       <FormattedText text={"{_cweb_secondary Заметка разработчика веба: почему-то сервер " +
@@ -377,9 +372,8 @@ function ModerationMultilingualNot({pub}) {
     <div className={classes.modContent}>
       Модератор <MLink pub={pub} /> <MSex pub={pub} he="убрал" she="+а" /> метку
       мультиязычности с поста&nbsp;
-      <Link href={`/post/${pub.jsonDB.moderation.unitId}`}><a>
-        @post_{pub.jsonDB.moderation.unitId}
-      </a></Link> пользователя <TLink pub={pub} />.
+      <Link href={`/post/${pub.jsonDB.moderation.unitId}`}>@post_{pub.jsonDB.moderation.unitId}
+      </Link> пользователя <TLink pub={pub} />.
     </div>
     <MComment pub={pub} />
   </>;
@@ -389,9 +383,8 @@ function ModerationPostClose({pub}) {
   return <>
     <div className={classes.modContent}>
       Модератор <MLink pub={pub} /> <MSex pub={pub} he="закрыл" she="+а" /> пост&nbsp;
-      <Link href={`/post/${pub.jsonDB.moderation.postId}`}><a>
-        @post_{pub.jsonDB.moderation.postId}
-      </a></Link>.
+      <Link href={`/post/${pub.jsonDB.moderation.postId}`}>@post_{pub.jsonDB.moderation.postId}
+      </Link>.
     </div>
     <MComment pub={pub} />
   </>;
@@ -401,9 +394,8 @@ function ModerationPostCloseNo({pub}) {
   return <>
     <div className={classes.modContent}>
       Модератор <MLink pub={pub} /> <MSex pub={pub} he="открыл" she="+а" /> пост&nbsp;
-      <Link href={`/post/${pub.jsonDB.moderation.postId}`}><a>
-        @post_{pub.jsonDB.moderation.postId}
-      </a></Link>.
+      <Link href={`/post/${pub.jsonDB.moderation.postId}`}>@post_{pub.jsonDB.moderation.postId}
+      </Link>.
     </div>
     <MComment pub={pub} />
   </>;
@@ -415,7 +407,7 @@ function ModerationRubricChangeName({pub}) {
       Модератор <MLink pub={pub} /> <MSex pub={pub} he="изменил" she="+а" /> название рубрики с
       &quot;{pub.jsonDB.moderation.rubricOldName}&quot; на&nbsp;
       <Link href={`/rubric/${pub.jsonDB.moderation.rubricId}`}>
-        <a>&quot;{pub.jsonDB.moderation.rubricNewName}&quot;</a>
+        &quot;{pub.jsonDB.moderation.rubricNewName}&quot;
       </Link>.
     </div>
     <MComment pub={pub} />
@@ -428,7 +420,7 @@ function ModerationRubricChangeOwner({pub}) {
       Модератор <MLink pub={pub} /> <MSex pub={pub} he="изменил" she="+а" /> владельца
       рубрики&nbsp;
       <Link href={`/rubric/${pub.jsonDB.moderation.rubricId}`}>
-        <a>&quot;{pub.jsonDB.moderation.rubricName}&quot;</a>
+        &quot;{pub.jsonDB.moderation.rubricName}&quot;
       </Link> с&nbsp;
       <ShortAccountLink name={pub.jsonDB.moderation.oldOwnerName} /> на&nbsp;
       <ShortAccountLink name={pub.jsonDB.moderation.newOwnerName} />.
@@ -442,7 +434,7 @@ function ModerationRubricCreate({pub}) {
     <div className={classes.modContent}>
       Модератор <MLink pub={pub} /> <MSex pub={pub} he="создал" she="+а" /> рубрику&nbsp;
       <Link href={`/rubric/${pub.jsonDB.moderation.rubricId}`}>
-        <a>&quot;{pub.jsonDB.moderation.rubricName}&quot;</a>
+        &quot;{pub.jsonDB.moderation.rubricName}&quot;
       </Link> и назначил <ShortAccountLink name={pub.jsonDB.moderation.ownerName} /> её владельцем.
     </div>
     <MComment pub={pub} />
@@ -466,13 +458,13 @@ function ModerationRubricFandomMove({pub}) {
       Администратор <MLink pub={pub} /> <MSex pub={pub} he="изменил" she="+а" /> фэндом
       рубрики&nbsp;
       <Link href={`/rubric/${pub.jsonDB.moderation.rubricId}`}>
-        <a>&quot;{pub.jsonDB.moderation.rubricName}&quot;</a>
+        &quot;{pub.jsonDB.moderation.rubricName}&quot;
       </Link> с&nbsp;
       <Link href={`/fandom/${pub.jsonDB.moderation.srcFandomId}`}>
-        <a>{pub.jsonDB.moderation.srcFandomName}</a>
+        {pub.jsonDB.moderation.srcFandomName}
       </Link> на&nbsp;
       <Link href={`/fandom/${pub.jsonDB.moderation.destFandomId}`}>
-        <a>{pub.jsonDB.moderation.destFandomName}</a>
+        {pub.jsonDB.moderation.destFandomName}
       </Link>.
     </div>
     <MComment pub={pub} />
@@ -529,7 +521,7 @@ function ModerationActivitiesCreate({pub}) {
     <div className={classes.modContent}>
       Модератор <MLink pub={pub} /> <MSex pub={pub} he="создал" she="+а" /> эстафету&nbsp;
       <Link href={`/activity/${pub.jsonDB.moderation.activityId}`}>
-        <a>&quot;{pub.jsonDB.moderation.name}&quot;</a>
+        &quot;{pub.jsonDB.moderation.name}&quot;
       </Link>.
     </div>
     <MComment pub={pub} />
@@ -542,7 +534,7 @@ function ModerationActivitiesChange({pub}) {
     <div className={classes.modContent}>
       Модератор <MLink pub={pub} /> <MSex pub={pub} he="изменил" she="+а" /> эстафету&nbsp;
       <Link href={`/activity/${mod.activityId}`}>
-        <a>&quot;{mod.oldName}&quot;</a>
+        &quot;{mod.oldName}&quot;
       </Link>.
     </div>
     {mod.newName !== mod.oldName && <div className={classes.modContent}>
@@ -569,29 +561,33 @@ export default function Moderation({pub}) {
   const ContentEl = moderationTypes[pub.jsonDB.moderation.type] || ModerationUnknown;
   const router = useRouter();
 
-  return <article className={classes.post}>
-    <FandomHeader
-      el="header"
-      fandom={pub.fandom}
-      author={<>Модер {pub.creator.J_NAME}<SponsorStar account={pub.creator} /></>}
-      authorLink={`/account/${encodeURIComponent(pub.creator.J_NAME)}`}
-      addSecondary={<>
-        {pub.jsonDB.moderation.accountId && <>
-          <Link href={`/account/${encodeURIComponent(pub.jsonDB.moderation.accountId)}`}>
-            <a className={classes.headerAuthor}>Юзер {pub.jsonDB.moderation.accountName}</a>
-          </Link> •&nbsp;
+  return (
+    <article className={classes.post}>
+      <FandomHeader
+        el="header"
+        fandom={pub.fandom}
+        author={<>Модер {pub.creator.J_NAME}<SponsorStar account={pub.creator} /></>}
+        authorLink={`/account/${encodeURIComponent(pub.creator.J_NAME)}`}
+        addSecondary={<>
+          {pub.jsonDB.moderation.accountId && <>
+            <Link
+              href={`/account/${encodeURIComponent(pub.jsonDB.moderation.accountId)}`}
+              className={classes.headerAuthor}>
+              Юзер{pub.jsonDB.moderation.accountName}
+            </Link> •&nbsp;
+          </>}
+          <Tooltip text={dayjs(pub.dateCreate).locale("ru").calendar()}>
+            {dayjs(pub.dateCreate).locale("ru").fromNow()}
+          </Tooltip>
         </>}
-        <Tooltip text={dayjs(pub.dateCreate).locale("ru").calendar()}>
-          {dayjs(pub.dateCreate).locale("ru").fromNow()}
-        </Tooltip>
-      </>}
-    />
-    <ContentEl pub={pub} />
-    <div className={classes.footer}>
-      <div className={classes.spacer} />
-      <ShareButton link={router.basePath + `/mod/${pub.id}`} />
-      <CommentCounter target={null} href={`/mod/${pub.id}#comments`} count={pub.subUnitsCount} />
-      <Karma pub={pub} />
-    </div>
-  </article>;
+      />
+      <ContentEl pub={pub} />
+      <div className={classes.footer}>
+        <div className={classes.spacer} />
+        <ShareButton link={router.basePath + `/mod/${pub.id}`} />
+        <CommentCounter target={null} href={`/mod/${pub.id}#comments`} count={pub.subUnitsCount} />
+        <Karma pub={pub} />
+      </div>
+    </article>
+  );
 }

@@ -99,7 +99,7 @@ export default function FandomCard({ fandom, profile, info, fetchId = null, noLi
       <Button fullWidth onClick={changeSubscriptionStatus}>
         {subscriptionStatus !== SUB_TYPE_NONE ? "Отписаться" : "Подписаться"}
       </Button>
-      <Link href={`/drafts/0?fandom=${fandomL.id}`} passHref>
+      <Link href={`/drafts/0?fandom=${fandomL.id}`} passHref legacyBehavior>
         <Button el="a" fullWidth>
           Создать пост
         </Button>

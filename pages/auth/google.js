@@ -52,20 +52,22 @@ export default function GoogleCallback({error}) {
   if (!error) {
     return <Spinner className={classes.fullpageSpinner} />;
   } else {
-    return <div className={classes.layout}>
-      <div className={classes.card}>
-        <h1 className={classes.h1}>
-          Ошибка
-        </h1>
-        <p>
-          При входе в Google возникла ошибка. Код: {error}.
-        </p>
-        <div className={classes.buttons}>
-          <Link href="/auth/login" passHref>
-            <Button className={classes.buttonRight}>Назад</Button>
-          </Link>
+    return (
+      <div className={classes.layout}>
+        <div className={classes.card}>
+          <h1 className={classes.h1}>
+            Ошибка
+          </h1>
+          <p>
+            При входе в Google возникла ошибка. Код: {error}.
+          </p>
+          <div className={classes.buttons}>
+            <Link href="/auth/login" passHref legacyBehavior>
+              <Button className={classes.buttonRight}>Назад</Button>
+            </Link>
+          </div>
         </div>
       </div>
-    </div>;
+    );
   }
 }

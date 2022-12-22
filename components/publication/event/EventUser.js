@@ -70,17 +70,19 @@ function EventUserAchievement({pub}) {
 }
 
 function EventUserFandomSuggest({pub}) {
-  return <EventBase
-    pub={pub}
-    account={pub.creator}
-    icon={pub.jsonDB.event.fandomImageId}
-    title={<>
-      <AccountLink account={pub.creator} /> предложил(-а)
-      фэндом <Link href={`/fandom/${pub.jsonDB.event.fandomId}`}>
-        <a>{pub.jsonDB.event.fandomName}</a>
-      </Link>
-    </>}
-  />;
+  return (
+    <EventBase
+      pub={pub}
+      account={pub.creator}
+      icon={pub.jsonDB.event.fandomImageId}
+      title={<>
+        <AccountLink account={pub.creator} /> предложил(-а)
+        фэндом <Link href={`/fandom/${pub.jsonDB.event.fandomId}`}>
+          {pub.jsonDB.event.fandomName}
+        </Link>
+      </>}
+    />
+  );
 }
 
 function EventUserAdminBanned({pub}) {
@@ -225,135 +227,147 @@ function EventUserRemoveTitleImage({pub}) {
 }
 
 function EventUserFandomMakeModerator({pub}) {
-  return <EventBase
-    pub={pub}
-    account={useAdmin(pub)}
-    title={<>
-      <ShortAccountLink name={pub.jsonDB.event.adminAccountName} /> сделал(-а)&nbsp;
-      <ShortAccountLink name={pub.jsonDB.event.ownerAccountName} /> модератором
-      фэндома <Link href={`/fandom/${pub.jsonDB.event.fandomId}`}>
-        <a>{pub.jsonDB.event.fandomName}</a>
-      </Link>
-    </>}
-    subtitle={<>
-      Причина: <FormattedText text={pub.jsonDB.event.comment} />
-    </>}
-  />;
+  return (
+    <EventBase
+      pub={pub}
+      account={useAdmin(pub)}
+      title={<>
+        <ShortAccountLink name={pub.jsonDB.event.adminAccountName} /> сделал(-а)&nbsp;
+        <ShortAccountLink name={pub.jsonDB.event.ownerAccountName} /> модератором
+        фэндома <Link href={`/fandom/${pub.jsonDB.event.fandomId}`}>
+          {pub.jsonDB.event.fandomName}
+        </Link>
+      </>}
+      subtitle={<>
+        Причина: <FormattedText text={pub.jsonDB.event.comment} />
+      </>}
+    />
+  );
 }
 
 function EventUserFandomRemoveModerator({pub}) {
-  return <EventBase
-    pub={pub}
-    account={useAdmin(pub)}
-    title={<>
-      <ShortAccountLink name={pub.jsonDB.event.adminAccountName} /> забрал(-а) модераторские
-      права у <ShortAccountLink name={pub.jsonDB.event.ownerAccountName} /> в
-      фэндоме <Link href={`/fandom/${pub.jsonDB.event.fandomId}`}>
-        <a>{pub.jsonDB.event.fandomName}</a>
-      </Link>
-    </>}
-    subtitle={<>
-      Причина: <FormattedText text={pub.jsonDB.event.comment} />
-    </>}
-  />;
+  return (
+    <EventBase
+      pub={pub}
+      account={useAdmin(pub)}
+      title={<>
+        <ShortAccountLink name={pub.jsonDB.event.adminAccountName} /> забрал(-а) модераторские
+        права у <ShortAccountLink name={pub.jsonDB.event.ownerAccountName} /> в
+        фэндоме <Link href={`/fandom/${pub.jsonDB.event.fandomId}`}>
+          {pub.jsonDB.event.fandomName}
+        </Link>
+      </>}
+      subtitle={<>
+        Причина: <FormattedText text={pub.jsonDB.event.comment} />
+      </>}
+    />
+  );
 }
 
 function EventUserAdminModerationRejected({pub}) {
-  return <EventBase
-    pub={pub}
-    account={useAdmin(pub)}
-    title={<>
-      <ShortAccountLink name={pub.jsonDB.event.adminAccountName} /> отклонил(-а)
-      модерацию <ShortAccountLink name={pub.jsonDB.event.ownerAccountName} /> в
-      фэндоме <Link href={`/fandom/${pub.jsonDB.event.fandomId}`}>
-        <a>{pub.jsonDB.event.fandomName}</a>
-      </Link>
-    </>}
-    subtitle={<>
-      Ссылка на действие: <Link href={`/mod/${pub.jsonDB.event.moderationId}`}>
-        <a>@moderation-{pub.jsonDB.event.moderationId}</a>
+  return (
+    <EventBase
+      pub={pub}
+      account={useAdmin(pub)}
+      title={<>
+        <ShortAccountLink name={pub.jsonDB.event.adminAccountName} /> отклонил(-а)
+        модерацию <ShortAccountLink name={pub.jsonDB.event.ownerAccountName} /> в
+        фэндоме <Link href={`/fandom/${pub.jsonDB.event.fandomId}`}>
+          {pub.jsonDB.event.fandomName}
+        </Link>
+      </>}
+      subtitle={<>
+        Ссылка на действие: <Link href={`/mod/${pub.jsonDB.event.moderationId}`}>
+        @moderation-{pub.jsonDB.event.moderationId}
       </Link><br />
-      Причина: <FormattedText text={pub.jsonDB.event.comment} />
-    </>}
-  />;
+        Причина: <FormattedText text={pub.jsonDB.event.comment} />
+      </>}
+    />
+  );
 }
 
 function EventUserAdminPublicationRestored({pub}) {
-  return <EventBase
-    pub={pub}
-    account={useAdmin(pub)}
-    title={<>
-      <ShortAccountLink name={pub.jsonDB.event.adminAccountName} /> восстановил(-а)
-      публикацию <ShortAccountLink name={pub.jsonDB.event.ownerAccountName} />
-    </>}
-    subtitle={<>
-      Ссылка на блокировку: <Link href={`/mod/${pub.jsonDB.event.moderationId}`}>
-        <a>@moderation-{pub.jsonDB.event.moderationId}</a>
+  return (
+    <EventBase
+      pub={pub}
+      account={useAdmin(pub)}
+      title={<>
+        <ShortAccountLink name={pub.jsonDB.event.adminAccountName} /> восстановил(-а)
+        публикацию <ShortAccountLink name={pub.jsonDB.event.ownerAccountName} />
+      </>}
+      subtitle={<>
+        Ссылка на блокировку: <Link href={`/mod/${pub.jsonDB.event.moderationId}`}>
+        @moderation-{pub.jsonDB.event.moderationId}
       </Link><br />
-      Причина: <FormattedText text={pub.jsonDB.event.comment} />
-    </>}
-  />;
+        Причина: <FormattedText text={pub.jsonDB.event.comment} />
+      </>}
+    />
+  );
 }
 
 function EventUserAdminPostChangeFandom({pub}) {
-  return <EventBase
-    pub={pub}
-    account={useAdmin(pub)}
-    title={<>
-      <ShortAccountLink name={pub.jsonDB.event.adminAccountName} /> переместил(-а)
-      пост <ShortAccountLink name={pub.jsonDB.event.ownerAccountName} /> из
-      фэндома <Link href={`/fandom/${pub.jsonDB.event.oldFandomId}`}>
-        <a>{pub.jsonDB.event.oldFandomName}</a>
-      </Link> в
-      фэндом <Link href={`/fandom/${pub.jsonDB.event.newFandomId}`}>
-        <a>{pub.jsonDB.event.newFandomName}</a>
-      </Link>
-    </>}
-    subtitle={<>
-      Ссылка на пост: <Link href={`/post/${pub.jsonDB.event.unitId}`}>
-        <a>@post-{pub.jsonDB.event.unitId}</a>
-      </Link><br />
-      {pub.jsonDB.event.newLanguageId !== pub.jsonDB.event.oldLanguageId && <>
-        Примечание: язык поста был изменён.
+  return (
+    <EventBase
+      pub={pub}
+      account={useAdmin(pub)}
+      title={<>
+        <ShortAccountLink name={pub.jsonDB.event.adminAccountName} /> переместил(-а)
+        пост <ShortAccountLink name={pub.jsonDB.event.ownerAccountName} /> из
+        фэндома <Link href={`/fandom/${pub.jsonDB.event.oldFandomId}`}>
+          {pub.jsonDB.event.oldFandomName}
+        </Link> в
+        фэндом <Link href={`/fandom/${pub.jsonDB.event.newFandomId}`}>
+          {pub.jsonDB.event.newFandomName}
+        </Link>
       </>}
-      Причина: <FormattedText text={pub.jsonDB.event.comment} />
-    </>}
-  />;
+      subtitle={<>
+        Ссылка на пост: <Link href={`/post/${pub.jsonDB.event.unitId}`}>
+        @post-{pub.jsonDB.event.unitId}
+      </Link><br />
+        {pub.jsonDB.event.newLanguageId !== pub.jsonDB.event.oldLanguageId && <>
+          Примечание: язык поста был изменён.
+        </>}
+        Причина: <FormattedText text={pub.jsonDB.event.comment} />
+      </>}
+    />
+  );
 }
 
 function EventUserAdminPublicationBlocked({pub}) {
-  return <EventBase
-    pub={pub}
-    account={useAdmin(pub)}
-    title={<>
-      <ShortAccountLink name={pub.jsonDB.event.adminAccountName} /> заблокировал(-а)
-      публикацию <ShortAccountLink name={pub.jsonDB.event.ownerAccountName} /> в
-      фэндоме <Link href={`/fandom/${pub.jsonDB.event.blockFandomId}`}>
-        <a>{pub.jsonDB.event.blockFandomName}</a>
-      </Link>
-    </>}
-    subtitle={<>
-      <div className={classes.eventContent}>
-        Полная версия: <Link href={`/mod/${pub.jsonDB.event.moderationId}`}>
-          <a>@moderation-{pub.jsonDB.event.moderationId}</a>
+  return (
+    <EventBase
+      pub={pub}
+      account={useAdmin(pub)}
+      title={<>
+        <ShortAccountLink name={pub.jsonDB.event.adminAccountName} /> заблокировал(-а)
+        публикацию <ShortAccountLink name={pub.jsonDB.event.ownerAccountName} /> в
+        фэндоме <Link href={`/fandom/${pub.jsonDB.event.blockFandomId}`}>
+          {pub.jsonDB.event.blockFandomName}
+        </Link>
+      </>}
+      subtitle={<>
+        <div className={classes.eventContent}>
+          Полная версия: <Link href={`/mod/${pub.jsonDB.event.moderationId}`}>
+          @moderation-{pub.jsonDB.event.moderationId}
         </Link><br />
-      </div>
-      {pub.jsonDB.event.blockAccountDate > 0 && <div className={classes.eventContent}>
-        Пользователь заблокирован
-        до {dayjs(pub.jsonDB.event.blockAccountDate).locale("ru").calendar()}
-        {pub.jsonDB.event.blockedInApp && " во всём приложении"}
-      </div>}
-      {pub.jsonDB.event.warned && <div className={classes.eventContent}>
-        Пользователь предупреждён.
-      </div>}
-      {pub.jsonDB.event.lastPublicationsBlocked && <div className={classes.eventContent}>
-        Последние публикации пользователя заблокированы.
-      </div>}
-      <div className={classes.eventContent}>
-        Причина: <FormattedText text={pub.jsonDB.event.comment} />
-      </div>
-    </>}
-  />;
+        </div>
+        {pub.jsonDB.event.blockAccountDate > 0 && <div className={classes.eventContent}>
+          Пользователь заблокирован
+          до {dayjs(pub.jsonDB.event.blockAccountDate).locale("ru").calendar()}
+          {pub.jsonDB.event.blockedInApp && " во всём приложении"}
+        </div>}
+        {pub.jsonDB.event.warned && <div className={classes.eventContent}>
+          Пользователь предупреждён.
+        </div>}
+        {pub.jsonDB.event.lastPublicationsBlocked && <div className={classes.eventContent}>
+          Последние публикации пользователя заблокированы.
+        </div>}
+        <div className={classes.eventContent}>
+          Причина: <FormattedText text={pub.jsonDB.event.comment} />
+        </div>
+      </>}
+    />
+  );
 }
 
 function EventUserQuestFinish({pub}) {
@@ -366,37 +380,41 @@ function EventUserQuestFinish({pub}) {
 }
 
 function EventUserAdminViceroyAssign({pub}) {
-  return <EventBase
-    pub={pub}
-    account={useAdmin(pub)}
-    title={<>
-      <ShortAccountLink name={pub.jsonDB.event.adminAccountName} /> назначил(-а)&nbsp;
-      <ShortAccountLink name={pub.jsonDB.event.ownerAccountName} /> наместником
-      фэндома <Link href={`/fandom/${pub.jsonDB.event.fandomId}`}>
-        <a>{pub.jsonDB.event.fandomName}</a>
-      </Link>
-    </>}
-    subtitle={<>
-      Причина: <FormattedText text={pub.jsonDB.event.comment} />
-    </>}
-  />;
+  return (
+    <EventBase
+      pub={pub}
+      account={useAdmin(pub)}
+      title={<>
+        <ShortAccountLink name={pub.jsonDB.event.adminAccountName} /> назначил(-а)&nbsp;
+        <ShortAccountLink name={pub.jsonDB.event.ownerAccountName} /> наместником
+        фэндома <Link href={`/fandom/${pub.jsonDB.event.fandomId}`}>
+          {pub.jsonDB.event.fandomName}
+        </Link>
+      </>}
+      subtitle={<>
+        Причина: <FormattedText text={pub.jsonDB.event.comment} />
+      </>}
+    />
+  );
 }
 
 function EventUserAdminViceroyRemove({pub}) {
-  return <EventBase
-    pub={pub}
-    account={useAdmin(pub)}
-    title={<>
-      <ShortAccountLink name={pub.jsonDB.event.adminAccountName} /> забрал(-а) права наместника
-      у <ShortAccountLink name={pub.jsonDB.event.ownerAccountName} /> в
-      фэндоме <Link href={`/fandom/${pub.jsonDB.event.fandomId}`}>
-        <a>{pub.jsonDB.event.fandomName}</a>
-      </Link>
-    </>}
-    subtitle={<>
-      Причина: <FormattedText text={pub.jsonDB.event.comment} />
-    </>}
-  />;
+  return (
+    <EventBase
+      pub={pub}
+      account={useAdmin(pub)}
+      title={<>
+        <ShortAccountLink name={pub.jsonDB.event.adminAccountName} /> забрал(-а) права наместника
+        у <ShortAccountLink name={pub.jsonDB.event.ownerAccountName} /> в
+        фэндоме <Link href={`/fandom/${pub.jsonDB.event.fandomId}`}>
+          {pub.jsonDB.event.fandomName}
+        </Link>
+      </>}
+      subtitle={<>
+        Причина: <FormattedText text={pub.jsonDB.event.comment} />
+      </>}
+    />
+  );
 }
 
 const effects = {
@@ -452,20 +470,22 @@ function EventUserTranslateRejected({pub}) {
 }
 
 function EventUserAdminPostRemoveMedia({pub}) {
-  return <EventBase
-    pub={pub}
-    account={useAdmin(pub)}
-    title={<>
-      <ShortAccountLink name={pub.jsonDB.event.adminAccountName} /> удалил(-а)
-      все медиа из поста <ShortAccountLink name={pub.jsonDB.event.ownerAccountName} />
-    </>}
-    subtitle={<>
-      Ссылка на пост: <Link href={`/post/${pub.jsonDB.event.unitId}`}>
-        <a>@post_{pub.jsonDB.event.unitId}</a>
+  return (
+    <EventBase
+      pub={pub}
+      account={useAdmin(pub)}
+      title={<>
+        <ShortAccountLink name={pub.jsonDB.event.adminAccountName} /> удалил(-а)
+        все медиа из поста <ShortAccountLink name={pub.jsonDB.event.ownerAccountName} />
+      </>}
+      subtitle={<>
+        Ссылка на пост: <Link href={`/post/${pub.jsonDB.event.unitId}`}>
+        @post_{pub.jsonDB.event.unitId}
       </Link><br />
-      Причина: <FormattedText text={pub.jsonDB.event.comment} />
-    </>}
-  />;
+        Причина: <FormattedText text={pub.jsonDB.event.comment} />
+      </>}
+    />
+  );
 }
 
 // haha cancelled

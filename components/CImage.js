@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import classes from "../styles/CImage.module.css";
 import classNames from "classnames";
@@ -91,7 +91,7 @@ function _CAvatar(props) {
   if (El !== "a") {
     return inner;
   } else {
-    return <Link href={link}>{inner}</Link>;
+    return <Link href={link} legacyBehavior>{inner}</Link>;
   }
 }
 

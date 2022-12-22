@@ -37,32 +37,37 @@ export default function PopularFandomsCard({ limit = 5, shuffle = true }) {
     [fandomsL, shuffle]
   );
 
-  return <section className={postClasses.post}>
-    <header className={cardClasses.cardTitle}>
-      Популярные фэндомы
-    </header>
-    <div className={classNames(cardClasses.cardContent, cardClasses.popularFandoms)}>
-      {!fandoms ?
-        Array(limit)
-          .fill(null)
-          .map((x, idx) => <div key={idx} className={cardClasses.popularFandom}>
-            <BoxPlaceholder w={30} h={30} className={cardClasses.fandomAvatar} />
-            <TextPlaceholder className={cardClasses.fandomName} />
-          </div>) :
-        fandoms
-          .filter(fandom => fandom.id !== 5672)
-          .slice(0, limit)
-          .map(fandom => <Link href={`/fandom/${fandom.id}`} key={fandom.id}>
-            <a className={cardClasses.popularFandom}>
-              <CAvatar fandom={fandom} small className={cardClasses.fandomAvatar} el="div" />
-              <span className={cardClasses.fandomName}>{fandom.name}</span>
-              <span className={cardClasses.fandomSubs}>
-                <UsersIcon />
-                {fandom.subscribesCount}
-              </span>
-            </a>
+  return (
+    <section className={postClasses.post}>
+      <header className={cardClasses.cardTitle}>
+        Популярные фэндомы
+      </header>
+      <div className={classNames(cardClasses.cardContent, cardClasses.popularFandoms)}>
+        {!fandoms ?
+          Array(limit)
+            .fill(null)
+            .map((x, idx) => <div key={idx} className={cardClasses.popularFandom}>
+              <BoxPlaceholder w={30} h={30} className={cardClasses.fandomAvatar} />
+              <TextPlaceholder className={cardClasses.fandomName} />
+            </div>) :
+          fandoms
+            .filter(fandom => fandom.id !== 5672)
+            .slice(0, limit)
+            .map(fandom => <Link
+            href={`/fandom/${fandom.id}`}
+            key={fandom.id}
+            className={cardClasses.popularFandom}>
+
+            <CAvatar fandom={fandom} small className={cardClasses.fandomAvatar} el="div" />
+            <span className={cardClasses.fandomName}>{fandom.name}</span>
+            <span className={cardClasses.fandomSubs}>
+              <UsersIcon />
+              {fandom.subscribesCount}
+            </span>
+
           </Link>)}
-      <IconLink href="/fandom" left top bottom={false}>Другие фэндомы <ArrowRightIcon /></IconLink>
-    </div>
-  </section>;
+        <IconLink href="/fandom" left top bottom={false}>Другие фэндомы <ArrowRightIcon /></IconLink>
+      </div>
+    </section>
+  );
 }

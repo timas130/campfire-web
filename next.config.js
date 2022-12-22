@@ -28,12 +28,8 @@ module.exports = withBundleAnalyzer(withSentryConfig({
     meiliKey: "dOJM5oza115d8a93351d5527d7a307ba4c4de10264eb5d0df2d1ba531b2c5e3f421b13b0",
     cdnUrl,
   },
-  swcMinify: true,
-  assetPrefix: cdnUrl,
-  poweredByHeader: false,
-  sentry: {
-    disableClientWebpackPlugin: true,
-  },
+  assetPrefix: cdnUrl || undefined,
+  output: "standalone",
 }, {
   silent: true,
 }));

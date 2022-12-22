@@ -26,50 +26,57 @@ function FandomHeader(props) {
     account ? `/account/${encodeURIComponent(account.J_NAME)}` :
     null : null;
 
-  return <El className={className || classNames(
-    classes.header,
-    pinned && classes.pinned,
-    noPadding && classes.noPadding,
-    dense && classes.dense,
-    onClick && classes.clickable,
-    smallIcon && classes.smallIcon,
-    alignStart && classes.alignStart,
-  )} onClick={onClick} tabIndex={onClick ? 0 : undefined}>
-    {Boolean(account || fandom || imageId) &&
-      <CAvatar account={account} fandom={fandom} id={imageId} alt={name} link={avatarLink || link} />}
-    {addLeft}
-    <div className={classes.headerText}>
-      <div className={classNames(
-        classes.headerTitle,
-        (allowOverflow & 0b1) && classes.allowOverflow
-      )}>
-        {(onClick || !linkL) ?
-          <span className={classes.headerFandom}>{nameL}</span> :
-          <Link href={linkL}>
-            <a className={classes.headerFandom}>
+  return (
+    <El className={className || classNames(
+      classes.header,
+      pinned && classes.pinned,
+      noPadding && classes.noPadding,
+      dense && classes.dense,
+      onClick && classes.clickable,
+      smallIcon && classes.smallIcon,
+      alignStart && classes.alignStart,
+    )} onClick={onClick} tabIndex={onClick ? 0 : undefined}>
+      {Boolean(account || fandom || imageId) &&
+        <CAvatar account={account} fandom={fandom} id={imageId} alt={name} link={avatarLink || link} />}
+      {addLeft}
+      <div className={classes.headerText}>
+        <div className={classNames(
+          classes.headerTitle,
+          (allowOverflow & 0b1) && classes.allowOverflow
+        )}>
+          {(onClick || !linkL) ?
+            <span className={classes.headerFandom}>{nameL}</span> :
+            <Link href={linkL} className={classes.headerFandom}>
+
               {nameL}<SponsorStar account={account} />
-            </a>
-          </Link>}
-        {addTitle}
+
+            </Link>}
+          {addTitle}
+        </div>
+        <div className={classNames(
+          classes.headerSecondary,
+          (allowOverflow & 0b10) && classes.allowOverflow
+        )}>
+          {authorLink ? <Link href={authorLink} className={classes.headerAuthor}>
+            {author}
+          </Link> : <span className={classes.headerAuthor}>{author}</span>}
+          {addSecondary && <>&nbsp;•&nbsp;{addSecondary}</>}
+        </div>
       </div>
-      <div className={classNames(
-        classes.headerSecondary,
-        (allowOverflow & 0b10) && classes.allowOverflow
-      )}>
-        {authorLink ? <Link href={authorLink}>
-          <a className={classes.headerAuthor}>{author}</a>
-        </Link> : <span className={classes.headerAuthor}>{author}</span>}
-        {addSecondary && <>&nbsp;•&nbsp;{addSecondary}</>}
-      </div>
-    </div>
-    {addRight}
-  </El>;
+      {addRight}
+    </El>
+  );
 }
 
 export function ShortAccountLink({name, addRight, className, reset, ...rest}) {
-  return <Link href={`/account/${encodeURIComponent(name)}`}>
-    <a className={classNames(reset && classes.reset, className)} {...rest}>{name}{addRight}</a>
-  </Link>;
+  return (
+    <Link
+      href={`/account/${encodeURIComponent(name)}`}
+      className={classNames(reset && classes.reset, className)}
+      {...rest}>
+      {name}{addRight}
+    </Link>
+  );
 }
 
 export function AccountLink({account, showTimes, ...rest}) {

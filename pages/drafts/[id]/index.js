@@ -307,28 +307,30 @@ export default function Draft() {
 
   const fandomName = fandom?.fandom?.name || draft?.fandom?.name;
 
-  return <FeedLayout
-    list={<>
-      <Head>
-        <title>Черновик в {fandomName ? fandomName + " в" : ""} Campfire</title>
-      </Head>
-      {((draftId && draftId !== 0 && draft) || draftId === 0) ?
-        <MutPost
-          post={draft} setPost={setDraft} fandomId={fandomId}
-          onGetId={id => router.replace(`/drafts/${id}`)}
-        /> :
-        <FeedLoader />}
-      <Link href={`/drafts/${draftId}/publish`} passHref>
-        <Button el="a" secondary>Опубликовать</Button>
-      </Link>
-    </>}
-    sidebar={<>
-      <NoticeCard
-        title="Черновик"
-        content="Все изменения в черновике синхронизируются. Вы можете продолжить когда угодно."
-      />
-      <TextFormattingCard />
-      <RulesCard />
-    </>}
-  />;
+  return (
+    <FeedLayout
+      list={<>
+        <Head>
+          <title>Черновик в {fandomName ? fandomName + " в" : ""} Campfire</title>
+        </Head>
+        {((draftId && draftId !== 0 && draft) || draftId === 0) ?
+          <MutPost
+            post={draft} setPost={setDraft} fandomId={fandomId}
+            onGetId={id => router.replace(`/drafts/${id}`)}
+          /> :
+          <FeedLoader />}
+        <Link href={`/drafts/${draftId}/publish`} passHref legacyBehavior>
+          <Button el="a" secondary>Опубликовать</Button>
+        </Link>
+      </>}
+      sidebar={<>
+        <NoticeCard
+          title="Черновик"
+          content="Все изменения в черновике синхронизируются. Вы можете продолжить когда угодно."
+        />
+        <TextFormattingCard />
+        <RulesCard />
+      </>}
+    />
+  );
 }

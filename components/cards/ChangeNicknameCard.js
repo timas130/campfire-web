@@ -8,12 +8,14 @@ export default function ChangeNicknameCard() {
   if (!user) return null;
   if (!user.J_NAME.includes("#")) return null;
 
-  return <NoticeCard
-    title="Завершите регистрацию"
-    content={<>
-      Вы ещё не изменили свой ник! Людям будет сложно вас найти
-      и запомнить, если вы не выберите ник.&nbsp;
-      <Link href="/auth/register"><a>Изменить ник</a></Link>
-    </>}
-  />;
+  return (
+    <NoticeCard
+      title="Завершите регистрацию"
+      content={<>
+        Вы ещё не изменили свой ник! Людям будет сложно вас найти
+        и запомнить, если вы не выберите ник.&nbsp;
+        <Link href="/auth/register">Изменить ник</Link>
+      </>}
+    />
+  );
 }

@@ -12,14 +12,16 @@ export default function AuthenticateCard() {
     return null;
   }
 
-  return <section className={postClasses.post}>
-    <header className={classes.cardTitle}>
-      Заходите на огонек!
-    </header>
-    <div className={classNames(classes.cardContent, classes.authenticate)}>
-      <Link href="/auth/login" passHref>
-        <Button el="a" noBackground fullWidth>Войти / Зарегистрироваться</Button>
-      </Link>
-    </div>
-  </section>;
+  return (
+    <section className={postClasses.post}>
+      <header className={classes.cardTitle}>
+        Заходите на огонек!
+      </header>
+      <div className={classNames(classes.cardContent, classes.authenticate)}>
+        <Link href="/auth/login" passHref legacyBehavior>
+          <Button el="a" noBackground fullWidth>Войти / Зарегистрироваться</Button>
+        </Link>
+      </div>
+    </section>
+  );
 };

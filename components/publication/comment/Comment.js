@@ -31,26 +31,30 @@ function CommentQuote({jsonDB}) {
     jsonDB.quoteImages = JSON.parse(jsonDB.quoteImages);
   }
 
-  return <div className={classes.quote}>
-    <FormattedText text={
-      (jsonDB.quoteCreatorName ? `{_cweb_secondary ${jsonDB.quoteCreatorName}:}` : "") +
-      limitText(text, 64, 150)
-    } />
-    {jsonDB.quoteStickerImageId > 0 && <Link href={`/stickers/sticker/${jsonDB.quoteStickerId}`}>
-      <a className={classes.images}>
+  return (
+    <div className={classes.quote}>
+      <FormattedText text={
+        (jsonDB.quoteCreatorName ? `{_cweb_secondary ${jsonDB.quoteCreatorName}:}` : "") +
+        limitText(text, 64, 150)
+      } />
+      {jsonDB.quoteStickerImageId > 0 && <Link
+        href={`/stickers/sticker/${jsonDB.quoteStickerId}`}
+        className={classes.images}>
+
         <CImage
           id={jsonDB.quoteStickerImageId} w={100} h={100}
           loading="lazy" alt="Стикер"
         />
-      </a>
-    </Link>}
-    {(jsonDB.quoteImages || []).length > 0 && <div className={classes.images}>
-      {jsonDB.quoteImages.map(id => <CImage
-        key={id} id={id} w={100} h={100}
-        loading="lazy" modal objectFit="cover" alt="Изображение"
-      />)}
-    </div>}
-  </div>;
+
+      </Link>}
+      {(jsonDB.quoteImages || []).length > 0 && <div className={classes.images}>
+        {jsonDB.quoteImages.map(id => <CImage
+          key={id} id={id} w={100} h={100}
+          loading="lazy" modal objectFit="cover" alt="Изображение"
+        />)}
+      </div>}
+    </div>
+  );
 }
 
 function makeLink(type, id) {
@@ -108,8 +112,10 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
           {dayjs(comment.dateCreate).locale("ru").fromNow()}
         </time>
         {jsonDB.changed && <span className={classes.time}>&nbsp;(ред.)</span>}
-        {full && <>&nbsp;<Link href={makeLink(comment.parentUnitType, comment.parentUnitId)}>
-          <a className={classes.openPost}>Открыть пост</a>
+        {full && <>&nbsp;<Link
+          href={makeLink(comment.parentUnitType, comment.parentUnitId)}
+          className={classes.openPost}>
+          Открыть пост
         </Link></>}
         <Dropdown rootClassName={!full && classes.moreDropdown}
                   activator={<DotsVerticalIcon />}
@@ -129,13 +135,13 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
       <div className={classes.content}>
         {jsonDB.quoteId > 0 && <CommentQuote jsonDB={jsonDB} />}
         <FormattedText text={jsonDB.J_TEXT} />
-        {jsonDB.stickerImageId > 0 && <Link href={`/stickers/sticker/${jsonDB.stickerId}`}>
-          <a className={classes.images}>
-            <CImage
-              id={jsonDB.stickerImageId} w={128} h={128}
-              loading="lazy" alt="Стикер"
-            />
-          </a>
+        {jsonDB.stickerImageId > 0 && <Link href={`/stickers/sticker/${jsonDB.stickerId}`} className={classes.images}>
+
+          <CImage
+            id={jsonDB.stickerImageId} w={128} h={128}
+            loading="lazy" alt="Стикер"
+          />
+
         </Link>}
         {(jsonDB.imageId > 0 || (imageIdArray || []).length > 0) && <div className={classes.images}>
           {jsonDB.imageId > 0 && <CImage

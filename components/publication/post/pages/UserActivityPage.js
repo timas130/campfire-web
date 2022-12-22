@@ -54,48 +54,50 @@ export default function UserActivityPage({page, full = false}) {
     }
   };
 
-  return <section className={classNames(classes.activity, full && classes.activityFull)}>
-    <FandomHeader
-      link={`/activity/${page.id}`} imageId={page.fandom.imageId}
-      name={page.name} authorLink={`/fandom/${page.fandom.id}`}
-      author={page.fandom.name} className={classes.activitySection}
-    />
-    <div className={classes.activityDescription}>
-      {page.description}
-    </div>
-    <div className={classes.activitySection}>
-      {currentAccount.J_ID !== 0 && <CAvatar account={currentAccount} />}
-      <div className={postClasses.headerText}>
-        <div className={postClasses.headerTitle}>
-          <span className={postClasses.headerAuthor}>
-            Следующий:&nbsp;
-          </span>
-          {currentAccount.J_ID !== 0 ?
-            <AccountLink account={currentAccount} className={classes.activityNext} /> :
-            <span className={classes.activityNext}>никто</span>}
-        </div>
-        {currentAccount.J_ID !== 0 ? <div className={classes.activityDue}>
-          <span className={postClasses.headerAuthor}>истекает&nbsp;</span>
-          <Countdown timestamp={tag2 + 3600000 * 24} />
-        </div> : <div className={classes.activityDue}>
-          Продолжите эстафету!
-        </div>}
+  return (
+    <section className={classNames(classes.activity, full && classes.activityFull)}>
+      <FandomHeader
+        link={`/activity/${page.id}`} imageId={page.fandom.imageId}
+        name={page.name} authorLink={`/fandom/${page.fandom.id}`}
+        author={page.fandom.name} className={classes.activitySection}
+      />
+      <div className={classes.activityDescription}>
+        {page.description}
       </div>
-    </div>
-    <div className={classes.activityButtons}>
-      <Link href={`/activity/${page.id}`} passHref>
-        <Button el="a" noBackground>
-          Все посты
-        </Button>
-      </Link>
-      {/* fun fucking fact: the server allows double participation in an activity! */}
-      {user && page.myPostId === 0 && <Button secondary onClick={changeMemberStatus}>
-        {myMemberStatus === 1 ?
-          currentAccount.J_ID === user.J_ID ?
-            "Отказаться" :
-            "Не участвовать" :
-          "Принять участие"}
-      </Button>}
-    </div>
-  </section>;
+      <div className={classes.activitySection}>
+        {currentAccount.J_ID !== 0 && <CAvatar account={currentAccount} />}
+        <div className={postClasses.headerText}>
+          <div className={postClasses.headerTitle}>
+            <span className={postClasses.headerAuthor}>
+              Следующий:&nbsp;
+            </span>
+            {currentAccount.J_ID !== 0 ?
+              <AccountLink account={currentAccount} className={classes.activityNext} /> :
+              <span className={classes.activityNext}>никто</span>}
+          </div>
+          {currentAccount.J_ID !== 0 ? <div className={classes.activityDue}>
+            <span className={postClasses.headerAuthor}>истекает&nbsp;</span>
+            <Countdown timestamp={tag2 + 3600000 * 24} />
+          </div> : <div className={classes.activityDue}>
+            Продолжите эстафету!
+          </div>}
+        </div>
+      </div>
+      <div className={classes.activityButtons}>
+        <Link href={`/activity/${page.id}`} passHref legacyBehavior>
+          <Button el="a" noBackground>
+            Все посты
+          </Button>
+        </Link>
+        {/* fun fucking fact: the server allows double participation in an activity! */}
+        {user && page.myPostId === 0 && <Button secondary onClick={changeMemberStatus}>
+          {myMemberStatus === 1 ?
+            currentAccount.J_ID === user.J_ID ?
+              "Отказаться" :
+              "Не участвовать" :
+            "Принять участие"}
+        </Button>}
+      </div>
+    </section>
+  );
 }

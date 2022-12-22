@@ -25,9 +25,11 @@ export function Tag({tag, noLink, selectable, selected, select}) {
   if (selectable || noLink) {
     return tagEl;
   } else {
-    return <Link href={`/fandom/${tag.fandom.id}/tags/${tag.id}`}>
-      {tagEl}
-    </Link>;
+    return (
+      <Link href={`/fandom/${tag.fandom.id}/tags/${tag.id}`} legacyBehavior>
+        {tagEl}
+      </Link>
+    );
   }
 }
 

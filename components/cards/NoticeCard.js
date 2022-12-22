@@ -35,13 +35,15 @@ export function TextFormattingCard() {
 }
 
 export function RulesCard() {
-  return <NoticeCard
-    title={<Link href="/app/rules"><a target="_blank">Правила приложения</a></Link>}
-    content={<>
-      Краткий список запрещённого контента:
-      <ul>
-        {rulesConsts.rules.slice(0, 8).map((rule, idx) => <li key={idx}>{rule.title}</li>)}
-      </ul>
-    </>}
-  />;
+  return (
+    <NoticeCard
+      title={<Link href="/app/rules" target="_blank">Правила приложения</Link>}
+      content={<>
+        Краткий список запрещённого контента:
+        <ul>
+          {rulesConsts.rules.slice(0, 8).map((rule, idx) => <li key={idx}>{rule.title}</li>)}
+        </ul>
+      </>}
+    />
+  );
 }

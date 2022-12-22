@@ -380,7 +380,7 @@ export function linkifyReact(children, key = 0) {
       if (textSayzenMatch) text = "@" + encodeURIComponent(textSayzenMatch[1]);
 
       // add the result
-      result.push(<Link href={url} key={i}><a>{text}</a></Link>);
+      result.push(<Link href={url} key={i}>{text}</Link>);
       lastIndex = match.lastIndex;
     });
 

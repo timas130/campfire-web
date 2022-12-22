@@ -32,7 +32,7 @@ export function CommentCounter({target = "_blank", ...props}) {
     <ChatAlt2Icon className={classes.commentIcon} />
     {props.count}
   </a>;
-  return props.onClick ? link : <Link href={props.href}>
+  return props.onClick ? link : <Link href={props.href} legacyBehavior>
     {link}
   </Link>;
 }
@@ -116,98 +116,100 @@ function _Post(props) {
 
   const pagesAdditional = useMemo(() => ({postId: post.id}), [post]);
 
-  return <Transition as={Fragment} show={!isDeleted}
-                     leave={classes.transitionLeave}
-                     leaveFrom={classes.transitionLeaveFrom}
-                     leaveTo={classes.transitionLeaveTo}><article className={classes.post}>
-    <KarmaVotesModel id={post.id} close={karmaModal.close} isOpen={karmaModal.isOpen} />
-    {modalShown && <ModalPortal>
-      {/* TODO: one day i'll be able to make a fancy animation for expanding the post... */}
-      <PostCover theme={theme} post={post} hide={hideModal} />
-    </ModalPortal>}
+  return (
+    <Transition as={Fragment} show={!isDeleted}
+                       leave={classes.transitionLeave}
+                       leaveFrom={classes.transitionLeaveFrom}
+                       leaveTo={classes.transitionLeaveTo}><article className={classes.post}>
+      <KarmaVotesModel id={post.id} close={karmaModal.close} isOpen={karmaModal.isOpen} />
+      {modalShown && <ModalPortal>
+        {/* TODO: one day i'll be able to make a fancy animation for expanding the post... */}
+        <PostCover theme={theme} post={post} hide={hideModal} />
+      </ModalPortal>}
 
-    <FandomHeader
-      el="header"
-      pinned={pinned}
-      fandom={post.fandom}
-      addTitle={<>
-        {post.rubricId !== 0 && <>&nbsp;<Link href={`/rubric/${post.rubricId}`}>
-          <a className={classNames(classes.headerRubric)}>
-            в {post.rubricName} {rubricCof > 100 && <Tooltip text="Коэффициент кармы у рубрики">
-              <KarmaCounter isCof value={rubricCof} />
-            </Tooltip>}
-          </a>
-        </Link></>}
-        {post.userActivity && <>&nbsp;<Link href={`/activity/${post.userActivity.id}`}>
-          <a className={classNames(classes.headerRubric)}>
-            в {post.userActivity.name}
-          </a>
-        </Link></>}
-      </>}
-      author={<>{post.creator.J_NAME}<SponsorStar account={post.creator} /></>}
-      authorLink={`/account/${encodeURIComponent(post.creator.J_NAME)}`}
-      addSecondary={<time dateTime={dayjs(post.dateCreate).format()}>
-        {dayjs(post.dateCreate).locale("ru").fromNow()}
-      </time>}
-      addRight={<Dropdown
-        activator={<DotsVerticalIcon />}
-        activatorClassName={classes.headerMore}
-      >
-        {draft && <DropdownSection>
-          <DropdownItem onClick={ev => {
-            fetcher(`/api/drafts/${postL.id}/delete`, {method: "POST"})
-              .then(() => setIsDeleted(true))
-              .then(() => mutate())
-              .catch(err => showErrorToast(ev.target, err));
-          }}>
-            Удалить
-          </DropdownItem>
-        </DropdownSection>}
-        {!draft && <DropdownSection>
-          <DropdownItem onClick={ev => {
-            copy(`https://campfire.moe/post/${post.id}`);
-            showButtonToast(ev.target, "Скопировано");
-          }}>
-            Копировать ссылку
-          </DropdownItem>
-          <DropdownItem onClick={karmaModal.open}>
-            Посмотреть оценки
-          </DropdownItem>
-        </DropdownSection>}
-        {!draft && <PostModerationEntries />}
-      </Dropdown>}
-    />
-    <ContentEl className={classNames(
-      classes.content,
-      (alwaysExpanded || !showGradient) && classes.expanded
-    )} ref={contentRef}>
-      <Pages pages={post.jsonDB.J_PAGES} additional={pagesAdditional} />
-      {post.userActivity && <UserActivityPage page={post.userActivity} />}
-    </ContentEl>
-    <div className={classes.footer}>
-      {!draft && !alwaysExpanded && <div className={classes.expander} onClick={showModal} tabIndex={0}>
-        <ArrowsExpandIcon className={classes.expandIcon} />
-        Развернуть
-      </div>}
-      {collapse && <div className={classes.expander} onClick={collapse} tabIndex={0}>
-        <XIcon className={classes.expandIcon} />
-        Закрыть
-      </div>}
-      <div className={classes.spacer} />
-      {!draft ? <>
-        <ShareButton link={router.basePath + `/post/${post.id}`} />
-        <CommentCounter href={`/post/${post.id}#comments`} count={post.subUnitsCount}
-                        onClick={!alwaysExpanded && showModal} />
-      </> : <Link href={`/drafts/${post.id}`}>
-        <a className={classes.editButton}>
-          <PencilIcon className={classes.editIcon} />
-          Редактировать
-        </a>
-      </Link>}
-      {!draft && <Karma pub={post} />}
-    </div>
-    {showBestComment && post.bestComment && <Comment bestComment comment={post.bestComment} />}
-  </article></Transition>;
+      <FandomHeader
+        el="header"
+        pinned={pinned}
+        fandom={post.fandom}
+        addTitle={<>
+          {post.rubricId !== 0 && <>&nbsp;<Link
+            href={`/rubric/${post.rubricId}`}
+            className={classNames(classes.headerRubric)}>
+            в{post.rubricName} {rubricCof > 100 && <Tooltip text="Коэффициент кармы у рубрики">
+                <KarmaCounter isCof value={rubricCof} />
+              </Tooltip>}
+
+          </Link></>}
+          {post.userActivity && <>&nbsp;<Link
+            href={`/activity/${post.userActivity.id}`}
+            className={classNames(classes.headerRubric)}>
+            в{post.userActivity.name}
+
+          </Link></>}
+        </>}
+        author={<>{post.creator.J_NAME}<SponsorStar account={post.creator} /></>}
+        authorLink={`/account/${encodeURIComponent(post.creator.J_NAME)}`}
+        addSecondary={<time dateTime={dayjs(post.dateCreate).format()}>
+          {dayjs(post.dateCreate).locale("ru").fromNow()}
+        </time>}
+        addRight={<Dropdown
+          activator={<DotsVerticalIcon />}
+          activatorClassName={classes.headerMore}
+        >
+          {draft && <DropdownSection>
+            <DropdownItem onClick={ev => {
+              fetcher(`/api/drafts/${postL.id}/delete`, {method: "POST"})
+                .then(() => setIsDeleted(true))
+                .then(() => mutate())
+                .catch(err => showErrorToast(ev.target, err));
+            }}>
+              Удалить
+            </DropdownItem>
+          </DropdownSection>}
+          {!draft && <DropdownSection>
+            <DropdownItem onClick={ev => {
+              copy(`https://campfire.moe/post/${post.id}`);
+              showButtonToast(ev.target, "Скопировано");
+            }}>
+              Копировать ссылку
+            </DropdownItem>
+            <DropdownItem onClick={karmaModal.open}>
+              Посмотреть оценки
+            </DropdownItem>
+          </DropdownSection>}
+          {!draft && <PostModerationEntries />}
+        </Dropdown>}
+      />
+      <ContentEl className={classNames(
+        classes.content,
+        (alwaysExpanded || !showGradient) && classes.expanded
+      )} ref={contentRef}>
+        <Pages pages={post.jsonDB.J_PAGES} additional={pagesAdditional} />
+        {post.userActivity && <UserActivityPage page={post.userActivity} />}
+      </ContentEl>
+      <div className={classes.footer}>
+        {!draft && !alwaysExpanded && <div className={classes.expander} onClick={showModal} tabIndex={0}>
+          <ArrowsExpandIcon className={classes.expandIcon} />
+          Развернуть
+        </div>}
+        {collapse && <div className={classes.expander} onClick={collapse} tabIndex={0}>
+          <XIcon className={classes.expandIcon} />
+          Закрыть
+        </div>}
+        <div className={classes.spacer} />
+        {!draft ? <>
+          <ShareButton link={router.basePath + `/post/${post.id}`} />
+          <CommentCounter href={`/post/${post.id}#comments`} count={post.subUnitsCount}
+                          onClick={!alwaysExpanded && showModal} />
+        </> : <Link href={`/drafts/${post.id}`} className={classes.editButton}>
+
+          <PencilIcon className={classes.editIcon} />Редактировать
+        </Link>}
+        {!draft && <Karma pub={post} />}
+      </div>
+      {showBestComment && post.bestComment && <Comment bestComment comment={post.bestComment} />}
+    </article></Transition>
+  );
 }
 
 export default function Post(props) {

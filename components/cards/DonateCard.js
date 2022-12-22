@@ -13,20 +13,22 @@ export default function DonateCard() {
   if (! supportInfo) return null;
   if (error) return null;
 
-  return <section className={postClasses.post}>
-    <header className={classes.cardTitle}>
-      Поддержать Campfire
-    </header>
-    <div className={classNames(classes.cardContent)}>
-      <Progress value={supportInfo.totalCount / 100} max={1500} />
-      <div className={classes.donatesSubtitle}>
-        <span className={classes.donatesCollected}>
-          {(supportInfo.totalCount / 100).toFixed(2)} ₽
-        </span> / 1500 ₽ собрано
+  return (
+    <section className={postClasses.post}>
+      <header className={classes.cardTitle}>
+        Поддержать Campfire
+      </header>
+      <div className={classNames(classes.cardContent)}>
+        <Progress value={supportInfo.totalCount / 100} max={1500} />
+        <div className={classes.donatesSubtitle}>
+          <span className={classes.donatesCollected}>
+            {(supportInfo.totalCount / 100).toFixed(2)} ₽
+          </span> / 1500 ₽ собрано
+        </div>
+        <Link href="/donates" passHref legacyBehavior>
+          <Button el="a" fullWidth className={classes.donateButton}>Пожертвовать</Button>
+        </Link>
       </div>
-      <Link href="/donates" passHref>
-        <Button el="a" fullWidth className={classes.donateButton}>Пожертвовать</Button>
-      </Link>
-    </div>
-  </section>;
+    </section>
+  );
 }

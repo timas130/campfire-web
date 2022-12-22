@@ -14,5 +14,5 @@ export default function IconLink({children, className, href, onClick, left, righ
   )} onClick={onClick}>
     {children}
   </a>;
-  return onClick ? el : <Link href={href}>{el}</Link>;
+  return onClick ? el : <Link href={href} legacyBehavior>{el}</Link>;
 }

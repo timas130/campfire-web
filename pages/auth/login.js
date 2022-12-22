@@ -86,7 +86,7 @@ export default function Login() {
           />
         </InputLabel>
         <div className={classes.buttons}>
-          <Link href={googleRedirectUrl} passHref>
+          <Link href={googleRedirectUrl} passHref legacyBehavior>
             <Button el="a" secondary>Войти через Google</Button>
           </Link>
           {!isLoading ?

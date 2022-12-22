@@ -40,9 +40,7 @@ export function ProfileShort({account}) {
   </div>;
 }
 export function SponsorChip({account}) {
-  return account.sponsor ? <Link href="/donates"><a className={classes.sponsorChip}>
-    Спонсор {account.sponsor / 100} ₽
-  </a></Link> : null;
+  return account.sponsor ? <Link href="/donates" className={classes.sponsorChip}>Спонсор{account.sponsor / 100}₽</Link> : null;
 }
 export function ProfileKV({icon, keyS, value, upd = null, edit = null, editSelect = null}) {
   const Icon = icon;

@@ -87,7 +87,7 @@ export default function MySettings() {
               author={settings.security.email}
               addLeft={<FontAwesomeIcon icon={faEnvelope} />}
               addRight={settings.security.email &&
-                <Link href="/me/settings/email" passHref>
+                <Link href="/me/settings/email" passHref legacyBehavior>
                   <Button el="a">Изменить</Button>
                 </Link>}
               dense
@@ -99,7 +99,7 @@ export default function MySettings() {
               author={"••••••••"}
               addLeft={<FontAwesomeIcon icon={faUserLock} />}
               addRight={settings.security.email &&
-                <Link href="/me/settings/password" passHref>
+                <Link href="/me/settings/password" passHref legacyBehavior>
                   <Button el="a">Изменить</Button>
                 </Link>}
               dense
