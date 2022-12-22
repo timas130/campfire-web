@@ -19,8 +19,13 @@ FROM node:16-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+ARG SENTRY_TOKEN
 
-RUN yarn build
+RUN wget -O /app/monaco.tgz https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.33.0.tgz && \
+    tar xf /app/monaco.tgz -C /app/public/vs && \
+    mv /app/public/vs/package/min/vs/* /app/public/vs && \
+    rm -rf /app/monaco.tar.gz /app/public/vs/package/
+RUN SENTRY_AUTH_TOKEN=$SENTRY_TOKEN yarn build
 
 FROM node:16-alpine AS runner
 WORKDIR /app
