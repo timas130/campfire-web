@@ -347,8 +347,8 @@ export class TextFormatter {
         t.props.style.color = hash;
         this.result.props.children.push(t);
         this.i = next + 1;
+        return true;
       }
-      return true;
     } catch (e) {
       console.warn("parser error:", e);
     }
