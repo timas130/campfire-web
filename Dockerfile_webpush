@@ -1,12 +1,17 @@
-FROM node
-
-LABEL org.opencontainers.image.source=https://github.com/timas130/campfire-push
-
-COPY . /app
+FROM node:16-alpine AS deps
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
-RUN npm install
+
+COPY package.json pnpm-lock.yaml* ./
+RUN yarn global add pnpm && pnpm i --frozen-lockfile
+
+FROM node:16-alpine AS runner
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY ./webpush ./
 
 HEALTHCHECK --interval=35s --timeout=4s CMD curl -f http://localhost:3001/ || exit 1
+LABEL org.opencontainers.image.source=https://github.com/timas130/campfire-push
 
 EXPOSE 3001
 CMD node webpush
