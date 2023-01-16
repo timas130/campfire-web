@@ -328,8 +328,8 @@ export default function Draft() {
           title="Черновик"
           content="Все изменения в черновике синхронизируются. Вы можете продолжить когда угодно."
         />
-        <TextFormattingCard />
         <RulesCard />
+        <TextFormattingCard className={classes.textFormattingCard} />
       </>}
     />
   );

@@ -2,16 +2,18 @@ import postClasses from "../../styles/Post.module.css";
 import classes from "../../styles/Card.module.css";
 import Link from "next/link";
 import {rulesConsts} from "../../pages/app/rules";
+import classNames from "classnames";
 
-export default function NoticeCard({title, content, children}) {
-  return <section className={postClasses.post}>
+export default function NoticeCard({title, className, content, children}) {
+  return <section className={classNames(postClasses.post, className)}>
     <div className={classes.cardTitle}>{title}</div>
     <div className={classes.cardContent}>{content || children}</div>
   </section>;
 }
 
-export function TextFormattingCard() {
+export function TextFormattingCard({className}) {
   return <NoticeCard
+    className={className}
     title="Форматирование текста"
     content={<>
       Примеры форматирования текста:<br />

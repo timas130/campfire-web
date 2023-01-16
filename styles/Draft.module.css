@@ -85,3 +85,8 @@
 .activityDue {
     color: var(--text);
 }
+
+.textFormattingCard {
+    position: sticky;
+    top: 60px;
+}
