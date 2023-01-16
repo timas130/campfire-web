@@ -51,7 +51,7 @@ export default function FandomCard({ fandom, profile, info, fetchId = null, noLi
   const loaded = Boolean(fandomL && profileL && infoL);
 
   const {data: subscriptionData, mutate: mutateSubscription} = useSWR(
-    `/api/fandom/${fandomL.id || fetchId}/sub`, fetcher,
+    `/api/fandom/${fandomL?.id || fetchId}/sub`, fetcher,
   );
   const subscriptionStatus = subscriptionData?.subscriptionType === SUB_TYPE_SUBBED ? SUB_TYPE_SUBBED : SUB_TYPE_NONE;
 
