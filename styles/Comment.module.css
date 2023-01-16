@@ -83,8 +83,11 @@
     margin: 0.5rem 0;
     border-radius: 0.5rem;
 }
-.images img {
+.image {
+    max-width: 256px;
     max-height: 256px;
+}
+.image img {
     border-radius: 0.5rem;
 }
 

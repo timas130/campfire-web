@@ -136,26 +136,24 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
         {jsonDB.quoteId > 0 && <CommentQuote jsonDB={jsonDB} />}
         <FormattedText text={jsonDB.J_TEXT} />
         {jsonDB.stickerImageId > 0 && <Link href={`/stickers/sticker/${jsonDB.stickerId}`} className={classes.images}>
-
           <CImage
             id={jsonDB.stickerImageId} w={128} h={128}
             loading="lazy" alt="Стикер"
           />
-
         </Link>}
         {(jsonDB.imageId > 0 || (imageIdArray || []).length > 0) && <div className={classes.images}>
-          {jsonDB.imageId > 0 && <CImage
+          {jsonDB.imageId > 0 && <div class={classes.image}><CImage
             id={jsonDB.imageId}
             w={jsonDB.imageW} h={jsonDB.imageH}
             loading="lazy" modal
             alt="Изображение"
-          />}
-          {(imageIdArray || []).map((id, idx) => <CImage
+          /></div>}
+          {(imageIdArray || []).map((id, idx) => <div class={classes.image}><CImage
             key={id} id={id}
             w={imageWArray[idx]} h={imageHArray[idx]}
             loading="lazy" modal
             alt="Изображение"
-          />)}
+          /></div>)}
         </div>}
       </div>
       <div className={classes.footer}>
