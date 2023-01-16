@@ -148,8 +148,8 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
             loading="lazy" modal
             alt="Изображение"
           /></div>}
-          {(imageIdArray || []).map((id, idx) => <div class={classes.image}><CImage
-            key={id} id={id}
+          {(imageIdArray || []).map((id, idx) => <div class={classes.image} key={id}><CImage
+            id={id}
             w={imageWArray[idx]} h={imageHArray[idx]}
             loading="lazy" modal
             alt="Изображение"
