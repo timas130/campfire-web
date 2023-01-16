@@ -66,7 +66,7 @@ export default function FandomCard({ fandom, profile, info, fetchId = null, noLi
     const newStatus = subscriptionStatus === SUB_TYPE_NONE ? SUB_TYPE_SUBBED : SUB_TYPE_NONE;
 
     mutateSubscription(() => {
-      return fetcher(`/api/fandom/${fandom.id}/sub?type=${newStatus}`, {method: "POST"})
+      return fetcher(`/api/fandom/${fandomL?.id || fetchId}/sub?type=${newStatus}`, {method: "POST"})
         .then(() => ({
           subscriptionType: newStatus,
           notifyImportant: subscriptionData ? subscriptionData.notifyImportant : newStatus !== SUB_TYPE_NONE,
