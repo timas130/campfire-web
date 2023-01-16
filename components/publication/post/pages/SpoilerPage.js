@@ -6,6 +6,7 @@ import InputLabel from "../../../controls/InputLabel";
 import Input from "../../../controls/Input";
 import {EditToolbar, ToolbarActions} from "./Page";
 import FormattedText from "../../../FormattedText";
+import {showErrorToast} from "../../../../lib/ui";
 
 export default function SpoilerPage({ page, children, onEdit = null }) {
   const [expanded, setExpanded] = useState(Boolean(onEdit));
@@ -34,11 +35,20 @@ export function SpoilerPageEdit({page: initialPage, commit}) {
     count: 0,
   });
 
+  const commitProxy = (page, target) => {
+    if (page?.count > 10 || page?.count < 1) {
+      showErrorToast(target, "Количество страниц не может быть больше 10");
+      return;
+    }
+    commit(page, target);
+  };
+
   return <div className={classNames(classes.spoilerHeader, classes.editing)}>
     <InputLabel>
       Заголовок спойлера
       <Input
-        value={page.name} placeholder="Смешные котята"
+        value={page.name}
+        placeholder="Смешные котята"
         onChange={ev => setPage(page => ({
           ...page,
           name: ev.target.value,
@@ -48,7 +58,10 @@ export function SpoilerPageEdit({page: initialPage, commit}) {
     <InputLabel>
       Количество скрытых страниц
       <Input
-        value={page.count || page.length} type="number"
+        value={page.count || page.length}
+        type="number"
+        min={1}
+        max={10}
         onChange={ev => setPage(page => ({
           ...page,
           length: parseInt(ev.target.value) || 0,
@@ -58,7 +71,7 @@ export function SpoilerPageEdit({page: initialPage, commit}) {
     </InputLabel>
 
     <EditToolbar>
-      <ToolbarActions page={page} commit={commit} />
+      <ToolbarActions page={page} commit={commitProxy} />
     </EditToolbar>
   </div>;
 }
