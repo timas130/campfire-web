@@ -8,6 +8,7 @@ import FandomHeader from "../components/FandomHeader";
 import classes from "../styles/Card.module.css";
 import useSWR from "swr";
 import classNames from "classnames";
+import FormattedText from "../components/FormattedText";
 
 export default function DonatesPage() {
   const [donatesType, setDonatesType] = useState("month");
@@ -46,12 +47,15 @@ export default function DonatesPage() {
         {showLoader && <FeedLoader ref={ref} />}
       </>}
     />
-  </>} staticSidebar={<NoticeCard
-    title="Пожертвования"
-    content={
-      "Campfire существует без рекламы или каких-либо платных функций. " +
-      "Таким его держать требует денег, поэтому все будут очень рады даже " +
-      "небольшому донату от пользователей."
-    }
-  />} />;
+  </>} staticSidebar={<>
+    <NoticeCard
+      title="Пожертвования"
+      content={<FormattedText text={
+        "Campfire существует без рекламы или каких-либо платных функций. " +
+        "Таким его держать требует денег, поэтому все будут очень рады даже " +
+        "небольшому донату от пользователей. \n\n" +
+        "Сделать пожертвование в Campfire возможно только из приложения."
+      } />}
+    />
+  </>} />;
 }

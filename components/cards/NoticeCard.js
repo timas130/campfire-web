@@ -3,10 +3,10 @@ import classes from "../../styles/Card.module.css";
 import Link from "next/link";
 import {rulesConsts} from "../../pages/app/rules";
 
-export default function NoticeCard({title, content}) {
+export default function NoticeCard({title, content, children}) {
   return <section className={postClasses.post}>
     <div className={classes.cardTitle}>{title}</div>
-    <div className={classes.cardContent}>{content}</div>
+    <div className={classes.cardContent}>{content || children}</div>
   </section>;
 }
 
