@@ -17,7 +17,7 @@ import useSWR from "swr";
 import {fetcher, useUser} from "../../lib/client-api";
 import {KarmaCounter} from "../Karma";
 import FandomHeader from "../FandomHeader";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useRouter} from "next/router";
 import Link from "next/link";
 import IconLink from "../IconLink";
@@ -25,6 +25,7 @@ import CImage from "../CImage";
 import {Tag} from "../publication/post/Tags";
 import tags from "./FandomCard_data.json";
 import FormattedText from "../FormattedText";
+import {showErrorToast} from "../../lib/ui";
 
 export const SUB_TYPE_IMPORTANT = -1;
 export const SUB_TYPE_SUBBED = 0;
@@ -49,30 +50,34 @@ export default function FandomCard({ fandom, profile, info, fetchId = null, noLi
 
   const loaded = Boolean(fandomL && profileL && infoL);
 
-  const [subscriptionStatus, setSubscriptionStatus] = useState(SUB_TYPE_NONE);
-  useEffect(() => {
-    if (loaded) {
-      setSubscriptionStatus(profileL.subscriptionType);
-    }
-  }, [loaded]); // eslint-disable-line
+  const {data: subscriptionData, mutate: mutateSubscription} = useSWR(
+    `/api/fandom/${fandomL.id || fetchId}/sub`, fetcher,
+  );
+  const subscriptionStatus = subscriptionData?.subscriptionType === SUB_TYPE_SUBBED ? SUB_TYPE_SUBBED : SUB_TYPE_NONE;
 
   const user = useUser();
   const router = useRouter();
-  const changeSubscriptionStatus = () => {
+  const changeSubscriptionStatus = event => {
     if (!user) {
       router.push("/auth/login");
       return;
     }
 
-    if (subscriptionStatus === SUB_TYPE_NONE) { // if not subscribed
-      fetcher(`/api/fandom/${fandom.id}/sub?type=${SUB_TYPE_SUBBED}`)
-        .then(() => setSubscriptionStatus(SUB_TYPE_SUBBED))
-        .catch(e => alert("Ошибка: " + e));
-    } else {
-      fetcher(`/api/fandom/${fandom.id}/sub?type=${SUB_TYPE_NONE}`)
-        .then(() => setSubscriptionStatus(SUB_TYPE_NONE))
-        .catch(e => alert("Ошибка: " + e));
-    }
+    const newStatus = subscriptionStatus === SUB_TYPE_NONE ? SUB_TYPE_SUBBED : SUB_TYPE_NONE;
+
+    mutateSubscription(() => {
+      return fetcher(`/api/fandom/${fandom.id}/sub?type=${newStatus}`, {method: "POST"})
+        .then(() => ({
+          subscriptionType: newStatus,
+          notifyImportant: subscriptionData ? subscriptionData.notifyImportant : newStatus !== SUB_TYPE_NONE,
+        }))
+        .catch(err => showErrorToast(event.target, err));
+    }, {
+      optimisticData: {
+        ...(subscriptionData || {notifyImportant: true}),
+        subscriptionType: newStatus,
+      },
+    });
   };
 
   const [expanded, setExpanded] = useState(false);

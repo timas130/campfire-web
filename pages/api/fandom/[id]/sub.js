@@ -13,12 +13,28 @@ export async function changeFandomSubscriptionStatus(req, res, fandomId, type, i
   return {};
 }
 
+export async function getFandomSubscriptionStatus(req, res, fandomId) {
+  return (await sendRequestAuthenticated(
+    // Zeon moment
+    req, res, "RFandomsGetSubscribtion", {
+      fandomId, languageId: 2,
+    },
+  )).J_RESPONSE;
+}
+
 export default async function changeFandomSubscriptionStatusHandler(req, res) {
   try {
-    res.send(await changeFandomSubscriptionStatus(
-      req, res, req.query.id, req.query.type,
-      castToBoolean(req.query.important),
-    ));
+    if (req.method === "GET") {
+      res.send(await getFandomSubscriptionStatus(req, res, req.query.id));
+    } else if (req.method === "POST") {
+      res.send(await changeFandomSubscriptionStatus(
+        req, res, req.query.id, req.query.type,
+        castToBoolean(req.query.important),
+      ));
+    } else {
+      // noinspection ExceptionCaughtLocallyJS
+      throw {code: "INVALID_METHOD", messageError: "use POST or GET", params: [], cweb: true};
+    }
   } catch (e) {
     sendErrorIfFromRemote(res, e);
   }
