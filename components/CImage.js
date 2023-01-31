@@ -15,9 +15,25 @@ const cdnImageLoader = ({ src, width, quality }) => (
   `${process.env.cdnUrl}/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality || 75}`
 );
 
+function limitImageSize(w, h, max = 256, shrinkWidth = true) {
+  const aspectRatio = w / h;
+  if (w <= max && h <= max) return [w, h];
+
+  if (w > h && shrinkWidth) {
+    return [max, max / aspectRatio];
+  } else {
+    return [aspectRatio * max, max];
+  }
+}
+
 export default function CImage(props) {
-  const {id, w, h, alt, modal, useImg, ...rest} = props;
+  let {w, h} = props;
+  const {id, maxSide, shrinkWidth, alt, modal, useImg, ...rest} = props;
   const [modalOpen, setModalOpen] = useState(false);
+
+  if (maxSide) {
+    [w, h] = limitImageSize(w, h, maxSide, shrinkWidth);
+  }
 
   const ImageEl = useImg ? "img" : Image;
 

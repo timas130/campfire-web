@@ -11,6 +11,7 @@ export default function ImagePage({ page, onEdit = null }) {
   return <div className={classNames(classes.imagePage, onEdit && classes.editable)}>
     <CImage
       id={page["J_IMAGE_ID"]}
+      maxSide={512} shrinkWidth={false}
       w={page["J_W"]} h={page["J_H"]}
       loading="lazy" modal={!onEdit}
       // you're welcome blind people

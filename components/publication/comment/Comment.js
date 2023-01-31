@@ -45,7 +45,6 @@ function CommentQuote({jsonDB}) {
           id={jsonDB.quoteStickerImageId} w={100} h={100}
           loading="lazy" alt="Стикер"
         />
-
       </Link>}
       {(jsonDB.quoteImages || []).length > 0 && <div className={classes.images}>
         {jsonDB.quoteImages.map(id => <CImage
@@ -142,14 +141,16 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
           />
         </Link>}
         {(jsonDB.imageId > 0 || (imageIdArray || []).length > 0) && <div className={classes.images}>
-          {jsonDB.imageId > 0 && <div class={classes.image}><CImage
+          {jsonDB.imageId > 0 && <div className={classes.image} key={jsonDB.imageId}><CImage
             id={jsonDB.imageId}
+            maxSide={256}
             w={jsonDB.imageW} h={jsonDB.imageH}
             loading="lazy" modal
             alt="Изображение"
           /></div>}
-          {(imageIdArray || []).map((id, idx) => <div class={classes.image} key={id}><CImage
+          {(imageIdArray || []).map((id, idx) => <div className={classes.image} key={id}><CImage
             id={id}
+            maxSide={256}
             w={imageWArray[idx]} h={imageHArray[idx]}
             loading="lazy" modal
             alt="Изображение"
