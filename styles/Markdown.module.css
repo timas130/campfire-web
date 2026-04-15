@@ -78,3 +78,40 @@
     max-width: 100%;
     height: auto;
 }
+
+.markdown mark {
+    background: #FFEB3B;
+    color: #212121;
+    padding: 0 0.15em;
+    border-radius: 0.15em;
+}
+
+.spoiler {
+    background: var(--background-element, rgba(127, 127, 127, 0.3));
+    color: transparent;
+    border-radius: 0.2em;
+    padding: 0 0.15em;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.15s, color 0.15s;
+}
+.spoiler * {
+    visibility: hidden;
+}
+.spoilerShown {
+    background: transparent;
+    color: inherit;
+    user-select: text;
+}
+.spoilerShown * {
+    visibility: visible;
+}
+
+.markdown table {
+    border-collapse: collapse;
+}
+.markdown th,
+.markdown td {
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--background-element, rgba(127, 127, 127, 0.3));
+}
