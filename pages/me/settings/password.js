@@ -5,69 +5,56 @@ import InputLabel from "../../../components/controls/InputLabel";
 import Button from "../../../components/controls/Button";
 import classNames from "classnames";
 import classes from "../../../styles/Auth.module.css";
-import {useEffect, useState} from "react";
-import {useRouter} from "next/router";
+import {useState} from "react";
 import Spinner from "../../../components/Spinner";
-import {authStatePromise, fbAuth} from "../../../lib/firebase";
-import {EmailAuthProvider, reauthenticateWithCredential, updatePassword} from "firebase/auth";
-import shajs from "sha.js";
+import {useRequiredUser} from "../../../lib/client-api";
 import Head from "next/head";
 
 export default function PasswordSettings() {
-  const router = useRouter();
+  const user = useRequiredUser();
   const [passwordShown, setPasswordShown] = useState(false);
-  const [loadingState, setLoadingState] = useState({state: "loading-fb"});
+  const [loadingState, setLoadingState] = useState({state: "idle"});
 
-  useEffect(() => {
-    (async () => {
-      await authStatePromise;
-      if (!fbAuth.currentUser) router.push("/auth/login");
-      else setLoadingState({state: "idle"});
-    })();
-  }, [router]);
-
-  const onSubmit = ev => {
+  const onSubmit = async ev => {
     ev.preventDefault();
     setLoadingState({state: "loading"});
     const data = new FormData(ev.target);
-    if (data.get("new-password").length < 8) {
+    const oldPassword = data.get("old-password");
+    const newPassword = data.get("new-password");
+    if (newPassword.length < 8) {
       setLoadingState({state: "error", error: "Слишком короткий пароль, минимум 8 символов"});
       return;
     }
-
-    reauthenticateWithCredential(fbAuth.currentUser, EmailAuthProvider.credential(
-      fbAuth.currentUser.email,
-      shajs("sha512").update(data.get("old-password")).digest("hex"),
-    )).then(() => {
-      updatePassword(
-        fbAuth.currentUser,
-        shajs("sha512").update(data.get("new-password")).digest("hex"),
-      ).then(() => {
-        setLoadingState({state: "idle"});
-        router.push("/me/settings?state=password_changed");
-      }).catch(err => {
-        setLoadingState({state: "error", error: "Ошибка. Код: " + err.code});
+    try {
+      const resp = await fetch("/api/auth/change-password", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({oldPassword, newPassword}),
       });
-    }).catch(err => {
-      setLoadingState({
-        state: "error",
-        error: err.code === "auth/wrong-password" ?
-          "Неправильный старый пароль" :
-          `Ошибка. Код: ${err.code}`,
-      });
-    });
+      const json = await resp.json();
+      if (json.error) {
+        const code = json.response?.code;
+        const message = json.response?.messageError || "";
+        setLoadingState({
+          state: "error",
+          error:
+            code === "INVALID_CREDENTIALS" || message.includes("WrongPassword") ? "Неправильный старый пароль" :
+            `Ошибка. Код: ${code || "?"}`,
+        });
+        return;
+      }
+      setLoadingState({state: "idle"});
+      window.location = "/me/settings?state=password_changed";
+    } catch (e) {
+      setLoadingState({state: "error", error: "Сетевая ошибка. Попробуйте позже."});
+    }
   };
 
-  if (loadingState.state === "loading-fb") {
-    return <Spinner className={classes.fullpageSpinner} />;
-  }
+  if (!user) return <Spinner className={classes.fullpageSpinner} />;
 
   return <FeedLayout
     list={<form onSubmit={onSubmit}>
-      <Head>
-        <title>Изменение пароля | Campfire</title>
-      </Head>
-
+      <Head><title>Изменение пароля | Bonfire</title></Head>
       {loadingState.state === "error" && <NoticeCard title="Ошибка" content={loadingState.error} />}
       <InputLabel>
         Старый пароль
@@ -90,9 +77,7 @@ export default function PasswordSettings() {
       </InputLabel>
       <div className={classes.buttons}>
         {loadingState.state !== "loading" ?
-          <Button type="submit" className={classes.buttonRight}>
-            Поменять пароль
-          </Button> :
+          <Button type="submit" className={classes.buttonRight}>Поменять пароль</Button> :
           <Spinner className={classes.spinner} />}
       </div>
     </form>}
