@@ -25,7 +25,7 @@ export default function Activity({activity, posts}) {
         <MetaTags
           title={title} description={activity.description}
           url={`https://campfire.moe/activity/${activity.id}`}
-          image={`https://campfire.moe/api/image/${activity.fandom.imageId}`}
+          image={activity.fandom.image?.u || `https://campfire.moe/api/image/${activity.fandom.imageId}`}
         />
       </Head>
       <UserActivityPage page={activity} full />
