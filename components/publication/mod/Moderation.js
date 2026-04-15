@@ -170,7 +170,7 @@ function ModerationGalleryAdd({pub}) {
       в галерею фэндома:
     </div>
     <div className={classes.modImage}>
-      <CImage id={pub.jsonDB.moderation.imageId} useImg alt="Изображение удалено" />
+      <CImage imageRef={pub.jsonDB.moderation.image} id={pub.jsonDB.moderation.imageId} useImg alt="Изображение удалено" />
     </div>
     <MComment pub={pub} />
   </>;
