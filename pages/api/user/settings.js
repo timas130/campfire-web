@@ -1,10 +1,11 @@
 import {sendErrorIfFromRemote} from "../../../lib/api";
-import {sendRequestAuthenticated} from "../../../lib/server";
+import {sendRequestAuthenticated, graphql, readTokens} from "../../../lib/server";
 import cache from "memory-cache";
 
 export async function fetchUserSettings(req, res) {
-  const result = await Promise.all([
-    sendRequestAuthenticated(req, res, "RAccountsGetEmail", {}),
+  const {accessToken} = readTokens(req, res);
+  const [meData, loginResp, infoResp] = await Promise.all([
+    graphql(`query { me { email } }`, {}, accessToken),
     sendRequestAuthenticated(req, res, "RAccountsLogin", {
       tokenNotification: "",
       languageId: 0,
@@ -15,23 +16,26 @@ export async function fetchUserSettings(req, res) {
       languageId: 2,
     }),
   ]);
-  cache.put("settings:translateMapHash", result[1].J_RESPONSE.translateMapHash);
-  cache.put("settings:translateMapHashEng", result[1].J_RESPONSE.translateMapHashEng);
+  cache.put("settings:translateMapHash", loginResp.J_RESPONSE.translateMapHash);
+  cache.put("settings:translateMapHashEng", loginResp.J_RESPONSE.translateMapHashEng);
   return {
-    security: result[0].J_RESPONSE,
-    account: result[1].J_RESPONSE.account,
-    settings: result[1].J_RESPONSE.settings,
-    fandomsKarma: result[2].J_RESPONSE.fandomsIds.map(
+    security: {
+      email: meData?.me?.email || null,
+      google: null,
+    },
+    account: loginResp.J_RESPONSE.account,
+    settings: loginResp.J_RESPONSE.settings,
+    fandomsKarma: infoResp.J_RESPONSE.fandomsIds.map(
       (id, idx) => ({
         id,
-        l: result[2].J_RESPONSE.languagesIds[idx],
-        k: result[2].J_RESPONSE.karmaCounts[idx],
+        l: infoResp.J_RESPONSE.languagesIds[idx],
+        k: infoResp.J_RESPONSE.karmaCounts[idx],
       }),
     ),
-    viceroy: result[2].J_RESPONSE.viceroyFandomsIds.map(
+    viceroy: infoResp.J_RESPONSE.viceroyFandomsIds.map(
       (id, idx) => ({
         id,
-        l: result[2].J_RESPONSE.viceroyLanguagesIds[idx],
+        l: infoResp.J_RESPONSE.viceroyLanguagesIds[idx],
       }),
     ),
   };
