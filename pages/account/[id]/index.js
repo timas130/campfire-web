@@ -98,6 +98,7 @@ export default function Profile({account: initialAccount, profile: initialProfil
           </div>}
           <div className={postClasses.profileStatus}>
             {!editing.status ?
+              // legacy TextFormatter: profile.status has no newFormatting flag
               <FormattedText text={profile.status.trim() || "{_cweb_secondary Статус не задан}"} /> :
               <ProfileBioEditor
                 type="status" initialValue={profile.status} accountId={initialAccount.J_ID}
@@ -114,6 +115,7 @@ export default function Profile({account: initialAccount, profile: initialProfil
           </div>}
           <div className={postClasses.header}>
             {!editing.description ?
+              // legacy TextFormatter: profile.description has no newFormatting flag
               <FormattedText text={profile.description.trim() || "{_cweb_secondary Нет описания}"} /> :
               <ProfileBioEditor
                 type="description" initialValue={profile.description} accountId={initialAccount.J_ID}

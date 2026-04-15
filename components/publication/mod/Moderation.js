@@ -2,6 +2,8 @@ import classes from "../../../styles/Post.module.css";
 import dayjs from "../../../lib/time";
 import FandomHeader, {AccountLink, ShortAccountLink, SponsorStar} from "../../FandomHeader";
 import Link from "next/link";
+// All FormattedText calls in this file render moderation comments/descriptions
+// authored in legacy TextFormatter syntax — no newFormatting flag on these.
 import FormattedText from "../../FormattedText";
 import Tooltip from "../../Tooltip";
 import CImage from "../../CImage";

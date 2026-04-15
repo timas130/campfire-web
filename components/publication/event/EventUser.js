@@ -3,6 +3,9 @@ import {useMemo} from "react";
 import dynamic from "next/dynamic";
 import {AccountLink, ShortAccountLink} from "../../FandomHeader";
 import dayjs from "../../../lib/time";
+// All FormattedText calls in this file render moderation-event reasons that
+// are server-generated in the legacy TextFormatter syntax — no newFormatting
+// flag exists on these payloads.
 import FormattedText from "../../FormattedText";
 import Link from "next/link";
 import classes from "../../../styles/Post.module.css";

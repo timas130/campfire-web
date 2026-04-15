@@ -50,6 +50,7 @@ export default function DonatesPage() {
   </>} staticSidebar={<>
     <NoticeCard
       title="Пожертвования"
+      // legacy TextFormatter: static marketing copy authored in legacy syntax
       content={<FormattedText text={
         "Campfire существует без рекламы или каких-либо платных функций. " +
         "Таким его держать требует денег, поэтому все будут очень рады даже " +

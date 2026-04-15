@@ -115,6 +115,7 @@ export default function FandomCard({ fandom, profile, info, fetchId = null, noLi
       </Link>
     </div>
     <div className={classes.fandomDescription}>
+      {/* legacy TextFormatter: infoL.description has no newFormatting flag */}
       <FormattedText text={infoL.description.trim() || "{_cweb_secondary Нет описания}"} />
     </div>
     <div className={classes.fandomLinks}>
