@@ -27,9 +27,16 @@ function CommentQuote({jsonDB}) {
       text = text.substring(otherName.length);
     }
   }
-  if (typeof jsonDB.quoteImages === "string") {
-    jsonDB.quoteImages = JSON.parse(jsonDB.quoteImages);
-  }
+
+  // Preferred (new backend): jsonDB.quoteImagesRefs is ImageRef[].
+  // Legacy: jsonDB.quoteImages is a Long[] of image ids (sometimes a JSON string).
+  const quoteRefs = Array.isArray(jsonDB.quoteImagesRefs) ? jsonDB.quoteImagesRefs : null;
+  let quoteIds = jsonDB.quoteImages;
+  if (typeof quoteIds === "string") quoteIds = JSON.parse(quoteIds);
+  if (!Array.isArray(quoteIds)) quoteIds = [];
+  const quoteCount = quoteRefs ? quoteRefs.length : quoteIds.length;
+
+  const hasSticker = jsonDB.quoteStickerImage || jsonDB.quoteStickerImageId > 0;
 
   return (
     <div className={classes.quote}>
@@ -37,20 +44,25 @@ function CommentQuote({jsonDB}) {
         (jsonDB.quoteCreatorName ? `{_cweb_secondary ${jsonDB.quoteCreatorName}:}` : "") +
         limitText(text, 64, 150)
       } />
-      {jsonDB.quoteStickerImageId > 0 && <Link
+      {hasSticker && <Link
         href={`/stickers/sticker/${jsonDB.quoteStickerId}`}
         className={classes.images}>
-
         <CImage
+          ref={jsonDB.quoteStickerImage}
           id={jsonDB.quoteStickerImageId} w={100} h={100}
           loading="lazy" alt="Стикер"
         />
       </Link>}
-      {(jsonDB.quoteImages || []).length > 0 && <div className={classes.images}>
-        {jsonDB.quoteImages.map(id => <CImage
-          key={id} id={id} w={100} h={100}
-          loading="lazy" modal objectFit="cover" alt="Изображение"
-        />)}
+      {quoteCount > 0 && <div className={classes.images}>
+        {Array.from({length: quoteCount}).map((_, idx) => {
+          const ref = quoteRefs?.[idx];
+          const id = quoteIds[idx];
+          return <CImage
+            key={ref?.u || id || idx} ref={ref} id={id}
+            w={100} h={100}
+            loading="lazy" modal objectFit="cover" alt="Изображение"
+          />;
+        })}
       </div>}
     </div>
   );
@@ -75,6 +87,9 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
   const imageIdArray = typeof jsonDB.imageIdArray === "string" ? JSON.parse(jsonDB.imageIdArray) : jsonDB.imageIdArray;
   const imageWArray = typeof jsonDB.imageWArray === "string" ? JSON.parse(jsonDB.imageWArray) : jsonDB.imageWArray;
   const imageHArray = typeof jsonDB.imageHArray === "string" ? JSON.parse(jsonDB.imageHArray) : jsonDB.imageHArray;
+  // New-backend ImageRefs live on the comment itself (API doc §6.5).
+  const imageRef = comment.image;
+  const imageRefs = Array.isArray(comment.images) ? comment.images : null;
 
   const [replyEditorShown, setReplyEditorShown] = useState(false);
   const [forceShow, setForceShow] = useState(false);
@@ -136,19 +151,27 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
         <FormattedText text={jsonDB.J_TEXT} />
         {jsonDB.stickerImageId > 0 && <Link href={`/stickers/sticker/${jsonDB.stickerId}`} className={classes.images}>
           <CImage
+            ref={comment.stickerImage}
             id={jsonDB.stickerImageId} w={128} h={128}
             loading="lazy" alt="Стикер"
           />
         </Link>}
-        {(jsonDB.imageId > 0 || (imageIdArray || []).length > 0) && <div className={classes.images}>
-          {jsonDB.imageId > 0 && <div className={classes.image} key={jsonDB.imageId}><CImage
-            id={jsonDB.imageId}
+        {(jsonDB.imageId > 0 || imageRef || (imageIdArray || []).length > 0 || (imageRefs || []).length > 0) && <div className={classes.images}>
+          {(jsonDB.imageId > 0 || imageRef) && <div className={classes.image} key={imageRef?.u || jsonDB.imageId}><CImage
+            ref={imageRef} id={jsonDB.imageId}
             maxSide={256}
             w={jsonDB.imageW} h={jsonDB.imageH}
             loading="lazy" modal
             alt="Изображение"
           /></div>}
-          {(imageIdArray || []).map((id, idx) => <div className={classes.image} key={id}><CImage
+          {imageRefs ? imageRefs.map((ref, idx) => <div className={classes.image} key={ref?.u || idx}><CImage
+            ref={ref}
+            id={imageIdArray?.[idx]}
+            maxSide={256}
+            w={ref?.w || imageWArray?.[idx]} h={ref?.h || imageHArray?.[idx]}
+            loading="lazy" modal
+            alt="Изображение"
+          /></div>) : (imageIdArray || []).map((id, idx) => <div className={classes.image} key={id}><CImage
             id={id}
             maxSide={256}
             w={imageWArray[idx]} h={imageHArray[idx]}
