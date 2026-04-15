@@ -158,10 +158,80 @@ function visitTextNodes(node, transform, insideLink = false) {
   }
 }
 
+// Color spans can wrap nested markdown (e.g. `{red **bold**}`). After
+// markdown parsing, the `{`, content, and `}` end up in separate sibling
+// nodes; this walker pairs `{COLOR ` openers with `}` closers across
+// siblings of the same parent and rewraps everything in between.
+const COLOR_OPEN_RE = /\{([^\s{}]+)\s+/;
+
+function spanColorAcrossChildren(parent) {
+  if (!Array.isArray(parent.children)) return;
+  // depth-first so existing children are processed before we wrap them
+  for (const child of parent.children) spanColorAcrossChildren(child);
+
+  let i = 0;
+  while (i < parent.children.length) {
+    const child = parent.children[i];
+    if (child.type !== "text") { i++; continue; }
+
+    const open = COLOR_OPEN_RE.exec(child.value);
+    if (!open) { i++; continue; }
+
+    const colorToken = open[1];
+    const openStart = open.index;
+    const contentStart = openStart + open[0].length;
+
+    let closeIdx = -1, closePos = -1;
+    const sameRest = child.value.slice(contentStart);
+    const sameClose = sameRest.indexOf("}");
+    if (sameClose !== -1) {
+      closeIdx = i;
+      closePos = contentStart + sameClose;
+    } else {
+      for (let j = i + 1; j < parent.children.length; j++) {
+        const sib = parent.children[j];
+        if (sib.type !== "text") continue;
+        const k = sib.value.indexOf("}");
+        if (k !== -1) { closeIdx = j; closePos = k; break; }
+      }
+    }
+    if (closeIdx === -1) { i++; continue; }
+
+    const style = colorStyle(colorToken);
+    if (!style) { i++; continue; }
+
+    const replacement = [];
+    if (openStart > 0) {
+      replacement.push({type: "text", value: child.value.slice(0, openStart)});
+    }
+    const colorChildren = [];
+    if (closeIdx === i) {
+      const inner = child.value.slice(contentStart, closePos);
+      if (inner) colorChildren.push({type: "text", value: inner});
+    } else {
+      const headInner = child.value.slice(contentStart);
+      if (headInner) colorChildren.push({type: "text", value: headInner});
+      for (let j = i + 1; j < closeIdx; j++) {
+        colorChildren.push(parent.children[j]);
+      }
+      const tailInner = parent.children[closeIdx].value.slice(0, closePos);
+      if (tailInner) colorChildren.push({type: "text", value: tailInner});
+    }
+    replacement.push(makeNode("span", colorChildren, {style: styleObjectToString(style)}));
+    const post = parent.children[closeIdx].value.slice(closePos + 1);
+    if (post) replacement.push({type: "text", value: post});
+
+    parent.children.splice(i, closeIdx - i + 1, ...replacement);
+    i += replacement.length;
+  }
+}
+
 function remarkBfm() {
   return (tree) => {
-    for (const pattern of textPatterns) {
-      visitTextNodes(tree, pattern);
+    spanColorAcrossChildren(tree);
+    // text-only patterns (skip color since it was just done with spanning)
+    for (let p = 1; p < textPatterns.length; p++) {
+      visitTextNodes(tree, textPatterns[p]);
     }
   };
 }
