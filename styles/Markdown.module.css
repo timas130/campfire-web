@@ -16,8 +16,18 @@
 .markdown h4,
 .markdown h5,
 .markdown h6 {
+    /* override UA defaults (e.g. h1 { margin: 0.67em 0 }) — they outrank the
+       global `* { margin: 0 }` reset by element specificity. */
+    margin: 0;
     font-weight: 600;
     line-height: 1.25;
+}
+.markdown p,
+.markdown ul,
+.markdown ol,
+.markdown blockquote,
+.markdown pre {
+    margin: 0;
 }
 .markdown h1 { font-size: 1.3rem; }
 .markdown h2 { font-size: 1.15rem; }

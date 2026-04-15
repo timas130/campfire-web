@@ -16,20 +16,19 @@ export function TextFormattingCard({className}) {
     className={className}
     title="Форматирование текста"
     content={<>
-      Примеры форматирования текста:<br />
+      Текст форматируется при помощи Markdown:<br />
       <br />
       <table>
         <tbody>
-          <tr><td>*текст*</td><td><b>текст</b></td></tr>
-          <tr><td>^текст^</td><td><i>текст</i></td></tr>
-          <tr><td>~текст~</td><td><s>текст</s></td></tr>
-          <tr><td>_текст_</td><td><u>текст</u></td></tr>
-          <tr><td>[текст]https://google.com</td><td><a href="#">текст</a></td></tr>
+          <tr><td>**текст**</td><td><b>текст</b></td></tr>
+          <tr><td>*текст*</td><td><i>текст</i></td></tr>
+          <tr><td>~~текст~~</td><td><s>текст</s></td></tr>
+          <tr><td>`код`</td><td><code>код</code></td></tr>
+          <tr><td>[текст](https://google.com)</td><td><a href="#">текст</a></td></tr>
+          <tr><td># Заголовок</td><td><b>Заголовок</b></td></tr>
+          <tr><td>- пункт списка</td><td>• пункт списка</td></tr>
+          <tr><td>&gt; цитата</td><td><i>цитата</i></td></tr>
           <tr><td>\*текст\*</td><td>*текст*</td></tr>
-          <tr><td>[noFormat]*текст*[/noFormat]</td><td>*текст*</td></tr>
-          <tr><td>{"{"}red текст{"}"}</td><td><span style={{color: "#D32F2F"}}>текст</span></td></tr>
-          <tr><td>{"{"}campfire текст{"}"}</td><td><span style={{color: "#FF6D00"}}>текст</span></td></tr>
-          <tr><td>{"{"}FF6DAA текст{"}"}</td><td><span style={{color: "#FF6DAA"}}>текст</span></td></tr>
         </tbody>
       </table>
     </>}
