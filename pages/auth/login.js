@@ -6,19 +6,14 @@ import InputLabel from "../../components/controls/InputLabel";
 import Button from "../../components/controls/Button";
 import MetaTags from "../../components/MetaTags";
 import {useState} from "react";
-import {signInWithEmailAndPassword} from "firebase/auth";
-import shajs from "sha.js";
-import {fbAuth} from "../../lib/firebase";
 import Spinner from "../../components/Spinner";
-import {useRouter} from "next/router";
 import {googleRedirectUrl} from "../../lib/google";
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const router = useRouter();
 
-  const submit = ev => {
+  const submit = async ev => {
     ev.preventDefault();
     if (isLoading) return;
     setIsLoading(true);
@@ -26,64 +21,56 @@ export default function Login() {
 
     const data = new FormData(ev.target);
     const email = data.get("email");
-    const password = shajs("sha512").update(data.get("password")).digest("hex");
+    const password = data.get("password");
 
-    signInWithEmailAndPassword(fbAuth, email, password)
-      .then(cred => {
-        if (cred.user.emailVerified) {
-          window.location = "/";
-        } else {
-          // noinspection JSIgnoredPromiseFromCall
-          setError("Регистрация отключена и даже подтверждение почты вам не поможет.");
-          setIsLoading(false);
-        }
-      })
-      .catch(err => {
+    try {
+      const resp = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({email, password}),
+      });
+      const json = await resp.json();
+      if (json.tfa) {
+        setError("2FA не поддерживается в веб-клиенте. Отключите 2FA в приложении.");
+        setIsLoading(false);
+        return;
+      }
+      if (json.error) {
+        const code = json.response?.code;
+        const message = json.response?.messageError || "";
         setError(
-          err.code === "auth/invalid-email" ? "Неправильный e-mail" :
-          err.code === "auth/wrong-password" ? "Неправильный пароль" :
-          err.code === "auth/quota-exceeded" ? "Превышена квота. Попробуйте позже" :
-          err.code === "auth/unauthorized-domain" ? "Зеоны всё сломали. Напишите ситу :)" :
-          `Неизвестная ошибка. Код: ${err.code}`
+          code === "INVALID_CREDENTIALS" || message.includes("WrongEmail") || message.includes("WrongPassword") ? "Неправильный e-mail или пароль" :
+          code === "RATE_LIMITED" || code === "ERROR_RATE_LIMIT" ? "Превышена квота. Попробуйте позже" :
+          code === "ERROR_NETWORK" ? "Сетевая ошибка. Попробуйте позже." :
+          `Неизвестная ошибка. Код: ${code || "?"}`
         );
         setIsLoading(false);
-      });
+        return;
+      }
+      window.location = "/";
+    } catch (e) {
+      setError("Сетевая ошибка. Попробуйте позже.");
+      setIsLoading(false);
+    }
   };
 
   return <>
     <Head>
-      <title>Войти в Campfire</title>
-      <MetaTags
-        title="Войти в Campfire"
-        url="https://campfire.moe/auth/login"
-      />
+      <title>Войти в Bonfire</title>
+      <MetaTags title="Войти в Bonfire" url="https://campfire.moe/auth/login" />
     </Head>
     <div className={classes.layout}>
       <form className={classes.card} onSubmit={submit}>
-        <h1 className={classes.h1}>
-          Вход
-        </h1>
-        <p>
-          Предупреждение: регистрация, используя аккаунт Google,
-          пока доступа только в приложении. Регистрация по почте
-          не работает вообще.
-        </p>
-        {error && <div className={classes.error}>
-          {error}
-        </div>}
+        <h1 className={classes.h1}>Вход</h1>
+        <p>Регистрация пока доступна только в приложении.</p>
+        {error && <div className={classes.error}>{error}</div>}
         <InputLabel>
           Email:
-          <Input
-            type="email" autoComplete="email" name="email"
-            placeholder="me@sit.sh" required
-          />
+          <Input type="email" autoComplete="email" name="email" placeholder="me@sit.sh" required />
         </InputLabel>
         <InputLabel>
           Пароль:
-          <Input
-            type="password" autoComplete="current-password" name="password"
-            placeholder="••••••••" required
-          />
+          <Input type="password" autoComplete="current-password" name="password" placeholder="••••••••" required />
         </InputLabel>
         <div className={classes.buttons}>
           <Link href={googleRedirectUrl} passHref legacyBehavior>
