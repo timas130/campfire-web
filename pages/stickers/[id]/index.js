@@ -48,15 +48,17 @@ export default function StickerPack({info: infoL, list}) {
         />
       </Head>
       <div className={classes.list}>
-        {list.map(sticker => <CImage
-          key={sticker.id}
-          id={typeof sticker.jsonDB === "string" ?
-            JSON.parse(sticker.jsonDB).imageId :
-            sticker.jsonDB.imageId}
-          w={256}
-          h={256}
-          modal
-        />)}
+        {list.map(sticker => {
+          const jsonDB = typeof sticker.jsonDB === "string" ? JSON.parse(sticker.jsonDB) : sticker.jsonDB;
+          return <CImage
+            key={sticker.id}
+            imageRef={sticker.image}
+            id={jsonDB.imageId}
+            w={256}
+            h={256}
+            modal
+          />;
+        })}
       </div>
       <Comments unitId={info.id} totalComments={info.id.subUnitsCount} />
     </>}

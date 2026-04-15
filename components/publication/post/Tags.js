@@ -14,8 +14,9 @@ export function Tag({tag, noLink, selectable, selected, select}) {
     )}
     onClick={selectable ? select : undefined}
   >
-    {tag.jsonDB.J_IMAGE_ID !== 0 && <CImage
-      id={tag.jsonDB.J_IMAGE_ID} alt={tag.jsonDB.J_NAME}
+    {(tag.image || tag.jsonDB.J_IMAGE_ID !== 0) && <CImage
+      imageRef={tag.image} id={tag.jsonDB.J_IMAGE_ID}
+      alt={tag.jsonDB.J_NAME}
       className={classes.tagImage}
       w={30} h={30}
     />}

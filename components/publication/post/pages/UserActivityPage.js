@@ -57,7 +57,7 @@ export default function UserActivityPage({page, full = false}) {
   return (
     <section className={classNames(classes.activity, full && classes.activityFull)}>
       <FandomHeader
-        link={`/activity/${page.id}`} imageId={page.fandom.imageId}
+        link={`/activity/${page.id}`} imageRef={page.fandom.image} imageId={page.fandom.imageId}
         name={page.name} authorLink={`/fandom/${page.fandom.id}`}
         author={page.fandom.name} className={classes.activitySection}
       />
