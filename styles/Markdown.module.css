@@ -1,0 +1,62 @@
+.markdown > * + * {
+    margin-top: 0.5em;
+}
+
+.markdown ul,
+.markdown ol {
+    padding-left: 1.5rem;
+}
+.markdown ul { list-style: disc; }
+.markdown ol { list-style: decimal; }
+.markdown li + li { margin-top: 0.25em; }
+
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+    font-weight: 600;
+    line-height: 1.25;
+}
+.markdown h1 { font-size: 1.5em; }
+.markdown h2 { font-size: 1.3em; }
+.markdown h3 { font-size: 1.15em; }
+.markdown h4,
+.markdown h5,
+.markdown h6 { font-size: 1em; }
+
+.markdown blockquote {
+    padding-left: 0.75rem;
+    border-left: 3px solid var(--background-element, rgba(127, 127, 127, 0.3));
+    color: var(--text-secondary, inherit);
+}
+
+.markdown code {
+    padding: 0.1em 0.3em;
+    border-radius: 0.25em;
+    background: var(--background-element, rgba(127, 127, 127, 0.15));
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.9em;
+}
+.markdown pre {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.25rem;
+    background: var(--background-element, rgba(127, 127, 127, 0.15));
+    overflow-x: auto;
+}
+.markdown pre code {
+    padding: 0;
+    background: transparent;
+    font-size: 0.9em;
+}
+
+.markdown hr {
+    border: none;
+    border-top: 1px solid var(--background-element, rgba(127, 127, 127, 0.3));
+}
+
+.markdown img {
+    max-width: 100%;
+    height: auto;
+}

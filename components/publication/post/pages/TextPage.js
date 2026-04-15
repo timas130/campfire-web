@@ -27,9 +27,9 @@ export default function TextPage({ page, onEdit = null }) {
     onEdit && classes.editable,
   )} onClick={onEdit}>
     {icon && <FontAwesomeIcon icon={icon} className={classes.textIcon} />}
-    <p className={classes.textBlock} style={{textAlign}}>
+    <div className={classes.textBlock} style={{textAlign}}>
       <SmartText text={text} newFormatting={page.newFormatting} />
-    </p>
+    </div>
   </div>;
 }
 

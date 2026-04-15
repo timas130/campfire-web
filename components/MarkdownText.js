@@ -1,12 +1,14 @@
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 import React from "react";
+import classNames from "classnames";
+import classes from "../styles/Markdown.module.css";
 
 export default function MarkdownText({text, className}) {
   if (!text) return null;
   return (
     <ReactMarkdown
-      className={className}
+      className={classNames(classes.markdown, className)}
       skipHtml
       components={{
         a: ({href, children, ...rest}) => {
