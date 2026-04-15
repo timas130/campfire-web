@@ -29,6 +29,11 @@ module.exports = withBundleAnalyzer(withSentryConfig({
     cdnUrl,
   },
   assetPrefix: cdnUrl || undefined,
+  images: {
+    remotePatterns: [
+      {protocol: "https", hostname: "data.bonfire.moe"},
+    ],
+  },
   output: "standalone",
 }, {
   silent: true,
