@@ -13,6 +13,11 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Google OAuth client-side wiring (state/nonce round-trip across the Google redirect)
+  // is deferred from the MVP migration. Server endpoints /api/auth/oauth-url and
+  // /api/auth/oauth-login are ready; re-enable this flag once the client-side flow lands.
+  const GOOGLE_OAUTH_ENABLED = false;
+
   const submit = async ev => {
     ev.preventDefault();
     if (isLoading) return;
@@ -73,9 +78,11 @@ export default function Login() {
           <Input type="password" autoComplete="current-password" name="password" placeholder="••••••••" required />
         </InputLabel>
         <div className={classes.buttons}>
-          <Link href={googleRedirectUrl} passHref legacyBehavior>
-            <Button el="a" secondary>Войти через Google</Button>
-          </Link>
+          {GOOGLE_OAUTH_ENABLED && (
+            <Link href={googleRedirectUrl} passHref legacyBehavior>
+              <Button el="a" secondary>Войти через Google</Button>
+            </Link>
+          )}
           {!isLoading ?
             <Button type="submit" className={classes.buttonRight}>Войти</Button> :
             <Spinner className={classes.spinner} />}
