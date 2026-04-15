@@ -26,23 +26,21 @@ function limitImageSize(w, h, max = 256, shrinkWidth = true) {
   }
 }
 
-function resolveSrc({ref, id}) {
-  if (ref && ref.u) return ref.u;
+function resolveSrc({imageRef, id}) {
+  if (imageRef && imageRef.u) return imageRef.u;
   if (id) return `/api/image/${id}`;    // legacy fallback during migration
   return undefined;
 }
 
 export default function CImage(props) {
   let {w, h} = props;
-  // `ref` here is the ImageRef object ({u,i,w,h}), not a React ref — neither
-  // CImage nor CAvatar (React.memo without forwardRef) forwards DOM refs.
-  const {ref: imgRef, id, maxSide, shrinkWidth, alt, modal, useImg, ...rest} = props;
+  const {imageRef, id, maxSide, shrinkWidth, alt, modal, useImg, ...rest} = props;
   const [modalOpen, setModalOpen] = useState(false);
 
   // pull intrinsic dimensions from the ref if caller didn't pass w/h
-  if ((w === undefined || h === undefined) && imgRef) {
-    if (w === undefined) w = imgRef.w;
-    if (h === undefined) h = imgRef.h;
+  if ((w === undefined || h === undefined) && imageRef) {
+    if (w === undefined) w = imageRef.w;
+    if (h === undefined) h = imageRef.h;
   }
 
   if (maxSide) {
@@ -50,7 +48,7 @@ export default function CImage(props) {
   }
 
   const ImageEl = useImg ? "img" : Image;
-  const src = resolveSrc({ref: imgRef, id});
+  const src = resolveSrc({imageRef, id});
   const onClick = useCallback(() => setModalOpen(x => !x), []);
   if (!src) return null;
 
@@ -70,7 +68,7 @@ export default function CImage(props) {
             onKeyDown={ev => ev.key === "Escape" && setModalOpen(false)}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={imgRef?.u || `${process.env.cdnUrl}/api/image/${id}`} alt={alt} />
+            <img src={imageRef?.u || `${process.env.cdnUrl}/api/image/${id}`} alt={alt} />
           </ModalInner>
         </FocusTrap>
       </ModalPortal>}
@@ -85,14 +83,14 @@ export default function CImage(props) {
 }
 
 function _CAvatar(props) {
-  let {link, id, ref: imgRef, alt, className, account, fandom, small, el, online, ...rest} = props;
+  let {link, id, imageRef, alt, className, account, fandom, small, el, online, ...rest} = props;
   link =
     link ? link :
     account ? `/account/${encodeURIComponent(account.J_NAME || account.name)}` :
     fandom ? `/fandom/${fandom.id}` :
     link;
-  imgRef =
-    imgRef ? imgRef :
+  imageRef =
+    imageRef ? imageRef :
     account ? account.avatar :
     fandom ? fandom.image :
     undefined;
@@ -111,7 +109,7 @@ function _CAvatar(props) {
   const inner =
     <El className={classNames(classes.avatarWrap, className, small && classes.small)}>
       <CImage
-        ref={imgRef} id={id} w={size} h={size} alt={alt}
+        imageRef={imageRef} id={id} w={size} h={size} alt={alt}
         className={classes.avatar}
         {...rest}
       />

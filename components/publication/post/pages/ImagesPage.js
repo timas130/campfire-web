@@ -17,7 +17,7 @@ export default function ImagesPage({ page }) {
       const id = ids[idx];
       return <div className={classes.imagesImage} key={ref?.u || id || idx}>
         <CImage
-          ref={ref} id={id}
+          imageRef={ref} id={id}
           layout="fill" alt="Изображение" objectFit="cover" modal
         />
       </div>;

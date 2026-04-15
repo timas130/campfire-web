@@ -48,7 +48,7 @@ function CommentQuote({jsonDB}) {
         href={`/stickers/sticker/${jsonDB.quoteStickerId}`}
         className={classes.images}>
         <CImage
-          ref={jsonDB.quoteStickerImage}
+          imageRef={jsonDB.quoteStickerImage}
           id={jsonDB.quoteStickerImageId} w={100} h={100}
           loading="lazy" alt="Стикер"
         />
@@ -58,7 +58,7 @@ function CommentQuote({jsonDB}) {
           const ref = quoteRefs?.[idx];
           const id = quoteIds[idx];
           return <CImage
-            key={ref?.u || id || idx} ref={ref} id={id}
+            key={ref?.u || id || idx} imageRef={ref} id={id}
             w={100} h={100}
             loading="lazy" modal objectFit="cover" alt="Изображение"
           />;
@@ -151,21 +151,21 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
         <FormattedText text={jsonDB.J_TEXT} />
         {jsonDB.stickerImageId > 0 && <Link href={`/stickers/sticker/${jsonDB.stickerId}`} className={classes.images}>
           <CImage
-            ref={comment.stickerImage}
+            imageRef={comment.stickerImage}
             id={jsonDB.stickerImageId} w={128} h={128}
             loading="lazy" alt="Стикер"
           />
         </Link>}
         {(jsonDB.imageId > 0 || imageRef || (imageIdArray || []).length > 0 || (imageRefs || []).length > 0) && <div className={classes.images}>
           {(jsonDB.imageId > 0 || imageRef) && <div className={classes.image} key={imageRef?.u || jsonDB.imageId}><CImage
-            ref={imageRef} id={jsonDB.imageId}
+            imageRef={imageRef} id={jsonDB.imageId}
             maxSide={256}
             w={jsonDB.imageW} h={jsonDB.imageH}
             loading="lazy" modal
             alt="Изображение"
           /></div>}
           {imageRefs ? imageRefs.map((ref, idx) => <div className={classes.image} key={ref?.u || idx}><CImage
-            ref={ref}
+            imageRef={ref}
             id={imageIdArray?.[idx]}
             maxSide={256}
             w={ref?.w || imageWArray?.[idx]} h={ref?.h || imageHArray?.[idx]}
