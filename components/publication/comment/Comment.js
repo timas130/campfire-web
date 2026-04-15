@@ -3,6 +3,7 @@ import CImage, {CAvatar} from "../../CImage";
 import dayjs from "../../../lib/time";
 import Link from "next/link";
 import FormattedText from "../../FormattedText";
+import SmartText from "../../SmartText";
 import Karma from "../../Karma";
 import React, {useRef, useState} from "react";
 import classNames from "classnames";
@@ -148,7 +149,10 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
       </header>
       <div className={classes.content}>
         {jsonDB.quoteId > 0 && <CommentQuote jsonDB={jsonDB} />}
-        <FormattedText text={jsonDB.J_TEXT} />
+        <SmartText
+          text={comment.text || jsonDB.J_TEXT || ""}
+          newFormatting={comment.newFormatting}
+        />
         {jsonDB.stickerImageId > 0 && <Link href={`/stickers/sticker/${jsonDB.stickerId}`} className={classes.images}>
           <CImage
             imageRef={comment.stickerImage}
