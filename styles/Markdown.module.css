@@ -1,5 +1,23 @@
-.markdown > * + * {
-    margin-top: 0.5rem;
+/* Each block-level element gets its own top margin (and zero bottom), so the
+   sibling spacing rule survives even when individual element overrides exist.
+   The UA defaults (e.g. h1 { margin: 0.67em 0 }) outrank `* { margin: 0 }` by
+   element specificity, so we have to reset them explicitly here. */
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6,
+.markdown p,
+.markdown ul,
+.markdown ol,
+.markdown blockquote,
+.markdown pre,
+.markdown hr {
+    margin: 0.5rem 0 0;
+}
+.markdown > :first-child {
+    margin-top: 0;
 }
 
 .markdown ul,
@@ -16,18 +34,8 @@
 .markdown h4,
 .markdown h5,
 .markdown h6 {
-    /* override UA defaults (e.g. h1 { margin: 0.67em 0 }) — they outrank the
-       global `* { margin: 0 }` reset by element specificity. */
-    margin: 0;
     font-weight: 600;
     line-height: 1.25;
-}
-.markdown p,
-.markdown ul,
-.markdown ol,
-.markdown blockquote,
-.markdown pre {
-    margin: 0;
 }
 .markdown h1 { font-size: 1.3rem; }
 .markdown h2 { font-size: 1.15rem; }
