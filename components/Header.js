@@ -13,8 +13,6 @@ import {SponsorStar} from "./FandomHeader";
 import useSWR from "swr";
 import React from "react";
 import Button from "./controls/Button";
-import {fbAuth} from "../lib/firebase";
-import {useRouter} from "next/router";
 
 const HeaderProfile = React.forwardRef(function _HeaderProfile({full = false}, ref) {
   const account = useUser();
@@ -79,8 +77,6 @@ function MenuDivider() {
 }
 
 function HeaderMenu() {
-  const router = useRouter();
-
   return <div className={classNames(classes.menu)}>
     <HeaderProfile full />
     <DailyQuest />
@@ -90,7 +86,9 @@ function HeaderMenu() {
     <MenuButton icon={<PencilIcon />} text="Черновики" href="/drafts" />
     <MenuButton icon={<CogIcon />} text="Настройки" href="/me/settings" />
     <MenuButton icon={<LogoutIcon />} text="Выйти" onClick={() => {
-      fbAuth.signOut().finally(() => router.reload());
+      fetch("/api/auth/logout", {method: "POST"}).finally(() => {
+        window.location = "/";
+      });
     }} />
   </div>;
 }
