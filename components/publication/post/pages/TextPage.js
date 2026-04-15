@@ -2,7 +2,7 @@ import {icons} from "./icons";
 import classNames from "classnames";
 import classes from "../../../../styles/Page.module.css";
 import React, {useState} from "react";
-import FormattedText from "../../../FormattedText";
+import SmartText from "../../../SmartText";
 import Input from "../../../controls/Input";
 import {faAlignCenter} from "@fortawesome/free-solid-svg-icons/faAlignCenter";
 import {faAlignLeft} from "@fortawesome/free-solid-svg-icons/faAlignLeft";
@@ -28,7 +28,7 @@ export default function TextPage({ page, onEdit = null }) {
   )} onClick={onEdit}>
     {icon && <FontAwesomeIcon icon={icon} className={classes.textIcon} />}
     <p className={classes.textBlock} style={{textAlign}}>
-      <FormattedText text={text} />
+      <SmartText text={text} newFormatting={page.newFormatting} />
     </p>
   </div>;
 }
