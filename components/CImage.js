@@ -34,6 +34,8 @@ function resolveSrc({ref, id}) {
 
 export default function CImage(props) {
   let {w, h} = props;
+  // `ref` here is the ImageRef object ({u,i,w,h}), not a React ref — neither
+  // CImage nor CAvatar (React.memo without forwardRef) forwards DOM refs.
   const {ref: imgRef, id, maxSide, shrinkWidth, alt, modal, useImg, ...rest} = props;
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -49,6 +51,7 @@ export default function CImage(props) {
 
   const ImageEl = useImg ? "img" : Image;
   const src = resolveSrc({ref: imgRef, id});
+  if (!src) return null;
   const onClick = useCallback(() => setModalOpen(x => !x), []);
 
   if (modal) {
