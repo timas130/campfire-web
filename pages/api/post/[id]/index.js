@@ -6,7 +6,7 @@ export async function fetchPost(req, res, id) {
     req, res, "RPostGet", {unitId: id},
   )).J_RESPONSE;
   if (typeof resp.unit.jsonDB === "string") {
-    resp.unit.jsonDB = JSON.parse(resp.jsonDB);
+    resp.unit.jsonDB = JSON.parse(resp.unit.jsonDB);
   }
   return resp;
 }
