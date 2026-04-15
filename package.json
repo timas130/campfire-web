@@ -30,7 +30,6 @@
     "fastify": "^3.29.1",
     "fastify-cors": "^6.1.0",
     "fastify-websocket": "^4.3.0",
-    "firebase": "^9.9.3",
     "instantsearch.css": "^7.4.5",
     "ioredis": "^4.28.5",
     "is-touch-device": "^1.0.1",
