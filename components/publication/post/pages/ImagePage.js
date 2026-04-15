@@ -66,7 +66,7 @@ export function ImagePageEdit({page: initialPage, commit: _commit}) {
     }
   };
 
-  const hasImage = page._cweb_image || page.J_IMAGE_ID || page.image;
+  const hasImage = page._cweb_image || page.J_IMAGE_ID || page.image?.u;
 
   return <div className={classNames(classes.imagePage, classes.editing)}>
     <Input
