@@ -51,8 +51,8 @@ export default function CImage(props) {
 
   const ImageEl = useImg ? "img" : Image;
   const src = resolveSrc({ref: imgRef, id});
-  if (!src) return null;
   const onClick = useCallback(() => setModalOpen(x => !x), []);
+  if (!src) return null;
 
   if (modal) {
     return <>
