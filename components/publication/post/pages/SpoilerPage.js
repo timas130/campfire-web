@@ -5,7 +5,7 @@ import classNames from "classnames";
 import InputLabel from "../../../controls/InputLabel";
 import Input from "../../../controls/Input";
 import {EditToolbar, ToolbarActions} from "./Page";
-import FormattedText from "../../../FormattedText";
+import SmartText from "../../../SmartText";
 import {showErrorToast} from "../../../../lib/ui";
 
 export default function SpoilerPage({ page, children, onEdit = null }) {
@@ -20,7 +20,7 @@ export default function SpoilerPage({ page, children, onEdit = null }) {
       {expanded ?
         <ChevronUpIcon className={classes.spoilerIcon} /> :
         <ChevronDownIcon className={classes.spoilerIcon} />}
-      <FormattedText text={page.name} /> {!page.__internal && `(${page.length || page.count} стр.)`}
+      <SmartText text={page.name} newFormatting={page.newFormatting} /> {!page.__internal && `(${page.length || page.count} стр.)`}
     </header>
     <div className={classNames(classes.spoilerContent, expanded && classes.expanded)}>
       {children}

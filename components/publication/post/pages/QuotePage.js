@@ -4,7 +4,7 @@ import {useState} from "react";
 import Input from "../../../controls/Input";
 import InputLabel from "../../../controls/InputLabel";
 import {EditToolbar, ToolbarActions} from "./Page";
-import FormattedText from "../../../FormattedText";
+import SmartText from "../../../SmartText";
 
 export default function QuotePage({ page, onEdit = null }) {
   const author = page.author;
@@ -12,10 +12,10 @@ export default function QuotePage({ page, onEdit = null }) {
   return <div className={classNames(classes.linkPage, onEdit && classes.editable)} onClick={onEdit}>
     <figure className={classNames(classes.linkText, classes.quoteText)}>
       {author && <figcaption className={classes.linkName}>
-        <FormattedText text={author} />:
+        <SmartText text={author} newFormatting={page.newFormatting} />:
       </figcaption>}
       <blockquote>
-        <FormattedText text={text} />
+        <SmartText text={text} newFormatting={page.newFormatting} />
       </blockquote>
     </figure>
   </div>;
