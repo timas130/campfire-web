@@ -21,7 +21,7 @@ export default function WikiArticle({item, fandom, pages, ...rest}) {
       <MetaTags
         title={title} type="article"
         url={`https://campfire.moe/fandom/wiki/${item.itemId}`}
-        image={`https://campfire.moe/api/image/${item?.imageId || fandom.imageId}`}
+        image={item?.image?.u || fandom.image?.u || `https://campfire.moe/api/image/${item?.imageId || fandom.imageId}`}
       />
     </Head>
     <FeedLayout

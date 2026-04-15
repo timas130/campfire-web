@@ -23,7 +23,7 @@ export default function Fandom({ fandom, profile, info }) {
       <MetaTags
         title={title} description={info.description}
         url={`https://campfire.moe/fandom/${fandom.id}`}
-        image={`https://campfire.moe/api/image/${fandom.imageId}`}
+        image={fandom.image?.u || `https://campfire.moe/api/image/${fandom.imageId}`}
       />
     </Head>
     <FeedLayout

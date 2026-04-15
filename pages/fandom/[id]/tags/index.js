@@ -20,7 +20,7 @@ export default function TagsListPage({tags, fandom}) {
       <title>{title}</title>
       <MetaTags
         url={`https://campfire.moe/fandom/${fandom.id}/tags`}
-        title={title} image={`https://campfire.moe/api/image/${fandom.imageId}`}
+        title={title} image={fandom.image?.u || `https://campfire.moe/api/image/${fandom.imageId}`}
       />
     </Head>
     <FeedLayout
