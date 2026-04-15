@@ -11,10 +11,6 @@ function ModalInner({className, ...props}) {
   return <div className={classNames("modal", className)} {...props} />;
 }
 
-const cdnImageLoader = ({ src, width, quality }) => (
-  `${process.env.cdnUrl}/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality || 75}`
-);
-
 function limitImageSize(w, h, max = 256, shrinkWidth = true) {
   const aspectRatio = w / h;
   if (w <= max && h <= max) return [w, h];
@@ -26,15 +22,12 @@ function limitImageSize(w, h, max = 256, shrinkWidth = true) {
   }
 }
 
-function resolveSrc({imageRef, id}) {
-  if (imageRef && imageRef.u) return imageRef.u;
-  if (id) return `/api/image/${id}`;    // legacy fallback during migration
-  return undefined;
-}
-
 export default function CImage(props) {
   let {w, h} = props;
-  const {imageRef, id, maxSide, shrinkWidth, alt, modal, useImg, ...rest} = props;
+  // `id` is accepted-but-ignored: legacy callsites still pass numeric image
+  // ids alongside imageRef. The /api/image/{id} proxy is gone — only imageRef.u
+  // is used. Destructure to keep the prop from leaking to the DOM as an attr.
+  const {imageRef, id: _id, maxSide, shrinkWidth, alt, modal, useImg, ...rest} = props;
   const [modalOpen, setModalOpen] = useState(false);
 
   // pull intrinsic dimensions from the ref if caller didn't pass w/h
@@ -48,7 +41,7 @@ export default function CImage(props) {
   }
 
   const ImageEl = useImg ? "img" : Image;
-  const src = resolveSrc({imageRef, id});
+  const src = imageRef?.u;
   const onClick = useCallback(() => setModalOpen(x => !x), []);
   if (!src) return null;
 
@@ -56,7 +49,6 @@ export default function CImage(props) {
     return <>
       <ImageEl
         src={src} alt={alt}
-        loader={useImg ? undefined : cdnImageLoader}
         width={w} height={h} {...rest}
         onClick={onClick}
       />
@@ -68,7 +60,7 @@ export default function CImage(props) {
             onKeyDown={ev => ev.key === "Escape" && setModalOpen(false)}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={imageRef?.u || `${process.env.cdnUrl}/api/image/${id}`} alt={alt} />
+            <img src={src} alt={alt} />
           </ModalInner>
         </FocusTrap>
       </ModalPortal>}
@@ -76,14 +68,14 @@ export default function CImage(props) {
   } else {
     return <ImageEl
       src={src} alt={alt}
-      width={w} height={h} loader={useImg ? undefined : cdnImageLoader}
+      width={w} height={h}
       {...rest}
     />;
   }
 }
 
 function _CAvatar(props) {
-  let {link, id, imageRef, alt, className, account, fandom, small, el, online, ...rest} = props;
+  let {link, imageRef, alt, className, account, fandom, small, el, online, ...rest} = props;
   link =
     link ? link :
     account ? `/account/${encodeURIComponent(account.J_NAME || account.name)}` :
@@ -94,11 +86,6 @@ function _CAvatar(props) {
     account ? account.avatar :
     fandom ? fandom.image :
     undefined;
-  id =
-    id ? id :
-    account ? (account.J_IMAGE_ID || account.imageId) :
-    fandom ? fandom.imageId :
-    id;
   alt =
     alt ? alt :
     account ? (account.J_NAME || account.name) :
@@ -109,7 +96,7 @@ function _CAvatar(props) {
   const inner =
     <El className={classNames(classes.avatarWrap, className, small && classes.small)}>
       <CImage
-        imageRef={imageRef} id={id} w={size} h={size} alt={alt}
+        imageRef={imageRef} w={size} h={size} alt={alt}
         className={classes.avatar}
         {...rest}
       />

@@ -83,7 +83,7 @@ export default function Profile({account: initialAccount, profile: initialProfil
       <MetaTags
         title={title} description={profile.description}
         url={`https://campfire.moe/account/${encodeURIComponent(account.J_NAME)}`}
-        image={account.avatar?.u || `https://campfire.moe/api/image/${account.J_IMAGE_ID}`}
+        image={account.avatar?.u}
       />
     </Head>
     <FeedLayout

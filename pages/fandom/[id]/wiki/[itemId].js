@@ -55,7 +55,7 @@ export function WikiSectionPage(fandomId, itemId, fallback = [], fandom = null, 
       <MetaTags
         title={title}
         url={`https://campfire.moe/fandom/${fandomId}/wiki/${itemId}`}
-        image={item?.image?.u || fandom.image?.u || `https://campfire.moe/api/image/${item?.imageId || fandom.imageId}`}
+        image={item?.image?.u || fandom.image?.u}
       />
     </Head>
     <FeedLayout

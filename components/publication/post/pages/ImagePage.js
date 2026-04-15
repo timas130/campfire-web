@@ -66,7 +66,7 @@ export function ImagePageEdit({page: initialPage, commit: _commit}) {
     }
   };
 
-  const hasImage = page._cweb_image || page.J_IMAGE_ID || page.image?.u;
+  const hasImage = page._cweb_image || page.image?.u;
 
   return <div className={classNames(classes.imagePage, classes.editing)}>
     <Input
@@ -82,8 +82,7 @@ export function ImagePageEdit({page: initialPage, commit: _commit}) {
       {hasImage ? <img
         src={
           page._cweb_image instanceof Blob ? URL.createObjectURL(page._cweb_image) :
-          page.image?.u ||
-          ((typeof page.J_IMAGE_ID === "number" && page.J_IMAGE_ID > 0) ? `/api/image/${page.J_IMAGE_ID}` : undefined)
+          page.image?.u
         }
         alt={"Изображение"}
         className={classes.imagePageEditImage}

@@ -15,7 +15,7 @@ export default function ModerationPage({pub}) {
         <MetaTags
           title={title} type="article"
           url={`https://campfire.moe/mod/${pub.id}`}
-          image={pub.creator.avatar?.u || `https://campfire.moe/api/image/${pub.creator.J_IMAGE_ID}`}
+          image={pub.creator.avatar?.u}
         />
       </Head>
       <Moderation pub={pub} />
