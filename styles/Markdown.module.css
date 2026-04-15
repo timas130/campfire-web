@@ -1,14 +1,14 @@
 .markdown > * + * {
-    margin-top: 0.5em;
+    margin-top: 0.5rem;
 }
 
 .markdown ul,
 .markdown ol {
-    padding-left: 1.5rem;
+    padding-left: 1.25rem;
 }
 .markdown ul { list-style: disc; }
 .markdown ol { list-style: decimal; }
-.markdown li + li { margin-top: 0.25em; }
+.markdown li + li { margin-top: 0.15rem; }
 
 .markdown h1,
 .markdown h2,
@@ -19,12 +19,12 @@
     font-weight: 600;
     line-height: 1.25;
 }
-.markdown h1 { font-size: 1.5em; }
-.markdown h2 { font-size: 1.3em; }
-.markdown h3 { font-size: 1.15em; }
+.markdown h1 { font-size: 1.3rem; }
+.markdown h2 { font-size: 1.15rem; }
+.markdown h3 { font-size: 1.05rem; }
 .markdown h4,
 .markdown h5,
-.markdown h6 { font-size: 1em; }
+.markdown h6 { font-size: 1rem; }
 
 .markdown blockquote {
     padding-left: 0.75rem;
