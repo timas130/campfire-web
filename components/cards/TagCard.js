@@ -24,7 +24,7 @@ export default function TagCard({tag}) {
           в{tag.fandom.name}
         </Link></>}
         avatarLink={`/fandom/${tag.fandom.id}`}
-        imageId={tag.jsonDB.J_IMAGE_ID}
+        imageRef={tag.image} imageId={tag.jsonDB.J_IMAGE_ID}
       />
       <div className={cardClasses.cardContent} style={{paddingTop: 0}}>
         <IconLink href={`/fandom/${tag.fandom.id}/tags`} right>

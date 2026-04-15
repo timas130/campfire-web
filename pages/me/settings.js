@@ -136,13 +136,14 @@ export default function MySettings() {
         <NoticeCard
           title="Разработчики"
           content={<div className={classes.developers}>
+            {/* hardcoded avatar ids dropped — old backend's RResourcesGet is gone */}
             <FandomHeader
-              imageId={1} link="/account/Zeon" name="Zeon"
+              link="/account/Zeon" name="Zeon"
               allowOverflow={0b10} noPadding
               author="Разработчик сервера и приложения, изначальный создатель"
             />
             <FandomHeader
-              imageId={1121516} link="/account/sit" name="sitting33"
+              link="/account/sit" name="sitting33"
               allowOverflow={0b10} noPadding
               author="Разработчик веб-версии, иногда дорабатывает приложение и сервер"
             />

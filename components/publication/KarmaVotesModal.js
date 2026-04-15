@@ -12,7 +12,6 @@ export default function KarmaVotesModel({id, isOpen, close}) {
     {data && data.map(page => page.map(vote => (
       <FandomHeader
         key={vote.date} account={vote.anonymous ? null : vote.account}
-        imageId={vote.anonymous ? 569232 : vote.account.J_IMAGE_ID}
         name={vote.anonymous ? "Аноним" : vote.account.J_NAME}
         link="#"
         author={dayjs(vote.date).locale("ru").calendar()}

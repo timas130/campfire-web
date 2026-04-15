@@ -8,7 +8,7 @@ export default function WikiListItem({fandomId, item}) {
       throw "bad itemType";
     })();
   return <FandomHeader
-    imageId={item.imageId} name={getWikiName(item)}
+    imageRef={item.image} imageId={item.imageId} name={getWikiName(item)}
     link={link} dense
   />;
 }

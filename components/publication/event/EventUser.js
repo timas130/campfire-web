@@ -74,7 +74,7 @@ function EventUserFandomSuggest({pub}) {
     <EventBase
       pub={pub}
       account={pub.creator}
-      icon={pub.jsonDB.event.fandomImageId}
+      iconRef={pub.jsonDB.event.fandomImage} icon={pub.jsonDB.event.fandomImageId}
       title={<>
         <AccountLink account={pub.creator} /> предложил(-а)
         фэндом <Link href={`/fandom/${pub.jsonDB.event.fandomId}`}>

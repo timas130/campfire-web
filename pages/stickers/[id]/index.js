@@ -16,7 +16,7 @@ export function StickerPackCard({info}) {
   return <div className={postClasses.post}>
     <FandomHeader
       el="div"
-      imageId={info.jsonDB.imageId}
+      imageRef={info.image} imageId={info.jsonDB.imageId}
       name={info.jsonDB.name}
       link={`/stickers/${info.id}`}
       authorLink={`/account/${encodeURIComponent(info.creator.J_NAME)}`}

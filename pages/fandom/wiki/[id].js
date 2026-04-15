@@ -28,7 +28,7 @@ export default function WikiArticle({item, fandom, pages, ...rest}) {
       list={<>
         <div className={postClasses.post}>
           <FandomHeader
-            imageId={item.imageId} name={getWikiName(item)}
+            imageRef={item.image} imageId={item.imageId} name={getWikiName(item)}
             link={`/fandom/${item.fandomId}/wiki/${item.itemId}`}
             author={"Обновлено " + dayjs(item.changeDate).locale("ru").calendar()}
           />

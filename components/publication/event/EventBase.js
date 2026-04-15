@@ -2,7 +2,7 @@ import classes from "../../../styles/Post.module.css";
 import FandomHeader from "../../FandomHeader";
 import dayjs from "../../../lib/time";
 
-export default function EventBase({pub, icon, account, title, subtitle}) {
+export default function EventBase({pub, icon, iconRef, account, title, subtitle}) {
   return <article className={classes.post}>
     <div className={classes.eventTop}>
       {dayjs(pub.dateCreate).calendar()}
@@ -10,6 +10,7 @@ export default function EventBase({pub, icon, account, title, subtitle}) {
     <FandomHeader
       alignStart
       account={account}
+      imageRef={iconRef}
       imageId={icon}
       name={title}
       author={subtitle}
