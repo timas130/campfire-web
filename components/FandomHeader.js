@@ -7,7 +7,7 @@ import React from "react";
 
 function FandomHeader(props) {
   const {
-    fandom, className, pinned, imageId, name,
+    fandom, className, pinned, imageRef, imageId, name,
     link, addTitle, author, authorLink,
     addSecondary, addRight, noPadding,
     onClick, dense, addLeft, el, account,
@@ -36,8 +36,12 @@ function FandomHeader(props) {
       smallIcon && classes.smallIcon,
       alignStart && classes.alignStart,
     )} onClick={onClick} tabIndex={onClick ? 0 : undefined}>
-      {Boolean(account || fandom || imageId) &&
-        <CAvatar account={account} fandom={fandom} id={imageId} alt={name} link={avatarLink || link} />}
+      {Boolean(account || fandom || imageId || imageRef) &&
+        <CAvatar
+          account={account} fandom={fandom}
+          imageRef={imageRef} id={imageId}
+          alt={name} link={avatarLink || link}
+        />}
       {addLeft}
       <div className={classes.headerText}>
         <div className={classNames(

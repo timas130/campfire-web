@@ -83,7 +83,11 @@ export default function FandomCard({ fandom, profile, info, fetchId = null, noLi
   const [expanded, setExpanded] = useState(false);
 
   return loaded ? <section className={classNames(postClasses.post)}>
-    <CImage id={fandomL.imageTitleId} w={800} h={400} className={classes.fandomTitleImg} />
+    <CImage
+      imageRef={fandomL.imageTitleGif || fandomL.imageTitle}
+      id={fandomL.imageTitleGifId || fandomL.imageTitleId}
+      w={800} h={400} className={classes.fandomTitleImg}
+    />
     <FandomHeader
       fandom={fandomL} author={<>
         <UsersIcon />
