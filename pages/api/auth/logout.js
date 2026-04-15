@@ -1,13 +1,17 @@
-import Cookies from "cookies";
+import {graphql, readTokens, clearTokens} from "../../../lib/server";
 
-export function logout(req, res) {
-  const cookies = new Cookies(req, res, {secure: true});
-  cookies.set("token", null);
-  cookies.set("refreshToken", null);
-  cookies.set("loginToken", null);
-}
+export default async function logoutHandler(req, res) {
+  if (req.method !== "POST") return res.status(405).send({error: true});
 
-export default function logoutHandler(req, res) {
-  logout(req, res);
-  res.redirect(302, "/");
+  const {cookies, accessToken} = readTokens(req, res);
+  // best-effort: tell the server we're logging out; ignore errors
+  if (accessToken) {
+    try {
+      await graphql(`mutation { logout }`, {}, accessToken);
+    } catch (e) {
+      console.warn("logout graphql failed", e?.messageError);
+    }
+  }
+  clearTokens(cookies);
+  res.status(200).send({ok: true});
 }
