@@ -10,7 +10,7 @@ import isTouchDevice from "is-touch-device";
 export default function ImagePage({ page, onEdit = null }) {
   return <div className={classNames(classes.imagePage, onEdit && classes.editable)}>
     <CImage
-      id={page["J_IMAGE_ID"]}
+      ref={page.image} id={page["J_IMAGE_ID"]}
       maxSide={512} shrinkWidth={false}
       w={page["J_W"]} h={page["J_H"]}
       loading="lazy" modal={!onEdit}
@@ -66,7 +66,7 @@ export function ImagePageEdit({page: initialPage, commit: _commit}) {
     }
   };
 
-  const hasImage = page._cweb_image || page.J_IMAGE_ID;
+  const hasImage = page._cweb_image || page.J_IMAGE_ID || page.image;
 
   return <div className={classNames(classes.imagePage, classes.editing)}>
     <Input
@@ -82,8 +82,8 @@ export function ImagePageEdit({page: initialPage, commit: _commit}) {
       {hasImage ? <img
         src={
           page._cweb_image instanceof Blob ? URL.createObjectURL(page._cweb_image) :
-          (typeof page.J_IMAGE_ID === "number" && page.J_IMAGE_ID > 0) ? `/api/image/${page.J_IMAGE_ID}` :
-          undefined
+          page.image?.u ||
+          ((typeof page.J_IMAGE_ID === "number" && page.J_IMAGE_ID > 0) ? `/api/image/${page.J_IMAGE_ID}` : undefined)
         }
         alt={"Изображение"}
         className={classes.imagePageEditImage}
