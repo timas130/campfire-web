@@ -5,7 +5,7 @@ import {fetchFandomBasic} from "../../../api/fandom/[id]";
 import MetaTags from "../../../../components/MetaTags";
 import FeedLayout, {FeedLoader} from "../../../../components/FeedLayout";
 import WikiListItem, {getWikiName} from "../../../../components/WikiListItem";
-import {ArrowLeftIcon} from "@heroicons/react/solid";
+import {ArrowLeftIcon} from "@heroicons/react/24/solid";
 import {fetchWikiItem} from "../../../api/fandom/wiki/[wikiId]";
 import {handleSSRError, mustInt} from "../../../../lib/api";
 import IconLink from "../../../../components/IconLink";

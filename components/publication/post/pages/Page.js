@@ -12,7 +12,7 @@ import NProgress from "nprogress";
 import CodePage, {CodePageEdit} from "./CodePage";
 import CampfireObjectPage from "./CampfireObjectPage";
 import PollPage from "./PollPage";
-import {CheckIcon, XIcon, TrashIcon, SelectorIcon} from "@heroicons/react/solid";
+import {CheckIcon, XMarkIcon, TrashIcon, ChevronUpDownIcon} from "@heroicons/react/24/solid";
 import {blobToBase64} from "../../../../lib/client-api";
 import {getErrorText, showErrorToast} from "../../../../lib/ui";
 import VideoPage from "./VideoPage";
@@ -136,9 +136,9 @@ export function ToolbarButton({icon, iconEl: IconEl = FontAwesomeIcon, active, s
 }
 export function ToolbarActions({commit, page}) {
   return <>
-    <ToolbarButton iconEl={SelectorIcon} left onClick={ev => commit({__move: true}, ev.target)} />
+    <ToolbarButton iconEl={ChevronUpDownIcon} left onClick={ev => commit({__move: true}, ev.target)} />
     <ToolbarButton iconEl={TrashIcon} onClick={ev => commit({__delete: true}, ev.target)} />
-    <ToolbarButton iconEl={XIcon} onClick={ev => commit(null, ev.target)} />
+    <ToolbarButton iconEl={XMarkIcon} onClick={ev => commit(null, ev.target)} />
     <ToolbarButton iconEl={CheckIcon} onClick={ev => commit(page, ev.target)} />
   </>;
 }

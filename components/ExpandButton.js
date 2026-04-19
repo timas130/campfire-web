@@ -1,5 +1,5 @@
 import classes from "../styles/Post.module.css";
-import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/solid";
+import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/24/solid";
 import {useCallback, useEffect, useRef, useState} from "react";
 
 /**

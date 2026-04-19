@@ -1,7 +1,7 @@
 import classes from "../styles/Karma.module.css";
 import classNames from "classnames";
 import React, {useRef, useState} from "react";
-import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/solid";
+import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/24/solid";
 import {useRouter} from "next/router";
 import {fetcher, useUser} from "../lib/client-api";
 import useSWR, {useSWRConfig} from "swr";

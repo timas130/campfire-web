@@ -1,11 +1,11 @@
 const {sendRequest} = require("../lib/server");
 const fastify = require("fastify")({ logger: true });
-fastify.register(require("fastify-websocket"), {
-  errorHandler: (err, conn) => {
-    conn.end("unknown error");
+fastify.register(require("@fastify/websocket"), {
+  errorHandler: (err, socket) => {
+    try { socket.close(1011, "unknown error"); } catch {}
   },
 });
-fastify.register(require("fastify-cors"), {
+fastify.register(require("@fastify/cors"), {
   origin: ["http://localhost:3000", "http://localhost:8080", "https://campfire.moe"],
 });
 const genUUID = require("uuid").v4;
@@ -73,7 +73,7 @@ fastify.route({
       }
     }
 
-    redis.set("push:" + reg.uuid, (req.body || {}).loginToken || "<none>", "ex", 60);
+    await redis.set("push:" + reg.uuid, (req.body || {}).loginToken || "<none>", "EX", 60);
 
     return {listenToken: reg.listenToken, sendToken: reg.sendToken};
   },
@@ -85,7 +85,8 @@ fastify.post("/push", async (req, res) => {
     let uuid;
     try {
       uuid = verify(token, process.env.JWT_SECRET, {
-        "audience": "pushrelay-send",
+        audience: "pushrelay-send",
+        algorithms: ["HS256"],
       }).sub;
     } catch (e) {
       results.push({message_id: "cweb", error: "NotRegistered"});
@@ -107,26 +108,35 @@ fastify.post("/push", async (req, res) => {
   return {results};
 });
 
-fastify.get("/stream", {websocket: true}, async (conn, req) => {
+// @fastify/websocket v11: handler receives (socket, request). `socket` is the native
+// WebSocket — use .send()/.close()/.on('close'). No more conn.socket wrapper.
+fastify.get("/stream", {websocket: true}, async (socket, req) => {
   const authToken = req.headers.authorization || req.headers["sec-websocket-protocol"];
-  const uuid = verify(authToken, process.env.JWT_SECRET, {
-    "audience": "pushrelay-listen",
-  }).sub;
+  let uuid;
+  try {
+    uuid = verify(authToken, process.env.JWT_SECRET, {
+      audience: "pushrelay-listen",
+      algorithms: ["HS256"],
+    }).sub;
+  } catch (e) {
+    socket.close(1008, "invalid auth");
+    return;
+  }
 
   const reg = await redis.get("push:" + uuid);
   if (reg === null) {
-    conn.end("registration is not valid");
+    socket.close(1008, "registration is not valid");
     return;
   }
 
   await redis.set("push:" + uuid, reg); // do not expire
 
   const keepAliveInterval = setInterval(() => {
-    conn.write(JSON.stringify({_: "keep-alive"}));
+    socket.send(JSON.stringify({_: "keep-alive"}));
   }, 10000);
 
   const redisSub = new Redis(process.env.REDIS_URL);
-  conn.socket.on("close", () => {
+  socket.on("close", () => {
     clearInterval(keepAliveInterval);
     redis.expire("push:" + uuid, 30);
     redisSub.disconnect();
@@ -134,16 +144,17 @@ fastify.get("/stream", {websocket: true}, async (conn, req) => {
   redisSub.subscribe("push:" + uuid, (err) => {
     if (err) {
       fastify.log.warn(err);
-      conn.end("could not start listening, please try again");
+      socket.close(1011, "could not start listening, please try again");
       redisSub.disconnect();
     }
   });
   redisSub.on("message", (channel, message) => {
-    conn.write(message);
+    socket.send(message);
   });
 });
 
-fastify.listen(3001, "0.0.0.0", err => {
+// Fastify v4+ requires the object-form listen signature.
+fastify.listen({port: 3001, host: "0.0.0.0"}, err => {
   if (err) {
     fastify.log.error(err);
     process.exit(1);

@@ -5,7 +5,7 @@ import InputLabel from "../controls/InputLabel";
 import Input from "../controls/Input";
 import Switch from "../controls/Switch";
 import FandomHeader from "../FandomHeader";
-import {BanIcon, ChevronDownIcon, DocumentTextIcon, ScaleIcon, ShieldExclamationIcon} from "@heroicons/react/solid";
+import {NoSymbolIcon, ChevronDownIcon, DocumentTextIcon, ScaleIcon, ShieldExclamationIcon} from "@heroicons/react/24/solid";
 import {useState} from "react";
 import Button from "../controls/Button";
 import useSWR from "swr";
@@ -84,7 +84,7 @@ export default function BlockModal() {
           el="div"
           name="Удалить последние"
           author="Заблокировать публикации пользователя за последний час"
-          addLeft={<BanIcon />}
+          addLeft={<NoSymbolIcon />}
           dense
           allowOverflow={2}
           onClick={() => setBlockHour(a => !a)}

@@ -4,7 +4,7 @@ import {useMemo, useState} from "react";
 import classNames from "classnames";
 import Spinner from "../../../Spinner";
 import {fetcher} from "../../../../lib/client-api";
-import {CheckIcon} from "@heroicons/react/solid";
+import {CheckIcon} from "@heroicons/react/24/solid";
 import {AccountLink} from "../../../FandomHeader";
 
 function toClass(b) {

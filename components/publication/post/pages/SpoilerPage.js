@@ -1,6 +1,6 @@
 import classes from "../../../../styles/Page.module.css";
 import {useState} from "react";
-import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/solid";
+import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/24/solid";
 import classNames from "classnames";
 import InputLabel from "../../../controls/InputLabel";
 import Input from "../../../controls/Input";

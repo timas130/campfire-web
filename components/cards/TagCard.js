@@ -2,7 +2,7 @@ import postClasses from "../../styles/Post.module.css";
 import FandomHeader, {SponsorStar} from "../FandomHeader";
 import Link from "next/link";
 import cardClasses from "../../styles/Card.module.css";
-import {ArrowLeftIcon, ViewListIcon} from "@heroicons/react/solid";
+import {ArrowLeftIcon, Bars4Icon} from "@heroicons/react/24/solid";
 import IconLink from "../IconLink";
 
 export default function TagCard({tag}) {
@@ -28,7 +28,7 @@ export default function TagCard({tag}) {
       />
       <div className={cardClasses.cardContent} style={{paddingTop: 0}}>
         <IconLink href={`/fandom/${tag.fandom.id}/tags`} right>
-          <ViewListIcon />Все теги
+          <Bars4Icon />Все теги
         </IconLink>
         <IconLink href={`/fandom/${tag.fandom.id}/tags`} right>
           <ArrowLeftIcon />В фэндом {tag.fandom.name}

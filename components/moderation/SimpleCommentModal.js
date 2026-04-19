@@ -3,7 +3,7 @@ import {ModalDialog, ModalPortal} from "../Modal";
 import {useState} from "react";
 import {CommentTemplateSelector} from "./CommentTemplateSelector";
 import classes from "../../styles/Moderation.module.css";
-import {ChevronDownIcon} from "@heroicons/react/solid";
+import {ChevronDownIcon} from "@heroicons/react/24/solid";
 import InputLabel from "../controls/InputLabel";
 import Input from "../controls/Input";
 import Button from "../controls/Button";

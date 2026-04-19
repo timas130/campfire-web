@@ -1,4 +1,3 @@
-import {withSentry} from "@sentry/nextjs";
 import * as url from "url";
 
 const sentryHost = "data.33rd.dev";
@@ -37,4 +36,4 @@ async function handler(req, res) {
   }
 }
 
-export default withSentry(handler);
+export default handler;

@@ -3,7 +3,7 @@ import {createPortal} from "react-dom";
 import classes from "../styles/Modal.module.css";
 import postClasses from "../styles/Post.module.css";
 import classNames from "classnames";
-import {XIcon} from "@heroicons/react/solid";
+import {XMarkIcon} from "@heroicons/react/24/solid";
 import {getThemeClass} from "./Layout";
 import {FocusTrap} from "@headlessui/react";
 
@@ -47,7 +47,7 @@ export function ModalDialog({children, close, title, scrollable}) {
         <div className={classes.dialogHeader}>
           {title}
           <div className={classes.dialogClose} onClick={() => close()} tabIndex={0}>
-            <XIcon /> Закрыть
+            <XMarkIcon /> Закрыть
           </div>
         </div>
         <div className={scrollable && classes.scrollable}>{children}</div>

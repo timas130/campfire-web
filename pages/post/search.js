@@ -1,18 +1,17 @@
 import Head from "next/head";
 import MetaTags from "../../components/MetaTags";
 import FeedLayout from "../../components/FeedLayout";
-import Publication from "../../components/publication/Publication.js"; 
+import Publication from "../../components/publication/Publication.js";
 import Button from "../../components/controls/Button";
 import "instantsearch.css/themes/reset.css";
 import {useRouter} from "next/router";
 import dynamic from "next/dynamic";
 import {instantMeiliSearch} from "@meilisearch/instant-meilisearch";
 
-const searchClient = instantMeiliSearch(process.env.meiliUrl, process.env.meiliKey);
+const {searchClient} = instantMeiliSearch(process.env.meiliUrl, process.env.meiliKey);
 
-const Hits = dynamic(() => import("react-instantsearch-dom").then(a => a.Hits));
-const InstantSearch = dynamic(() => import("react-instantsearch-dom").then(a => a.InstantSearch));
-const ScrollTo = dynamic(() => import("react-instantsearch-dom").then(a => a.ScrollTo));
+const Hits = dynamic(() => import("react-instantsearch").then(a => a.Hits));
+const InstantSearch = dynamic(() => import("react-instantsearch").then(a => a.InstantSearch));
 
 const CustomPagination = dynamic(() => import("../../lib/search").then(a => a.CustomPagination));
 const CustomStats = dynamic(() => import("../../lib/search").then(a => a.CustomStats));
@@ -31,8 +30,14 @@ export default function Search() {
       <InstantSearch
         indexName="post"
         searchClient={searchClient}
-        createURL={searchState => `?q=${encodeURIComponent(searchState.query)}`}
-      ><ScrollTo>
+        initialUiState={query ? {post: {query}} : undefined}
+        routing={{
+          stateMapping: {
+            stateToRoute: uiState => ({q: uiState?.post?.query}),
+            routeToState: routeState => ({post: {query: routeState?.q}}),
+          },
+        }}
+      >
         <CustomSearchBox
           submit={<Button>Поиск</Button>}
           reset={null} defaultRefinement={query}
@@ -40,13 +45,13 @@ export default function Search() {
         />
         <CustomStats />
         <CustomPagination />
-          <Hits hitComponent={hit =>
-            hit.hit ?
-              <Publication key={hit.hit.id} pub={JSON.parse(hit.hit.raw_data)} full showBestComment /> :
-              null
-          } />
+        <Hits hitComponent={({hit}) =>
+          hit ?
+            <Publication key={hit.id} pub={JSON.parse(hit.raw_data)} full showBestComment /> :
+            null
+        } />
         <CustomPagination />
-      </ScrollTo></InstantSearch>
+      </InstantSearch>
     </>} />
   </>;
 }

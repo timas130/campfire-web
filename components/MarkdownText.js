@@ -259,8 +259,8 @@ function Spoiler({children}) {
 export default function MarkdownText({text, className}) {
   if (!text) return null;
   return (
+    <div className={classNames(classes.markdown, className)}>
     <ReactMarkdown
-      className={classNames(classes.markdown, className)}
       skipHtml
       remarkPlugins={[remarkGfm, remarkBfm]}
       components={{
@@ -289,5 +289,6 @@ export default function MarkdownText({text, className}) {
     >
       {text}
     </ReactMarkdown>
+    </div>
   );
 }

@@ -12,7 +12,7 @@ import useSWR from "swr";
 import classNames from "classnames";
 import Button from "../../../components/controls/Button";
 import classes from "../../../styles/Profile.module.css";
-import {ExternalLinkIcon, PencilAltIcon} from "@heroicons/react/solid";
+import {ArrowTopRightOnSquareIcon, PencilSquareIcon} from "@heroicons/react/24/solid";
 import {useState} from "react";
 import Input from "../../../components/controls/Input";
 import {EditToolbar, ToolbarButton} from "../../../components/publication/post/pages/Page";
@@ -92,7 +92,7 @@ export default function Profile({account: initialAccount, profile: initialProfil
         <div className={classNames(postClasses.post, postClasses.mb05)}>
           {isCurrentUser && !editing.status && <div className={classes.bioEditRow}>
             <Button className={classes.bioEditButton} onClick={() => setEditing(a => ({...a, status: true}))}>
-              <PencilAltIcon />
+              <PencilSquareIcon />
               Редактировать статус
             </Button>
           </div>}
@@ -109,7 +109,7 @@ export default function Profile({account: initialAccount, profile: initialProfil
         <div className={postClasses.post}>
           {isCurrentUser && !editing.description && <div className={classes.bioEditRow}>
             <Button className={classes.bioEditButton} onClick={() => setEditing(a => ({...a, description: true}))}>
-              <PencilAltIcon />
+              <PencilSquareIcon />
               Редактировать описание
             </Button>
           </div>}
@@ -131,7 +131,7 @@ export default function Profile({account: initialAccount, profile: initialProfil
           >
             <div className={cardClasses.fandomLinkTitle}>{link.title}</div>
             <div className={cardClasses.fandomLinkUrl}>
-              <ExternalLinkIcon />
+              <ArrowTopRightOnSquareIcon />
               {link.url}
             </div>
           </a>)}

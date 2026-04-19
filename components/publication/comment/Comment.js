@@ -8,7 +8,7 @@ import Karma from "../../Karma";
 import React, {useRef, useState} from "react";
 import classNames from "classnames";
 import {limitText} from "../../../lib/text-cover";
-import {DotsVerticalIcon, ReplyIcon, XIcon} from "@heroicons/react/solid";
+import {EllipsisVerticalIcon, ArrowUturnLeftIcon, XMarkIcon} from "@heroicons/react/24/solid";
 import {CommentEditor} from "./Comments";
 import {AccountLink} from "../../FandomHeader";
 import Button from "../../controls/Button";
@@ -133,7 +133,7 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
           Открыть пост
         </Link></>}
         <Dropdown rootClassName={!full && classes.moreDropdown}
-                  activator={<DotsVerticalIcon />}
+                  activator={<EllipsisVerticalIcon />}
                   activatorClassName={classes.moreButton}>
           <DropdownSection>
             {(reactions && (reactions.length === 0 || reactions === "[]")) && (
@@ -188,7 +188,7 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
         <Karma pub={comment} small />
         {reply && <span className={classes.footerReply} tabIndex={0}
                         onClick={() => setReplyEditorShown(a => !a)}>
-          {replyEditorShown ? <XIcon /> : <ReplyIcon />}
+          {replyEditorShown ? <XMarkIcon /> : <ArrowUturnLeftIcon />}
           {replyEditorShown ? "Закрыть" : "Ответить"}
         </span>}
       </div>

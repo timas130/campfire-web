@@ -6,7 +6,7 @@ import {CommentTemplateSelector} from "./CommentTemplateSelector";
 import classes from "../../styles/Moderation.module.css";
 import InputLabel from "../controls/InputLabel";
 import Input from "../controls/Input";
-import {ChevronDownIcon} from "@heroicons/react/solid";
+import {ChevronDownIcon} from "@heroicons/react/24/solid";
 import Button from "../controls/Button";
 import Spinner from "../Spinner";
 import {useState} from "react";

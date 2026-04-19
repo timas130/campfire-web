@@ -5,7 +5,7 @@ import classes from "../../../../styles/Draft.module.css";
 import {Tag} from "../../../../components/publication/post/Tags";
 import {fetchFandomBasic} from "../../../api/fandom/[id]";
 import FandomHeader from "../../../../components/FandomHeader";
-import {ArrowLeftIcon, UsersIcon} from "@heroicons/react/solid";
+import {ArrowLeftIcon, UsersIcon} from "@heroicons/react/24/solid";
 import postClasses from "../../../../styles/Post.module.css";
 import NoticeCard from "../../../../components/cards/NoticeCard";
 import classNames from "classnames";

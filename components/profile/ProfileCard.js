@@ -7,14 +7,14 @@ import dayjs from "../../lib/time";
 import {
   CalendarIcon,
   ClockIcon,
-  EmojiHappyIcon,
-  ExclamationIcon,
-  LightningBoltIcon,
+  FaceSmileIcon,
+  ExclamationTriangleIcon,
+  BoltIcon,
   PencilIcon,
   StarIcon,
   UserCircleIcon,
   UsersIcon,
-} from "@heroicons/react/solid";
+} from "@heroicons/react/24/solid";
 import {KarmaCounter} from "../Karma";
 import {useEffect, useRef, useState} from "react";
 import Input from "../controls/Input";
@@ -150,11 +150,11 @@ export default function ProfileCard({account, profile}) {
         value={<KarmaCounter value={account.karma30} precise el="span" />}
       />
       <ProfileKV
-        icon={LightningBoltIcon} keyS="Уровень"
+        icon={BoltIcon} keyS="Уровень"
         value={<Level lvl={account.J_LVL} />}
       />
       <ProfileKV
-        icon={ExclamationIcon} keyS="Наказания"
+        icon={ExclamationTriangleIcon} keyS="Наказания"
         value={<Punishments bans={profile.bansCount} warns={profile.warnsCount} />}
       />
       <ProfileKV
@@ -189,7 +189,7 @@ export default function ProfileCard({account, profile}) {
         } : null}
       />
       <ProfileKV
-        icon={EmojiHappyIcon} keyS="Обращение"
+        icon={FaceSmileIcon} keyS="Обращение"
         value={account.sex ? "Она" : "Он"}
         upd={upd}
         editSelect={["Он", "Она"]}

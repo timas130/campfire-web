@@ -1,6 +1,6 @@
 import classes from "../../../styles/Post.module.css";
 import classNames from "classnames";
-import {BanIcon, ChatIcon, DocumentTextIcon, FilterIcon, UserIcon} from "@heroicons/react/solid";
+import {NoSymbolIcon, ChatBubbleLeftIcon, DocumentTextIcon, FunnelIcon, UserIcon} from "@heroicons/react/24/solid";
 import {useState} from "react";
 import FandomHeader from "../../FandomHeader";
 import Switch from "../../controls/Switch";
@@ -42,13 +42,13 @@ export default function PostFilters({options, setOptions}) {
   return <div className={classNames(classes.post, expanded && classes.filtersExpanded)}>
     <div className={classes.filtersHeader}>
       <div className={classes.filtersButton} tabIndex={0} onClick={() => setExpanded(a => !a)}>
-        <FilterIcon /> {expanded ? "Скрыть" : "Показать"} фильтры
+        <FunnelIcon /> {expanded ? "Скрыть" : "Показать"} фильтры
       </div>
     </div>
     <div className={classes.filtersContent}>
       <PostFilter setValue={setValue} options={options} name="Посты" type={9} icon={<DocumentTextIcon />} />
-      <PostFilter setValue={setValue} options={options} name="Комментарии" type={1} icon={<ChatIcon />} />
-      <PostFilter setValue={setValue} options={options} name="Модераторские действия" type={11} icon={<BanIcon />} />
+      <PostFilter setValue={setValue} options={options} name="Комментарии" type={1} icon={<ChatBubbleLeftIcon />} />
+      <PostFilter setValue={setValue} options={options} name="Модераторские действия" type={11} icon={<NoSymbolIcon />} />
       <PostFilter setValue={setValue} options={options} name="События пользователя" type={12} icon={<UserIcon />} />
     </div>
   </div>;

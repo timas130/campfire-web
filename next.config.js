@@ -6,7 +6,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 // no trailing slash!
 const cdnUrl = process.env.NODE_ENV === "production" ? "" : "";
 
-module.exports = withBundleAnalyzer(withSentryConfig({
+const nextConfig = {
   reactStrictMode: true,
   async headers() {
     return [
@@ -35,6 +35,8 @@ module.exports = withBundleAnalyzer(withSentryConfig({
     ],
   },
   output: "standalone",
-}, {
+};
+
+module.exports = withSentryConfig(withBundleAnalyzer(nextConfig), {
   silent: true,
-}));
+});

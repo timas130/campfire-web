@@ -5,12 +5,12 @@ import {
   BookOpenIcon,
   ChevronDownIcon,
   ChevronUpIcon,
-  ExternalLinkIcon,
+  ArrowTopRightOnSquareIcon,
   InformationCircleIcon,
   LockClosedIcon,
   TagIcon,
   UsersIcon,
-} from "@heroicons/react/solid";
+} from "@heroicons/react/24/solid";
 import Button from "../controls/Button";
 import Tooltip from "../Tooltip";
 import useSWR from "swr";
@@ -151,7 +151,7 @@ export default function FandomCard({ fandom, profile, info, fetchId = null, noLi
         >
           <div className={classes.fandomLinkTitle}>{link.title}</div>
           <div className={classes.fandomLinkUrl}>
-            <ExternalLinkIcon />
+            <ArrowTopRightOnSquareIcon />
             {link.url}
           </div>
         </a>)}

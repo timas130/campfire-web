@@ -4,7 +4,7 @@ import {useInfScroll, useSWRUser} from "../../lib/client-api";
 import FandomHeader from "../../components/FandomHeader";
 import cardClasses from "../../styles/Card.module.css";
 import classes from "../../styles/Card.module.css";
-import {LockClosedIcon, UsersIcon} from "@heroicons/react/solid";
+import {LockClosedIcon, UsersIcon} from "@heroicons/react/24/solid";
 import classNames from "classnames";
 import {KarmaCounter} from "../../components/Karma";
 import Tooltip from "../../components/Tooltip";

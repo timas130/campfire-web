@@ -1,4 +1,4 @@
-import {ShareIcon} from "@heroicons/react/solid";
+import {ShareIcon} from "@heroicons/react/24/solid";
 import classes from "../../styles/ShareButton.module.css";
 import copy from "copy-to-clipboard";
 import {useRef} from "react";

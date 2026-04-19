@@ -2,7 +2,7 @@ import classes from "../../../styles/Post.module.css";
 import Link from "next/link";
 import dayjs from "../../../lib/time";
 import classNames from "classnames";
-import {ArrowsExpandIcon, ChatAlt2Icon, DotsVerticalIcon, PencilIcon, XIcon} from "@heroicons/react/solid";
+import {ArrowsPointingOutIcon, ChatBubbleLeftRightIcon, EllipsisVerticalIcon, PencilIcon, XMarkIcon} from "@heroicons/react/24/solid";
 import Karma, {KarmaCounter} from "../../Karma";
 import React, {Fragment, useEffect, useMemo, useRef, useState} from "react";
 import ShareButton from "../../controls/ShareButton";
@@ -29,7 +29,7 @@ import {FocusTrap, Transition} from "@headlessui/react";
 
 export function CommentCounter({target = "_blank", ...props}) {
   const link = <a className={classes.commentCounter} target={target} onClick={props.onClick}>
-    <ChatAlt2Icon className={classes.commentIcon} />
+    <ChatBubbleLeftRightIcon className={classes.commentIcon} />
     {props.count}
   </a>;
   return props.onClick ? link : <Link href={props.href} legacyBehavior>
@@ -53,7 +53,7 @@ function PostCover({theme, post, hide}) {
   >
     <div className={classes.coverClose} onClick={hide} tabIndex={0}>
       Закрыть
-      <XIcon />
+      <XMarkIcon />
     </div>
     <_Post post={post} alwaysExpanded collapse={hide} />
     {data ? <>
@@ -153,7 +153,7 @@ function _Post(props) {
           {dayjs(post.dateCreate).locale("ru").fromNow()}
         </time>}
         addRight={<Dropdown
-          activator={<DotsVerticalIcon />}
+          activator={<EllipsisVerticalIcon />}
           activatorClassName={classes.headerMore}
         >
           {draft && <DropdownSection>
@@ -189,11 +189,11 @@ function _Post(props) {
       </ContentEl>
       <div className={classes.footer}>
         {!draft && !alwaysExpanded && <div className={classes.expander} onClick={showModal} tabIndex={0}>
-          <ArrowsExpandIcon className={classes.expandIcon} />
+          <ArrowsPointingOutIcon className={classes.expandIcon} />
           Развернуть
         </div>}
         {collapse && <div className={classes.expander} onClick={collapse} tabIndex={0}>
-          <XIcon className={classes.expandIcon} />
+          <XMarkIcon className={classes.expandIcon} />
           Закрыть
         </div>}
         <div className={classes.spacer} />

@@ -1,5 +1,5 @@
 import classes from "../../../../styles/Page.module.css";
-import {ExternalLinkIcon} from "@heroicons/react/outline";
+import {ArrowTopRightOnSquareIcon} from "@heroicons/react/24/outline";
 import {sayzenLink} from "../../../FormattedText";
 import classNames from "classnames";
 import InputLabel from "../../../controls/InputLabel";
@@ -19,7 +19,7 @@ export default function LinkPage({ page, onEdit = null }) {
     classes.linkPage,
     onEdit && classes.editable,
   )} onClick={onEdit}>
-    <div className={classes.linkIcon}><ExternalLinkIcon /></div>
+    <div className={classes.linkIcon}><ArrowTopRightOnSquareIcon /></div>
     <div className={classes.linkText}>
       <div className={classes.linkName}>{name}</div>
       <div className={classes.linkLink}>{sayzenMatch ? "https://campfire.moe" : ""}{link}</div>

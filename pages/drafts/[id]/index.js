@@ -7,7 +7,7 @@ import classNames from "classnames";
 import classes from "../../../styles/Draft.module.css";
 import Pages from "../../../components/publication/post/pages/Pages";
 import {Page, pageEditTypes} from "../../../components/publication/post/pages/Page";
-import {ClipboardIcon, PlusSmIcon} from "@heroicons/react/solid";
+import {ClipboardIcon, PlusSmallIcon} from "@heroicons/react/24/solid";
 import {useState} from "react";
 import {pageTypesNames} from "../../../lib/text-cover";
 import NoticeCard, {RulesCard, TextFormattingCard} from "../../../components/cards/NoticeCard";
@@ -223,7 +223,7 @@ function EditablePage({
     </Page>
     {isMoving === null && <div className={classes.newPageLine}>
       <div className={classes.newPageHover} tabIndex={0} onClick={() => !isEditing && setShowPageSel(x => !x)}>
-        <div className={classes.newPageCircle}><PlusSmIcon /></div>
+        <div className={classes.newPageCircle}><PlusSmallIcon /></div>
       </div>
     </div>}
     {showPageSel && !isEditing && <NewPageSelector where={pageIdx + 1} createPage={createPage} />}
@@ -274,7 +274,7 @@ function MutPost({post, setPost, fandomId, onGetId}) {
           }}
         >
           <div className={classes.newPageCircle}>
-            {movingPage !== null ? <ClipboardIcon /> : <PlusSmIcon />}
+            {movingPage !== null ? <ClipboardIcon /> : <PlusSmallIcon />}
           </div>
         </div>
       </div>

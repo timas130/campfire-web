@@ -11,7 +11,7 @@ import Button from "../controls/Button";
 import Spinner from "../Spinner";
 import InputLabel from "../controls/InputLabel";
 import Input from "../controls/Input";
-import {ChevronDownIcon} from "@heroicons/react/solid";
+import {ChevronDownIcon} from "@heroicons/react/24/solid";
 import {CommentTemplateSelector} from "./CommentTemplateSelector";
 import {showButtonToast, showErrorToast} from "../../lib/ui";
 

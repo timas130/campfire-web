@@ -4,7 +4,7 @@ import React, {useMemo, useRef, useState} from "react";
 import classNames from "classnames";
 import Input from "../../../controls/Input";
 import {EditToolbar, ToolbarActions} from "./Page";
-import {UploadIcon} from "@heroicons/react/outline";
+import {ArrowUpTrayIcon} from "@heroicons/react/24/outline";
 import isTouchDevice from "is-touch-device";
 
 export default function ImagePage({ page, onEdit = null }) {
@@ -96,7 +96,7 @@ export function ImagePageEdit({page: initialPage, commit: _commit}) {
         onDrop={handleDrop}
       />
       <div className={classes.imagePageEditOverlay}>
-        <UploadIcon />
+        <ArrowUpTrayIcon />
         {isDragOver ? "Можно отпускать" :
           touchDevice ?
             "Нажмите, чтобы загрузить картинку" :

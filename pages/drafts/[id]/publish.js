@@ -3,7 +3,7 @@ import {fetcher, useInfScroll, useUser} from "../../../lib/client-api";
 import FeedLayout, {FeedLoader} from "../../../components/FeedLayout";
 import FandomCard from "../../../components/cards/FandomCard";
 import useSWRImmutable from "swr/immutable";
-import {ArrowLeftIcon} from "@heroicons/react/solid";
+import {ArrowLeftIcon} from "@heroicons/react/24/solid";
 import {useState} from "react";
 import {Tag} from "../../../components/publication/post/Tags";
 import classes from "../../../styles/Draft.module.css";

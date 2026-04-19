@@ -4,7 +4,7 @@ import {FeedLoader} from "../../FeedLayout";
 import classes from "../../../styles/Comment.module.css";
 import InputLabel from "../../controls/InputLabel";
 import Input from "../../controls/Input";
-import {PaperClipIcon} from "@heroicons/react/solid";
+import {PaperClipIcon} from "@heroicons/react/24/solid";
 import Button from "../../controls/Button";
 import {showButtonToast, showErrorToast} from "../../../lib/ui";
 import {useEffect, useRef, useState} from "react";

@@ -6,7 +6,7 @@ import {useUser} from "../lib/client-api";
 import classNames from "classnames";
 import {DailyQuest} from "./DailyQuest";
 import {useTheme} from "../lib/theme";
-import {CashIcon, CogIcon, LogoutIcon, MoonIcon, PencilIcon, SunIcon, ViewGridIcon} from "@heroicons/react/outline";
+import {BanknotesIcon, Cog6ToothIcon, ArrowRightOnRectangleIcon, MoonIcon, PencilIcon, SunIcon, Squares2X2Icon} from "@heroicons/react/24/outline";
 import {Popover, Transition} from "@headlessui/react";
 import classesDropdown from "../styles/Dropdown.module.css";
 import {SponsorStar} from "./FandomHeader";
@@ -80,12 +80,12 @@ function HeaderMenu() {
   return <div className={classNames(classes.menu)}>
     <HeaderProfile full />
     <DailyQuest />
-    <MenuButton icon={<ViewGridIcon />} text="Фэндомы" href="/fandom" />
-    <MenuButton icon={<CashIcon />} text="Пожертвования" href="/donates" />
+    <MenuButton icon={<Squares2X2Icon />} text="Фэндомы" href="/fandom" />
+    <MenuButton icon={<BanknotesIcon />} text="Пожертвования" href="/donates" />
     <MenuDivider />
     <MenuButton icon={<PencilIcon />} text="Черновики" href="/drafts" />
-    <MenuButton icon={<CogIcon />} text="Настройки" href="/me/settings" />
-    <MenuButton icon={<LogoutIcon />} text="Выйти" onClick={() => {
+    <MenuButton icon={<Cog6ToothIcon />} text="Настройки" href="/me/settings" />
+    <MenuButton icon={<ArrowRightOnRectangleIcon />} text="Выйти" onClick={() => {
       fetch("/api/auth/logout", {method: "POST"}).finally(() => {
         window.location = "/";
       });

@@ -3,7 +3,7 @@ import cardClasses from "../../styles/Card.module.css";
 import classNames from "classnames";
 import Link from "next/link";
 import {CAvatar} from "../CImage";
-import {ArrowRightIcon, UsersIcon} from "@heroicons/react/solid";
+import {ArrowRightIcon, UsersIcon} from "@heroicons/react/24/solid";
 import useSWRImmutable from "swr/immutable";
 import {BoxPlaceholder, TextPlaceholder} from "../Placeholder";
 import {fetcher} from "../../lib/client-api";
