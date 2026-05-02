@@ -46,7 +46,3 @@ yarn-error.log*
 
 # the indexer is now proprietary
 /indexer
-
-# cached tokens for the service account used for guest requests
-.service-account-tokens.json
-.service-account-tokens.json.tmp
