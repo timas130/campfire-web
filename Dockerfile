@@ -1,21 +1,17 @@
 # Install dependencies only when needed
-FROM node:16-alpine AS deps
+FROM node:22-alpine AS deps
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
+RUN corepack enable
 WORKDIR /app
 
-# Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i --frozen-lockfile; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
 
 # Rebuild the source code only when needed
-FROM node:16-alpine AS builder
+FROM node:22-alpine AS builder
+RUN corepack enable
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -25,13 +21,13 @@ RUN wget -O /app/monaco.tgz https://registry.npmjs.org/monaco-editor/-/monaco-ed
     tar xf /app/monaco.tgz -C /app/public/vs && \
     mv /app/public/vs/package/min/vs/* /app/public/vs && \
     rm -rf /app/monaco.tar.gz /app/public/vs/package/
-RUN SENTRY_AUTH_TOKEN=$SENTRY_TOKEN yarn build
+RUN SENTRY_AUTH_TOKEN=$SENTRY_TOKEN pnpm build
 
-FROM node:16-alpine AS runner
+FROM node:22-alpine AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
@@ -45,6 +41,6 @@ USER nextjs
 
 EXPOSE 3000
 
-ENV PORT 3000
+ENV PORT=3000
 
 CMD ["node", "server.js"]
