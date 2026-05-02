@@ -61,7 +61,7 @@ const doMovePage = (pageIdx, isMoving, setIsMoving, setPost, post, target = null
     setIsMoving(null);
     return;
   }
-  fetcher(`/api/drafts/${post.id}/page?action=move`, {
+  fetcher(`/api/drafts/${post.id}/page-action?action=move`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -115,7 +115,7 @@ function EditablePage({
 
     if ((!newPage && page.__new) || (newPage && newPage.__delete)) {
       if (newPage && newPage.__delete) { // deleted page
-        await fetcher(`/api/drafts/${post.id}/page?action=remove`, {
+        await fetcher(`/api/drafts/${post.id}/page-action?action=remove`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -139,7 +139,7 @@ function EditablePage({
 
     if (page.__new) {
       // append the page to the end
-      const resp = (await fetcher(`/api/drafts/${(post || {}).id || 0}/page?action=put`, {
+      const resp = (await fetcher(`/api/drafts/${(post || {}).id || 0}/page-action?action=put`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -160,7 +160,7 @@ function EditablePage({
 
       // move the page if necessary
       if (pageIdx !== post.jsonDB.J_PAGES.length - 1) {
-        await fetcher(`/api/drafts/${post.id}/page?action=move`, {
+        await fetcher(`/api/drafts/${post.id}/page-action?action=move`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -185,7 +185,7 @@ function EditablePage({
       }));
     } else {
       // change the page
-      newPage = await fetcher(`/api/drafts/${post.id}/page?action=change`, {
+      newPage = await fetcher(`/api/drafts/${post.id}/page-action?action=change`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
