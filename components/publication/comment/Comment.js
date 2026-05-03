@@ -88,9 +88,9 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
   const imageIdArray = typeof jsonDB.imageIdArray === "string" ? JSON.parse(jsonDB.imageIdArray) : jsonDB.imageIdArray;
   const imageWArray = typeof jsonDB.imageWArray === "string" ? JSON.parse(jsonDB.imageWArray) : jsonDB.imageWArray;
   const imageHArray = typeof jsonDB.imageHArray === "string" ? JSON.parse(jsonDB.imageHArray) : jsonDB.imageHArray;
-  // New-backend ImageRefs live on the comment itself (API doc §6.5).
-  const imageRef = comment.image;
-  const imageRefs = Array.isArray(comment.images) ? comment.images : null;
+  // New-backend ImageRefs live in jsonDB alongside the legacy id fields.
+  const imageRef = jsonDB.image;
+  const imageRefs = Array.isArray(jsonDB.images) ? jsonDB.images : null;
 
   const [replyEditorShown, setReplyEditorShown] = useState(false);
   const [forceShow, setForceShow] = useState(false);
@@ -150,12 +150,12 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
       <div className={classes.content}>
         {jsonDB.quoteId > 0 && <CommentQuote jsonDB={jsonDB} />}
         <SmartText
-          text={comment.text || jsonDB.J_TEXT || ""}
-          newFormatting={comment.newFormatting}
+          text={jsonDB.J_TEXT || ""}
+          newFormatting={jsonDB.newFormatting}
         />
-        {jsonDB.stickerImageId > 0 && <Link href={`/stickers/sticker/${jsonDB.stickerId}`} className={classes.images}>
+        {(jsonDB.stickerImageId > 0 || jsonDB.stickerImage?.u) && <Link href={`/stickers/sticker/${jsonDB.stickerId}`} className={classes.images}>
           <CImage
-            imageRef={comment.stickerImage}
+            imageRef={jsonDB.stickerImage}
             id={jsonDB.stickerImageId} w={128} h={128}
             loading="lazy" alt="Стикер"
           />
