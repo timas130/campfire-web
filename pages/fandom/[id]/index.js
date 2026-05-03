@@ -16,13 +16,13 @@ export default function Fandom({ fandom, profile, info }) {
     `/api/fandom/${fandom.id}/posts?types=${postFilters.unitTypes.join(",")}`
   );
 
-  const title = `Фэндом ${fandom.name} в Campfire`;
+  const title = `Фэндом ${fandom.name} в Bonfire`;
   return <>
     <Head>
       <title>{title}</title>
       <MetaTags
         title={title} description={info.description}
-        url={`https://campfire.moe/fandom/${fandom.id}`}
+        url={`${process.env.siteUrl}/fandom/${fandom.id}`}
         image={fandom.image?.u}
       />
     </Head>

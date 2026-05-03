@@ -8,7 +8,7 @@ export default function NotFoundPage() {
   const router = useRouter();
   return <>
     <Head>
-      <title>Не найдено | Campfire</title>
+      <title>Не найдено | Bonfire</title>
     </Head>
     <div className={classNames("container", classes.root)}>
       <h1>Похоже, всё пропало</h1>

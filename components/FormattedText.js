@@ -29,7 +29,26 @@ const handleMatcher = {
 const linkifyInst = linkify()
   .add("@", handleMatcher)
   .add("#", handleMatcher);
-export const sayzenLink = /^https?:\/\/(?:sayzen\.ru|campfiresayzen\.net)\/r\/r\.php\?a=(.+)$/;
+// Hosts whose `/r/<handle>` short-links should resolve internally. Includes
+// the canonical bonfire.moe brand domain, the configured siteUrl host (so
+// e.g. web.bonfire.moe/r/... also routes internally), and the legacy
+// campfire.moe/sayzen.ru hosts.
+const siteHost = (() => {
+  try { return new URL(process.env.siteUrl).host; } catch { return null; }
+})();
+const escapeRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const rHosts = ["bonfire.moe", "campfire.moe", siteHost].filter(Boolean).map(escapeRe);
+const internalLinkPatterns = [
+  new RegExp(`^https?:\\/\\/(?:${rHosts.join("|")})\\/r\\/(.+)$`),
+  /^https?:\/\/(?:sayzen\.ru|campfiresayzen\.net)\/r\/r\.php\?a=(.+)$/,
+];
+export function matchInternalLink(url) {
+  for (const re of internalLinkPatterns) {
+    const m = url.match(re);
+    if (m) return m[1];
+  }
+  return null;
+}
 
 export class TextFormatter {
   static whitespace = /[\x00-\x1F\x7F-\x9F \xA0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000]/;
@@ -54,6 +73,7 @@ export class TextFormatter {
     "brown": "#5D4037",
     "grey": "#616161",
     "campfire": "#FF6D00",
+    "bonfire": "#FF6D00",
     "_cweb_text": "var(--text)",
     "_cweb_secondary": "var(--text-secondary)",
     "_cweb_red": "var(--red)",
@@ -370,14 +390,15 @@ export function linkifyReact(children, key = 0) {
         result.push(children.substring(lastIndex, match.index));
       }
 
-      // replace http://sayzen.ru/r/r.php?a= links with /r/
+      // turn known internal Bonfire short-links (bonfire.moe/r/..., legacy
+      // campfire.moe/r/... and sayzen.ru/r/r.php?a=...) into client-side /r/ navigations
       let url = match.url;
-      const sayzenMatch = url.match(sayzenLink);
-      if (sayzenMatch) url = "/r/" + encodeURIComponent(sayzenMatch[1]);
+      const urlHandle = matchInternalLink(url);
+      if (urlHandle) url = "/r/" + encodeURIComponent(urlHandle);
 
       let text = match.text;
-      const textSayzenMatch = text.match(sayzenLink);
-      if (textSayzenMatch) text = "@" + encodeURIComponent(textSayzenMatch[1]);
+      const textHandle = matchInternalLink(text);
+      if (textHandle) text = "@" + encodeURIComponent(textHandle);
 
       // add the result
       result.push(<Link href={url} key={i}>{text}</Link>);

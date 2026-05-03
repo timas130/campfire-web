@@ -32,13 +32,13 @@ export default function PostPage(props) {
   );
 
   const title = (shortDesc ? `"${shortDesc}"` : "Пост")
-    + ` в ${props.post.unit.fandom.name} в Campfire`;
+    + ` в ${props.post.unit.fandom.name} в Bonfire`;
   return <>
     <Head>
       <title>{title}</title>
       <MetaTags
         title={title} type="article" description={longDesc}
-        url={`https://campfire.moe/post/${props.post.unit.id}`}
+        url={`${process.env.siteUrl}/post/${props.post.unit.id}`}
         image={props.post.unit.creator.avatar?.u}
       />
     </Head>

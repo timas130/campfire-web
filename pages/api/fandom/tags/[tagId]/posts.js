@@ -5,7 +5,7 @@ export async function fetchTagPosts(req, res, tagId, offset = 0) {
   return (await sendRequestAlwaysAuthenticated(
     req, res, "RPostGetAllByTag", {offset, tagId}
   )).J_RESPONSE.units.filter(a => a.unitType === 9);
-  // see: https://campfire.moe/api/fandom/207/tags/55300/posts
+  // see: https://bonfire.moe/api/fandom/207/tags/55300/posts
   // see: https://data.sit.sh/share/issue/b6e085571d814996a947ed904cb2fcbe/
 }
 

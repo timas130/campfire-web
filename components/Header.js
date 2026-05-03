@@ -104,7 +104,7 @@ export default function Header() {
   return <>
     <nav className={classNames(classes.header)}>
       <Link href="/" className={classes.h1link}>
-        Campfire
+        Bonfire
       </Link>
       <Link href="/post/search" className={classes.navLink}>
         Поиск

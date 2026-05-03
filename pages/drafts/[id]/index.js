@@ -311,7 +311,7 @@ export default function Draft() {
     <FeedLayout
       list={<>
         <Head>
-          <title>Черновик в {fandomName ? fandomName + " в" : ""} Campfire</title>
+          <title>Черновик в {fandomName ? fandomName + " в" : ""} Bonfire</title>
         </Head>
         {((draftId && draftId !== 0 && draft) || draftId === 0) ?
           <MutPost

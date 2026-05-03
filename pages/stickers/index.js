@@ -10,7 +10,7 @@ export default function StickersPage() {
   return <FeedLayout
     list={<>
       <Head>
-        <title>Стикеры в Campfire</title>
+        <title>Стикеры в Bonfire</title>
       </Head>
       {data.map(page => page.map(info => <StickerPackCard key={info.id} info={info} />))}
       {showLoader && <FeedLoader ref={ref} />}

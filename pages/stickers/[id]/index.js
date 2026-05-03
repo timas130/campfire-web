@@ -37,14 +37,14 @@ export default function StickerPack({info: infoL, list}) {
     return infoL;
   }, [infoL]);
 
-  const title = `Стикеры ${info.jsonDB.name} в Campfire`;
+  const title = `Стикеры ${info.jsonDB.name} в Bonfire`;
   return <FeedLayout
     list={<>
       <Head>
         <title>{title}</title>
         <MetaTags
           title={title}
-          url={`https://campfire.moe/stickers/${info.id}`}
+          url={`${process.env.siteUrl}/stickers/${info.id}`}
         />
       </Head>
       <div className={classes.list}>

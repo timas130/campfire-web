@@ -7,14 +7,14 @@ import MetaTags from "../../../components/MetaTags";
 import Comments from "../../../components/publication/comment/Comments";
 
 export default function ModerationPage({pub}) {
-  const title = `Модерация @${pub.creator.J_NAME} в фэндоме ${pub.fandom.name} в Campfire`;
+  const title = `Модерация @${pub.creator.J_NAME} в фэндоме ${pub.fandom.name} в Bonfire`;
   return <FeedLayout
     list={<>
       <Head>
         <title>{title}</title>
         <MetaTags
           title={title} type="article"
-          url={`https://campfire.moe/mod/${pub.id}`}
+          url={`${process.env.siteUrl}/mod/${pub.id}`}
           image={pub.creator.avatar?.u}
         />
       </Head>

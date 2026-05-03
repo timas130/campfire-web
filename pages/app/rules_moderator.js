@@ -50,7 +50,7 @@ export const modRulesConsts = {
     {
       title: "Добавляйте релевантные доп. имена",
       rule: "В дополнительные имена фэндома можно добавлять только реальные названия фэндома, которые могут " +
-        "быть использованы для поиска, например для фэндома Campfire — CF, Camp, Camp fire.",
+        "быть использованы для поиска, например для фэндома Bonfire — BF, Bon, Bon fire.",
     },
   ],
 };
@@ -58,11 +58,11 @@ export const modRulesConsts = {
 export default function ModeratorRules() {
   return <main className="container">
     <Head>
-      <title>Правила модерации Campfire</title>
+      <title>Правила модерации Bonfire</title>
       <MetaTags
-        title="Правила модерации Campfire"
+        title="Правила модерации Bonfire"
         description={modRulesConsts.info}
-        url="https://campfire.moe/app/rules_moderator"
+        url={`${process.env.siteUrl}/app/rules_moderator`}
       />
     </Head>
     <header className={classes.rulesHeader}>

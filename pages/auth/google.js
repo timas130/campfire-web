@@ -1,7 +1,7 @@
 import Spinner from "../../components/Spinner";
 import classes from "../../styles/Auth.module.css";
 import {handleSSRError} from "../../lib/api";
-import {googleClientId} from "../../lib/google";
+import {googleClientId, googleRedirectUri} from "../../lib/google";
 import Cookies from "cookies";
 import Button from "../../components/controls/Button";
 import Link from "next/link";
@@ -19,7 +19,7 @@ export async function getServerSideProps({req, res, query}) {
         code: query.code,
         client_id: googleClientId,
         client_secret: process.env.GOOGLE_CLIENT_SECRET,
-        redirect_uri: "https://campfire.moe/auth/google",
+        redirect_uri: googleRedirectUri,
         grant_type: "authorization_code",
       }),
     }).then(a => a.json());

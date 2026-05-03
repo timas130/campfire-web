@@ -16,7 +16,7 @@ export default function DonateCard() {
   return (
     <section className={postClasses.post}>
       <header className={classes.cardTitle}>
-        Поддержать Campfire
+        Поддержать Bonfire
       </header>
       <div className={classNames(classes.cardContent)}>
         <Progress value={supportInfo.totalCount / 100} max={1500} />

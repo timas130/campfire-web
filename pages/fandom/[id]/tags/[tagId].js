@@ -19,7 +19,7 @@ export default function Tag({tag, posts}) {
     <Head>
       <title>{title}</title>
       <MetaTags
-        url={`https://campfire.moe/fandom/${tag.fandom.id}/tags/${tag.id}`}
+        url={`${process.env.siteUrl}/fandom/${tag.fandom.id}/tags/${tag.id}`}
         title={title}
       />
     </Head>

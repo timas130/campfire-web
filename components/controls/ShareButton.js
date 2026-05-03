@@ -10,7 +10,7 @@ export default function ShareButton({ link, noMr, className = "" }) {
   return <div
     className={classNames(classes.buttonWrap, noMr && classes.noMr, className)}
     onClick={() => {
-      copy("https://campfire.moe" + link);
+      copy(process.env.siteUrl + link);
       showButtonToast(shareRef.current, "Скопировано", null, 1500, 7);
     }}
   >

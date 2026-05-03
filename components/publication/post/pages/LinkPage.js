@@ -1,6 +1,6 @@
 import classes from "../../../../styles/Page.module.css";
 import {ArrowTopRightOnSquareIcon} from "@heroicons/react/24/outline";
-import {sayzenLink} from "../../../FormattedText";
+import {matchInternalLink} from "../../../FormattedText";
 import classNames from "classnames";
 import InputLabel from "../../../controls/InputLabel";
 import Input from "../../../controls/Input";
@@ -10,8 +10,8 @@ import {useState} from "react";
 export default function LinkPage({ page, onEdit = null }) {
   const name = page.name;
   let link = page.link;
-  const sayzenMatch = link.match(sayzenLink);
-  if (sayzenMatch) link = "/r/" + encodeURIComponent(sayzenMatch[1]);
+  const handle = matchInternalLink(link);
+  if (handle) link = "/r/" + encodeURIComponent(handle);
 
   const El = onEdit ? "div" : "a";
 
@@ -22,7 +22,7 @@ export default function LinkPage({ page, onEdit = null }) {
     <div className={classes.linkIcon}><ArrowTopRightOnSquareIcon /></div>
     <div className={classes.linkText}>
       <div className={classes.linkName}>{name}</div>
-      <div className={classes.linkLink}>{sayzenMatch ? "https://campfire.moe" : ""}{link}</div>
+      <div className={classes.linkLink}>{handle ? process.env.siteUrl : ""}{link}</div>
     </div>
   </El>;
 }
@@ -43,7 +43,7 @@ export function LinkPageEdit({ page: initialPage, commit }) {
           ...page,
           name: ev.target.value,
         }))}
-        placeholder="Исходный код Campfire Web"
+        placeholder="Исходный код Bonfire Web"
       />
     </InputLabel>
     <InputLabel>

@@ -12,12 +12,12 @@ export default function Rubric({rubric, posts}) {
     `/api/rubric/${rubric.id}`, false,
     20, [{posts}]
   );
-  const title = `Рубрика "${rubric.name}" в ${rubric.fandom.name} в Campfire`;
+  const title = `Рубрика "${rubric.name}" в ${rubric.fandom.name} в Bonfire`;
   return <>
     <Head>
       <title>{title}</title>
       <MetaTags
-        title={title} url={`https://campfire.moe/rubric/${rubric.id}`}
+        title={title} url={`${process.env.siteUrl}/rubric/${rubric.id}`}
       />
     </Head>
     <FeedLayout

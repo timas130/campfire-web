@@ -6,7 +6,11 @@ fastify.register(require("@fastify/websocket"), {
   },
 });
 fastify.register(require("@fastify/cors"), {
-  origin: ["http://localhost:3000", "http://localhost:8080", "https://campfire.moe"],
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:8080",
+    process.env.SITE_URL || "https://web.bonfire.moe",
+  ],
 });
 const genUUID = require("uuid").v4;
 const {sign, verify} = require("jsonwebtoken");

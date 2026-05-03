@@ -13,14 +13,14 @@ import TextPage from "../../../components/publication/post/pages/TextPage";
 import {fetchFandomBasic} from "../../api/fandom/[id]";
 
 export default function WikiArticle({item, fandom, pages, ...rest}) {
-  const title = `${getWikiName(item)} в вики ${fandom.name} в Campfire`;
+  const title = `${getWikiName(item)} в вики ${fandom.name} в Bonfire`;
   const pagesContent = (pages || {}).pages || [];
   return <>
     <Head>
       <title>{title}</title>
       <MetaTags
         title={title} type="article"
-        url={`https://campfire.moe/fandom/wiki/${item.itemId}`}
+        url={`${process.env.siteUrl}/fandom/wiki/${item.itemId}`}
         image={item?.image?.u || fandom.image?.u}
       />
     </Head>

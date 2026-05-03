@@ -59,10 +59,10 @@ export default function Fandoms() {
 
   return <>
     <Head>
-      <title>Популярные фэндомы в Campfire</title>
+      <title>Популярные фэндомы в Bonfire</title>
       <MetaTags
-        title="Популярные фэндомы в Campfire"
-        url="https://campfire.moe/fandom"
+        title="Популярные фэндомы в Bonfire"
+        url={`${process.env.siteUrl}/fandom`}
       />
     </Head>
     <FeedLayout

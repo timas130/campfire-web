@@ -23,14 +23,14 @@ export default function Home() {
 
   return <>
     <Head>
-      <title>Campfire &mdash; сообщества и фэндомы</title>
+      <title>Bonfire &mdash; сообщества и фэндомы</title>
       <MetaTags
-        title={"Campfire — сообщества и фэндомы"}
+        title={"Bonfire — сообщества и фэндомы"}
         description={
-          "Campfire — это уютное место с сообществами и " +
+          "Bonfire — это уютное место с сообществами и " +
           "фэндомами на самые разные темы. Заходите на огонёк!"
         }
-        url="https://campfire.moe"
+        url={process.env.siteUrl}
       />
     </Head>
     <FeedLayout list={<>

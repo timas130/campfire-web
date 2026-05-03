@@ -168,7 +168,7 @@ function _Post(props) {
           </DropdownSection>}
           {!draft && <DropdownSection>
             <DropdownItem onClick={ev => {
-              copy(`https://campfire.moe/post/${post.id}`);
+              copy(`${process.env.siteUrl}/post/${post.id}`);
               showButtonToast(ev.target, "Скопировано");
             }}>
               Копировать ссылку

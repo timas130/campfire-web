@@ -41,10 +41,10 @@ export function WikiSectionPage(fandomId, itemId, fallback = [], fandom = null, 
 
   let title;
   if (fandom) {
-    if (item) title = `${getWikiName(item)} в вики ${fandom.name} в Campfire`;
-    else title = `Вики ${fandom.name} в Campfire`;
+    if (item) title = `${getWikiName(item)} в вики ${fandom.name} в Bonfire`;
+    else title = `Вики ${fandom.name} в Bonfire`;
   } else {
-    title = "Вики фэндома в Campfire";
+    title = "Вики фэндома в Bonfire";
   }
 
   const wikiList = wikiListPages.flat();
@@ -54,7 +54,7 @@ export function WikiSectionPage(fandomId, itemId, fallback = [], fandom = null, 
       <title>{title}</title>
       <MetaTags
         title={title}
-        url={`https://campfire.moe/fandom/${fandomId}/wiki/${itemId}`}
+        url={`${process.env.siteUrl}/fandom/${fandomId}/wiki/${itemId}`}
         image={item?.image?.u || fandom.image?.u}
       />
     </Head>

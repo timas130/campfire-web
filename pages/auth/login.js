@@ -62,7 +62,7 @@ export default function Login() {
   return <>
     <Head>
       <title>Войти в Bonfire</title>
-      <MetaTags title="Войти в Bonfire" url="https://campfire.moe/auth/login" />
+      <MetaTags title="Войти в Bonfire" url={`${process.env.siteUrl}/auth/login`} />
     </Head>
     <div className={classes.layout}>
       <form className={classes.card} onSubmit={submit}>

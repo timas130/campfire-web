@@ -17,14 +17,14 @@ export default function Activity({activity, posts}) {
     [posts]
   );
 
-  const title = `Эстафета ${activity.name} в Campfire`;
+  const title = `Эстафета ${activity.name} в Bonfire`;
   return <FeedLayout
     list={<>
       <Head>
         <title>{title}</title>
         <MetaTags
           title={title} description={activity.description}
-          url={`https://campfire.moe/activity/${activity.id}`}
+          url={`${process.env.siteUrl}/activity/${activity.id}`}
           image={activity.fandom.image?.u}
         />
       </Head>

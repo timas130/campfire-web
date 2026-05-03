@@ -22,7 +22,7 @@ export default function DonatesPage() {
 
   return <FeedLayout list={<>
     <Head>
-      <title>Пожертвования в Campfire</title>
+      <title>Пожертвования в Bonfire</title>
     </Head>
     <FeedTypeSelectorCard types={{
       month: "За этот месяц",
@@ -52,10 +52,10 @@ export default function DonatesPage() {
       title="Пожертвования"
       // legacy TextFormatter: static marketing copy authored in legacy syntax
       content={<FormattedText text={
-        "Campfire существует без рекламы или каких-либо платных функций. " +
+        "Bonfire существует без рекламы или каких-либо платных функций. " +
         "Таким его держать требует денег, поэтому все будут очень рады даже " +
         "небольшому донату от пользователей. \n\n" +
-        "Сделать пожертвование в Campfire возможно только из приложения."
+        "Сделать пожертвование в Bonfire возможно только из приложения."
       } />}
     />
   </>} />;

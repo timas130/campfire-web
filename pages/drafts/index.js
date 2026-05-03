@@ -10,7 +10,7 @@ export default function Drafts() {
 
   return <>
     <Head>
-      <title>Черновики | Campfire</title>
+      <title>Черновики | Bonfire</title>
     </Head>
     <FeedLayout
       list={<>

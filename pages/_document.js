@@ -8,7 +8,7 @@ class MyDocument extends Document {
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/logo192.png" />
         <link rel="search" type="application/opensearchdescription+xml"
-              title="Поиск Campfire" href="/opensearch.xml" />
+              title="Поиск Bonfire" href="/opensearch.xml" />
         <meta name="theme-color" content="#FFFFFF" />
       </Head>
       <body>

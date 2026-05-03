@@ -76,13 +76,13 @@ export default function Profile({account: initialAccount, profile: initialProfil
 
   const [editing, setEditing] = useState({status: false, description: false});
 
-  const title = `Профиль ${account.J_NAME} в Campfire`;
+  const title = `Профиль ${account.J_NAME} в Bonfire`;
   return <>
     <Head>
       <title>{title}</title>
       <MetaTags
         title={title} description={profile.description}
-        url={`https://campfire.moe/account/${encodeURIComponent(account.J_NAME)}`}
+        url={`${process.env.siteUrl}/account/${encodeURIComponent(account.J_NAME)}`}
         image={account.avatar?.u}
       />
     </Head>

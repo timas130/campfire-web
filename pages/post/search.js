@@ -20,11 +20,11 @@ const CustomSearchBox = dynamic(() => import("../../lib/search").then(a => a.Cus
 export default function Search() {
   const query = useRouter().query.q;
 
-  const title = "Поиск постов в Campfire";
+  const title = "Поиск постов в Bonfire";
   return <>
     <Head>
       <title>{title}</title>
-      <MetaTags title={title} url="https://campfire.moe/post/search" />
+      <MetaTags title={title} url={`${process.env.siteUrl}/post/search`} />
     </Head>
     <FeedLayout list={<>
       <InstantSearch

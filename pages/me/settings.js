@@ -68,7 +68,7 @@ export default function MySettings() {
 
   return <>
     <Head>
-      <title>Настройки аккаунта | Campfire</title>
+      <title>Настройки аккаунта | Bonfire</title>
     </Head>
     <FeedLayout
       list={<div className={classes.padUp}>

@@ -11,9 +11,9 @@ export default function WelcomePage() {
   return (
     <div className={classNames(classes.root, "container")}>
       <Head>
-        <title>Добро пожаловать в Campfire</title>
+        <title>Добро пожаловать в Bonfire</title>
       </Head>
-      <h1>Добро пожаловать в Campfire!</h1>
+      <h1>Добро пожаловать в Bonfire!</h1>
       <p className={classes.ruleContent}>
         Мы рады, что вы к нам присоединились! Не забудьте прочитать&nbsp;
         <Link href="/app/rules">правила приложения</Link>.
