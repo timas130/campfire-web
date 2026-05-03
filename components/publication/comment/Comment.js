@@ -164,7 +164,7 @@ function Comment({comment, bestComment = false, full = false, id, reply, replyLo
           {(jsonDB.imageId > 0 || imageRef) && <div className={classes.image} key={imageRef?.u || jsonDB.imageId}><CImage
             imageRef={imageRef} id={jsonDB.imageId}
             maxSide={256}
-            w={jsonDB.imageW} h={jsonDB.imageH}
+            w={imageRef?.w || jsonDB.imageW} h={imageRef?.h || jsonDB.imageH}
             loading="lazy" modal
             alt="Изображение"
           /></div>}
