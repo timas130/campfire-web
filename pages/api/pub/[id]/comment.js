@@ -6,6 +6,7 @@ export async function postComment(req, res, pubId, content, reply = 0) {
     req, res, "RCommentsCreate", {
       unitId: pubId, text: content, parentCommentId: reply,
       watchPost: false, quoteId: reply, stickerId: 0,
+      newFormatting: true,
     }, [null],
   )).J_RESPONSE.comment;
 }

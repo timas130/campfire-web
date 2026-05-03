@@ -33,6 +33,7 @@ export function SpoilerPageEdit({page: initialPage, commit}) {
     J_PAGE_TYPE: 6,
     name: "",
     count: 0,
+    newFormatting: true,
   });
 
   const commitProxy = (page, target) => {

@@ -26,6 +26,7 @@ export function QuotePageEdit({ page: initialPage, commit }) {
     J_PAGE_TYPE: 5,
     author: "",
     text: "",
+    newFormatting: true,
   });
 
   return <div className={classNames(classes.textPage, classes.editing)}>

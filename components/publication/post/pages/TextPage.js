@@ -40,6 +40,7 @@ export function TextPageEdit({ page: initialPage, commit }) {
     J_SIZE: 0,
     align: 0,
     icon: 0,
+    newFormatting: true,
   });
 
   const textAlign =
